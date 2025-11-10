@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Velvet Charms | Handcrafted Artisanal Creations</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ✨ Holiday Banner -->
+  <header class="banner">
+    <p>🎁 Holiday Collection Now Open – Handmade gifts available until Dec 12 (EU orders)</p>
+  </header>
+
+  <!-- 🕊️ Hero Section -->
+  <section class="hero">
+    <h1>Velvet Charms</h1>
+    <p>Where Art Meets Emotion — Handcrafted with love and timeless charm.</p>
+    <button onclick="scrollToSection('products')">Explore Collection</button>
+  </section>
+
+  <!-- 💎 Products Section -->
+  <section id="products" class="products">
+    <h2>Coming Soon — Preorder Your Favorites</h2>
+
+    <div class="product-grid">
+
+      <!-- Example 7 items -->
+      <div class="product-card">
+        <img src="assets/freepik__stylish-handcrafted-leather-bags-displayed-in-a-co__359.png" alt="Leather Bags">
+        <h3>Artisan Leather Bags</h3>
+        <p>Elegant, timeless leather pieces, handmade for every occasion.</p>
+        <button class="love-btn">★</button>
+      </div>
+
+      <div class="product-card">
+        <img src="assets/freepik__a-cozy-artisan-studio-scene-with-small-glass-perfu__96323.png" alt="Perfumes">
+        <h3>Signature Perfumes</h3>
+        <p>Unique scents inspired by nature and memory.</p>
+        <button class="love-btn">★</button>
+      </div>
+
+      <div class="product-card">
+        <img src="assets/freepik__elegant-handcrafted-ceramic-candle-holders-on-a-ru__96325.png" alt="Candle Holders">
+        <h3>Ceramic Candle Holders</h3>
+        <p>Warmth and design in every flicker of light.</p>
+        <button class="love-btn">★</button>
+      </div>
+
+      <div class="product-card">
+        <img src="assets/freepik__a-refined-artisan-workspace-featuring-handmade-wal__96326.png" alt="Wall Clocks">
+        <h3>Handcrafted Wall Clocks</h3>
+        <p>Functional art that keeps perfect time with your style.</p>
+        <button class="love-btn">★</button>
+      </div>
+
+      <div class="product-card">
+        <img src="assets/freepik__a-warm-cozy-studio-table-with-handcrafted-clay-mug__96327.png" alt="Clay Mugs">
+        <h3>Clay Mugs</h3>
+        <p>Each sip a small moment of comfort and charm.</p>
+        <button class="love-btn">★</button>
+      </div>
+
+      <div class="product-card">
+        <img src="assets/freepik__elegant-closeup-of-silver-necklaces-and-pendants-w__36961.png" alt="Jewelry">
+        <h3>Handmade Jewelry</h3>
+        <p>Delicate silver and gold accents for every soul.</p>
+        <button class="love-btn">★</button>
+      </div>
+
+      <div class="product-card">
+        <img src="assets/freepik__beautiful-spainspired-flat-lay-with-handmade-soaps__36963.png" alt="Bath Collection">
+        <h3>Bath & Body Bliss</h3>
+        <p>Eco-friendly soaps, gels, and bath sets — crafted with care.</p>
+        <button class="love-btn">★</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- 💌 Preorder & Custom Request Form -->
+  <section class="contact">
+    <h2>Personalized & Preorder Requests</h2>
+    <p>Would you like to preorder or design something unique?  
+    Share your idea — you can even include a reference photo!</p>
+
+    <form action="https://formspree.io/f/xanlzdle" method="POST" enctype="multipart/form-data">
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="email" name="email" placeholder="Your Email" required />
+      <textarea name="message" placeholder="Describe your idea or preorder..." required></textarea>
+      <label class="file-label">
+        Attach a photo (optional)
+        <input type="file" name="attachment" accept="image/*" />
+      </label>
+      <label class="checkbox">
+        <input type="checkbox" id="addBox" /> Add Festive Gift Box (+€6)
+      </label>
+      <button type="submit">Send Request ✨</button>
+    </form>
+  </section>
+
+  <!-- 🌙 Footer -->
+  <footer>
+    <p>© 2025 Velvet Charms — All Rights Reserved</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
