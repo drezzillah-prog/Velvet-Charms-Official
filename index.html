@@ -1,74 +1,76 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Velvet Charms</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <header>
-    <h1>Velvet Charms</h1>
-    <p>Where Art Meets Emotion — Handcrafted with love and timeless charm.</p>
-  </header>
+import React from "react";
 
-  <section class="hero">
-    <img src="freepik__leather-bags-of-different-sizes-and-colors-in-a-cr__4879.jpeg" alt="Artisan Leather Bags" />
-  </section>
+// 👇 Your product data — keep using your actual image paths
+const collections = [
+  {
+    name: "Artisan Leather Bags",
+    description: "Elegant, timeless leather pieces, handmade for every occasion.",
+    image: "/images/leather-bag.png",
+  },
+  {
+    name: "Signature Perfumes",
+    description: "Unique scents inspired by nature and memory.",
+    image: "/images/perfume.png",
+  },
+  {
+    name: "Ceramic Candle Holders",
+    description: "Warmth and design in every flicker of light.",
+    image: "/images/candle.png",
+  },
+  {
+    name: "Handcrafted Wall Clocks",
+    description: "Functional art that keeps perfect time with your style.",
+    image: "/images/clock.png",
+  },
+];
 
-  <section class="collections">
-    <h2>Coming Soon — Preorder Your Favorites</h2>
-    <div class="product-grid">
+export default function HomePage() {
+  return (
+    <main className="min-h-screen bg-[#fff9f5] text-gray-900">
+      {/* Hero Section */}
+      <section className="text-center py-16 px-6">
+        <h1 className="text-5xl font-extrabold mb-4">Velvet Charms</h1>
+        <p className="text-lg text-gray-700">
+          Where Art Meets Emotion — Handcrafted with love and timeless charm.
+        </p>
+      </section>
 
-      <div class="product">
-        <img src="freepik__leather-bags-of-different-sizes-and-colors-in-a-cr__4879.jpeg" alt="Leather Bags">
-        <h3>Artisan Leather Bags</h3>
-        <p>Elegant, timeless leather pieces, handmade for every occasion.</p>
-      </div>
+      {/* Featured Image */}
+      <section className="flex justify-center mb-16">
+        <img
+          src="/images/hero-main.png"
+          alt="Velvet Charms hero display"
+          className="rounded-2xl shadow-lg max-w-5xl w-full object-contain"
+        />
+      </section>
 
-      <div class="product">
-        <img src="freepik__a-cozy-artisan-studio-scene-with-small-glass-perfu__96322.png" alt="Perfumes">
-        <h3>Signature Perfumes</h3>
-        <p>Unique scents inspired by nature and memory.</p>
-      </div>
+      {/* Coming Soon Section */}
+      <section className="px-4 md:px-10 pb-20">
+        <h2 className="text-3xl font-bold mb-8 text-center">
+          Coming Soon — Preorder Your Favorites
+        </h2>
 
-      <div class="product">
-        <img src="freepik__elegant-handcrafted-ceramic-candle-holders-on-a-ru__96324.png" alt="Candle Holders">
-        <h3>Ceramic Candle Holders</h3>
-        <p>Warmth and design in every flicker of light.</p>
-      </div>
-
-      <div class="product">
-        <img src="freepik__a-refined-artisan-workspace-featuring-handmade-wal__35600.png" alt="Wall Clocks">
-        <h3>Handcrafted Wall Clocks</h3>
-        <p>Functional art that keeps perfect time with your style.</p>
-      </div>
-
-      <div class="product">
-        <img src="freepik__a-warm-cozy-studio-table-with-handcrafted-clay-mug__35599.png" alt="Clay Mugs">
-        <h3>Clay Mugs</h3>
-        <p>Each sip a small moment of comfort and charm.</p>
-      </div>
-
-      <div class="product">
-        <img src="freepik__elegant-closeup-of-silver-necklaces-and-pendants-w__36960.png" alt="Jewelry">
-        <h3>Handmade Jewelry</h3>
-        <p>Delicate silver and gold accents for the soul.</p>
-      </div>
-
-      <div class="product">
-        <img src="freepik__beautiful-spainspired-flat-lay-with-handmade-soaps__36962.png" alt="Bath and Body">
-        <h3>Bath & Body Bliss</h3>
-        <p>Eco-friendly soaps, gels, and salts crafted with care.</p>
-      </div>
-
-    </div>
-  </section>
-
-  <footer>
-    <p>© 2025 Velvet Charms. All Rights Reserved.</p>
-  </footer>
-
-  <script src="script.js"></script>
-</body>
-</html>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {collections.map((item) => (
+            <div
+              key={item.name}
+              className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300"
+            >
+              <div className="aspect-[4/5] bg-[#fff9f5] flex items-center justify-center overflow-hidden">
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="object-contain w-full h-full transition-transform duration-500 hover:scale-105"
+                />
+              </div>
+              <div className="p-4 text-center">
+                <h3 className="font-semibold text-lg">{item.name}</h3>
+                <p className="text-sm text-gray-600 mt-1">{item.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    </main>
+  );
+}
