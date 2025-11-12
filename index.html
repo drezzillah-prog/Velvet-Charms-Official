@@ -1,76 +1,125 @@
-import React from "react";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Velvet Charms</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background-color: #fff9f5;
+      color: #222;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
 
-// 👇 Your product data — keep using your actual image paths
-const collections = [
-  {
-    name: "Artisan Leather Bags",
-    description: "Elegant, timeless leather pieces, handmade for every occasion.",
-    image: "/images/leather-bag.png",
-  },
-  {
-    name: "Signature Perfumes",
-    description: "Unique scents inspired by nature and memory.",
-    image: "/images/perfume.png",
-  },
-  {
-    name: "Ceramic Candle Holders",
-    description: "Warmth and design in every flicker of light.",
-    image: "/images/candle.png",
-  },
-  {
-    name: "Handcrafted Wall Clocks",
-    description: "Functional art that keeps perfect time with your style.",
-    image: "/images/clock.png",
-  },
-];
+    header {
+      padding: 3rem 1rem 1rem;
+    }
 
-export default function HomePage() {
-  return (
-    <main className="min-h-screen bg-[#fff9f5] text-gray-900">
-      {/* Hero Section */}
-      <section className="text-center py-16 px-6">
-        <h1 className="text-5xl font-extrabold mb-4">Velvet Charms</h1>
-        <p className="text-lg text-gray-700">
-          Where Art Meets Emotion — Handcrafted with love and timeless charm.
-        </p>
-      </section>
+    header h1 {
+      font-size: 3rem;
+      margin: 0;
+      font-weight: 800;
+    }
 
-      {/* Featured Image */}
-      <section className="flex justify-center mb-16">
-        <img
-          src="/images/hero-main.png"
-          alt="Velvet Charms hero display"
-          className="rounded-2xl shadow-lg max-w-5xl w-full object-contain"
-        />
-      </section>
+    header p {
+      color: #555;
+      font-size: 1.1rem;
+    }
 
-      {/* Coming Soon Section */}
-      <section className="px-4 md:px-10 pb-20">
-        <h2 className="text-3xl font-bold mb-8 text-center">
-          Coming Soon — Preorder Your Favorites
-        </h2>
+    .hero img {
+      width: 90%;
+      max-width: 900px;
+      border-radius: 20px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      object-fit: cover;
+    }
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {collections.map((item) => (
-            <div
-              key={item.name}
-              className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300"
-            >
-              <div className="aspect-[4/5] bg-[#fff9f5] flex items-center justify-center overflow-hidden">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="object-contain w-full h-full transition-transform duration-500 hover:scale-105"
-                />
-              </div>
-              <div className="p-4 text-center">
-                <h3 className="font-semibold text-lg">{item.name}</h3>
-                <p className="text-sm text-gray-600 mt-1">{item.description}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-    </main>
-  );
-}
+    .section-title {
+      font-size: 2rem;
+      margin: 3rem 0 1.5rem;
+      font-weight: 700;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      padding: 0 2rem 4rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    .card img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+    }
+
+    .card h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-top: 0.75rem;
+    }
+
+    .card p {
+      color: #666;
+      font-size: 0.9rem;
+      padding: 0 1rem 1.5rem;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Velvet Charms</h1>
+    <p>Where Art Meets Emotion — Handcrafted with love and timeless charm.</p>
+  </header>
+
+  <section class="hero">
+    <img src="freepik__leather-bags-of-different-sizes-and-colors-in-a-cr__4879.jpeg" alt="Velvet Charms handcrafted goods" />
+  </section>
+
+  <h2 class="section-title">Coming Soon — Preorder Your Favorites</h2>
+
+  <section class="grid">
+    <div class="card">
+      <img src="freepik__leather-bags-of-different-sizes-and-colors-in-a-cr__4879.jpeg" alt="Leather Bags">
+      <h3>Artisan Leather Bags</h3>
+      <p>Elegant, timeless leather pieces, handmade for every occasion.</p>
+    </div>
+
+    <div class="card">
+      <img src="freepik__a-cozy-artisan-studio-scene-with-small-glass-perfu__96322.png" alt="Perfumes">
+      <h3>Signature Perfumes</h3>
+      <p>Unique scents inspired by nature and memory.</p>
+    </div>
+
+    <div class="card">
+      <img src="freepik__elegant-handcrafted-ceramic-candle-holders-on-a-ru__96324.png" alt="Candles">
+      <h3>Ceramic Candle Holders</h3>
+      <p>Warmth and design in every flicker of light.</p>
+    </div>
+
+    <div class="card">
+      <img src="freepik__beautiful-spainspired-flat-lay-with-handmade-soaps__36962.png" alt="Wall Clocks">
+      <h3>Handcrafted Wall Clocks</h3>
+      <p>Functional art that keeps perfect time with your style.</p>
+    </div>
+  </section>
+</body>
+</html>
