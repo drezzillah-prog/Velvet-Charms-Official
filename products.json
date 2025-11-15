@@ -1,0 +1,212 @@
+{
+  "products": [
+    {
+      "id": "leather-bags",
+      "title": "Artisan Leather Bags",
+      "category": "Coming Soon",
+      "description": "Elegant, timeless leather pieces, handmade for every occasion.",
+      "image": "freepik__stylish-handcrafted-leather-bags-displayed-in-a-co__359.png",
+      "price": null,
+      "paypal": null
+    },
+    {
+      "id": "perfumes",
+      "title": "Signature Perfumes",
+      "category": "Coming Soon",
+      "description": "Unique scents inspired by nature and memory.",
+      "image": "freepik__a-cozy-artisan-studio-scene-with-small-glass-perfu__96322.png",
+      "price": null,
+      "paypal": null
+    },
+
+    {
+      "id": "ceramic-candle-holders",
+      "title": "Ceramic Candle Holders",
+      "category": "Coming Soon",
+      "description": "Warmth and design in every flicker of light.",
+      "image": "freepik__elegant-handcrafted-ceramic-candle-holders-on-a-ru__96324.png",
+      "price": null,
+      "paypal": null
+    },
+
+    {
+      "id": "wall-clocks",
+      "title": "Handcrafted Wall Clocks",
+      "category": "Coming Soon",
+      "description": "Functional art that keeps perfect time with your style.",
+      "image": "freepik__a-refined-artisan-workspace-featuring-handmade-wal__35600.png",
+      "price": null,
+      "paypal": null
+    },
+
+    {
+      "id": "clay-mugs",
+      "title": "Clay Mugs",
+      "category": "Coming Soon",
+      "description": "Each sip a small moment of comfort and charm.",
+      "image": "freepik__a-warm-cozy-studio-table-with-handcrafted-clay-mug__35599.png",
+      "price": 40,
+      "paypal": "https://www.paypal.com/ncp/payment/VENPN7AHXJFE4"
+    },
+
+    {
+      "id": "jewelry",
+      "title": "Handmade Jewelry",
+      "category": "Coming Soon",
+      "description": "Delicate silver and gold accents crafted with emotion.",
+      "image": "freepik__elegant-closeup-of-silver-necklaces-and-pendants-w__36960.png",
+      "price": null,
+      "paypal": null
+    },
+
+    {
+      "id": "bath",
+      "title": "Bath & Body Bliss",
+      "category": "Coming Soon",
+      "description": "Eco-friendly soaps, gels, and bath sets — crafted with care.",
+      "image": "freepik__beautiful-spainspired-flat-lay-with-handmade-soaps__36962.png",
+      "price": null,
+      "paypal": null
+    },
+
+    /* ----- Candles (pre-filled w/ your PayPal links & prices) ----- */
+
+    {
+      "id": "spirit-full-200",
+      "title": "Custom Spiritual Candle — Full-body 3D relief (200ml)",
+      "category": "Candles",
+      "description": "Sculpted deity — typical scents: myrrh, sage, frankincense, sandalwood, or unscented.",
+      "image": "freepik__elegant-handcrafted-ceramic-candle-holders-on-a-ru__96324.png",
+      "price": 90,
+      "paypal": "https://www.paypal.com/ncp/payment/2EP29S7758654"
+    },
+    {
+      "id": "spirit-half-200",
+      "title": "Custom Spiritual Candle — Half-relief sculpted design (200ml)",
+      "category": "Candles",
+      "description": "Half-relief deity — typical scents: myrrh, sage, frankincense, sandalwood, or unscented.",
+      "image": "freepik__elegant-handcrafted-ceramic-candle-holders-on-a-ru__96324.png",
+      "price": 75,
+      "paypal": "https://www.paypal.com/ncp/payment/W37Y4BFMBR4KY"
+    },
+    {
+      "id": "spirit-full-400",
+      "title": "Custom Spiritual Candle — Full-body 3D Sculpture (400ml)",
+      "category": "Candles",
+      "description": "Larger sculpted piece — more detail.",
+      "image": "freepik__elegant-handcrafted-ceramic-candle-holders-on-a-ru__96324.png",
+      "price": 150,
+      "paypal": "https://www.paypal.com/ncp/payment/NG6G9WXX7PQXW"
+    },
+    {
+      "id": "spirit-half-400",
+      "title": "Custom Spiritual Candle — Half-relief sculpted design (400ml)",
+      "category": "Candles",
+      "description": "Large half-relief sculpted candle.",
+      "image": "freepik__elegant-handcrafted-ceramic-candle-holders-on-a-ru__96324.png",
+      "price": 110,
+      "paypal": "https://www.paypal.com/ncp/payment/XD5DD6QD8QJYQ"
+    },
+    {
+      "id": "divination-200",
+      "title": "Divination Candle — Painted symbols & sacred characters (200ml)",
+      "category": "Candles",
+      "description": "Painted symbols and sacred characters. Suggested scents: myrrh, sage, frankincense or unscented.",
+      "image": "freepik__elegant-handcrafted-ceramic-candle-holders-on-a-ru__96324.png",
+      "price": 50,
+      "paypal": "https://www.paypal.com/ncp/payment/VK7WLERJM3R88"
+    },
+    {
+      "id": "divination-400",
+      "title": "Divination Candle — Painted symbols & sacred characters (400ml)",
+      "category": "Candles",
+      "description": "Larger painted altar candle. Suggested scents: myrrh, sage, frankincense or unscented.",
+      "image": "freepik__elegant-handcrafted-ceramic-candle-holders-on-a-ru__96324.png",
+      "price": 80,
+      "paypal": "https://www.paypal.com/ncp/payment/6QJL8HSLFL6YJ"
+    },
+
+    {
+      "id": "wax-small",
+      "title": "Wax Candle — Small (150ml)",
+      "category": "Candles",
+      "description": "Choose scent intensity (how strong the scent is) or unscented.",
+      "image": "freepik__elegant-handcrafted-ceramic-candle-holders-on-a-ru__96324.png",
+      "price": 20,
+      "paypal": "https://www.paypal.com/ncp/payment/4XGJ5SMVP574W"
+    },
+    {
+      "id": "wax-med",
+      "title": "Wax Candle — Medium (250ml)",
+      "category": "Candles",
+      "description": "Choose scent intensity (how strong the scent is) or unscented.",
+      "image": "freepik__elegant-handcrafted-ceramic-candle-holders-on-a-ru__96324.png",
+      "price": 25,
+      "paypal": "https://www.paypal.com/ncp/payment/DJVW5LQCPL6A6"
+    },
+    {
+      "id": "wax-large",
+      "title": "Wax Candle — Large (400ml)",
+      "category": "Candles",
+      "description": "Choose scent intensity (how strong the scent is) or unscented.",
+      "image": "freepik__elegant-handcrafted-ceramic-candle-holders-on-a-ru__96324.png",
+      "price": 33,
+      "paypal": "https://www.paypal.com/ncp/payment/XFL9ZGYBJEHXW"
+    },
+    {
+      "id": "jelly-med",
+      "title": "Jelly Candle — Medium (200ml)",
+      "category": "Candles",
+      "description": "Translucent or colored decorative candle — choose scent & color.",
+      "image": "freepik__beautiful-spainspired-flat-lay-with-handmade-soaps__36962.png",
+      "price": 32,
+      "paypal": "https://www.paypal.com/ncp/payment/EMNC7ACUHJKQN"
+    },
+    {
+      "id": "jelly-large",
+      "title": "Jelly Candle — Large (350ml)",
+      "category": "Candles",
+      "description": "Translucent decorative candle — choose scent & color.",
+      "image": "freepik__beautiful-spainspired-flat-lay-with-handmade-soaps__36962.png",
+      "price": 40,
+      "paypal": "https://www.paypal.com/ncp/payment/2MXLKBF8CPBZ2"
+    },
+    {
+      "id": "sand-small",
+      "title": "Sand Candle — Small (150ml)",
+      "category": "Candles",
+      "description": "Rustic texture candles — choose scent intensity or unscented.",
+      "image": "freepik__a-refined-artisan-workspace-featuring-handmade-wal__35600.png",
+      "price": 20,
+      "paypal": "https://www.paypal.com/ncp/payment/AQZ2VDQVYEEGW"
+    },
+    {
+      "id": "sand-med",
+      "title": "Sand Candle — Medium (250ml)",
+      "category": "Candles",
+      "description": "Rustic texture candles — choose scent intensity or unscented.",
+      "image": "freepik__a-refined-artisan-workspace-featuring-handmade-wal__35600.png",
+      "price": 25,
+      "paypal": "https://www.paypal.com/ncp/payment/KYJWZJXZDYT2U"
+    },
+    {
+      "id": "sand-large",
+      "title": "Sand Candle — Large (400ml)",
+      "category": "Candles",
+      "description": "Rustic texture candles — choose scent intensity or unscented.",
+      "image": "freepik__a-refined-artisan-workspace-featuring-handmade-wal__35600.png",
+      "price": 33,
+      "paypal": "https://www.paypal.com/ncp/payment/C6RL562GS3UUS"
+    },
+    {
+      "id": "seasonal-300",
+      "title": "Seasonal Candle — Painted Glass (300ml)",
+      "category": "Candles",
+      "description": "Limited-edition seasonal painted glass. Typical winter scents: cinnamon, clove, orange peel, vanilla, pine, sweet mint.",
+      "image": "freepik__a-warm-cozy-studio-table-with-handcrafted-clay-mug__35599.png",
+      "price": 50,
+      "paypal": "https://www.paypal.com/ncp/payment/L4HGCYGCAM4G2"
+    }
+
+  ]
+}
