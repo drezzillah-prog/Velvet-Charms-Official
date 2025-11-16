@@ -5,53 +5,78 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Velvet Charms | Handcrafted Artisanal Creations</title>
   <link rel="stylesheet" href="style.css" />
+  <meta name="description" content="Velvet Charms — handmade candles, soaps, jewelry and more. Customizable, handcrafted per order." />
 </head>
 <body>
-  <header class="banner" id="holiday-banner">
-    <p>🎁 Holiday Collection Now Open – Handmade gifts available until Dec 12 (EU orders)</p>
+  <header class="site-header">
+    <div class="brand">
+      <h1>Velvet Charms</h1>
+      <p class="tag">Where Art Meets Emotion — Handcrafted with love</p>
+    </div>
+    <nav class="main-nav">
+      <a href="#/home">Home</a>
+      <a href="#/candles">Candles</a>
+      <a href="#/soaps">Soaps</a>
+      <a href="#/creams">Creams</a>
+      <a href="#/knitted">Knitted</a>
+      <a href="#/jewelry">Accessories</a>
+      <a href="#/bundles">Bundles</a>
+      <a href="#/contact">Contact</a>
+    </nav>
   </header>
 
-  <main>
-    <section class="hero">
-      <div class="hero-inner">
-        <h1>Velvet Charms</h1>
-        <p class="tagline">Where Art Meets Emotion — Handcrafted with love and timeless charm.</p>
-        <button class="btn" onclick="scrollToSection('products')">Explore Collection</button>
-      </div>
-    </section>
+  <main id="app">
+    <!-- content injected by script.js -->
+  </main>
 
-    <section id="products" class="products-section">
-      <h2>Coming Soon — Preorder Your Favorites</h2>
-      <div id="product-grid" class="product-grid" aria-live="polite"></div>
-    </section>
+  <aside id="cart-preview" class="cart-panel">
+    <h4>Cart (demo)</h4>
+    <div id="cart-items">No items</div>
+    <div class="cart-total" id="cart-total">Total: $0.00</div>
+    <div class="free-shipping">Add <span id="free-remaining">€0</span> for free shipping</div>
+  </aside>
 
-    <section id="contact" class="contact-section">
-      <h2>Personalized & Preorder Requests</h2>
-      <p>Would you like to preorder or design something unique? Share your idea — you can include a reference photo.</p>
+  <footer>
+    <p>© 2025 Velvet Charms — Handmade & Custom. Payment required at order — production starts after full payment.</p>
+  </footer>
 
-      <!-- Using Formspree as you said you already use -->
-      <form action="https://formspree.io/f/xanlzdle" method="POST" enctype="multipart/form-data" class="contact-form">
-        <input type="text" name="name" placeholder="Your Name" required />
-        <input type="email" name="email" placeholder="Your Email" required />
-        <textarea name="message" placeholder="Describe your idea or preorder..." required></textarea>
+  <!-- Customization & Preorder form (hidden until used) -->
+  <div id="customModal" class="modal" aria-hidden="true">
+    <div class="modal-inner">
+      <button class="close" id="closeModal">✕</button>
+      <h2 id="modalTitle">Customize this product</h2>
+
+      <form id="customForm" action="https://formspree.io/f/xanlzdle" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="product_id" id="form_product_id" />
+        <input type="hidden" name="product_name" id="form_product_name" />
+        <label>
+          Your name
+          <input type="text" name="name" required />
+        </label>
+        <label>
+          Your email
+          <input type="email" name="email" required />
+        </label>
+
+        <div id="dynamicFields">
+          <!-- fields like scent, size, color will be injected here -->
+        </div>
 
         <label class="file-label">
-          Attach a photo (optional)
+          Attach reference image (optional)
           <input type="file" name="attachment" accept="image/*" />
         </label>
 
-        <label class="checkbox">
-          <input type="checkbox" name="festiveBox" /> Add Festive Gift Box (+€6)
+        <label class="checkbox-inline">
+          <input type="checkbox" name="festive_box" value="yes" /> Add Festive Gift Box (+€6)
         </label>
 
-        <button type="submit" class="btn primary">Send Request ✨</button>
-      </form>
-    </section>
-  </main>
+        <p class="small">Production begins after payment. We will confirm shipping & timeline via email.</p>
 
-  <footer class="site-footer">
-    <p>© 2025 Velvet Charms — All Rights Reserved</p>
-  </footer>
+        <button type="submit" class="btn-primary">Send request</button>
+      </form>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
