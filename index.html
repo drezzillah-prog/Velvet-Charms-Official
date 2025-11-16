@@ -3,79 +3,94 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Velvet Charms | Handcrafted Artisanal Creations</title>
-  <link rel="stylesheet" href="style.css" />
-  <meta name="description" content="Velvet Charms — handmade candles, soaps, jewelry and more. Customizable, handcrafted per order." />
+  <title>Velvet Charms | Handcrafted Treasures Await</title>
+  <meta name="description" content="Velvet Charms — handcrafted candles, soaps, creams, jewelry & gifts. Made to order." />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header class="site-header">
+    <div class="topbar">
+      <p class="promo">🎁 Holiday Collection Now Open – Handmade gifts available until Dec 12 (EU orders)</p>
+      <div class="locale">
+        <span id="currencyToggle">USD</span>
+      </div>
+    </div>
     <div class="brand">
       <h1>Velvet Charms</h1>
       <p class="tag">Where Art Meets Emotion — Handcrafted with love</p>
+      <nav class="main-nav">
+        <a href="#home" onclick="renderHome()">Home</a>
+        <a href="#candles" onclick="renderCategory('Candles')">Candles</a>
+        <a href="#soaps" onclick="renderCategory('Soaps')">Soaps</a>
+        <a href="#creams" onclick="renderCategory('Creams')">Creams</a>
+        <a href="#knitted" onclick="renderCategory('Knitted & Braided')">Knitted</a>
+        <a href="#accessories" onclick="renderCategory('Accessories')">Accessories</a>
+        <a href="#bundles" onclick="renderCategory('Bundles')">Bundles</a>
+        <a href="#contact" onclick="scrollToSection('contact')">Contact</a>
+        <button id="cartBtn" class="cart-btn" onclick="openCart()">Cart (demo)</button>
+      </nav>
     </div>
-    <nav class="main-nav">
-      <a href="#/home">Home</a>
-      <a href="#/candles">Candles</a>
-      <a href="#/soaps">Soaps</a>
-      <a href="#/creams">Creams</a>
-      <a href="#/knitted">Knitted</a>
-      <a href="#/jewelry">Accessories</a>
-      <a href="#/bundles">Bundles</a>
-      <a href="#/contact">Contact</a>
-    </nav>
   </header>
 
   <main id="app">
-    <!-- content injected by script.js -->
-  </main>
+    <!-- Hero -->
+    <section class="hero" id="home">
+      <div class="hero-left">
+        <h2>Handcrafted Treasures Await</h2>
+        <p>Unique artisan pieces — handmade to order. Preorder now for holiday gifting.</p>
+        <button onclick="scrollToSection('products')">Explore Collection</button>
+      </div>
+      <div class="hero-right">
+        <img id="heroImage" src="candles_hero.png" alt="Velvet Charms hero">
+      </div>
+    </section>
 
-  <aside id="cart-preview" class="cart-panel">
-    <h4>Cart (demo)</h4>
-    <div id="cart-items">No items</div>
-    <div class="cart-total" id="cart-total">Total: $0.00</div>
-    <div class="free-shipping">Add <span id="free-remaining">€0</span> for free shipping</div>
-  </aside>
+    <!-- Products area -->
+    <section id="products" class="products-section">
+      <h2 id="productsTitle">Coming Soon — Preorder Your Favorites</h2>
+      <div id="productGrid" class="product-grid"></div>
+    </section>
 
-  <footer>
-    <p>© 2025 Velvet Charms — Handmade & Custom. Payment required at order — production starts after full payment.</p>
-  </footer>
+    <!-- Product detail modal -->
+    <div id="productModal" class="modal hidden" role="dialog" aria-hidden="true">
+      <div class="modal-content">
+        <button class="modal-close" onclick="closeProductModal()">×</button>
+        <div id="modalBody"></div>
+      </div>
+    </div>
 
-  <!-- Customization & Preorder form (hidden until used) -->
-  <div id="customModal" class="modal" aria-hidden="true">
-    <div class="modal-inner">
-      <button class="close" id="closeModal">✕</button>
-      <h2 id="modalTitle">Customize this product</h2>
+    <!-- Customization form / contact -->
+    <section id="contact" class="contact-section">
+      <h2>Personalized & Preorder Requests</h2>
+      <p>Want something personalised? Upload inspiration, describe size/colour/ingredients — we'll reply with a quote within 24–48h.</p>
 
-      <form id="customForm" action="https://formspree.io/f/xanlzdle" method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="product_id" id="form_product_id" />
-        <input type="hidden" name="product_name" id="form_product_name" />
-        <label>
-          Your name
-          <input type="text" name="name" required />
-        </label>
-        <label>
-          Your email
-          <input type="email" name="email" required />
-        </label>
+      <form id="generalForm" action="https://formspree.io/f/xanlzdle" method="POST" enctype="multipart/form-data" class="contact-form">
+        <input name="name" type="text" placeholder="Your name" required />
+        <input name="email" type="email" placeholder="Your email" required />
+        <textarea name="message" placeholder="Describe your idea or preorder..." required></textarea>
 
-        <div id="dynamicFields">
-          <!-- fields like scent, size, color will be injected here -->
-        </div>
-
-        <label class="file-label">
-          Attach reference image (optional)
+        <label class="file-label">Attach reference image (optional)
           <input type="file" name="attachment" accept="image/*" />
         </label>
 
-        <label class="checkbox-inline">
-          <input type="checkbox" name="festive_box" value="yes" /> Add Festive Gift Box (+€6)
-        </label>
+        <label class="checkbox"><input type="checkbox" id="addBox" name="festive_box" value="yes" /> Add Festive Gift Box (+€6)</label>
 
-        <p class="small">Production begins after payment. We will confirm shipping & timeline via email.</p>
-
-        <button type="submit" class="btn-primary">Send request</button>
+        <button type="submit">Send Request ✨</button>
       </form>
-    </div>
+    </section>
+
+    <footer class="site-footer">
+      <p>© 2025 Velvet Charms — All Rights Reserved • Payment required at order — production starts after full payment.</p>
+    </footer>
+  </main>
+
+  <!-- Cart drawer (demo) -->
+  <div id="cartDrawer" class="cart-drawer hidden">
+    <button onclick="closeCart()" class="close-cart">×</button>
+    <h3>Your cart (demo)</h3>
+    <div id="cartItems"></div>
+    <p id="freeShippingNote">Add €250 for free shipping</p>
+    <p>Total: <strong id="cartTotal">$0.00</strong></p>
   </div>
 
   <script src="script.js"></script>
