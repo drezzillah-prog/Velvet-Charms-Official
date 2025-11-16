@@ -1,259 +1,196 @@
-// script.js — client-side router + renderer
-(async ()=> {
-  const app = document.getElementById('app');
-  const modal = document.getElementById('customModal');
-  const closeModalBtn = document.getElementById('closeModal');
-  const customForm = document.getElementById('customForm');
-  const dynamicFields = document.getElementById('dynamicFields');
-  const formProductId = document.getElementById('form_product_id');
-  const formProductName = document.getElementById('form_product_name');
+// script.js - dynamic product rendering and UI interactions
 
-  // load products.json
-  const resp = await fetch('products.json');
-  if(!resp.ok){
-    app.innerHTML = '<div class="hero"><h2>Shop</h2><p>Failed to load products. Make sure products.json exists in repo root.</p></div>';
-    return;
+const PRODUCTS_JSON = 'products.json';
+let products = [];
+let cart = [];
+let currency = 'USD';
+let rates = {USD:1};
+
+async function init(){
+  await loadProducts();
+  detectLocale();
+  renderHome();
+  setupListeners();
+}
+
+async function loadProducts(){
+  try{
+    const res = await fetch(PRODUCTS_JSON + '?t='+Date.now());
+    products = await res.json();
+  }catch(e){
+    console.error('Failed to load products.json', e);
+    products = [];
   }
-  const catalog = await resp.json();
+}
 
-  // simple region welcome (auto-detect)
-  const region = (navigator.language || navigator.userLanguage || 'en').slice(0,2);
-  const euroMsg = (region === 'fr' || region === 'de' || region === 'it' || region === 'ro') ? 'Prices shown in USD. PayPal will convert to local currency.' : 'Prices shown in USD.';
-  
-  // router: render based on hash
-  function renderRoute(){
-    const hash = location.hash || '#/home';
-    // parse: #/category/subcategory/item
-    const parts = hash.replace(/^#\//,'').split('/').filter(Boolean);
-    if(parts.length === 0 || parts[0]==='home'){
-      renderHome();
-      return;
-    }
-    const [category, subcat, item] = parts;
-    if(!item && !subcat){
-      renderCategory(category);
-      return;
-    }
-    if(category && subcat && !item){
-      renderSubcategory(category, subcat);
-      return;
-    }
-    if(category && subcat && item){
-      renderItem(category, subcat, item);
-      return;
-    }
-    renderHome();
+function setupListeners(){
+  document.getElementById('currencyToggle').addEventListener('click', toggleCurrency);
+}
+
+function toggleCurrency(){
+  currency = (currency === 'USD') ? 'EUR' : 'USD';
+  document.getElementById('currencyToggle').innerText = currency;
+  renderHome();
+}
+
+async function detectLocale(){
+  try{
+    const loc = Intl.DateTimeFormat().resolvedOptions().locale || 'en-US';
+    // optional: fetch rates from exchangerate.host (no key)
+    const r = await fetch('https://api.exchangerate.host/latest?base=USD&symbols=EUR,USD');
+    const data = await r.json();
+    rates = { USD:1, EUR: data.rates.EUR || 0.95 };
+  }catch(e){
+    rates = {USD:1, EUR:0.95};
   }
+}
 
-  // small helper: find cat/subcat/item
-  function findCategory(id){ return catalog.categories.find(c=>c.id===id); }
-  function findSubcategory(cat, id){ return cat?.subcategories?.find(s=>s.id===id); }
-  function findItem(subcat, id){ return subcat?.items?.find(i=>i.id===id); }
+function priceForDisplay(usd){
+  if(currency === 'USD') return `$${usd.toFixed(2)}`;
+  const eur = usd * (rates.EUR || 0.95);
+  return `€${eur.toFixed(2)}`;
+}
 
-  function renderHome(){
-    document.title = 'Velvet Charms — Home';
-    app.innerHTML = `
-      <section class="hero">
-        <div>
-          <h2>Velvet Charms</h2>
-          <p>${euroMsg} Handmade gifts — ready for preorder and custom work.</p>
-          <button class="btn btn-primary" onclick="location.hash='#/candles'">Explore Candles</button>
-        </div>
-        <div style="max-width:420px;">
-          <img src="${getImageOrPlaceholder('hero_craft.png')}" alt="Velvet Charms hero" style="width:100%;border-radius:12px">
-        </div>
-      </section>
-      <section>
-        <div class="section-title"><h3>Coming Soon — Preorder</h3></div>
-        <div id="coming-grid" class="grid"></div>
-      </section>
-    `;
-    // show first 8 coming-soon items (if exists)
-    const coming = findCategory('coming-soon');
-    const grid = document.getElementById('coming-grid');
-    if(coming){
-      const cards = [];
-      coming.subcategories.forEach(s=>{
-        s.items.forEach(it=>{
-          cards.push(renderCard(it, s.title));
-        });
-      });
-      grid.innerHTML = cards.join('');
-    } else {
-      grid.innerHTML = '<p class="small">No coming soon items found.</p>';
-    }
-  }
+function renderHome(){
+  const grid = document.getElementById('productGrid');
+  document.getElementById('productsTitle').innerText = 'Coming Soon — Preorder Your Favorites';
+  // choose a representative subset (first 8) for coming soon
+  const toShow = products.filter(p => p.category && p.category.startsWith('Coming Soon')).slice(0,8);
+  // fallback if none
+  const fallback = products.slice(0,8);
+  renderGrid(toShow.length?toShow:fallback);
+}
 
-  function renderCategory(catId){
-    const cat = findCategory(catId);
-    if(!cat) { app.innerHTML = `<p>Category not found</p>`; return; }
-    document.title = `Velvet Charms — ${cat.title}`;
-    let html = `<div class="section-title"><h3>${cat.title}</h3></div>`;
-    cat.subcategories.forEach(sub=>{
-      html += `<h4 style="color:var(--gold)">${sub.title}</h4>`;
-      html += `<div class="grid">`;
-      sub.items.forEach(it=> html += renderCard(it, sub.title));
-      html += `</div>`;
-    });
-    app.innerHTML = html;
-  }
+function renderGrid(items){
+  const container = document.getElementById('productGrid');
+  container.innerHTML = '';
+  items.forEach(p => {
+    const card = document.createElement('div'); card.className='product-card';
+    const img = document.createElement('img');
+    img.src = p.image || 'placeholder.png';
+    img.alt = p.name;
+    img.onerror = ()=>img.src='placeholder.png';
+    card.appendChild(img);
 
-  function renderSubcategory(catId, subId){
-    const cat = findCategory(catId);
-    const sub = findSubcategory(cat, subId);
-    if(!sub) { app.innerHTML = `<p>Subcategory not found</p>`; return; }
-    document.title = `Velvet Charms — ${sub.title}`;
-    let html = `<div class="section-title"><h3>${sub.title}</h3></div>`;
-    html += `<div class="grid">`;
-    sub.items.forEach(it=> html += renderCard(it, sub.title));
-    html += `</div>`;
-    app.innerHTML = html;
-  }
+    const h3 = document.createElement('h3'); h3.innerText = p.name;
+    card.appendChild(h3);
+    const desc = document.createElement('p'); desc.innerText = p.description || '';
+    card.appendChild(desc);
 
-  function renderItem(catId, subId, itemId){
-    const cat = findCategory(catId);
-    const sub = findSubcategory(cat, subId);
-    const item = findItem(sub, itemId);
-    if(!item) { app.innerHTML = `<p>Item not found</p>`; return; }
-    document.title = `Velvet Charms — ${item.name}`;
-    const img = getImageOrPlaceholder(item.image);
-    app.innerHTML = `
-      <div class="product-detail">
-        <div class="product-gallery">
-          <img src="${img}" alt="${item.name}" />
-        </div>
-        <div class="product-meta">
-          <h2>${item.name}</h2>
-          <p class="small">${item.description || ''}</p>
-          <div class="buy">
-            <div class="price">USD ${item.price_usd.toFixed(2)}</div>
-            <div class="small">SKU: ${item.sku} • Product ID: ${item.id}</div>
-            <div style="margin-top:10px">
-              <a class="btn btn-primary" href="${item.paypal}" target="_blank" rel="noopener">Buy — PayPal</a>
-              <button class="btn btn-ghost" data-product='${JSON.stringify({id:item.id,name:item.name})}' onclick="openCustomize(this)">Customize this product</button>
-            </div>
-            <div class="small" style="margin-top:10px">Payment is required online before production begins. PayPal handles currency conversion for buyers.</div>
-          </div>
-        </div>
-      </div>
-    `;
-  }
+    const actions = document.createElement('div'); actions.className='product-actions';
+    const love = document.createElement('button'); love.className='love-btn'; love.innerText='★';
+    love.onclick = ()=>toggleWish(p.id,love);
+    actions.appendChild(love);
 
-  // small product card markup
-  function renderCard(item, tag){
-    const img = getImageOrPlaceholder(item.image);
-    const slugParts = guessSlug(item);
-    const url = `#/` + slugParts.join('/');
-    return `
-      <div class="card">
-        <img src="${img}" alt="${item.name}" />
-        <h4>${item.name}</h4>
-        <p class="small">${tag || ''}</p>
-        <div class="price">USD ${item.price_usd.toFixed(2)}</div>
-        <div class="actions">
-          <a class="btn btn-ghost" href="${url}">View</a>
-          <a class="btn btn-primary" href="${item.paypal}" target="_blank" rel="noopener">Buy</a>
-        </div>
-      </div>
-    `;
-  }
+    const view = document.createElement('button'); view.innerText='View';
+    view.onclick = ()=>openProductModal(p.id);
+    actions.appendChild(view);
 
-  // Helpers to build slug [category, subcategory, item]
-  function guessSlug(item){
-    // item.id uses pattern like "wax-small-150" or "spiritual-full-200" — we'll search catalog
-    for(const cat of catalog.categories){
-      for(const sub of cat.subcategories || []){
-        for(const it of sub.items || []){
-          if(it.id === item.id){
-            return [cat.id, sub.id, it.id];
-          }
-        }
-      }
-    }
-    return ['products', item.id, item.id];
-  }
+    const buy = document.createElement('button'); buy.innerText='Buy';
+    buy.onclick = ()=>{ if(p.paypal) window.open(p.paypal,'_blank'); else alert('No payment link for this product yet.');};
+    actions.appendChild(buy);
 
-  function getImageOrPlaceholder(name){
-    if(!name) return 'placeholder.png';
-    // if file exists relative to server, browser will load it; otherwise placeholder
-    return name;
-  }
-
-  // customize modal flow
-  window.openCustomize = function(button){
-    const data = JSON.parse(button.getAttribute('data-product'));
-    openModalForProduct(data.id, data.name);
-  }
-
-  function openModalForProduct(id, name){
-    // find item object for dynamic fields
-    let itemObj = null;
-    for(const cat of catalog.categories){
-      for(const sub of cat.subcategories || []){
-        const found = sub.items?.find(i=>i.id===id);
-        if(found) itemObj = {cat:cat.id, sub:sub.id, item:found};
-      }
-    }
-    if(!itemObj) return alert('Product not found');
-
-    formProductId.value = itemObj.item.id;
-    formProductName.value = itemObj.item.name;
-    document.getElementById('modalTitle').textContent = `Customize — ${itemObj.item.name}`;
-
-    // build dynamic fields depending on category
-    dynamicFields.innerHTML = '';
-    // common fields: size (if applicable), scent, color, intensity, additional elements, notes
-    if(itemObj.cat === 'candles'){
-      dynamicFields.innerHTML += fieldHTML('Desired scent', 'scent', 'e.g. myrrh, lavender, cinnamon');
-      dynamicFields.innerHTML += fieldHTML('Scent intensity', 'scent_intensity', 'Low / Medium / High');
-      dynamicFields.innerHTML += fieldHTML('Color (optional)', 'color', 'e.g. cream, soft pink');
-      dynamicFields.innerHTML += checkboxHTML('Glitter', 'glitter');
-      dynamicFields.innerHTML += fieldHTML('Additional elements (dried flowers, charms)', 'add_elements', 'list items or upload image');
-    } else if(itemObj.cat === 'soaps'){
-      dynamicFields.innerHTML += fieldHTML('Scent', 'scent', 'lavender, citrus, coffee');
-      dynamicFields.innerHTML += fieldHTML('Color', 'color', 'optional');
-      dynamicFields.innerHTML += fieldHTML('Allergies / skin notes', 'allergies', 'e.g. nut allergy');
-    } else if(itemObj.cat === 'knitted'){
-      dynamicFields.innerHTML += selectHTML('Size','size',['S','M','L','XL','Custom']);
-      dynamicFields.innerHTML += fieldHTML('Color','color','e.g. moss green');
-      dynamicFields.innerHTML += selectHTML('Yarn type','yarn',['Merino','Acrylic','Cotton','Blend']);
-    } else {
-      // generic
-      dynamicFields.innerHTML += fieldHTML('Details', 'details', 'Tell us how you want it customized.');
-      dynamicFields.innerHTML += fieldHTML('Additional elements','add_elements','dried flowers, charms, etc.');
-    }
-
-    modal.setAttribute('aria-hidden','false');
-  }
-
-  function fieldHTML(label, name, placeholder=''){
-    return `<label>${label}<input type="text" name="${name}" placeholder="${placeholder}" /></label>`;
-  }
-  function checkboxHTML(label, name){
-    return `<label class="checkbox-inline"><input type="checkbox" name="${name}" value="yes" /> ${label}</label>`;
-  }
-  function selectHTML(label, name, options=[]){
-    return `<label>${label}<select name="${name}">${options.map(o=>`<option value="${o}">${o}</option>`).join('')}</select></label>`;
-  }
-
-  closeModalBtn.addEventListener('click', ()=> modal.setAttribute('aria-hidden','true'));
-
-  // Simple hash change listener
-  window.addEventListener('hashchange', renderRoute);
-  // initial render
-  renderRoute();
-
-  // small cart demo (not a real checkout)
-  window.addEventListener('click', e=>{
-    if(e.target.matches('.btn-primary[href]')) {
-      // clicking a buy link sends to paypal in new tab
-    }
+    card.appendChild(actions);
+    container.appendChild(card);
   });
+}
 
-  // small helper: show free shipping progress (example)
-  const freeValueElem = document.getElementById('free-remaining');
-  if(freeValueElem){
-    freeValueElem.textContent = `€${catalog.meta.freeShippingEuropeEUR}`;
+// wishlist
+function toggleWish(id,btn){
+  let wish = JSON.parse(localStorage.getItem('vc_wish')||'[]');
+  if(wish.includes(id)){ wish = wish.filter(x=>x!==id); btn.style.background='transparent'; }
+  else { wish.push(id); btn.style.background='gold'; }
+  localStorage.setItem('vc_wish', JSON.stringify(wish));
+}
+
+// product modal
+function openProductModal(id){
+  const p = products.find(x=>x.id===id);
+  if(!p) return;
+  const body = document.getElementById('modalBody');
+  body.innerHTML = `
+    <div style="display:flex;gap:1rem;flex-wrap:wrap">
+      <img src="${p.image || 'placeholder.png'}" style="width:300px;height:300px;object-fit:cover;border-radius:8px" onerror="this.src='placeholder.png'"/>
+      <div style="flex:1">
+        <h2>${p.name}</h2>
+        <p style="color:#d6c9b6">${p.description||''}</p>
+        <p><strong>${priceForDisplay(p.price_usd || 0)}</strong></p>
+        <p>Product ID: <code>${p.id}</code></p>
+        <div style="display:flex;gap:.5rem;margin-top:1rem">
+          <button onclick="addToCart('${p.id}')">Add to cart (demo)</button>
+          <button onclick="openCustomizeForm('${p.id}')">Customize this product</button>
+          ${p.paypal ? `<button onclick="window.open('${p.paypal}','_blank')">Buy (PayPal)</button>` : ''}
+        </div>
+      </div>
+    </div>
+  `;
+  document.getElementById('productModal').classList.remove('hidden');
+}
+
+function closeProductModal(){ document.getElementById('productModal').classList.add('hidden'); }
+
+// cart demo
+function addToCart(id){
+  const p = products.find(x=>x.id===id);
+  if(!p) return alert('Product not found');
+  cart.push(p);
+  renderCart();
+  alert('Added to demo cart');
+}
+function renderCart(){
+  const container = document.getElementById('cartItems');
+  container.innerHTML = '';
+  let total = 0;
+  cart.forEach((p,i)=>{
+    const row = document.createElement('div'); row.style.marginBottom='8px';
+    row.innerHTML = `<div style="display:flex;justify-content:space-between"><div>${p.name}</div><div>${priceForDisplay(p.price_usd||0)}</div></div>`;
+    container.appendChild(row);
+    total += p.price_usd||0;
+  });
+  document.getElementById('cartTotal').innerText = priceForDisplay(total);
+  document.getElementById('cartDrawer').classList.remove('hidden');
+}
+
+function openCart(){ document.getElementById('cartDrawer').classList.remove('hidden'); }
+function closeCart(){ document.getElementById('cartDrawer').classList.add('hidden'); }
+
+// customization form (opens new window with prefilled details or scrolls to contact)
+function openCustomizeForm(productId){
+  closeProductModal();
+  // populate general form with product id and message hint
+  const form = document.getElementById('generalForm');
+  if(form){
+    form.querySelector('textarea').value = `I want to customize product ${productId} - details:\n`;
+    window.location.hash='#contact';
+    scrollToSection('contact');
+  } else {
+    alert('Customization form not found. Please use contact form.');
   }
+}
 
-})();
+function scrollToSection(id){
+  const el = document.getElementById(id);
+  if(!el) return;
+  el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// initial render of categories (helper)
+function renderCategory(name){
+  // filter by category prefix
+  const cols = products.filter(p => p.category && p.category.startsWith(name));
+  if(cols.length === 0){
+    // try direct match
+    const direct = products.filter(p => p.category === name);
+    if(direct.length === 0){
+      document.getElementById('productsTitle').innerText = 'Category not found';
+      renderGrid([]);
+      return;
+    } else renderGrid(direct);
+  } else {
+    document.getElementById('productsTitle').innerText = name;
+    renderGrid(cols);
+  }
+}
+
+// init
+init();
