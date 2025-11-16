@@ -1,212 +1,282 @@
 {
-  "products": [
+  "meta": {
+    "currency": "USD",
+    "freeShippingEuropeEUR": 250,
+    "freeShippingOutsideUSD": 350
+  },
+  "categories": [
     {
-      "id": "leather-bags",
-      "title": "Artisan Leather Bags",
-      "category": "Coming Soon",
-      "description": "Elegant, timeless leather pieces, handmade for every occasion.",
-      "image": "freepik__stylish-handcrafted-leather-bags-displayed-in-a-co__359.png",
-      "price": null,
-      "paypal": null
+      "id": "candles",
+      "title": "Candles",
+      "subcategories": [
+        {
+          "id": "spiritual",
+          "title": "Spiritual Candles (sculpted)",
+          "items": [
+            {
+              "id": "spiritual-full-200",
+              "sku": "SCULPT-200",
+              "name": "Custom Spiritual Candle — Full-body 3D relief (200ml)",
+              "price_usd": 90,
+              "paypal": "https://www.paypal.com/ncp/payment/2EP29S7758654",
+              "image": "spiritual_candle_1.png",
+              "description": "Sculpted deity — 200ml. Typical scents: myrrh, sage, frankincense, sandalwood, or unscented."
+            },
+            {
+              "id": "spiritual-half-200",
+              "sku": "SCULPT-HALF-200",
+              "name": "Custom Spiritual Candle — Half-relief sculpted design (200ml)",
+              "price_usd": 75,
+              "paypal": "https://www.paypal.com/ncp/payment/W37Y4BFMBR4KY",
+              "image": "spiritual_candle_2.png",
+              "description": "Half-relief deity sculpted into the candle."
+            },
+            {
+              "id": "spiritual-full-400",
+              "sku": "SCULPT-400",
+              "name": "Custom Spiritual Candle — Full-body 3D Sculpture (400ml)",
+              "price_usd": 150,
+              "paypal": "https://www.paypal.com/ncp/payment/NG6G9WXX7PQXW",
+              "image": "spiritual_candle_3.png",
+              "description": "Larger sculpted piece — more detail."
+            },
+            {
+              "id": "spiritual-half-400",
+              "sku": "SCULPT-HALF-400",
+              "name": "Custom Spiritual Candle — Half-relief sculpted design (400ml)",
+              "price_usd": 110,
+              "paypal": "https://www.paypal.com/ncp/payment/XD5DD6QD8QJYQ",
+              "image": "spiritual_candle_4.png",
+              "description": "Large half-relief sculpted candle."
+            }
+          ]
+        },
+        {
+          "id": "divination",
+          "title": "Divination Candles (painted)",
+          "items": [
+            {
+              "id": "divination-200",
+              "sku": "DIVINE-200",
+              "name": "Divination Candle — Painted symbols & sacred characters (200ml)",
+              "price_usd": 50,
+              "paypal": "https://www.paypal.com/ncp/payment/VK7WLERJM3R88",
+              "image": "divination_candle_200.png",
+              "description": "Painted symbols or sacred characters. Suggested scents: myrrh, sage or unscented."
+            },
+            {
+              "id": "divination-400",
+              "sku": "DIVINE-400",
+              "name": "Divination Candle — Painted symbols & sacred characters (400ml)",
+              "price_usd": 80,
+              "paypal": "https://www.paypal.com/ncp/payment/6QJL8HSLFL6YJ",
+              "image": "divination_candle_400.png",
+              "description": "Larger painted altar candle."
+            }
+          ]
+        },
+        {
+          "id": "classic",
+          "title": "Classic & Decorative Candles",
+          "items": [
+            {
+              "id": "wax-small-150",
+              "sku": "WAX-150",
+              "name": "Wax Candle — Small (150ml)",
+              "price_usd": 20,
+              "paypal": "https://www.paypal.com/ncp/payment/4XGJ5SMVP574W",
+              "image": "wax_candle_small.png",
+              "description": "Choose any scent & intensity, or unscented."
+            },
+            {
+              "id": "wax-medium-250",
+              "sku": "WAX-250",
+              "name": "Wax Candle — Medium (250ml)",
+              "price_usd": 25,
+              "paypal": "https://www.paypal.com/ncp/payment/DJVW5LQCPL6A6",
+              "image": "wax_candle_medium.png",
+              "description": "Scent intensity refers to fragrance strength."
+            },
+            {
+              "id": "wax-large-400",
+              "sku": "WAX-400",
+              "name": "Wax Candle — Large (400ml)",
+              "price_usd": 33,
+              "paypal": "https://www.paypal.com/ncp/payment/XFL9ZGYBJEHXW",
+              "image": "wax_candle_large.png",
+              "description": "Large size — choose scent & intensity or unscented."
+            },
+            {
+              "id": "jelly-200",
+              "sku": "JELLY-200",
+              "name": "Jelly Candle — Medium (200ml)",
+              "price_usd": 32,
+              "paypal": "https://www.paypal.com/ncp/payment/EMNC7ACUHJKQN",
+              "image": "jelly_medium.png",
+              "description": "Translucent candle — customizable color & fragrance."
+            },
+            {
+              "id": "jelly-350",
+              "sku": "JELLY-350",
+              "name": "Jelly Candle — Large (350ml)",
+              "price_usd": 40,
+              "paypal": "https://www.paypal.com/ncp/payment/2MXLKBF8CPBZ2",
+              "image": "jelly_large.png",
+              "description": "Deep color clarity & elegant finish."
+            },
+            {
+              "id": "sand-150",
+              "sku": "SAND-150",
+              "name": "Sand Candle — Small (150ml)",
+              "price_usd": 20,
+              "paypal": "https://www.paypal.com/ncp/payment/AQZ2VDQVYEEGW",
+              "image": "sand_small.png",
+              "description": "Rustic texture — any scent or unscented."
+            },
+            {
+              "id": "sand-250",
+              "sku": "SAND-250",
+              "name": "Sand Candle — Medium (250ml)",
+              "price_usd": 25,
+              "paypal": "https://www.paypal.com/ncp/payment/KYJWZJXZDYT2U",
+              "image": "sand_medium.png",
+              "description": "Rustic texture — customizable scent."
+            },
+            {
+              "id": "sand-400",
+              "sku": "SAND-400",
+              "name": "Sand Candle — Large (400ml)",
+              "price_usd": 33,
+              "paypal": "https://www.paypal.com/ncp/payment/C6RL562GS3UUS",
+              "image": "sand_large.png",
+              "description": "Rustic, earthy look."
+            },
+            {
+              "id": "seasonal-300",
+              "sku": "SEASON-300",
+              "name": "Seasonal Candle — Painted Glass (300ml)",
+              "price_usd": 50,
+              "paypal": "https://www.paypal.com/ncp/payment/L4HGCYGCAM4G2",
+              "image": "seasonal_candle_300.png",
+              "description": "Limited-edition seasonal paintwork; winter scents available."
+            }
+          ]
+        }
+      ]
     },
     {
-      "id": "perfumes",
-      "title": "Signature Perfumes",
-      "category": "Coming Soon",
-      "description": "Unique scents inspired by nature and memory.",
-      "image": "freepik__a-cozy-artisan-studio-scene-with-small-glass-perfu__96322.png",
-      "price": null,
-      "paypal": null
-    },
-
-    {
-      "id": "ceramic-candle-holders",
-      "title": "Ceramic Candle Holders",
-      "category": "Coming Soon",
-      "description": "Warmth and design in every flicker of light.",
-      "image": "freepik__elegant-handcrafted-ceramic-candle-holders-on-a-ru__96324.png",
-      "price": null,
-      "paypal": null
-    },
-
-    {
-      "id": "wall-clocks",
-      "title": "Handcrafted Wall Clocks",
-      "category": "Coming Soon",
-      "description": "Functional art that keeps perfect time with your style.",
-      "image": "freepik__a-refined-artisan-workspace-featuring-handmade-wal__35600.png",
-      "price": null,
-      "paypal": null
-    },
-
-    {
-      "id": "clay-mugs",
-      "title": "Clay Mugs",
-      "category": "Coming Soon",
-      "description": "Each sip a small moment of comfort and charm.",
-      "image": "freepik__a-warm-cozy-studio-table-with-handcrafted-clay-mug__35599.png",
-      "price": 40,
-      "paypal": "https://www.paypal.com/ncp/payment/VENPN7AHXJFE4"
-    },
-
-    {
-      "id": "jewelry",
-      "title": "Handmade Jewelry",
-      "category": "Coming Soon",
-      "description": "Delicate silver and gold accents crafted with emotion.",
-      "image": "freepik__elegant-closeup-of-silver-necklaces-and-pendants-w__36960.png",
-      "price": null,
-      "paypal": null
-    },
-
-    {
-      "id": "bath",
-      "title": "Bath & Body Bliss",
-      "category": "Coming Soon",
-      "description": "Eco-friendly soaps, gels, and bath sets — crafted with care.",
-      "image": "freepik__beautiful-spainspired-flat-lay-with-handmade-soaps__36962.png",
-      "price": null,
-      "paypal": null
-    },
-
-    /* ----- Candles (pre-filled w/ your PayPal links & prices) ----- */
-
-    {
-      "id": "spirit-full-200",
-      "title": "Custom Spiritual Candle — Full-body 3D relief (200ml)",
-      "category": "Candles",
-      "description": "Sculpted deity — typical scents: myrrh, sage, frankincense, sandalwood, or unscented.",
-      "image": "freepik__elegant-handcrafted-ceramic-candle-holders-on-a-ru__96324.png",
-      "price": 90,
-      "paypal": "https://www.paypal.com/ncp/payment/2EP29S7758654"
+      "id":"knitted",
+      "title":"Knitted & Braided Creations",
+      "subcategories":[
+        {
+          "id":"beanies",
+          "title":"Beanies & scarves",
+          "items":[
+            {"id":"beanie-small","sku":"BEAN-S","name":"Hand-Knitted Beanie — Small","price_usd":35,"paypal":"https://www.paypal.com/ncp/payment/S4KAZSV8WN5MG","image":"beanie_small.png"},
+            {"id":"beanie-medium","sku":"BEAN-M","name":"Hand-Knitted Beanie — Medium","price_usd":38,"paypal":"https://www.paypal.com/ncp/payment/Q944A2C9DTQJW","image":"beanie_medium.png"},
+            {"id":"beanie-large","sku":"BEAN-L","name":"Hand-Knitted Beanie — Large","price_usd":42,"paypal":"https://www.paypal.com/ncp/payment/TT26KNF22D7QC","image":"beanie_large.png"},
+            {"id":"scarf-onesize","sku":"SCARF-1","name":"Hand-Knitted Scarf — One size (150x25cm)","price_usd":55,"paypal":"https://www.paypal.com/ncp/payment/BLYUGH43XL4RS","image":"scarf.png"},
+            {"id":"mittens-small","sku":"MIT-S","name":"Hand-Knitted Mittens — Small","price_usd":28,"paypal":"https://www.paypal.com/ncp/payment/QESLM9KV4EQ38","image":"mittens_small.png"},
+            {"id":"match-set","sku":"MATCH-SET","name":"Matching Winter Set — Beanie + Scarf + Mittens","price_usd":110,"paypal":"https://www.paypal.com/ncp/payment/VWTNNVT586JBN","image":"matching_set.png"}
+          ]
+        },
+        {
+          "id":"blankets",
+          "title":"Braided Blankets",
+          "items":[
+            {"id":"blanket-small","sku":"BLANK-S","name":"Braided Blanket — Small (80×100cm)","price_usd":85,"paypal":"https://www.paypal.com/ncp/payment/3TB59Q7RG2SLE","image":"blanket_small.png"},
+            {"id":"blanket-medium","sku":"BLANK-M","name":"Braided Blanket — Medium (120×150cm)","price_usd":130,"paypal":"https://www.paypal.com/ncp/payment/B82QPFVQVDUQL","image":"blanket_medium.png"},
+            {"id":"blanket-large","sku":"BLANK-L","name":"Braided Blanket — Large (150×200cm)","price_usd":180,"paypal":"https://www.paypal.com/ncp/payment/DXBW4QFN7T96J","image":"blanket_large.png"}
+          ]
+        }
+      ]
     },
     {
-      "id": "spirit-half-200",
-      "title": "Custom Spiritual Candle — Half-relief sculpted design (200ml)",
-      "category": "Candles",
-      "description": "Half-relief deity — typical scents: myrrh, sage, frankincense, sandalwood, or unscented.",
-      "image": "freepik__elegant-handcrafted-ceramic-candle-holders-on-a-ru__96324.png",
-      "price": 75,
-      "paypal": "https://www.paypal.com/ncp/payment/W37Y4BFMBR4KY"
+      "id":"soaps",
+      "title":"Soaps",
+      "subcategories":[
+        {
+          "id":"bars",
+          "title":"Soap Bars & Sets",
+          "items":[
+            {"id":"soap-exf-100","sku":"SOAP-EXF","name":"Exfoliating Soap (100g)","price_usd":12,"paypal":"https://www.paypal.com/ncp/payment/AZQZXG8AJ8VZL","image":"exf_soap.png","description":"Coffee or oatmeal base."},
+            {"id":"soap-herb-100","sku":"SOAP-HERB","name":"Natural Herbal Soap (100g)","price_usd":12,"paypal":"https://www.paypal.com/ncp/payment/SYA68V9BU9TRN","image":"herbal_soap.png"},
+            {"id":"soap-flower","sku":"SOAP-FLOWER","name":"Flower-shaped Soap (100g)","price_usd":20,"paypal":"https://www.paypal.com/ncp/payment/2KNEUT86VGQYS","image":"flower_soap.png"},
+            {"id":"soap-fruit","sku":"SOAP-FRUIT","name":"Fruit-shaped Soap (100g)","price_usd":20,"paypal":"https://www.paypal.com/ncp/payment/C5ME744UZX58U","image":"fruit_soap.png"},
+            {"id":"soap-giftset","sku":"SOAP-GIFT","name":"Gift Soap Set (3 pcs)","price_usd":30,"paypal":"https://www.paypal.com/ncp/payment/ZQ6X8AZMVY4XL","image":"soap_set.png"}
+          ]
+        }
+      ]
     },
     {
-      "id": "spirit-full-400",
-      "title": "Custom Spiritual Candle — Full-body 3D Sculpture (400ml)",
-      "category": "Candles",
-      "description": "Larger sculpted piece — more detail.",
-      "image": "freepik__elegant-handcrafted-ceramic-candle-holders-on-a-ru__96324.png",
-      "price": 150,
-      "paypal": "https://www.paypal.com/ncp/payment/NG6G9WXX7PQXW"
+      "id":"creams",
+      "title":"Natural Body Care",
+      "subcategories":[
+        {
+          "id":"creams",
+          "title":"Creams",
+          "items":[
+            {"id":"face-50","sku":"CRM-F50","name":"Natural Face Cream (50ml)","price_usd":28,"paypal":"https://www.paypal.com/ncp/payment/T9M3LBJ75FAVN","image":"face_cream.png"},
+            {"id":"butter-100","sku":"CRM-B100","name":"Body Butter (100ml)","price_usd":35,"paypal":"https://www.paypal.com/ncp/payment/Y2AVDHZN9JCCQ","image":"body_butter.png"},
+            {"id":"hand-50","sku":"CRM-HF","name":"Hand & Foot Cream (50ml)","price_usd":22,"paypal":"https://www.paypal.com/ncp/payment/XVQW4M785U6A4","image":"hand_cream.png"}
+          ]
+        }
+      ]
     },
     {
-      "id": "spirit-half-400",
-      "title": "Custom Spiritual Candle — Half-relief sculpted design (400ml)",
-      "category": "Candles",
-      "description": "Large half-relief sculpted candle.",
-      "image": "freepik__elegant-handcrafted-ceramic-candle-holders-on-a-ru__96324.png",
-      "price": 110,
-      "paypal": "https://www.paypal.com/ncp/payment/XD5DD6QD8QJYQ"
+      "id":"accessories",
+      "title":"Accessories",
+      "subcategories":[
+        {
+          "id":"epoxy",
+          "title":"Epoxy & Clay smalls",
+          "items":[
+            {"id":"epoxy-keychain","sku":"EPC-KEY","name":"Epoxy / Clay Keychain","price_usd":21,"paypal":"https://www.paypal.com/ncp/payment/MHRL4W3QJW6P4","image":"epoxy_keychain_1.png"},
+            {"id":"epoxy-candleholder","sku":"EPC-HOLD","name":"Epoxy / Clay Candle Holder","price_usd":18,"paypal":"https://www.paypal.com/ncp/payment/94TBGYPXSKE88","image":"candle_holder_1.jpg"}
+          ]
+        },
+        {
+          "id":"jewelry",
+          "title":"Epoxy Jewelry & Sets",
+          "items":[
+            {"id":"pendant","sku":"JWL-PEND","name":"Epoxy Resin Pendant","price_usd":28,"paypal":"https://www.paypal.com/ncp/payment/BE5H4J3F8GYKA","image":"epoxy_pendant.png"},
+            {"id":"earrings","sku":"JWL-EAR","name":"Epoxy Earrings — Pair","price_usd":25,"paypal":"https://www.paypal.com/ncp/payment/TF7H4CJV7SAJ6","image":"epoxy_earings_1.png"}
+          ]
+        }
+      ]
     },
     {
-      "id": "divination-200",
-      "title": "Divination Candle — Painted symbols & sacred characters (200ml)",
-      "category": "Candles",
-      "description": "Painted symbols and sacred characters. Suggested scents: myrrh, sage, frankincense or unscented.",
-      "image": "freepik__elegant-handcrafted-ceramic-candle-holders-on-a-ru__96324.png",
-      "price": 50,
-      "paypal": "https://www.paypal.com/ncp/payment/VK7WLERJM3R88"
+      "id":"bundles",
+      "title":"Bundles",
+      "subcategories":[
+        {
+          "id":"sets",
+          "title":"Special Combos",
+          "items":[
+            {"id":"bundle-relax","sku":"BUN-RELAX","name":"Relax & Restore Set","price_usd":65,"paypal":"https://www.paypal.com/ncp/payment/X7EA4LJC8VQ3A","image":"bundle_relax.png","description":"Herbal soap + face cream + small wax candle."},
+            {"id":"bundle-cozy","sku":"BUN-COZY","name":"Cozy Winter Set","price_usd":140,"paypal":"https://www.paypal.com/ncp/payment/8A3AKAZR6QVEL","image":"bundle_cozy.png","description":"Beanie + scarf + mittens + small wax candle."},
+            {"id":"bundle-home","sku":"BUN-HOME","name":"Home Harmony Box","price_usd":100,"paypal":"https://www.paypal.com/ncp/payment/9T3C2WRAXJJYN","image":"bundle_home.png"}
+          ]
+        }
+      ]
     },
     {
-      "id": "divination-400",
-      "title": "Divination Candle — Painted symbols & sacred characters (400ml)",
-      "category": "Candles",
-      "description": "Larger painted altar candle. Suggested scents: myrrh, sage, frankincense or unscented.",
-      "image": "freepik__elegant-handcrafted-ceramic-candle-holders-on-a-ru__96324.png",
-      "price": 80,
-      "paypal": "https://www.paypal.com/ncp/payment/6QJL8HSLFL6YJ"
-    },
-
-    {
-      "id": "wax-small",
-      "title": "Wax Candle — Small (150ml)",
-      "category": "Candles",
-      "description": "Choose scent intensity (how strong the scent is) or unscented.",
-      "image": "freepik__elegant-handcrafted-ceramic-candle-holders-on-a-ru__96324.png",
-      "price": 20,
-      "paypal": "https://www.paypal.com/ncp/payment/4XGJ5SMVP574W"
-    },
-    {
-      "id": "wax-med",
-      "title": "Wax Candle — Medium (250ml)",
-      "category": "Candles",
-      "description": "Choose scent intensity (how strong the scent is) or unscented.",
-      "image": "freepik__elegant-handcrafted-ceramic-candle-holders-on-a-ru__96324.png",
-      "price": 25,
-      "paypal": "https://www.paypal.com/ncp/payment/DJVW5LQCPL6A6"
-    },
-    {
-      "id": "wax-large",
-      "title": "Wax Candle — Large (400ml)",
-      "category": "Candles",
-      "description": "Choose scent intensity (how strong the scent is) or unscented.",
-      "image": "freepik__elegant-handcrafted-ceramic-candle-holders-on-a-ru__96324.png",
-      "price": 33,
-      "paypal": "https://www.paypal.com/ncp/payment/XFL9ZGYBJEHXW"
-    },
-    {
-      "id": "jelly-med",
-      "title": "Jelly Candle — Medium (200ml)",
-      "category": "Candles",
-      "description": "Translucent or colored decorative candle — choose scent & color.",
-      "image": "freepik__beautiful-spainspired-flat-lay-with-handmade-soaps__36962.png",
-      "price": 32,
-      "paypal": "https://www.paypal.com/ncp/payment/EMNC7ACUHJKQN"
-    },
-    {
-      "id": "jelly-large",
-      "title": "Jelly Candle — Large (350ml)",
-      "category": "Candles",
-      "description": "Translucent decorative candle — choose scent & color.",
-      "image": "freepik__beautiful-spainspired-flat-lay-with-handmade-soaps__36962.png",
-      "price": 40,
-      "paypal": "https://www.paypal.com/ncp/payment/2MXLKBF8CPBZ2"
-    },
-    {
-      "id": "sand-small",
-      "title": "Sand Candle — Small (150ml)",
-      "category": "Candles",
-      "description": "Rustic texture candles — choose scent intensity or unscented.",
-      "image": "freepik__a-refined-artisan-workspace-featuring-handmade-wal__35600.png",
-      "price": 20,
-      "paypal": "https://www.paypal.com/ncp/payment/AQZ2VDQVYEEGW"
-    },
-    {
-      "id": "sand-med",
-      "title": "Sand Candle — Medium (250ml)",
-      "category": "Candles",
-      "description": "Rustic texture candles — choose scent intensity or unscented.",
-      "image": "freepik__a-refined-artisan-workspace-featuring-handmade-wal__35600.png",
-      "price": 25,
-      "paypal": "https://www.paypal.com/ncp/payment/KYJWZJXZDYT2U"
-    },
-    {
-      "id": "sand-large",
-      "title": "Sand Candle — Large (400ml)",
-      "category": "Candles",
-      "description": "Rustic texture candles — choose scent intensity or unscented.",
-      "image": "freepik__a-refined-artisan-workspace-featuring-handmade-wal__35600.png",
-      "price": 33,
-      "paypal": "https://www.paypal.com/ncp/payment/C6RL562GS3UUS"
-    },
-    {
-      "id": "seasonal-300",
-      "title": "Seasonal Candle — Painted Glass (300ml)",
-      "category": "Candles",
-      "description": "Limited-edition seasonal painted glass. Typical winter scents: cinnamon, clove, orange peel, vanilla, pine, sweet mint.",
-      "image": "freepik__a-warm-cozy-studio-table-with-handcrafted-clay-mug__35599.png",
-      "price": 50,
-      "paypal": "https://www.paypal.com/ncp/payment/L4HGCYGCAM4G2"
+      "id":"coming-soon",
+      "title":"Coming Soon",
+      "subcategories":[
+        {"id":"leather","title":"Leather Bags","items":[
+          {"id":"leather-small","sku":"BAG-S","name":"Leather Bag — Small","price_usd":85,"paypal":"https://www.paypal.com/ncp/payment/2UZ3FBG9E9MZS","image":"Leather Bag Small.png"},
+          {"id":"leather-medium","sku":"BAG-M","name":"Leather Bag — Medium","price_usd":120,"paypal":"https://www.paypal.com/ncp/payment/WQ9X4MDC9HZW4","image":"Leather Bag Medium.png"},
+          {"id":"leather-large","sku":"BAG-L","name":"Leather Bag — Large","price_usd":160,"paypal":"https://www.paypal.com/ncp/payment/YQEM8SHX43S3E","image":"Leather Bag Large.png"}
+        ]},
+        {"id":"mugs","title":"Clay Mugs","items":[
+          {"id":"mug-800","sku":"MUG-800","name":"Clay Mug — 800 ml","price_usd":40,"paypal":"https://www.paypal.com/ncp/payment/VENPN7AHXJFE4","image":"Clay Mugs (1).png"}
+        ]},
+        {"id":"clocks","title":"Wall Clocks","items":[
+          {"id":"clock-25","sku":"CLK-25","name":"Wall Clock — 25 cm","price_usd":70,"paypal":"https://www.paypal.com/ncp/payment/RRDQ39ZGFQJSE","image":"Wall Clocks.png"},
+          {"id":"clock-45","sku":"CLK-45","name":"Wall Clock — 45 cm","price_usd":120,"paypal":"https://www.paypal.com/ncp/payment/C66ABZXXCPRGU","image":"Wall Clocks (2).png"}
+        ]}
+      ]
     }
-
   ]
 }
