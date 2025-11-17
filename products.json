@@ -1,330 +1,595 @@
-[
-  {
-    "id": "CANDLE_SPIRIT_FULL_200",
-    "name": "Custom Spiritual Candle — Full-body 3D relief (200ml)",
-    "category": "Candles / Spiritual",
-    "price_usd": 90,
-    "paypal": "https://www.paypal.com/ncp/payment/2EP29S7758654",
-    "image": "spiritual_candle_full_200.png",
-    "description": "Sculpted deity — 200ml. Typical scents: myrrh, sage, frankincense, sandalwood, or unscented.",
-    "variants": { "size_ml": [200], "scents": ["myrrh","sage","frankincense","sandalwood","unscented"] }
-  },
-  {
-    "id": "CANDLE_SPIRIT_HALF_200",
-    "name": "Custom Spiritual Candle — Half-relief sculpted design (200ml)",
-    "category": "Candles / Spiritual",
-    "price_usd": 75,
-    "paypal": "https://www.paypal.com/ncp/payment/W37Y4BFMBR4KY",
-    "image": "spiritual_candle_half_200.png",
-    "description": "Half-relief deity sculpted into the candle. Typical scents: myrrh, sage, frankincense, sandalwood, or unscented.",
-    "variants": { "size_ml": [200], "scents": ["myrrh","sage","frankincense","sandalwood","unscented"] }
-  },
-  {
-    "id": "CANDLE_SPIRIT_FULL_400",
-    "name": "Custom Spiritual Candle — Full-body 3D Sculpture (400ml)",
-    "category": "Candles / Spiritual",
-    "price_usd": 150,
-    "paypal": "https://www.paypal.com/ncp/payment/NG6G9WXX7PQXW",
-    "image": "spiritual_candle_full_400.png",
-    "description": "Larger sculpted piece — more detail. Typical scents: myrrh, sage, frankincense, sandalwood, or unscented.",
-    "variants": { "size_ml": [400], "scents": ["myrrh","sage","frankincense","sandalwood","unscented"] }
-  },
-  {
-    "id": "CANDLE_SPIRIT_HALF_400",
-    "name": "Custom Spiritual Candle — Half-relief sculpted design (400ml)",
-    "category": "Candles / Spiritual",
-    "price_usd": 110,
-    "paypal": "https://www.paypal.com/ncp/payment/XD5DD6QD8QJYQ",
-    "image": "spiritual_candle_half_400.png",
-    "description": "Large half-relief sculpted candle. Typical scents: myrrh, sage, frankincense, sandalwood, or unscented.",
-    "variants": { "size_ml": [400], "scents": ["myrrh","sage","frankincense","sandalwood","unscented"] }
-  },
+{
+  "candles": [
+    {
+      "id": "CANDLE_SPIRIT_FULL_200",
+      "name": "Custom Spiritual Candle — Full-body 3D relief (200ml)",
+      "category": "Candles / Spiritual",
+      "price_usd": 90,
+      "paypal": "https://www.paypal.com/ncp/payment/2EP29S7758654",
+      "image": "spiritual_candle_full_200.png",
+      "description": "Sculpted deity — 200ml. Typical scents: myrrh, sage, frankincense, sandalwood, or unscented."
+    },
+    {
+      "id": "CANDLE_SPIRIT_HALF_200",
+      "name": "Custom Spiritual Candle — Half-relief sculpted design (200ml)",
+      "category": "Candles / Spiritual",
+      "price_usd": 75,
+      "paypal": "https://www.paypal.com/ncp/payment/W37Y4BFMBR4KY",
+      "image": "spiritual_candle_half_200.png",
+      "description": "Half-relief deity sculpted into the candle."
+    },
+    {
+      "id": "CANDLE_SPIRIT_FULL_400",
+      "name": "Custom Spiritual Candle — Full-body 3D Sculpture (400ml)",
+      "category": "Candles / Spiritual",
+      "price_usd": 150,
+      "paypal": "https://www.paypal.com/ncp/payment/NG6G9WXX7PQXW",
+      "image": "spiritual_candle_full_400.png",
+      "description": "Larger sculpted piece — more detail."
+    },
+    {
+      "id": "CANDLE_SPIRIT_HALF_400",
+      "name": "Custom Spiritual Candle — Half-relief sculpted design (400ml)",
+      "category": "Candles / Spiritual",
+      "price_usd": 110,
+      "paypal": "https://www.paypal.com/ncp/payment/XD5DD6QD8QJYQ",
+      "image": "spiritual_candle_half_400.png",
+      "description": "Large half-relief sculpted candle."
+    },
+    {
+      "id": "CANDLE_DIV_200",
+      "name": "Divination Candle — Painted symbols & sacred characters (200ml)",
+      "category": "Candles / Divination",
+      "price_usd": 50,
+      "paypal": "https://www.paypal.com/ncp/payment/VK7WLERJM3R88",
+      "image": "divination_200.png",
+      "description": "Painted symbols (moon, stars, runes) and sacred characters."
+    },
+    {
+      "id": "CANDLE_DIV_400",
+      "name": "Divination Candle — Painted symbols & sacred characters (400ml)",
+      "category": "Candles / Divination",
+      "price_usd": 80,
+      "paypal": "https://www.paypal.com/ncp/payment/6QJL8HSLFL6YJ",
+      "image": "divination_400.png",
+      "description": "Larger painted altar candle."
+    },
+    {
+      "id": "CANDLE_WAX_S",
+      "name": "Wax Candle — Small (150ml)",
+      "category": "Candles / Classic",
+      "price_usd": 20,
+      "paypal": "https://www.paypal.com/ncp/payment/4XGJ5SMVP574W",
+      "image": "wax_candle_small.png",
+      "description": "Choose any aroma and intensity, or request unscented."
+    },
+    {
+      "id": "CANDLE_WAX_M",
+      "name": "Wax Candle — Medium (250ml)",
+      "category": "Candles / Classic",
+      "price_usd": 25,
+      "paypal": "https://www.paypal.com/ncp/payment/DJVW5LQCPL6A6",
+      "image": "wax_candle_medium.png",
+      "description": "Choose any aroma and intensity, or request unscented."
+    },
+    {
+      "id": "CANDLE_WAX_L",
+      "name": "Wax Candle — Large (400ml)",
+      "category": "Candles / Classic",
+      "price_usd": 33,
+      "paypal": "https://www.paypal.com/ncp/payment/XFL9ZGYBJEHXW",
+      "image": "wax_candle_large.png",
+      "description": "Choose any aroma and intensity, or request unscented."
+    },
+    {
+      "id": "CANDLE_JELLY_M",
+      "name": "Jelly Candle — Medium (200ml)",
+      "category": "Candles / Classic",
+      "price_usd": 32,
+      "paypal": "https://www.paypal.com/ncp/payment/EMNC7ACUHJKQN",
+      "image": "jelly_candle_medium.png",
+      "description": "Translucent candle — customizable color & fragrance."
+    },
+    {
+      "id": "CANDLE_JELLY_L",
+      "name": "Jelly Candle — Large (350ml)",
+      "category": "Candles / Classic",
+      "price_usd": 40,
+      "paypal": "https://www.paypal.com/ncp/payment/2MXLKBF8CPBZ2",
+      "image": "jelly_candle_large.png",
+      "description": "Deep color clarity & elegant finish."
+    },
+    {
+      "id": "CANDLE_SAND_S",
+      "name": "Sand Candle — Small (150ml)",
+      "category": "Candles / Classic",
+      "price_usd": 20,
+      "paypal": "https://www.paypal.com/ncp/payment/AQZ2VDQVYEEGW",
+      "image": "sand_candle_small.png",
+      "description": "Rustic texture candles — choose scent & intensity or unscented."
+    },
+    {
+      "id": "CANDLE_SAND_M",
+      "name": "Sand Candle — Medium (250ml)",
+      "category": "Candles / Classic",
+      "price_usd": 25,
+      "paypal": "https://www.paypal.com/ncp/payment/KYJWZJXZDYT2U",
+      "image": "sand_candle_medium.png",
+      "description": "Rustic texture candles — choose scent & intensity or unscented."
+    },
+    {
+      "id": "CANDLE_SAND_L",
+      "name": "Sand Candle — Large (400ml)",
+      "category": "Candles / Classic",
+      "price_usd": 33,
+      "paypal": "https://www.paypal.com/ncp/payment/C6RL562GS3UUS",
+      "image": "sand_candle_large.png",
+      "description": "Rustic, earthy look."
+    },
+    {
+      "id": "CANDLE_SEASONAL_300",
+      "name": "Seasonal Candle — Painted Glass (300ml)",
+      "category": "Candles / Seasonal",
+      "price_usd": 50,
+      "paypal": "https://www.paypal.com/ncp/payment/L4HGCYGCAM4G2",
+      "image": "seasonal_candle_300.png",
+      "description": "Limited-edition seasonal paintwork; winter scents available."
+    }
+  ],
 
-  {
-    "id": "CANDLE_DIV_200",
-    "name": "Divination Candle — Painted symbols & sacred characters (200ml)",
-    "category": "Candles / Divination",
-    "price_usd": 50,
-    "paypal": "https://www.paypal.com/ncp/payment/VK7WLERJM3R88",
-    "image": "divination_200.png",
-    "description": "Painted symbols (moon, stars, runes) and religious/sacred characters. Suggested scents: light myrrh, sage, or unscented.",
-    "variants": { "size_ml": [200], "scents": ["myrrh","sage","frankincense","sandalwood","unscented"] }
-  },
-  {
-    "id": "CANDLE_DIV_400",
-    "name": "Divination Candle — Painted symbols & sacred characters (400ml)",
-    "category": "Candles / Divination",
-    "price_usd": 80,
-    "paypal": "https://www.paypal.com/ncp/payment/6QJL8HSLFL6YJ",
-    "image": "divination_400.png",
-    "description": "Larger painted altar candle. Suggested scents: light myrrh, sage, or unscented.",
-    "variants": { "size_ml": [400], "scents": ["myrrh","sage","frankincense","sandalwood","unscented"] }
-  },
+  "soaps": [
+    {
+      "id": "SOAP_EXF_100",
+      "name": "Exfoliating Soap (100g)",
+      "category": "Soaps",
+      "price_usd": 12,
+      "paypal": "https://www.paypal.com/ncp/payment/AZQZXG8AJ8VZL",
+      "image": "exfoliating_soap_1.png",
+      "description": "Coffee or oatmeal base for mild scrubbing."
+    },
+    {
+      "id": "SOAP_HERB_100",
+      "name": "Natural Herbal Soap (100g)",
+      "category": "Soaps",
+      "price_usd": 12,
+      "paypal": "https://www.paypal.com/ncp/payment/SYA68V9BU9TRN",
+      "image": "natural_herbal_soap.png",
+      "description": "Chamomile, calendula, or mint blends."
+    },
+    {
+      "id": "SOAP_FLOWER_100",
+      "name": "Flower-shaped Soap (100g)",
+      "category": "Soaps",
+      "price_usd": 20,
+      "paypal": "https://www.paypal.com/ncp/payment/2KNEUT86VGQYS",
+      "image": "flower_soap.png",
+      "description": "Decorative flower-shaped soap with natural scent options."
+    },
+    {
+      "id": "SOAP_FRUIT_100",
+      "name": "Fruit-shaped Soap (100g)",
+      "category": "Soaps",
+      "price_usd": 20,
+      "paypal": "https://www.paypal.com/ncp/payment/C5ME744UZX58U",
+      "image": "fruit_soap.png",
+      "description": "Playful fruit-shaped soap, scented naturally."
+    },
+    {
+      "id": "SOAP_GIFT_SET",
+      "name": "Gift Soap Set (3 pcs)",
+      "category": "Soaps",
+      "price_usd": 30,
+      "paypal": "https://www.paypal.com/ncp/payment/ZQ6X8AZMVY4XL",
+      "image": "soap_gift_set.png",
+      "description": "Mix & match any 3 soaps."
+    }
+  ],
 
-  {
-    "id": "CANDLE_WAX_S",
-    "name": "Wax Candle — Small (150ml)",
-    "category": "Candles / Classic",
-    "price_usd": 20,
-    "paypal": "https://www.paypal.com/ncp/payment/4XGJ5SMVP574W",
-    "image": "wax_candle_small.png",
-    "description": "Choose any aroma and intensity (scent intensity = light / medium / strong) or request unscented.",
-    "variants": { "size_ml":[150], "scents": ["orange","lemon","lavender","vanilla","jasmine","lemongrass","coconut","cinnamon","pine","sandalwood","coffee","sweet almond","unscented"], "intensity": ["light","medium","strong"] }
-  },
-  {
-    "id": "CANDLE_WAX_M",
-    "name": "Wax Candle — Medium (250ml)",
-    "category": "Candles / Classic",
-    "price_usd": 25,
-    "paypal": "https://www.paypal.com/ncp/payment/DJVW5LQCPL6A6",
-    "image": "wax_candle_medium.png",
-    "description": "Choose any aroma and intensity, or request unscented.",
-    "variants": { "size_ml":[250], "scents": ["orange","lemon","lavender","vanilla","jasmine","lemongrass","coconut","cinnamon","pine","sandalwood","coffee","sweet almond","unscented"], "intensity": ["light","medium","strong"] }
-  },
-  {
-    "id": "CANDLE_WAX_L",
-    "name": "Wax Candle — Large (400ml)",
-    "category": "Candles / Classic",
-    "price_usd": 33,
-    "paypal": "https://www.paypal.com/ncp/payment/XFL9ZGYBJEHXW",
-    "image": "wax_candle_large.png",
-    "description": "Choose any aroma and intensity, or request unscented.",
-    "variants": { "size_ml":[400], "scents": ["orange","lemon","lavender","vanilla","jasmine","lemongrass","coconut","cinnamon","pine","sandalwood","coffee","sweet almond","unscented"], "intensity": ["light","medium","strong"] }
-  },
+  "creams": [
+    {
+      "id": "CREAM_FACE_50",
+      "name": "Natural Face Cream (50ml)",
+      "category": "Creams",
+      "price_usd": 28,
+      "paypal": "https://www.paypal.com/ncp/payment/T9M3LBJ75FAVN",
+      "image": "face_cream_50.png",
+      "description": "Hydrating blend with shea butter & almond oil."
+    },
+    {
+      "id": "CREAM_BODY_100",
+      "name": "Body Butter (100ml)",
+      "category": "Creams",
+      "price_usd": 35,
+      "paypal": "https://www.paypal.com/ncp/payment/Y2AVDHZN9JCCQ",
+      "image": "body_butter_100.png",
+      "description": "Rich texture with coconut & cocoa."
+    },
+    {
+      "id": "CREAM_HAND_50",
+      "name": "Hand & Foot Cream (50ml)",
+      "category": "Creams",
+      "price_usd": 22,
+      "paypal": "https://www.paypal.com/ncp/payment/XVQW4M785U6A4",
+      "image": "hand_foot_cream_50.png",
+      "description": "Nourishing and fast-absorbing."
+    }
+  ],
 
-  {
-    "id": "CANDLE_JELLY_M",
-    "name": "Jelly Candle — Medium (200ml)",
-    "category": "Candles / Classic",
-    "price_usd": 32,
-    "paypal": "https://www.paypal.com/ncp/payment/EMNC7ACUHJKQN",
-    "image": "jelly_candle_medium.png",
-    "description": "Translucent candle — customizable color & fragrance.",
-    "variants": { "size_ml":[200], "scents":["orange","lemon","lavender","vanilla","unscented"], "color":["translucent","custom color"] }
-  },
-  {
-    "id": "CANDLE_JELLY_L",
-    "name": "Jelly Candle — Large (350ml)",
-    "category": "Candles / Classic",
-    "price_usd": 40,
-    "paypal": "https://www.paypal.com/ncp/payment/2MXLKBF8CPBZ2",
-    "image": "jelly_candle_large.png",
-    "description": "Deep color clarity & elegant finish.",
-    "variants": { "size_ml":[350], "scents":["orange","lemon","lavender","vanilla","unscented"], "color":["translucent","custom color"] }
-  },
+  "knitted": [
+    {
+      "id": "KNIT_BEANIE_S",
+      "name": "Hand-Knitted Beanie — Small",
+      "category": "Knitted & Braided",
+      "price_usd": 35,
+      "paypal": "https://www.paypal.com/ncp/payment/S4KAZSV8WN5MG",
+      "image": "beanie_small.png",
+      "description": "Soft merino/acrylic, custom colors."
+    },
+    {
+      "id": "KNIT_SCARF",
+      "name": "Hand-Knitted Scarf (150x25cm)",
+      "category": "Knitted & Braided",
+      "price_usd": 55,
+      "paypal": "https://www.paypal.com/ncp/payment/BLYUGH43XL4RS",
+      "image": "knit_scarf.png",
+      "description": "Braided or ribbed texture. Thicker yarn +$10."
+    },
+    {
+      "id": "BLANKET_MED",
+      "name": "Braided Blanket — Medium (120x150cm)",
+      "category": "Knitted & Braided",
+      "price_usd": 130,
+      "paypal": "https://www.paypal.com/ncp/payment/B82QPFVQVDUQL",
+      "image": "braided_blanket_medium.png",
+      "description": "Couch or bed accent in chosen colors."
+    },
+    {
+      "id": "FELTED_SMALL",
+      "name": "Mini Felted Animal (Small)",
+      "category": "Knitted & Braided",
+      "price_usd": 35,
+      "paypal": "https://www.paypal.com/ncp/payment/9GYLUVBC2USAU",
+      "image": "felted_mini.png",
+      "description": "Palm-sized, perfect for keychains."
+    }
+  ],
 
-  {
-    "id": "CANDLE_SAND_S",
-    "name": "Sand Candle — Small (150ml)",
-    "category": "Candles / Classic",
-    "price_usd": 20,
-    "paypal": "https://www.paypal.com/ncp/payment/AQZ2VDQVYEEGW",
-    "image": "sand_candle_small.png",
-    "description": "Rustic texture candles — choose scent & intensity or unscented.",
-    "variants": { "size_ml":[150], "scents":["orange","lemon","lavender","vanilla","unscented"], "intensity":["light","medium","strong"] }
-  },
-  {
-    "id": "CANDLE_SAND_M",
-    "name": "Sand Candle — Medium (250ml)",
-    "category": "Candles / Classic",
-    "price_usd": 25,
-    "paypal": "https://www.paypal.com/ncp/payment/KYJWZJXZDYT2U",
-    "image": "sand_candle_medium.png",
-    "description": "Rustic texture candles — choose scent & intensity or unscented.",
-    "variants": { "size_ml":[250], "scents":["orange","lemon","lavender","vanilla","unscented"], "intensity":["light","medium","strong"] }
-  },
-  {
-    "id": "CANDLE_SAND_L",
-    "name": "Sand Candle — Large (400ml)",
-    "category": "Candles / Classic",
-    "price_usd": 33,
-    "paypal": "https://www.paypal.com/ncp/payment/C6RL562GS3UUS",
-    "image": "sand_candle_large.png",
-    "description": "Rustic, earthy look.",
-    "variants": { "size_ml":[400], "scents":["orange","lemon","lavender","vanilla","unscented"] }
-  },
-  {
-    "id": "CANDLE_SEASONAL_300",
-    "name": "Seasonal Candle — Painted Glass (300ml)",
-    "category": "Candles / Seasonal",
-    "price_usd": 50,
-    "paypal": "https://www.paypal.com/ncp/payment/L4HGCYGCAM4G2",
-    "image": "seasonal_candle_300.png",
-    "description": "Limited-edition seasonal paintwork; winter scents: cinnamon, clove, orange peel, vanilla, pine, sweet mint.",
-    "variants": { "size_ml":[300], "scents":["cinnamon","clove","orange peel","vanilla","pine","sweet mint","unscented"] }
-  },
+  "epoxy_and_clay": [
+    {
+      "id": "EPOXY_PENDANT",
+      "name": "Epoxy Resin Pendant",
+      "subcategory": "Jewelry",
+      "category": "Epoxy & Clay Creations",
+      "price_usd": 28,
+      "paypal": "https://www.paypal.com/ncp/payment/BE5H4J3F8GYKA",
+      "image": "epoxy_pendant.png",
+      "description": "Encapsulated dried flowers or stones."
+    },
+    {
+      "id": "EPOXY_EARRINGS_SET",
+      "name": "Epoxy Earrings — Pair",
+      "subcategory": "Jewelry",
+      "category": "Epoxy & Clay Creations",
+      "price_usd": 22,
+      "paypal": "TODO",
+      "image": "epoxy_earings_1.png",
+      "description": "Lightweight handmade designs."
+    },
+    {
+      "id": "EPOXY_RING",
+      "name": "Epoxy Ring (various styles)",
+      "subcategory": "Jewelry",
+      "category": "Epoxy & Clay Creations",
+      "price_usd": 20,
+      "paypal": "TODO",
+      "image": "epoxy_ring_1.png",
+      "description": "Transparent or colored resin, adjustable sizes."
+    },
+    {
+      "id": "PHONE_CASE_EPOXY",
+      "name": "Custom Epoxy Phone Case",
+      "subcategory": "Phone Cases",
+      "category": "Epoxy & Clay Creations",
+      "price_usd": 35,
+      "paypal": "TODO",
+      "image": "PersonalizedCase (1).png",
+      "description": "Embedded dried flowers or artistic designs. Relief or flat styles available."
+    },
+    {
+      "id": "PHONE_CASE_CLAY",
+      "name": "Clay-decorated Phone Case",
+      "subcategory": "Phone Cases",
+      "category": "Epoxy & Clay Creations",
+      "price_usd": 30,
+      "paypal": "TODO",
+      "image": "PersonalizedCase (2).png",
+      "description": "3D sculpted clay elements sealed in resin."
+    },
+    {
+      "id": "EPOXY_COASTER_SET",
+      "name": "Epoxy Coasters — Set of 4",
+      "subcategory": "Epoxy Coasters",
+      "category": "Epoxy & Clay Creations",
+      "price_usd": 22,
+      "paypal": "TODO",
+      "image": "epoxy_decorative_coaster_5.png",
+      "description": "Clear or tinted resin with inclusions (4x4 inches)."
+    },
+    {
+      "id": "EPOXY_TRAY",
+      "name": "Epoxy Decorative Tray",
+      "subcategory": "Epoxy Trays",
+      "category": "Epoxy & Clay Creations",
+      "price_usd": 45,
+      "paypal": "TODO",
+      "image": "epoxy_decorative_tray_1.png",
+      "description": "Artistic pour patterns, 12 inches."
+    },
+    {
+      "id": "EPOXY_LAMP",
+      "name": "Epoxy Lamp (25 cm) - changeable bulb",
+      "subcategory": "Epoxy Lamps",
+      "category": "Epoxy & Clay Creations",
+      "price_usd": 120,
+      "paypal": "TODO",
+      "image": "Epoxy Lamp (1).png",
+      "description": "Decorative resin lamp with replaceable bulb (25 cm)."
+    },
+    {
+      "id": "EPOXY_FIG_SMALL",
+      "name": "Decorative Figurine — Small (5 cm)",
+      "subcategory": "Epoxy Figurines",
+      "category": "Epoxy & Clay Creations",
+      "price_usd": 18,
+      "paypal": "TODO",
+      "image": "Decorative Figurine Sculpture (1).png",
+      "description": "Small epoxy or clay figurine, custom color/theme."
+    },
+    {
+      "id": "EPOXY_FIG_MED",
+      "name": "Decorative Figurine — Medium (12 cm)",
+      "subcategory": "Epoxy Figurines",
+      "category": "Epoxy & Clay Creations",
+      "price_usd": 45,
+      "paypal": "TODO",
+      "image": "Decorative Figurine Sculpture (6).png",
+      "description": "Medium-sized decorative figurine."
+    },
+    {
+      "id": "EPOXY_FIG_LARGE",
+      "name": "Decorative Figurine — Large (20 cm)",
+      "subcategory": "Epoxy Figurines",
+      "category": "Epoxy & Clay Creations",
+      "price_usd": 95,
+      "paypal": "TODO",
+      "image": "Decorative Figurine Sculpture (24).png",
+      "description": "Large decorative sculpture."
+    },
+    {
+      "id": "EPOXY_JEWEL_BOX",
+      "name": "Epoxy & Wood Jewelry Box",
+      "subcategory": "Epoxy Jewelry Boxes",
+      "category": "Epoxy & Clay Creations",
+      "price_usd": 55,
+      "paypal": "TODO",
+      "image": "Epoxy + Wood Jewelry Box (1).png",
+      "description": "Keepsake box with resin accents."
+    }
+  ],
 
-  {
-    "id":"SOAP_EXF_100",
-    "name":"Exfoliating Soap (100g)",
-    "category":"Soaps",
-    "price_usd":12,
-    "paypal":"https://www.paypal.com/ncp/payment/AZQZXG8AJ8VZL",
-    "image":"exfoliating_soap_1.png",
-    "description":"Coffee or oatmeal base for mild scrubbing. Choose scent & exfoliant (coffee, oats, pumice).",
-    "variants":{"size_g":[100],"scents":["lavender","citrus","rose","mint","unscented"],"exfoliant":["coffee","oatmeal","salt","none"]}
-  },
-  {
-    "id":"SOAP_HERB_100",
-    "name":"Natural Herbal Soap (100g)",
-    "category":"Soaps",
-    "price_usd":12,
-    "paypal":"https://www.paypal.com/ncp/payment/SYA68V9BU9TRN",
-    "image":"natural_herbal_soap.png",
-    "description":"Chamomile, calendula, or mint blends.",
-    "variants":{"size_g":[100],"scents":["chamomile","calendula","mint","unscented"]}
-  },
-  {
-    "id":"SOAP_FLOWER_100",
-    "name":"Flower-shaped Soap (100g)",
-    "category":"Soaps",
-    "price_usd":20,
-    "paypal":"https://www.paypal.com/ncp/payment/2KNEUT86VGQYS",
-    "image":"flower_soap.png",
-    "description":"Decorative flower-shaped soap with natural scent options.",
-    "variants":{"size_g":[100],"scents":["lavender","rose","citrus","unscented"]}
-  },
-  {
-    "id":"SOAP_FRUIT_100",
-    "name":"Fruit-shaped Soap (100g)",
-    "category":"Soaps",
-    "price_usd":20,
-    "paypal":"https://www.paypal.com/ncp/payment/C5ME744UZX58U",
-    "image":"fruit_soap.png",
-    "description":"Playful fruit-shaped soap, scented naturally.",
-    "variants":{"size_g":[100],"scents":["orange","lemon","grapefruit","unscented"]}
-  },
-  {
-    "id":"SOAP_GIFT_SET",
-    "name":"Gift Soap Set (3 pcs)",
-    "category":"Soaps",
-    "price_usd":30,
-    "paypal":"https://www.paypal.com/ncp/payment/ZQ6X8AZMVY4XL",
-    "image":"soap_gift_set.png",
-    "description":"Mix & match any 3 soaps."
-  },
+  "hair_accessories": [
+    {
+      "id": "HAIR_CLIP_EP_1",
+      "name": "Resin Hair Clip — Floral",
+      "category": "Hair Accessories",
+      "price_usd": 12,
+      "paypal": "TODO",
+      "image": "hair_clip_1.png",
+      "description": "Epoxy floral hair clip."
+    },
+    {
+      "id": "HAIR_PIN_CLAY_1",
+      "name": "Clay Hairpin — Leaf",
+      "category": "Hair Accessories",
+      "price_usd": 10,
+      "paypal": "TODO",
+      "image": "hair_pin_1.png",
+      "description": "Sculpted clay hair pin."
+    },
+    {
+      "id": "DECOR_COMB_1",
+      "name": "Decorative Comb — Metallic Accents",
+      "category": "Hair Accessories",
+      "price_usd": 18,
+      "paypal": "TODO",
+      "image": "hair_comb_2.png",
+      "description": "Decorative comb with resin/metal finishes."
+    },
+    {
+      "id": "CUSTOM_HAIR_SET",
+      "name": "Custom Hair Set — 3 matching pieces",
+      "category": "Hair Accessories",
+      "price_usd": 30,
+      "paypal": "TODO",
+      "image": "Custom Hair Set.png",
+      "description": "Choose any 3 matching hair accessories."
+    }
+  ],
 
-  {
-    "id":"CREAM_FACE_50",
-    "name":"Natural Face Cream (50ml)",
-    "category":"Creams",
-    "price_usd":28,
-    "paypal":"https://www.paypal.com/ncp/payment/T9M3LBJ75FAVN",
-    "image":"face_cream_50.png",
-    "description":"Hydrating blend with shea butter & almond oil.",
-    "variants":{"size_ml":[50],"scents":["lavender","vanilla","citrus","unscented"]}
-  },
-  {
-    "id":"CREAM_BODY_100",
-    "name":"Body Butter (100ml)",
-    "category":"Creams",
-    "price_usd":35,
-    "paypal":"https://www.paypal.com/ncp/payment/Y2AVDHZN9JCCQ",
-    "image":"body_butter_100.png",
-    "description":"Rich texture with coconut & cocoa.",
-    "variants":{"size_ml":[100],"scents":["vanilla","coconut","unscented"]}
-  },
-  {
-    "id":"CREAM_HAND_50",
-    "name":"Hand & Foot Cream (50ml)",
-    "category":"Creams",
-    "price_usd":22,
-    "paypal":"https://www.paypal.com/ncp/payment/XVQW4M785U6A4",
-    "image":"hand_foot_cream_50.png",
-    "description":"Nourishing and fast-absorbing."
-  },
+  "perfumes": [
+    {
+      "id": "SOLID_PERFUME_50",
+      "name": "Solid Perfume — 50 ml",
+      "category": "Perfumes",
+      "price_usd": 18,
+      "paypal": "TODO",
+      "image": "Solid Perfume.png",
+      "description": "Compact natural wax base. Suggested fragrances: vanilla, lavender, sandalwood, rose."
+    },
+    {
+      "id": "OIL_ROLLON_10",
+      "name": "Oil Perfume Roll-On — 10 ml",
+      "category": "Perfumes",
+      "price_usd": 12,
+      "paypal": "TODO",
+      "image": "Oil Perfume Roll-On.jpg",
+      "description": "Long-lasting scent. Suggested fragrances: jasmine, bergamot, amber, vanilla."
+    }
+  ],
 
-  {
-    "id":"KNIT_BEANIE_S",
-    "name":"Hand-Knitted Beanie — Small",
-    "category":"Knitted & Braided",
-    "price_usd":35,
-    "paypal":"https://www.paypal.com/ncp/payment/S4KAZSV8WN5MG",
-    "image":"beanie_small.png",
-    "description":"Soft merino/acrylic, custom colors.",
-    "variants":{"sizes":["S","M","L","XL"],"measurements":["55-57cm","57-59cm","59-62cm","62+ cm"]}
-  },
-  {
-    "id":"KNIT_SCARF",
-    "name":"Hand-Knitted Scarf (150x25cm)",
-    "category":"Knitted & Braided",
-    "price_usd":55,
-    "paypal":"https://www.paypal.com/ncp/payment/BLYUGH43XL4RS",
-    "image":"knit_scarf.png",
-    "description":"Braided or ribbed texture. Thicker yarn +$10."
-  },
-  {
-    "id":"BLANKET_MED",
-    "name":"Braided Blanket — Medium (120x150cm)",
-    "category":"Knitted & Braided",
-    "price_usd":130,
-    "paypal":"https://www.paypal.com/ncp/payment/B82QPFVQVDUQL",
-    "image":"braided_blanket_medium.png",
-    "description":"Couch or bed accent."
-  },
+  "artworks": [
+    {
+      "id": "PAINT_SMALL",
+      "name": "Small Landscape Painting — 20x20 cm",
+      "category": "Artworks",
+      "price_usd": 75,
+      "paypal": "TODO",
+      "image": "painting_LANDSCAPE_SMALL.jpg",
+      "description": "Acrylic landscape, 20x20 cm."
+    },
+    {
+      "id": "PAINT_MED",
+      "name": "Medium Landscape Painting — 30x40 cm",
+      "category": "Artworks",
+      "price_usd": 180,
+      "paypal": "TODO",
+      "image": "painting_LANDSCAPE_MEDIUM.jpg",
+      "description": "Original scene, 30x40 cm."
+    },
+    {
+      "id": "PAINT_LARGE",
+      "name": "Large Landscape Painting — 50x70 cm",
+      "category": "Artworks",
+      "price_usd": 320,
+      "paypal": "TODO",
+      "image": "Large Landscape Painting.jpg",
+      "description": "Large commissioned landscape, 50x70 cm."
+    },
+    {
+      "id": "PORTRAIT_2D",
+      "name": "Portrait (2D) — Standard size",
+      "category": "Artworks",
+      "price_usd": 140,
+      "paypal": "TODO",
+      "image": "painting_portrait_1.jpg",
+      "description": "Hand-painted portrait from a photo."
+    },
+    {
+      "id": "PORTRAIT_3D_RELIEF",
+      "name": "Portrait (3D Relief)",
+      "category": "Artworks",
+      "price_usd": 300,
+      "paypal": "TODO",
+      "image": "3D Festive Portrait Relief.png",
+      "description": "Sculptural detail with paint finish."
+    },
+    {
+      "id": "PORTRAIT_COUPLE",
+      "name": "Couple / Family Portrait — Standard",
+      "category": "Artworks",
+      "price_usd": 380,
+      "paypal": "TODO",
+      "image": "Couple or Family Portrait.png",
+      "description": "Multi-person composition, price per group."
+    },
+    {
+      "id": "MINI_ORNAMENT",
+      "name": "Mini Portrait Ornament",
+      "category": "Artworks",
+      "price_usd": 30,
+      "paypal": "TODO",
+      "image": "Mini Portrait Ornament.jpg",
+      "description": "Small keepsake painting on wood or clay."
+    }
+  ],
 
-  {
-    "id":"FELTED_SMALL",
-    "name":"Mini Felted Animal (Small)",
-    "category":"Felted Animals",
-    "price_usd":35,
-    "paypal":"https://www.paypal.com/ncp/payment/9GYLUVBC2USAU",
-    "image":"felted_mini.png",
-    "description":"Palm-sized, perfect for keychains. Custom pet replicas available."
-  },
+  "leather_bags": [
+    {
+      "id": "LEATHER_SMALL",
+      "name": "Leather Bag — Small",
+      "category": "Leather Bags",
+      "price_usd": 85,
+      "paypal": "https://www.paypal.com/ncp/payment/2UZ3FBG9E9MZS",
+      "image": "Leather Bag Small.png",
+      "description": "Hand-stitched leather. Colors: green, black, white, red, beige."
+    },
+    {
+      "id": "LEATHER_MED",
+      "name": "Leather Bag — Medium",
+      "category": "Leather Bags",
+      "price_usd": 120,
+      "paypal": "TODO",
+      "image": "Leather Bag Medium.png",
+      "description": "Medium size; custom color available."
+    },
+    {
+      "id": "LEATHER_LG",
+      "name": "Leather Bag — Large",
+      "category": "Leather Bags",
+      "price_usd": 165,
+      "paypal": "TODO",
+      "image": "Leather Bag Large.png",
+      "description": "Large hand-stitched leather bag."
+    }
+  ],
 
-  {
-    "id":"JEW_EPoxy_PEND",
-    "name":"Epoxy Resin Pendant",
-    "category":"Accessories / Jewelry",
-    "price_usd":28,
-    "paypal":"https://www.paypal.com/ncp/payment/BE5H4J3F8GYKA",
-    "image":"epoxy_pendant.png",
-    "description":"Encapsulated dried flowers or stones."
-  },
-  {
-    "id":"JEW_SET",
-    "name":"Jewelry Set (Necklace + Earrings)",
-    "category":"Accessories / Jewelry",
-    "price_usd":48,
-    "paypal":"https://www.paypal.com/ncp/payment/TSXUUJSLN87DS",
-    "image":"jewelry_set.png",
-    "description":"Coordinated design — great gift combo."
-  },
+  "home_decor": [
+    {
+      "id": "CLAY_MUG_800",
+      "name": "Clay Mug — 800ml",
+      "category": "Home Decor",
+      "price_usd": 40,
+      "paypal": "https://www.paypal.com/ncp/payment/VENPN7AHXJFE4",
+      "image": "Clay Mugs (1).png",
+      "description": "Handmade, painted, food-safe; glitter optional."
+    },
+    {
+      "id": "WALL_CLOCK_25",
+      "name": "Wall Clock — 25 cm",
+      "category": "Home Decor",
+      "price_usd": 55,
+      "paypal": "TODO",
+      "image": "Wall Clocks (2).png",
+      "description": "Resin/wood/clay base, custom design."
+    },
+    {
+      "id": "WALL_CLOCK_45",
+      "name": "Wall Clock — 45 cm",
+      "category": "Home Decor",
+      "price_usd": 95,
+      "paypal": "TODO",
+      "image": "Wall Clocks (3).png",
+      "description": "Larger statement wall clock, custom design."
+    }
+  ],
 
-  {
-    "id":"BUNDLE_RESTORE",
-    "name":"Relax & Restore Set",
-    "category":"Bundles",
-    "price_usd":65,
-    "paypal":"https://www.paypal.com/ncp/payment/X7EA4LJC8VQ3A",
-    "image":"bundle_restore.png",
-    "description":"Herbal soap + face cream + small wax candle."
-  },
-  {
-    "id":"COMING_LEATHER_SMALL",
-    "name":"Leather Bag — Small",
-    "category":"Coming Soon",
-    "price_usd":85,
-    "paypal":"https://www.paypal.com/ncp/payment/2UZ3FBG9E9MZS",
-    "image":"leather_small.png",
-    "description":"Hand-stitched leather. Colors: green, black, white, red, beige."
-  },
-  {
-    "id":"COMING_MUG_800",
-    "name":"Clay Mug — 800ml",
-    "category":"Coming Soon",
-    "price_usd":40,
-    "paypal":"https://www.paypal.com/ncp/payment/VENPN7AHXJFE4",
-    "image":"clay_mug_800.png",
-    "description":"Handmade, painted, food-safe; glitter optional."
-  },
-
-  {
-    "id":"TOP_BANNER_IMG",
-    "name":"Candles hero image",
-    "category":"Assets",
-    "image":"candles_hero.png"
-  }
-
-]
+  "bundles": [
+    {
+      "id": "BUNDLE_RESTORE",
+      "name": "Relax & Restore Set",
+      "category": "Bundles",
+      "price_usd": 65,
+      "paypal": "https://www.paypal.com/ncp/payment/X7EA4LJC8VQ3A",
+      "image": "bundle_restore.png",
+      "description": "Herbal soap + face cream + small wax candle."
+    },
+    {
+      "id": "BUNDLE_COZY",
+      "name": "Cozy Winter Set",
+      "category": "Bundles",
+      "price_usd": 120,
+      "paypal": "TODO",
+      "image": "Matching Winter Set - Beanie + Scarf + Mittens.png",
+      "description": "Beanie + scarf + mittens + small candle."
+    },
+    {
+      "id": "BUNDLE_HOME",
+      "name": "Home Harmony Box",
+      "category": "Bundles",
+      "price_usd": 95,
+      "paypal": "TODO",
+      "image": "bundle_restore.png",
+      "description": "Epoxy decor + candle + seasonal soap."
+    }
+  ]
+}
