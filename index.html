@@ -1,96 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Velvet Charms</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Velvet Charms</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-    <!-- HEADER -->
-    <header>
+  <header>
+    <div class="container header-inner">
+      <div class="brand">
         <h1>Velvet Charms</h1>
-        <p>Where Art Meets Emotion — Handcrafted with love</p>
+        <p class="tag">Where Art Meets Emotion — Handcrafted with love</p>
+      </div>
 
-        <nav>
-            <ul>
-                <li><a href="#hero">Home</a></li>
-                <li><a href="#candles">Candles</a></li>
-                <li><a href="#soaps">Soaps</a></li>
-                <li><a href="#creams">Creams</a></li>
-                <li><a href="#knitted">Knitted</a></li>
-                <li><a href="#accessories">Accessories</a></li>
-                <li><a href="#bundles">Bundles</a></li>
-                <li><a href="#epoxy">Epoxy</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+      <nav>
+        <ul class="main-nav">
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#candles">Candles</a></li>
+          <li><a href="#soaps">Soaps</a></li>
+          <li><a href="#creams">Creams</a></li>
+          <li><a href="#knitted">Knitted &amp; Braided</a></li>
+          <li><a href="#epoxy">Epoxy &amp; Clay Creations</a></li>
+          <li><a href="#hair-accessories">Hair Accessories</a></li>
+          <li><a href="#perfumes">Perfumes</a></li>
+          <li><a href="#artworks">Artworks</a></li>
+          <li><a href="#leather-bags">Leather Bags</a></li>
+          <li><a href="#home-decor">Home Decor</a></li>
+          <li><a href="#bundles">Bundles</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
-    <!-- HERO SECTION -->
-    <section id="hero">
+  <main>
+    <section id="hero" class="hero">
+      <div class="container">
         <h2>Handcrafted Treasures Await</h2>
         <p>Unique artisan pieces — handmade to order. Preorder now for holiday gifting.</p>
-        <button onclick="document.getElementById('candles').scrollIntoView({behavior:'smooth'});">
-            Explore Collection
+        <button class="cta" onclick="document.getElementById('candles').scrollIntoView({behavior:'smooth'})">
+          Explore Collection
         </button>
+      </div>
     </section>
 
-    <!-- PRODUCT CATEGORIES -->
-    <section id="candles">
-        <h2>Candles</h2>
-        <div id="candle-products" class="product-list"></div>
+    <!-- Candles -->
+    <section id="candles" class="container section-block">
+      <h2>Candles</h2>
+      <div id="candles-products" class="product-list"></div>
     </section>
 
-    <section id="soaps">
-        <h2>Soaps</h2>
-        <div id="soap-products" class="product-list"></div>
+    <!-- Soaps -->
+    <section id="soaps" class="container section-block">
+      <h2>Soaps</h2>
+      <div id="soaps-products" class="product-list"></div>
     </section>
 
-    <section id="creams">
-        <h2>Creams</h2>
-        <div id="cream-products" class="product-list"></div>
+    <!-- Creams -->
+    <section id="creams" class="container section-block">
+      <h2>Creams</h2>
+      <div id="creams-products" class="product-list"></div>
     </section>
 
-    <section id="knitted">
-        <h2>Knitted & Braided Creations</h2>
-        <div id="knitted-products" class="product-list"></div>
+    <!-- Knitted & Braided -->
+    <section id="knitted" class="container section-block">
+      <h2>Knitted &amp; Braided</h2>
+      <div id="knitted-products" class="product-list"></div>
     </section>
 
-    <section id="accessories">
-        <h2>Accessories</h2>
-        <div id="accessories-products" class="product-list"></div>
+    <!-- Epoxy & Clay Creations -->
+    <section id="epoxy" class="container section-block">
+      <h2>Epoxy &amp; Clay Creations</h2>
+
+      <!-- Subcategory anchors (script will create items grouped by subcategory) -->
+      <div id="epoxy-subsections"></div>
     </section>
 
-    <section id="bundles">
-        <h2>Bundles</h2>
-        <div id="bundles-products" class="product-list"></div>
+    <!-- Hair Accessories -->
+    <section id="hair-accessories" class="container section-block">
+      <h2>Hair Accessories</h2>
+      <div id="hair-accessories-products" class="product-list"></div>
     </section>
 
-    <section id="epoxy">
-        <h2>Epoxy & Decorative Items</h2>
-        <div id="epoxy-products" class="product-list"></div>
+    <!-- Perfumes -->
+    <section id="perfumes" class="container section-block">
+      <h2>Perfumes</h2>
+      <div id="perfumes-products" class="product-list"></div>
     </section>
 
-    <!-- CONTACT FORM -->
-    <section id="contact">
-        <h2>Contact Us</h2>
-
-        <!-- Replace {your_form_id} with your real Formspree endpoint -->
-        <form action="https://formspree.io/f/{your_form_id}" method="POST">
-            <input type="text" name="name" placeholder="Your Name" required>
-            <input type="email" name="email" placeholder="Your Email" required>
-            <textarea name="message" placeholder="Your Message" required></textarea>
-            <button type="submit">Send Message</button>
-        </form>
+    <!-- Artworks (Paintings & Portraits) -->
+    <section id="artworks" class="container section-block">
+      <h2>Artworks — Paintings &amp; Portraits</h2>
+      <div id="artworks-products" class="product-list"></div>
     </section>
 
-    <!-- FOOTER -->
-    <footer>
-        <p>&copy; 2025 Velvet Charms — All Rights Reserved</p>
-    </footer>
+    <!-- Leather Bags -->
+    <section id="leather-bags" class="container section-block">
+      <h2>Leather Bags</h2>
+      <div id="leather-bags-products" class="product-list"></div>
+    </section>
 
-    <script src="script.js"></script>
+    <!-- Home Decor -->
+    <section id="home-decor" class="container section-block">
+      <h2>Home Decor</h2>
+      <div id="home-decor-products" class="product-list"></div>
+    </section>
+
+    <!-- Bundles -->
+    <section id="bundles" class="container section-block">
+      <h2>Bundles</h2>
+      <div id="bundles-products" class="product-list"></div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="container section-block">
+      <h2>Contact Us</h2>
+      <form action="https://formspree.io/f/{your_form_id}" method="POST">
+        <input type="text" name="name" placeholder="Your Name" required />
+        <input type="email" name="email" placeholder="Your Email" required />
+        <textarea name="message" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Velvet Charms — All Rights Reserved</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
