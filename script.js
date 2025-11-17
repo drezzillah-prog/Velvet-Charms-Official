@@ -1,32 +1,73 @@
-// Fetch products from JSON
+// Load products
 fetch('products.json')
     .then(response => response.json())
-    .then(data => {
-        displayProducts(data);
-    })
-    .catch(error => console.error('Error loading products:', error));
+    .then(products => categorizeProducts(products))
+    .catch(err => console.error("JSON load error:", err));
 
-// Function to display products
-function displayProducts(data) {
-    const categories = ['candles', 'soaps', 'creams', 'knitted', 'accessories', 'bundles', 'epoxy'];
-    categories.forEach(category => {
-        const productContainer = document.getElementById(`${category}-products`);
-        data[category].forEach(product => {
-            const productDiv = document.createElement('div');
-            productDiv.classList.add('product-item');
-            productDiv.innerHTML = `
+
+// Map JSON categories → website sections
+const categoryMap = {
+    "candles": ["Candles", "Candles / Spiritual", "Candles / Classic", "Candles / Divination", "Candles / Seasonal"],
+    "soaps": ["Soaps"],
+    "creams": ["Creams"],
+    "knitted": ["Knitted & Braided", "Felted Animals"], // adjust if needed
+    "accessories": ["Accessories", "Accessories / Jewelry"],
+    "bundles": ["Bundles"],
+    "epoxy": ["Epoxy", "Epoxy Resin", "Epoxy & Decorative Items"]
+};
+
+
+// Convert JSON array → grouped category object
+function categorizeProducts(products) {
+    const grouped = {
+        candles: [],
+        soaps: [],
+        creams: [],
+        knitted: [],
+        accessories: [],
+        bundles: [],
+        epoxy: []
+    };
+
+    products.forEach(product => {
+        for (let section in categoryMap) {
+            if (categoryMap[section].includes(product.category)) {
+                grouped[section].push(product);
+                return;
+            }
+        }
+    });
+
+    displayProducts(grouped);
+}
+
+
+// Render products into each section
+function displayProducts(grouped) {
+    Object.keys(grouped).forEach(section => {
+        const container = document.getElementById(`${section}-products`);
+        const items = grouped[section];
+
+        if (!container) return;
+
+        items.forEach(product => {
+            const div = document.createElement("div");
+            div.classList.add("product-item");
+
+            div.innerHTML = `
                 <img src="${product.image}" alt="${product.name}">
                 <h3>${product.name}</h3>
-                <p>${product.price} USD</p>
-                <button onclick="addToCart('${product.name}', '${product.price}', '${product.image}')">Buy</button>
+                <p>${product.price_usd} USD</p>
+                <button onclick="buyNow('${product.paypal}')">Buy</button>
             `;
-            productContainer.appendChild(productDiv);
+
+            container.appendChild(div);
         });
     });
 }
 
-// Function to handle adding products to the cart
-function addToCart(name, price, image) {
-    console.log(`Added ${name} to cart at ${price}`);
-    // You can implement cart logic here
+
+// Direct PayPal purchase function
+function buyNow(link) {
+    window.open(link, "_blank"); // opens PayPal checkout
 }
