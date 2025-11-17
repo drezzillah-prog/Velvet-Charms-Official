@@ -8,7 +8,7 @@ fetch('products.json')
 
 // Function to display products
 function displayProducts(data) {
-    const categories = ['candles', 'soaps', 'creams', 'knitted', 'accessories', 'bundles'];
+    const categories = ['candles', 'soaps', 'creams', 'knitted', 'accessories', 'bundles', 'epoxy'];
     categories.forEach(category => {
         const productContainer = document.getElementById(`${category}-products`);
         data[category].forEach(product => {
