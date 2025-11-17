@@ -6,13 +6,16 @@
     <title>Velvet Charms</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+    <!-- HEADER -->
     <header>
         <h1>Velvet Charms</h1>
         <p>Where Art Meets Emotion — Handcrafted with love</p>
+
         <nav>
             <ul>
-                <li><a href="#home">Home</a></li>
+                <li><a href="#hero">Home</a></li>
                 <li><a href="#candles">Candles</a></li>
                 <li><a href="#soaps">Soaps</a></li>
                 <li><a href="#creams">Creams</a></li>
@@ -25,13 +28,16 @@
         </nav>
     </header>
 
+    <!-- HERO SECTION -->
     <section id="hero">
-        <h2 style="color: #000;">Handcrafted Treasures Await</h2>
-        <p style="color: #000;">Unique artisan pieces — handmade to order. Preorder now for holiday gifting.</p>
-        <button onclick="window.location.href='#shop'">Explore Collection</button>
+        <h2>Handcrafted Treasures Await</h2>
+        <p>Unique artisan pieces — handmade to order. Preorder now for holiday gifting.</p>
+        <button onclick="document.getElementById('candles').scrollIntoView({behavior:'smooth'});">
+            Explore Collection
+        </button>
     </section>
 
-    <!-- Product Categories -->
+    <!-- PRODUCT CATEGORIES -->
     <section id="candles">
         <h2>Candles</h2>
         <div id="candle-products" class="product-list"></div>
@@ -67,9 +73,11 @@
         <div id="epoxy-products" class="product-list"></div>
     </section>
 
-    <!-- Contact Form -->
+    <!-- CONTACT FORM -->
     <section id="contact">
         <h2>Contact Us</h2>
+
+        <!-- Replace {your_form_id} with your real Formspree endpoint -->
         <form action="https://formspree.io/f/{your_form_id}" method="POST">
             <input type="text" name="name" placeholder="Your Name" required>
             <input type="email" name="email" placeholder="Your Email" required>
@@ -78,6 +86,7 @@
         </form>
     </section>
 
+    <!-- FOOTER -->
     <footer>
         <p>&copy; 2025 Velvet Charms — All Rights Reserved</p>
     </footer>
