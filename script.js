@@ -1,128 +1,251 @@
-/* script.js - dynamic renderer for products.json */
+/* script.js - loads products.json and renders the catalogue with galleries & modal details.
+   Expects products.json in same directory and images filenames exactly as in repo.
+*/
+
+const CATEGORY_ORDER = [
+  { key: "Candles", label: "Candles" },
+  { key: "Soaps", label: "Soaps" },
+  { key: "Creams", label: "Creams" },
+  { key: "Knitted & Braided", label: "Knitted & Braided" },
+  { key: "Felted Animals", label: "Felted Animals" },
+  { key: "Epoxy & Clay Creations", label: "Epoxy & Clay Creations" },
+  { key: "Hair Accessories", label: "Hair Accessories" },
+  { key: "Perfumes", label: "Perfumes" },
+  { key: "Artworks", label: "Artworks" },
+  { key: "Leather Bags", label: "Leather Bags" },
+  { key: "Home Decor", label: "Home Decor" },
+  { key: "Bundles", label: "Bundles" }
+];
+
+let products = [];
 
 async function loadProducts() {
   try {
-    const res = await fetch('products.json');
-    const data = await res.json();
-    renderAll(data);
+    const res = await fetch("products.json");
+    products = await res.json();
+    renderAccordion();
   } catch (err) {
-    console.error('Failed to load products.json', err);
+    console.error("Failed to load products.json", err);
+    document.querySelector("#catalogue").innerHTML = "<p style='color:#900'>Error loading catalogue.</p>";
   }
 }
 
-/* utility to create product card */
-function createCard(product) {
-  const card = document.createElement('div');
-  card.className = 'product-item';
+function groupByCategory(list) {
+  const map = {};
+  list.forEach(p => {
+    const cat = p.mainCategory || p.category || "Other";
+    if (!map[cat]) map[cat] = [];
+    map[cat].push(p);
+  });
+  return map;
+}
 
-  const img = document.createElement('img');
-  img.src = product.image || 'placeholder.png';
-  img.alt = product.name || 'Product';
+function renderAccordion() {
+  const grouped = groupByCategory(products);
+  const container = document.getElementById("accordion");
+  container.innerHTML = "";
 
-  const h3 = document.createElement('h3');
-  h3.textContent = product.name;
+  CATEGORY_ORDER.forEach(catObj => {
+    const items = grouped[catObj.key] || [];
+    const panel = document.createElement("div");
+    panel.className = "panel";
 
-  const pDesc = document.createElement('p');
-  pDesc.textContent = product.description || '';
+    const header = document.createElement("div");
+    header.className = "panel-header";
+    header.innerHTML = `<h3>${catObj.label}</h3><div><small>${items.length} items</small></div>`;
+    header.addEventListener("click", () => togglePanel(panel));
+    panel.appendChild(header);
 
-  const price = document.createElement('p');
-  price.textContent = product.price_usd ? `${product.price_usd} USD` : 'Price on request';
+    const body = document.createElement("div");
+    body.className = "panel-body";
 
-  const meta = document.createElement('div');
-  meta.className = 'card-meta';
-
-  const buy = document.createElement('button');
-  buy.className = 'btn btn-buy';
-  buy.textContent = 'Buy';
-  buy.onclick = () => {
-    if (product.paypal && product.paypal !== 'TODO') {
-      window.open(product.paypal, '_blank');
+    if (items.length === 0) {
+      body.innerHTML = `<p style="color:#666">No items yet in this category.</p>`;
     } else {
-      // fallback: open contact form or ask for customization
-      alert('This item needs checkout setup. Please contact us to order: use the Contact section.');
-      document.getElementById('contact').scrollIntoView({behavior: 'smooth'});
+      const grid = document.createElement("div");
+      grid.className = "product-list";
+      items.forEach(prod => grid.appendChild(createProductCard(prod)));
+      body.appendChild(grid);
     }
-  };
 
-  const more = document.createElement('button');
-  more.className = 'btn btn-secondary';
-  more.textContent = 'Details';
-  more.onclick = () => {
-    alert(`${product.name}\n\n${product.description || 'No description.'}`);
-  };
+    panel.appendChild(body);
+    container.appendChild(panel);
+  });
+}
 
-  meta.appendChild(buy);
-  meta.appendChild(more);
+// Close other panels (only one open at a time).
+function togglePanel(panel) {
+  const all = document.querySelectorAll(".panel");
+  all.forEach(p => {
+    if (p === panel) {
+      const body = p.querySelector(".panel-body");
+      const opened = body.style.display === "block";
+      // close all
+      document.querySelectorAll(".panel .panel-body").forEach(b => b.style.display = "none");
+      if (!opened) body.style.display = "block";
+    } else {
+      p.querySelector(".panel-body").style.display = "none";
+    }
+  });
+}
 
-  card.appendChild(img);
-  card.appendChild(h3);
-  card.appendChild(pDesc);
+function createProductCard(prod) {
+  const card = document.createElement("article");
+  card.className = "product-item";
+
+  const mainImg = (prod.images && prod.images.length) ? prod.images[0] : (prod.image || "");
+  const imgWrap = document.createElement("div");
+  imgWrap.className = "img-wrap";
+  imgWrap.innerHTML = `<img loading="lazy" class="main-img" src="${mainImg}" alt="${escapeHTML(prod.name)}">`;
+
+  // thumbs
+  const thumbs = document.createElement("div");
+  thumbs.className = "thumbs";
+  (prod.images || []).slice(0,10).forEach((src, i) => {
+    const t = document.createElement("img");
+    t.src = src;
+    t.loading = "lazy";
+    if (i === 0) t.classList.add("active");
+    t.addEventListener("click", () => {
+      imgWrap.querySelector(".main-img").src = src;
+      thumbs.querySelectorAll("img").forEach(x=>x.classList.remove("active"));
+      t.classList.add("active");
+    });
+    thumbs.appendChild(t);
+  });
+
+  const title = document.createElement("h4");
+  title.textContent = prod.name;
+
+  const price = document.createElement("p");
+  price.className = "price";
+  price.textContent = `${formatPrice(prod.price_usd)}`;
+
+  const actions = document.createElement("div");
+  actions.className = "actions";
+
+  const buy = document.createElement("a");
+  buy.className = "btn btn-buy";
+  buy.href = prod.paypal || "#";
+  buy.target = "_blank";
+  buy.rel = "noopener";
+  buy.textContent = "Buy";
+
+  const details = document.createElement("button");
+  details.className = "btn btn-details";
+  details.textContent = "Details";
+  details.addEventListener("click", () => openModal(prod));
+
+  actions.appendChild(buy);
+  actions.appendChild(details);
+
+  card.appendChild(imgWrap);
+  if ((prod.images || []).length) card.appendChild(thumbs);
+  card.appendChild(title);
   card.appendChild(price);
-  card.appendChild(meta);
+  card.appendChild(actions);
 
   return card;
 }
 
-/* render grouped categories (non-epoxy) */
-function renderGroup(containerId, items) {
-  const container = document.getElementById(containerId);
-  if (!container) return;
-  container.innerHTML = ''; // clear
-  if (!items || items.length === 0) {
-    container.innerHTML = '<p style="color:#666">No items yet.</p>';
-    return;
-  }
-  items.forEach(p => container.appendChild(createCard(p)));
+function formatPrice(v) {
+  if (v === undefined || v === null) return "";
+  if (typeof v === "number") return `${v} USD`;
+  return `${v} USD`;
 }
 
-/* render epoxy & clay subcategories */
-function renderEpoxySubsections(items) {
-  const wrapper = document.getElementById('epoxy-subsections');
-  if (!wrapper) return;
-  wrapper.innerHTML = '';
-  if (!items || items.length === 0) {
-    wrapper.innerHTML = '<p style="color:#666">No epoxy items yet.</p>';
-    return;
+function openModal(prod) {
+  const modal = document.getElementById("modal");
+  const body = document.getElementById("modal-body");
+  body.innerHTML = "";
+
+  const gallery = document.createElement("div");
+  gallery.className = "product-gallery";
+
+  const main = document.createElement("div");
+  main.className = "gallery-main";
+  const mainImg = document.createElement("img");
+  mainImg.src = (prod.images && prod.images.length) ? prod.images[0] : (prod.image || "");
+  mainImg.alt = prod.name;
+  main.appendChild(mainImg);
+
+  const info = document.createElement("div");
+  info.className = "product-info";
+  info.innerHTML = `<h2>${escapeHTML(prod.name)}</h2>
+    <p style="font-weight:700">${formatPrice(prod.price_usd)}</p>
+    <p>${escapeHTML(prod.description || "")}</p>`;
+
+  // variants
+  if (prod.variants) {
+    const vWrap = document.createElement("div");
+    vWrap.className = "variant-list";
+    Object.entries(prod.variants).forEach(([k, arr]) => {
+      const chip = document.createElement("div");
+      chip.className = "chip";
+      chip.innerHTML = `<strong>${k}:</strong> ${Array.isArray(arr) ? arr.join(", ") : String(arr)}`;
+      vWrap.appendChild(chip);
+    });
+    info.appendChild(vWrap);
   }
 
-  // group by subcategory (fallback to 'General')
-  const groups = items.reduce((acc, item) => {
-    const key = item.subcategory || 'General';
-    if (!acc[key]) acc[key] = [];
-    acc[key].push(item);
-    return acc;
-  }, {});
-
-  Object.keys(groups).forEach(sub => {
-    const header = document.createElement('div');
-    header.className = 'subcategory-header';
-    header.innerHTML = `<strong>${sub}</strong>`;
-    wrapper.appendChild(header);
-
-    const grid = document.createElement('div');
-    grid.className = 'product-list';
-    groups[sub].forEach(p => grid.appendChild(createCard(p)));
-    wrapper.appendChild(grid);
+  // images thumbnails (modal)
+  const thumbsBox = document.createElement("div");
+  thumbsBox.style.marginTop = "12px";
+  (prod.images || []).slice(0,10).forEach(src => {
+    const img = document.createElement("img");
+    img.src = src;
+    img.loading = "lazy";
+    img.style.width = "64px";
+    img.style.height = "64px";
+    img.style.objectFit = "cover";
+    img.style.marginRight = "8px";
+    img.style.cursor = "pointer";
+    img.style.borderRadius = "6px";
+    img.addEventListener("click", () => mainImg.src = src);
+    thumbsBox.appendChild(img);
   });
+
+  // paypal / buy
+  const buyBtn = document.createElement("a");
+  buyBtn.className = "btn btn-buy";
+  buyBtn.href = prod.paypal || "#";
+  buyBtn.target = "_blank";
+  buyBtn.rel = "noopener";
+  buyBtn.textContent = "Buy via PayPal";
+
+  info.appendChild(thumbsBox);
+  info.appendChild(document.createElement("br"));
+  info.appendChild(buyBtn);
+
+  gallery.appendChild(main);
+  gallery.appendChild(info);
+
+  body.appendChild(gallery);
+
+  document.getElementById("modal").classList.add("open");
+  document.getElementById("modal").setAttribute("aria-hidden", "false");
 }
 
-/* main render function — expects structure keys matching index.html ids */
-function renderAll(data) {
-  // Non-epoxy groups (ids)
-  renderGroup('candles-products', data.candles || []);
-  renderGroup('soaps-products', data.soaps || []);
-  renderGroup('creams-products', data.creams || []);
-  renderGroup('knitted-products', data.knitted || []);
-  renderGroup('hair-accessories-products', data.hair_accessories || []);
-  renderGroup('perfumes-products', data.perfumes || []);
-  renderGroup('artworks-products', data.artworks || []);
-  renderGroup('leather-bags-products', data.leather_bags || []);
-  renderGroup('home-decor-products', data.home_decor || []);
-  renderGroup('bundles-products', data.bundles || []);
-
-  // epoxy & clay special handling
-  renderEpoxySubsections(data.epoxy_and_clay || []);
+function closeModal() {
+  document.getElementById("modal").classList.remove("open");
+  document.getElementById("modal").setAttribute("aria-hidden", "true");
+  document.getElementById("modal-body").innerHTML = "";
 }
 
-/* start */
-loadProducts();
+document.addEventListener("DOMContentLoaded", () => {
+  loadProducts();
+  document.getElementById("modal-close").addEventListener("click", closeModal);
+  document.getElementById("modal").addEventListener("click", (e) => {
+    if (e.target === document.getElementById("modal")) closeModal();
+  });
+});
+
+// small util
+function escapeHTML(s) {
+  if (!s && s !== 0) return "";
+  return String(s)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
+}
