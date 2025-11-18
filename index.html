@@ -3,67 +3,55 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Velvet Charms</title>
+  <title>Velvet Charms — Shop</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
-    <div class="topbar">
+    <div class="site-brand">
       <h1>Velvet Charms</h1>
-      <p class="subtitle">Where Art Meets Emotion — Handcrafted with love</p>
+      <p class="tag">Where Art Meets Emotion — Handcrafted with love</p>
     </div>
-
-    <nav class="main-nav">
-      <input id="nav-toggle" type="checkbox" />
-      <label for="nav-toggle" class="hamburger">☰</label>
-      <ul id="nav-list">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#candles">Candles</a></li>
-        <li><a href="#soaps">Soaps</a></li>
-        <li><a href="#creams">Creams</a></li>
-        <li><a href="#knitted">Knitted & Braided</a></li>
-        <li><a href="#epoxy">Epoxy & Clay Creations</a></li>
-        <li><a href="#hair">Hair Accessories</a></li>
-        <li><a href="#perfumes">Perfumes</a></li>
-        <li><a href="#artworks">Artworks</a></li>
-        <li><a href="#leather">Leather Bags</a></li>
-        <li><a href="#homedecor">Home Decor</a></li>
-        <li><a href="#bundles">Bundles</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
+    <nav id="main-nav" aria-label="Main navigation"></nav>
   </header>
 
   <main>
-    <section id="hero" class="hero">
+    <section id="hero">
       <div class="hero-inner">
-        <h2>Handcrafted Treasures Await</h2>
-        <p>Unique artisan pieces — handmade to order. Preorder now for holiday gifting.</p>
-        <a class="cta" href="#candles">Explore Collection</a>
+        <img id="hero-banner" alt="Candles banner" src="" />
+        <div class="hero-text">
+          <h2>Handcrafted Treasures Await</h2>
+          <p>Unique artisan pieces — handmade to order. Preorder now for holiday gifting.</p>
+          <a class="btn" id="explore-btn" href="#catalogue">Explore Collection</a>
+        </div>
       </div>
     </section>
 
-    <section id="catalogue" class="catalogue">
-      <div id="accordion" class="accordion">
-        <!-- categories will be injected here by script -->
+    <section id="catalogue" class="container">
+      <aside id="sidebar" class="sidebar">
+        <h3>Categories</h3>
+        <div id="category-list"></div>
+      </aside>
+
+      <div id="catalogue-main">
+        <div id="catalogue-controls" class="controls">
+          <input id="search" placeholder="Search products (name, category...)" />
+          <select id="filter-subgroup"><option value="">All subgroups</option></select>
+        </div>
+
+        <div id="catalogue-grid" class="product-list"></div>
+
+        <div id="error" class="error" hidden> Error loading catalogue. </div>
       </div>
     </section>
 
-    <!-- Details modal -->
-    <div id="modal" class="modal" aria-hidden="true">
-      <div class="modal-content">
-        <button id="modal-close" class="modal-close">✕</button>
-        <div id="modal-body"></div>
-      </div>
-    </div>
-
-    <section id="contact" class="contact">
+    <section id="contact" class="container contact">
       <h2>Contact Us</h2>
       <form action="https://formspree.io/f/{your_form_id}" method="POST">
-        <input type="text" name="name" placeholder="Your name" required />
-        <input type="email" name="email" placeholder="Your email" required />
-        <textarea name="message" placeholder="Your message" required></textarea>
-        <button type="submit">Send Message</button>
+        <input type="text" name="name" placeholder="Your Name" required />
+        <input type="email" name="email" placeholder="Your Email" required />
+        <textarea name="message" placeholder="Your Message" required></textarea>
+        <button type="submit" class="btn">Send Message</button>
       </form>
     </section>
   </main>
@@ -72,6 +60,9 @@
     <p>&copy; 2025 Velvet Charms — All Rights Reserved</p>
   </footer>
 
-  <script src="script.js" defer></script>
+  <!-- Product detail modal / accordion container (in DOM for keyboard accessibility) -->
+  <div id="product-detail" class="product-detail" aria-hidden="true"></div>
+
+  <script src="script.js"></script>
 </body>
 </html>
