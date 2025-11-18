@@ -8,129 +8,70 @@
 </head>
 <body>
   <header>
-    <div class="container header-inner">
-      <div class="brand">
-        <h1>Velvet Charms</h1>
-        <p class="tag">Where Art Meets Emotion — Handcrafted with love</p>
-      </div>
-
-      <nav>
-        <ul class="main-nav">
-          <li><a href="#hero">Home</a></li>
-          <li><a href="#candles">Candles</a></li>
-          <li><a href="#soaps">Soaps</a></li>
-          <li><a href="#creams">Creams</a></li>
-          <li><a href="#knitted">Knitted &amp; Braided</a></li>
-          <li><a href="#epoxy">Epoxy &amp; Clay Creations</a></li>
-          <li><a href="#hair-accessories">Hair Accessories</a></li>
-          <li><a href="#perfumes">Perfumes</a></li>
-          <li><a href="#artworks">Artworks</a></li>
-          <li><a href="#leather-bags">Leather Bags</a></li>
-          <li><a href="#home-decor">Home Decor</a></li>
-          <li><a href="#bundles">Bundles</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-      </nav>
+    <div class="topbar">
+      <h1>Velvet Charms</h1>
+      <p class="subtitle">Where Art Meets Emotion — Handcrafted with love</p>
     </div>
+
+    <nav class="main-nav">
+      <input id="nav-toggle" type="checkbox" />
+      <label for="nav-toggle" class="hamburger">☰</label>
+      <ul id="nav-list">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#candles">Candles</a></li>
+        <li><a href="#soaps">Soaps</a></li>
+        <li><a href="#creams">Creams</a></li>
+        <li><a href="#knitted">Knitted & Braided</a></li>
+        <li><a href="#epoxy">Epoxy & Clay Creations</a></li>
+        <li><a href="#hair">Hair Accessories</a></li>
+        <li><a href="#perfumes">Perfumes</a></li>
+        <li><a href="#artworks">Artworks</a></li>
+        <li><a href="#leather">Leather Bags</a></li>
+        <li><a href="#homedecor">Home Decor</a></li>
+        <li><a href="#bundles">Bundles</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
   </header>
 
   <main>
     <section id="hero" class="hero">
-      <div class="container">
+      <div class="hero-inner">
         <h2>Handcrafted Treasures Await</h2>
         <p>Unique artisan pieces — handmade to order. Preorder now for holiday gifting.</p>
-        <button class="cta" onclick="document.getElementById('candles').scrollIntoView({behavior:'smooth'})">
-          Explore Collection
-        </button>
+        <a class="cta" href="#candles">Explore Collection</a>
       </div>
     </section>
 
-    <!-- Candles -->
-    <section id="candles" class="container section-block">
-      <h2>Candles</h2>
-      <div id="candles-products" class="product-list"></div>
+    <section id="catalogue" class="catalogue">
+      <div id="accordion" class="accordion">
+        <!-- categories will be injected here by script -->
+      </div>
     </section>
 
-    <!-- Soaps -->
-    <section id="soaps" class="container section-block">
-      <h2>Soaps</h2>
-      <div id="soaps-products" class="product-list"></div>
-    </section>
+    <!-- Details modal -->
+    <div id="modal" class="modal" aria-hidden="true">
+      <div class="modal-content">
+        <button id="modal-close" class="modal-close">✕</button>
+        <div id="modal-body"></div>
+      </div>
+    </div>
 
-    <!-- Creams -->
-    <section id="creams" class="container section-block">
-      <h2>Creams</h2>
-      <div id="creams-products" class="product-list"></div>
-    </section>
-
-    <!-- Knitted & Braided -->
-    <section id="knitted" class="container section-block">
-      <h2>Knitted &amp; Braided</h2>
-      <div id="knitted-products" class="product-list"></div>
-    </section>
-
-    <!-- Epoxy & Clay Creations -->
-    <section id="epoxy" class="container section-block">
-      <h2>Epoxy &amp; Clay Creations</h2>
-
-      <!-- Subcategory anchors (script will create items grouped by subcategory) -->
-      <div id="epoxy-subsections"></div>
-    </section>
-
-    <!-- Hair Accessories -->
-    <section id="hair-accessories" class="container section-block">
-      <h2>Hair Accessories</h2>
-      <div id="hair-accessories-products" class="product-list"></div>
-    </section>
-
-    <!-- Perfumes -->
-    <section id="perfumes" class="container section-block">
-      <h2>Perfumes</h2>
-      <div id="perfumes-products" class="product-list"></div>
-    </section>
-
-    <!-- Artworks (Paintings & Portraits) -->
-    <section id="artworks" class="container section-block">
-      <h2>Artworks — Paintings &amp; Portraits</h2>
-      <div id="artworks-products" class="product-list"></div>
-    </section>
-
-    <!-- Leather Bags -->
-    <section id="leather-bags" class="container section-block">
-      <h2>Leather Bags</h2>
-      <div id="leather-bags-products" class="product-list"></div>
-    </section>
-
-    <!-- Home Decor -->
-    <section id="home-decor" class="container section-block">
-      <h2>Home Decor</h2>
-      <div id="home-decor-products" class="product-list"></div>
-    </section>
-
-    <!-- Bundles -->
-    <section id="bundles" class="container section-block">
-      <h2>Bundles</h2>
-      <div id="bundles-products" class="product-list"></div>
-    </section>
-
-    <!-- Contact -->
-    <section id="contact" class="container section-block">
+    <section id="contact" class="contact">
       <h2>Contact Us</h2>
       <form action="https://formspree.io/f/{your_form_id}" method="POST">
-        <input type="text" name="name" placeholder="Your Name" required />
-        <input type="email" name="email" placeholder="Your Email" required />
-        <textarea name="message" placeholder="Your Message" required></textarea>
+        <input type="text" name="name" placeholder="Your name" required />
+        <input type="email" name="email" placeholder="Your email" required />
+        <textarea name="message" placeholder="Your message" required></textarea>
         <button type="submit">Send Message</button>
       </form>
     </section>
   </main>
 
   <footer>
-    <div class="container">
-      <p>&copy; 2025 Velvet Charms — All Rights Reserved</p>
-    </div>
+    <p>&copy; 2025 Velvet Charms — All Rights Reserved</p>
   </footer>
 
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
 </body>
 </html>
