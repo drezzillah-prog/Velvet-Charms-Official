@@ -368,3 +368,343 @@
         }
       ]
     },
+    {
+      "id": "perfumes",
+      "name": "Perfumes",
+      "products": [
+        {
+          "id": "solid_perfume",
+          "name": "Solid Perfume (50ml)",
+          "price": 28,
+          "paymentLink": "https://www.paypal.com/ncp/payment/BXDY354K5949A",
+          "description": "Alcohol-free solid perfume with long-lasting natural aromas.",
+          "images": ["Solid Perfume.png"],
+          "options": {
+            "scent": ["Vanilla Orchid", "Amber Wood", "Sandalwood Rose", "White Musk"]
+          }
+        },
+        {
+          "id": "oil_rollon",
+          "name": "Oil Perfume Roll-On (10ml)",
+          "price": 22,
+          "paymentLink": "https://www.paypal.com/ncp/payment/9SGLCBQ76USZL",
+          "description": "Essential oil roll-on perfume made in small batches.",
+          "images": ["Oil Perfume Roll-On.jpg"],
+          "options": {
+            "scent": ["Citrus Bloom", "Lavender Mist", "Cedar & Amber", "Floral Spice"]
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "knitted_braided",
+      "name": "Knitted & Braided Wool Creations",
+      "subcategories": [
+        {
+          "id": "beanies",
+          "name": "Hand-Knitted Beanies",
+          "products": [
+            {
+              "id": "beanie_small",
+              "name": "Hand-Knitted Beanie — Small",
+              "price": 35,
+              "paymentLink": "https://www.paypal.com/ncp/payment/S4KAZSV8WN5MG",
+              "description": "Hand-knitted warm beanie. Color-customizable.",
+              "images": ["Hand-Knitted Beanie - Small.png"]
+            },
+            {
+              "id": "beanie_medium",
+              "name": "Hand-Knitted Beanie — Medium",
+              "price": 38,
+              "paymentLink": "https://www.paypal.com/ncp/payment/Q944A2C9DTQJW",
+              "description": "Most popular size. Soft merino or acrylic yarn.",
+              "images": ["Hand-Knitted Beanie - Medium.png"]
+            },
+            {
+              "id": "beanie_large",
+              "name": "Hand-Knitted Beanie — Large",
+              "price": 42,
+              "paymentLink": "https://www.paypal.com/ncp/payment/TT26KNF22D7QC",
+              "description": "Large size for extra warmth.",
+              "images": ["Hand-Knitted Beanie - Large.png"]
+            },
+            {
+              "id": "beanie_xl",
+              "name": "Hand-Knitted Beanie — Extra Large",
+              "price": 45,
+              "paymentLink": "https://www.paypal.com/ncp/payment/6RS4V7Y9E8AQN",
+              "description": "Oversized cozy design.",
+              "images": ["Hand-Knitted Beanie - Extra-Large.png"]
+            }
+          ]
+        },
+
+        {
+          "id": "scarves",
+          "name": "Hand-Knitted Scarves",
+          "products": [
+            {
+              "id": "scarf_standard",
+              "name": "Hand-Knitted Scarf — One Size",
+              "price": 55,
+              "paymentLink": "https://www.paypal.com/ncp/payment/BLYUGH43XL4RS",
+              "description": "Cozy knitted scarf (approx. 150×25 cm).",
+              "images": ["Hand-Knitted Scarf - One size (150x25 cm avg.).png"]
+            }
+          ]
+        },
+
+        {
+          "id": "mittens",
+          "name": "Hand-Knitted Mittens",
+          "products": [
+            {
+              "id": "mittens_small",
+              "name": "Hand-Knitted Mittens — Small",
+              "price": 28,
+              "paymentLink": "https://www.paypal.com/ncp/payment/QESLM9KV4EQ38",
+              "description": "Classic warm mittens.",
+              "images": ["Hand-Knitted Mittens - Small.png"]
+            },
+            {
+              "id": "mittens_medium",
+              "name": "Hand-Knitted Mittens — Medium",
+              "price": 32,
+              "paymentLink": "https://www.paypal.com/ncp/payment/GUGQG23BGUKWJ",
+              "description": "Medium-sized handcrafted mittens.",
+              "images": ["Hand-Knitted Mittens - Medium.png"]
+            },
+            {
+              "id": "mittens_large",
+              "name": "Hand-Knitted Mittens — Large",
+              "price": 35,
+              "paymentLink": "https://www.paypal.com/ncp/payment/LHSJU6JBQXM64",
+              "description": "Soft and warm.",
+              "images": ["Hand-Knitted Mittens - Large.png"]
+            },
+            {
+              "id": "mittens_xl",
+              "name": "Hand-Knitted Mittens — Extra Large",
+              "price": 40,
+              "paymentLink": "https://www.paypal.com/ncp/payment/ZJAE5KGTTDEP4",
+              "description": "Extra-large cozy mittens.",
+              "images": ["Hand-Knitted Mittens - Extra Large.png"]
+            }
+          ]
+        },
+
+        {
+          "id": "knitted_set",
+          "name": "Matching Winter Set",
+          "products": [
+            {
+              "id": "winter_set",
+              "name": "Matching Winter Set — Beanie + Scarf + Mittens",
+              "price": 110,
+              "paymentLink": "https://www.paypal.com/ncp/payment/VWTNNVT586JBN",
+              "description": "Warm handcrafted winter set — 15% bundle discount.",
+              "images": ["Matching Winter Set — Beanie + Scarf + Mittens.png"]
+            }
+          ]
+        },
+
+        {
+          "id": "braided_blankets",
+          "name": "Braided Blankets",
+          "products": [
+            {
+              "id": "blanket_small",
+              "name": "Braided Blanket — Small (80×100 cm)",
+              "price": 85,
+              "paymentLink": "https://www.paypal.com/ncp/payment/3TB59Q7RG2SLE",
+              "description": "Small braided throw — perfect for babies or couch armrests.",
+              "images": ["Braided Blanket (Small).png"]
+            },
+            {
+              "id": "blanket_medium",
+              "name": "Braided Blanket — Medium (120×150 cm)",
+              "price": 130,
+              "paymentLink": "https://www.paypal.com/ncp/payment/B82QPFVQVDUQL",
+              "description": "Medium-size braided blanket.",
+              "images": ["Braided Blanket (Medium).png"]
+            },
+            {
+              "id": "blanket_large",
+              "name": "Braided Blanket — Large (150×200 cm)",
+              "price": 180,
+              "paymentLink": "https://www.paypal.com/ncp/payment/DXBW4QFN7T96J",
+              "description": "Large cozy chunky-knit blanket.",
+              "images": ["Braided Blanket (Large).png"]
+            }
+          ]
+        },
+
+        {
+          "id": "felted_animals",
+          "name": "Felted Animals",
+          "products": [
+            {
+              "id": "felt_small",
+              "name": "Mini Felted Animal — Small (~5 cm)",
+              "price": 35,
+              "paymentLink": "https://www.paypal.com/ncp/payment/9GYLUVBC2USAU",
+              "description": "Small hand-felted wool figurine.",
+              "images": ["Mini Felted Animal (Small).png"]
+            },
+            {
+              "id": "felt_medium",
+              "name": "Felted Animal — Medium (~10–12 cm)",
+              "price": 50,
+              "paymentLink": "https://www.paypal.com/ncp/payment/RT3Y5Z86NTA2J",
+              "description": "Medium-sized felted animal figurine.",
+              "images": ["Felted Animal (Medium).png"]
+            },
+            {
+              "id": "felt_family",
+              "name": "Felted Animal Family Set (4 pcs)",
+              "price": 120,
+              "paymentLink": "https://www.paypal.com/ncp/payment/TW7Q43A8X5ZKG",
+              "description": "Custom animal family felted set.",
+              "images": ["Felted Animal Family Set 4.png"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "artworks",
+      "name": "Paintings & Portraits",
+      "subcategories": [
+        {
+          "id": "landscapes",
+          "name": "Landscapes",
+          "products": [
+            {
+              "id": "landscape_small",
+              "name": "Small Landscape Painting — 20×20 cm",
+              "price": 45,
+              "paymentLink": "https://www.paypal.com/ncp/payment/4XGNXNN38XE36",
+              "description": "Mini landscape — acrylic on stretched canvas.",
+              "images": [
+                "painting_LANDSCAPE_SMALL.jpg",
+                "painting_LANDSCAPE_SMALL1.jpg"
+              ]
+            },
+            {
+              "id": "landscape_medium",
+              "name": "Medium Landscape Painting — 30×40 cm",
+              "price": 80,
+              "paymentLink": "https://www.paypal.com/ncp/payment/7EWPCAS2W98N6",
+              "description": "Medium landscape with textured brushwork.",
+              "images": [
+                "painting_LANDSCAPE_MEDIUM.jpg",
+                "painting_LANDSCAPE_MEDIUM2.jpg",
+                "painting_LANDSCAPE_MEDIUM3.jpg"
+              ]
+            },
+            {
+              "id": "landscape_large",
+              "name": "Large Landscape Painting — 50×70 cm",
+              "price": 140,
+              "paymentLink": "https://www.paypal.com/ncp/payment/7K7G2HWWE74D2",
+              "description": "Large statement landscape painting.",
+              "images": [
+                "Large Landscape Painting.jpg",
+                "Large Landscape Painting1.jpg",
+                "Large Landscape Painting2.jpg"
+              ]
+            },
+            {
+              "id": "landscape_custom",
+              "name": "Custom Landscape Commission",
+              "price": 250,
+              "paymentLink": "https://www.paypal.com/ncp/payment/UTK2B86NFZMDN",
+              "description": "Custom landscape based on your photo or theme.",
+              "images": ["Custom Landscape Commission.jpg"]
+            }
+          ]
+        },
+
+        {
+          "id": "portraits",
+          "name": "Portraits",
+          "products": [
+            {
+              "id": "portrait_2d",
+              "name": "2D Portrait — 30×40 cm",
+              "price": 120,
+              "paymentLink": "https://www.paypal.com/ncp/payment/4WZ3FGUFLZ962",
+              "description": "2D painted portrait — person or pet.",
+              "images": [
+                "painting_portrait_1.jpg",
+                "painting_portrait_3.jpg",
+                "painting_portrait_4.jpg"
+              ]
+            },
+            {
+              "id": "portrait_3d",
+              "name": "3D Portrait Relief — 30×40 cm",
+              "price": 180,
+              "paymentLink": "https://www.paypal.com/ncp/payment/HTSJN3TULVWTN",
+              "description": "3D mixed-media portrait with sculptural texture.",
+              "images": [
+                "clay_3d_painting_1.png",
+                "clay_3d_painting_2.png",
+                "clay_3d_painting_3.png"
+              ]
+            },
+            {
+              "id": "portrait_family",
+              "name": "Couple or Family Portrait — 40×50 cm",
+              "price": 220,
+              "paymentLink": "https://www.paypal.com/ncp/payment/NSCQQSNB7CS3W",
+              "description": "Multi-person detailed portrait.",
+              "images": ["Couple or Family Portrait.png"]
+            },
+            {
+              "id": "portrait_mini",
+              "name": "Mini Portrait Ornament — 10×10 cm",
+              "price": 50,
+              "paymentLink": "https://www.paypal.com/ncp/payment/QUMD499D3YGDS",
+              "description": "Small hand-painted ornament keepsake.",
+              "images": ["Mini Portrait Ornament.jpg"]
+            }
+          ]
+        },
+
+        {
+          "id": "festive_portraits",
+          "name": "Festive Portraits",
+          "products": [
+            {
+              "id": "holiday_2d",
+              "name": "Holiday-Themed Portrait (2D) — 30×40 cm",
+              "price": 130,
+              "paymentLink": "https://www.paypal.com/ncp/payment/QYE3TFJQ34P3J",
+              "description": "Festive-themed 2D portrait with holiday magic.",
+              "images": [
+                "painting_christmas_1.jpg",
+                "painting_christmas_3.jpg"
+              ]
+            },
+            {
+              "id": "holiday_3d",
+              "name": "3D Festive Portrait Relief — 30×40 cm",
+              "price": 190,
+              "paymentLink": "https://www.paypal.com/ncp/payment/J3YMRLPT6CYYE",
+              "description": "Sculpted and painted festive portrait.",
+              "images": ["3D Festive Portrait Relief.png"]
+            },
+            {
+              "id": "holiday_ornament_bundle",
+              "name": "Custom Ornament Bundle",
+              "price": 90,
+              "paymentLink": "https://www.paypal.com/ncp/payment/WCED85EUGSVZS",
+              "description": "Includes festive canvas + one small figurine or keychain.",
+              "images": ["Holiday-Themed Portrait (2D).jpg"]
+            }
+          ]
+        }
+      ]
+    },
