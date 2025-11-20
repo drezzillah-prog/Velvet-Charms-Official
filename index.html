@@ -1,68 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Velvet Charms — Shop</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Velvet Charms — Handmade Creations</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Snowflake animation -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
 </head>
 <body>
-  <header>
-    <div class="site-brand">
-      <h1>Velvet Charms</h1>
-      <p class="tag">Where Art Meets Emotion — Handcrafted with love</p>
+
+    <!-- ░░ HEADER / NAVIGATION ░░ -->
+    <header class="site-header">
+        <div class="logo">Velvet Charms <span class="snow-accent">❄️</span></div>
+
+        <nav>
+            <ul class="nav-links">
+                <li data-page="home" class="nav-active">Home</li>
+                <li data-page="catalogue">Catalogue</li>
+                <li data-page="about">About Us</li>
+                <li data-page="contact">Contact</li>
+            </ul>
+        </nav>
+    </header>
+
+
+    <!-- ░░ MAIN CONTENT CONTAINER ░░ -->
+    <main id="page-content">
+
+        <!-- HOME PAGE -->
+        <section id="home" class="page visible">
+            <div class="home-banner">
+                <h1>Handcrafted Treasures</h1>
+                <p>Personalized, artisan-made pieces — created with love by our team of 12 art students.</p>
+                <button id="exploreCatalogue" class="btn-primary">Explore Catalogue</button>
+            </div>
+        </section>
+
+
+        <!-- CATALOGUE PAGE -->
+        <section id="catalogue" class="page">
+            <div id="categoryList"></div>
+            <div id="subcategoryList"></div>
+            <div id="productList"></div>
+        </section>
+
+
+        <!-- ABOUT PAGE -->
+        <section id="about" class="page">
+            <h2>About Us</h2>
+            <p>
+                We are a team of 12 passionate art students dedicated to creating handcrafted, personalized items.
+                Every candle, soap, artwork, knitted piece, and epoxy creation is made entirely by hand — with care,
+                creativity, and a deep love for our craft.
+            </p>
+            <p>
+                Velvet Charms is more than a shop — it's a place where your ideas become real.  
+                You can order our pre-made items, or request a fully custom creation based on your photos,
+                descriptions, or even a specific memory you want turned into art.
+            </p>
+            <p>
+                To ensure fast delivery, all orders are shipped from the **closest studio to you**:
+                <strong>Frankfurt, Germany</strong> 🇩🇪 or <strong>Constanța, Romania</strong> 🇷🇴.
+            </p>
+            <p class="about-thanks">
+                Thank you for supporting handmade artistry. You help small creators keep dreaming and creating. ❤️
+            </p>
+        </section>
+
+
+        <!-- CONTACT PAGE -->
+        <section id="contact" class="page">
+            <h2>Contact Us</h2>
+
+            <form id="contactForm">
+                <label>Name</label>
+                <input type="text" required>
+
+                <label>Email</label>
+                <input type="email" required>
+
+                <label>Message</label>
+                <textarea required></textarea>
+
+                <button type="submit" class="btn-primary">Send Message</button>
+            </form>
+        </section>
+
+    </main>
+
+
+    <!-- ░░ PRODUCT MODAL ░░ -->
+    <div id="productModal" class="modal hidden">
+        <div class="modal-content">
+            <span id="modalClose">&times;</span>
+            <div id="modalImages"></div>
+            <h2 id="modalName"></h2>
+            <p id="modalDescription"></p>
+
+            <div id="modalOptions"></div>
+
+            <a id="modalPaymentLink" class="btn-primary" target="_blank">Order Now</a>
+        </div>
     </div>
-    <nav id="main-nav" aria-label="Main navigation"></nav>
-  </header>
 
-  <main>
-    <section id="hero">
-      <div class="hero-inner">
-        <img id="hero-banner" alt="Candles banner" src="" />
-        <div class="hero-text">
-          <h2>Handcrafted Treasures Await</h2>
-          <p>Unique artisan pieces — handmade to order. Preorder now for holiday gifting.</p>
-          <a class="btn" id="explore-btn" href="#catalogue">Explore Collection</a>
-        </div>
-      </div>
-    </section>
+    <!-- SCRIPT -->
+    <script src="script.js"></script>
 
-    <section id="catalogue" class="container">
-      <aside id="sidebar" class="sidebar">
-        <h3>Categories</h3>
-        <div id="category-list"></div>
-      </aside>
-
-      <div id="catalogue-main">
-        <div id="catalogue-controls" class="controls">
-          <input id="search" placeholder="Search products (name, category...)" />
-          <select id="filter-subgroup"><option value="">All subgroups</option></select>
-        </div>
-
-        <div id="catalogue-grid" class="product-list"></div>
-
-        <div id="error" class="error" hidden> Error loading catalogue. </div>
-      </div>
-    </section>
-
-    <section id="contact" class="container contact">
-      <h2>Contact Us</h2>
-      <form action="https://formspree.io/f/{your_form_id}" method="POST">
-        <input type="text" name="name" placeholder="Your Name" required />
-        <input type="email" name="email" placeholder="Your Email" required />
-        <textarea name="message" placeholder="Your Message" required></textarea>
-        <button type="submit" class="btn">Send Message</button>
-      </form>
-    </section>
-  </main>
-
-  <footer>
-    <p>&copy; 2025 Velvet Charms — All Rights Reserved</p>
-  </footer>
-
-  <!-- Product detail modal / accordion container (in DOM for keyboard accessibility) -->
-  <div id="product-detail" class="product-detail" aria-hidden="true"></div>
-
-  <script src="script.js"></script>
 </body>
 </html>
