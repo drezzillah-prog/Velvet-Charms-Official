@@ -1,103 +1,93 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Velvet Charms ❄️</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Velvet Charms — Where Art Meets Emotion</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-
-  <!-- NAVIGATION -->
-  <nav class="navbar">
-    <div class="logo">Velvet Charms ❄️</div>
-
-    <ul class="nav-links">
-      <li data-page="home">Home</li>
-      <li data-page="catalogue">Catalogue</li>
-      <li data-page="about">About Us</li>
-      <li data-page="contact">Contact</li>
-    </ul>
-  </nav>
-
-  <!-- HOME PAGE -->
-  <section id="home" class="page active">
-    <header class="hero">
-      <h1>Handcrafted Treasures</h1>
-      <p>Personalized, artisan-made pieces — created with love by our team of 12 art students.</p>
-      <button class="primary-btn" data-page="catalogue">Explore Catalogue</button>
-    </header>
-  </section>
-
-  <!-- CATALOGUE PAGE -->
-  <section id="catalogue" class="page">
-    <h2>Our Catalogue</h2>
-    <div id="catalogueContainer" class="catalogue-container">
-      <!-- Loaded dynamically by script.js -->
+  <header class="site-header">
+    <div class="brand">
+      <div id="brand-name">Velvet Charms ❄️</div>
+      <div id="brand-tagline">Where Art Meets Emotion — Handcrafted with love</div>
     </div>
-  </section>
 
-  <!-- ABOUT US PAGE -->
-  <section id="about" class="page">
-    <h2>About Us</h2>
+    <nav id="main-menu" class="main-nav">
+      <ul>
+        <li><a id="nav-home" href="./">Home</a></li>
+        <li><a id="nav-catalogue" href="#catalogue">Catalogue</a></li>
+        <li><a id="nav-about" href="#about-us">About Us</a></li>
+        <li><a id="nav-contact" href="#contact">Contact</a></li>
+      </ul>
 
-    <p>
-      We are a team of 12 passionate art students dedicated to creating handcrafted, personalized items.
-      Every candle, soap, artwork, knitted piece, and epoxy creation is made entirely by hand — with care,
-      creativity, and a deep love for our craft.
-    </p>
-
-    <p>
-      Velvet Charms is more than a shop — it's a place where your ideas become reality.
-      You can order our pre-made items, or request a fully custom creation based on your photos,
-      descriptions, or even a specific memory you want turned into art.
-    </p>
-
-    <p>
-      To ensure fast delivery, your order will be shipped from the closest studio to you:
-      <strong>Frankfurt, Germany 🇩🇪</strong> or <strong>Constanța, Romania 🇷🇴</strong>.
-    </p>
-
-    <p>Thank you for supporting handmade artistry. ❤️</p>
-  </section>
-
-  <!-- CONTACT PAGE -->
-  <section id="contact" class="page">
-    <h2>Contact Us</h2>
-
-    <form class="contact-form">
-      <input type="text" placeholder="Name" />
-      <input type="email" placeholder="Email" />
-      <textarea placeholder="Message"></textarea>
-      <button type="submit" class="primary-btn">Send Message</button>
-    </form>
-  </section>
-
-  <!-- PRODUCT MODAL -->
-  <div id="productModal" class="modal-overlay">
-    <div class="modal-content">
-      <span class="close-modal">&times;</span>
-
-      <div class="modal-left">
-        <img id="modalImage" src="" alt="Product Image" />
-        <div id="modalThumbnails"></div>
+      <div class="theme-control">
+        <label><input id="christmas-toggle" type="checkbox"> ♥ Christmas Theme</label>
       </div>
+    </nav>
+  </header>
 
-      <div class="modal-right">
-        <h3 id="modalTitle"></h3>
-        <p id="modalDescription"></p>
-
-        <div id="modalOptions"></div>
-
-        <div class="price-box">
-          <span id="modalPrice"></span>
+  <main id="main-content">
+    <section id="hero">
+      <div class="hero-inner">
+        <h1>Handcrafted Treasures</h1>
+        <p>Personalized, artisan-made pieces — created with love by our team of 12 art students.</p>
+        <div class="hero-actions">
+          <button id="explore-catalogue" class="btn" onclick="document.querySelector('#catalogue').scrollIntoView({behavior:'smooth'})">Explore Catalogue</button>
+          <a class="btn" href="#about-us">About Us</a>
         </div>
-
-        <a id="modalPayLink" class="primary-btn" target="_blank">Order Now</a>
       </div>
+    </section>
+
+    <section id="catalogue" class="page-section">
+      <div class="page-inner">
+        <aside class="left-column">
+          <h4>Collections</h4>
+          <ul id="catalogue-menu"></ul>
+          <div class="note" id="currency-note"></div>
+        </aside>
+
+        <div class="content-inner">
+          <h2>Welcome to the shop</h2>
+          <p>Select a category from the left to view products.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="about-us" class="page-section">
+      <div class="page-inner about-inner">
+        <h2 id="about-title">About Us</h2>
+        <div id="about-text">
+          <p>We are a team of 12 passionate art students dedicated to creating personalized handcrafted items. Every piece is made with patience, care, and a touch of magic. We ship from Frankfurt (Germany) or Constanța (Romania) depending on proximity.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="page-section">
+      <div class="page-inner">
+        <h2>Contact Us</h2>
+        <form id="contact-form" class="contact-form">
+          <label>Name <input name="name" required /></label>
+          <label>Email <input name="email" type="email" required /></label>
+          <label>Message <textarea name="message" rows="4" required></textarea></label>
+          <button class="btn" type="submit">Send Message</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Product modal -->
+  <div id="product-modal" class="modal" role="dialog" aria-hidden="true">
+    <div class="modal-inner">
+      <header><h3 class="modal-title"></h3><button class="modal-close" onclick="document.body.classList.remove('modal-open');document.querySelector('#product-modal').classList.remove('open')">×</button></header>
+      <div class="modal-body"></div>
     </div>
   </div>
+
+  <footer class="site-footer">
+    <div>© 2025 Velvet Charms — All Rights Reserved</div>
+    <div>Ships from Frankfurt, Germany 🇩🇪 or Constanța, Romania 🇷🇴</div>
+  </footer>
 
   <script src="script.js"></script>
 </body>
