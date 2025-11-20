@@ -1,117 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Velvet Charms — Handmade Creations</title>
-
-    <link rel="stylesheet" href="style.css">
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-    <!-- Snowflake animation -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Velvet Charms ❄️</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
 
-    <!-- ░░ HEADER / NAVIGATION ░░ -->
-    <header class="site-header">
-        <div class="logo">Velvet Charms <span class="snow-accent">❄️</span></div>
+  <!-- NAVIGATION -->
+  <nav class="navbar">
+    <div class="logo">Velvet Charms ❄️</div>
 
-        <nav>
-            <ul class="nav-links">
-                <li data-page="home" class="nav-active">Home</li>
-                <li data-page="catalogue">Catalogue</li>
-                <li data-page="about">About Us</li>
-                <li data-page="contact">Contact</li>
-            </ul>
-        </nav>
+    <ul class="nav-links">
+      <li data-page="home">Home</li>
+      <li data-page="catalogue">Catalogue</li>
+      <li data-page="about">About Us</li>
+      <li data-page="contact">Contact</li>
+    </ul>
+  </nav>
+
+  <!-- HOME PAGE -->
+  <section id="home" class="page active">
+    <header class="hero">
+      <h1>Handcrafted Treasures</h1>
+      <p>Personalized, artisan-made pieces — created with love by our team of 12 art students.</p>
+      <button class="primary-btn" data-page="catalogue">Explore Catalogue</button>
     </header>
+  </section>
 
-
-    <!-- ░░ MAIN CONTENT CONTAINER ░░ -->
-    <main id="page-content">
-
-        <!-- HOME PAGE -->
-        <section id="home" class="page visible">
-            <div class="home-banner">
-                <h1>Handcrafted Treasures</h1>
-                <p>Personalized, artisan-made pieces — created with love by our team of 12 art students.</p>
-                <button id="exploreCatalogue" class="btn-primary">Explore Catalogue</button>
-            </div>
-        </section>
-
-
-        <!-- CATALOGUE PAGE -->
-        <section id="catalogue" class="page">
-            <div id="categoryList"></div>
-            <div id="subcategoryList"></div>
-            <div id="productList"></div>
-        </section>
-
-
-        <!-- ABOUT PAGE -->
-        <section id="about" class="page">
-            <h2>About Us</h2>
-            <p>
-                We are a team of 12 passionate art students dedicated to creating handcrafted, personalized items.
-                Every candle, soap, artwork, knitted piece, and epoxy creation is made entirely by hand — with care,
-                creativity, and a deep love for our craft.
-            </p>
-            <p>
-                Velvet Charms is more than a shop — it's a place where your ideas become real.  
-                You can order our pre-made items, or request a fully custom creation based on your photos,
-                descriptions, or even a specific memory you want turned into art.
-            </p>
-            <p>
-                To ensure fast delivery, all orders are shipped from the **closest studio to you**:
-                <strong>Frankfurt, Germany</strong> 🇩🇪 or <strong>Constanța, Romania</strong> 🇷🇴.
-            </p>
-            <p class="about-thanks">
-                Thank you for supporting handmade artistry. You help small creators keep dreaming and creating. ❤️
-            </p>
-        </section>
-
-
-        <!-- CONTACT PAGE -->
-        <section id="contact" class="page">
-            <h2>Contact Us</h2>
-
-            <form id="contactForm">
-                <label>Name</label>
-                <input type="text" required>
-
-                <label>Email</label>
-                <input type="email" required>
-
-                <label>Message</label>
-                <textarea required></textarea>
-
-                <button type="submit" class="btn-primary">Send Message</button>
-            </form>
-        </section>
-
-    </main>
-
-
-    <!-- ░░ PRODUCT MODAL ░░ -->
-    <div id="productModal" class="modal hidden">
-        <div class="modal-content">
-            <span id="modalClose">&times;</span>
-            <div id="modalImages"></div>
-            <h2 id="modalName"></h2>
-            <p id="modalDescription"></p>
-
-            <div id="modalOptions"></div>
-
-            <a id="modalPaymentLink" class="btn-primary" target="_blank">Order Now</a>
-        </div>
+  <!-- CATALOGUE PAGE -->
+  <section id="catalogue" class="page">
+    <h2>Our Catalogue</h2>
+    <div id="catalogueContainer" class="catalogue-container">
+      <!-- Loaded dynamically by script.js -->
     </div>
+  </section>
 
-    <!-- SCRIPT -->
-    <script src="script.js"></script>
+  <!-- ABOUT US PAGE -->
+  <section id="about" class="page">
+    <h2>About Us</h2>
 
+    <p>
+      We are a team of 12 passionate art students dedicated to creating handcrafted, personalized items.
+      Every candle, soap, artwork, knitted piece, and epoxy creation is made entirely by hand — with care,
+      creativity, and a deep love for our craft.
+    </p>
+
+    <p>
+      Velvet Charms is more than a shop — it's a place where your ideas become reality.
+      You can order our pre-made items, or request a fully custom creation based on your photos,
+      descriptions, or even a specific memory you want turned into art.
+    </p>
+
+    <p>
+      To ensure fast delivery, your order will be shipped from the closest studio to you:
+      <strong>Frankfurt, Germany 🇩🇪</strong> or <strong>Constanța, Romania 🇷🇴</strong>.
+    </p>
+
+    <p>Thank you for supporting handmade artistry. ❤️</p>
+  </section>
+
+  <!-- CONTACT PAGE -->
+  <section id="contact" class="page">
+    <h2>Contact Us</h2>
+
+    <form class="contact-form">
+      <input type="text" placeholder="Name" />
+      <input type="email" placeholder="Email" />
+      <textarea placeholder="Message"></textarea>
+      <button type="submit" class="primary-btn">Send Message</button>
+    </form>
+  </section>
+
+  <!-- PRODUCT MODAL -->
+  <div id="productModal" class="modal-overlay">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+
+      <div class="modal-left">
+        <img id="modalImage" src="" alt="Product Image" />
+        <div id="modalThumbnails"></div>
+      </div>
+
+      <div class="modal-right">
+        <h3 id="modalTitle"></h3>
+        <p id="modalDescription"></p>
+
+        <div id="modalOptions"></div>
+
+        <div class="price-box">
+          <span id="modalPrice"></span>
+        </div>
+
+        <a id="modalPayLink" class="primary-btn" target="_blank">Order Now</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
