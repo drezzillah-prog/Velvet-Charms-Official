@@ -1,420 +1,381 @@
-/* ===========================
-   Velvet Charms - script.js
-   Replaces the entire old script.
-   Responsibilities:
-   - Fetch /catalogue.json
-   - Render top menu, categories, subcategories, product grid
-   - Open product detail modal with image gallery (up to 10 images shown)
-   - Render product options (scent/intensity/aroma) only if provided
-   - Honor product.removeDetails (array of filenames to omit from details)
-   - PayPal button opens the configured payment link and shows "processed in 48h" notice
-   - Locale-aware price formatting (prices are stored in USD)
-   - Christmas-theme toggle / decoration class
-   =========================== */
+/* script.js - Velvet Charms
+   Loads catalogue.json, renders site sections, product details, gallery, and PayPal flow.
+*/
 
-(() => {
-  // ---------- Config ----------
-  const CATALOGUE_PATH = '/catalogue.json'; // root catalogue file
-  const IMAGE_ROOT = './'; // images are in root as you said
-  const MAX_GALLERY_IMAGES = 10;
-  const PROCESSING_NOTICE = 'Thanks — your order will be processed within 48 hours. You will receive an automated confirmation shortly.';
+(async function(){
+  const ROOT = document;
+  const CATALOGUE_PATH = '/catalogue.json';
+  let catalogue = null;
+  const maxGallery = 10;
 
-  // ---------- Helpers ----------
-  const el = (selector, ctx = document) => ctx.querySelector(selector);
-  const create = (tag, attrs = {}, children = []) => {
-    const node = document.createElement(tag);
-    for (const [k, v] of Object.entries(attrs)) {
-      if (k === 'class') node.className = v;
-      else if (k === 'text') node.textContent = v;
-      else node.setAttribute(k, v);
+  // Utility: fetch JSON file
+  async function loadCatalogue(){
+    try {
+      const r = await fetch(CATALOGUE_PATH + '?t=' + Date.now());
+      if(!r.ok) throw new Error('Catalogue not found on server.');
+      const json = await r.json();
+      return json;
+    } catch(err) {
+      console.error('Failed to load catalogue:', err);
+      return null;
     }
-    for (const c of children) {
-      if (typeof c === 'string') node.appendChild(document.createTextNode(c));
-      else if (c) node.appendChild(c);
+  }
+
+  // Currency helper: Map locale to currency for display only
+  function localeToCurrency(locale){
+    if(!locale) locale = navigator.language || 'en-US';
+    // Basic mapping
+    if(locale.startsWith('en-US') || locale.startsWith('en-')) return 'USD';
+    if(locale.startsWith('fr') || locale.startsWith('de') || locale.startsWith('es') || locale.startsWith('it')) return 'EUR';
+    if(locale.startsWith('ro')) return 'RON';
+    return 'USD';
+  }
+
+  function formatPrice(amount, currencyCode){
+    // show currency symbol using Intl
+    try {
+      return new Intl.NumberFormat(undefined, { style: 'currency', currency: currencyCode }).format(amount);
+    } catch(e) {
+      return `${amount} ${currencyCode}`;
     }
-    return node;
+  }
+
+  // DOM references
+  const el = {
+    headerMenu: document.querySelector('#main-menu'),
+    mainContent: document.querySelector('#main-content'),
+    catalogueSection: document.querySelector('#catalogue'),
+    aboutSection: document.querySelector('#about-us'),
+    contactForm: document.querySelector('#contact-form'),
+    modal: document.querySelector('#product-modal'),
+    modalContent: document.querySelector('#product-modal .modal-body'),
+    modalTitle: document.querySelector('#product-modal .modal-title'),
+    themeToggle: document.querySelector('#christmas-toggle')
   };
 
-  // Format price (stored in USD) to user's locale but keep USD as currency.
-  const userLocale = navigator.language || 'en-US';
-  const priceFormatter = new Intl.NumberFormat(userLocale, { style: 'currency', currency: 'USD' });
-  const formatPrice = (n) => priceFormatter.format(n);
-
-  // safe image src encoder for filenames with spaces
-  const imgSrc = (filename) => IMAGE_ROOT + encodeURIComponent(filename).replace(/%2F/g, '/');
-
-  // Check if an array contains a string (case exact)
-  const shouldSkipImage = (product, filename) => {
-    if (!product.removeDetails || !Array.isArray(product.removeDetails)) return false;
-    return product.removeDetails.includes(filename);
-  };
-
-  // ---------- Root UI containers (create or find) ----------
-  const ensureRootContainers = () => {
-    // find some expected elements or create placeholders
-    if (!el('#nav-categories')) {
-      const nav = create('nav', { id: 'nav-categories', class: 'nav-categories' });
-      document.body.prepend(nav);
+  // Create menu and basic site skeleton from catalogue
+  function renderSite(siteInfo){
+    if(siteInfo && siteInfo.name){
+      document.title = siteInfo.name + ' — ' + (siteInfo.tagline || '');
+      const brand = document.querySelector('#brand-name');
+      if(brand) brand.textContent = siteInfo.name + ' ❄️';
+      const tagline = document.querySelector('#brand-tagline');
+      if(tagline) tagline.textContent = siteInfo.tagline || '';
+      // About section text
+      const aboutTitle = document.querySelector('#about-title');
+      const aboutText = document.querySelector('#about-text');
+      if(aboutTitle) aboutTitle.textContent = (siteInfo.about && siteInfo.about.title) || 'About';
+      if(aboutText) aboutText.innerHTML = (siteInfo.about && siteInfo.about.text) || '';
     }
-    if (!el('#catalogue-root')) {
-      const main = create('main', { id: 'catalogue-root', class: 'catalogue-root' });
-      document.body.appendChild(main);
-    }
-    if (!el('#product-modal')) {
-      // modal structure (hidden by default)
-      const modal = create('div', { id: 'product-modal', class: 'product-modal hidden' });
-      modal.innerHTML = `
-        <div class="pm-backdrop" id="pm-backdrop"></div>
-        <div class="pm-content" id="pm-content" role="dialog" aria-modal="true">
-          <button id="pm-close" class="pm-close" aria-label="Close">&times;</button>
-          <div id="pm-body"></div>
-        </div>`;
-      document.body.appendChild(modal);
-    }
-  };
+  }
 
-  // ---------- Renderers ----------
-  function renderMenu(siteInfo, categories) {
-    const nav = el('#nav-categories');
-    nav.innerHTML = ''; // clear
-    // Top brand link
-    const brand = create('div', { class: 'nav-brand' }, [
-      create('a', { href: '/', text: siteInfo?.name || 'Velvet Charms', class: 'brand-link' }),
-      create('span', { class: 'brand-tagline', text: siteInfo?.tagline || '' })
-    ]);
-    nav.appendChild(brand);
-
-    // Menu list
-    const ul = create('ul', { class: 'nav-list' });
-    // Home link
-    ul.appendChild(create('li', {}, [create('a', { href: '#', class: 'nav-link', 'data-cat': 'home', text: 'Home' })]));
-
-    // categories
+  // Build main menu from categories (simple)
+  function buildMenu(categories){
+    const menu = document.querySelector('#catalogue-menu');
+    if(!menu) return;
+    // clear
+    menu.innerHTML = '';
     categories.forEach(cat => {
-      const li = create('li', {});
-      const a = create('a', { href: '#', class: 'nav-link', 'data-cat': cat.id, text: cat.name });
-      li.appendChild(a);
-      ul.appendChild(li);
+      const li = document.createElement('li');
+      li.className = 'menu-item';
+      li.innerHTML = `<button class="menu-btn" data-cat="${cat.id}">${cat.name}</button>`;
+      menu.appendChild(li);
     });
 
-    // About tab (new page)
-    ul.appendChild(create('li', {}, [create('a', { href: '#', class: 'nav-link', 'data-cat': 'about', text: 'About' })]));
-
-    nav.appendChild(ul);
-
-    // Event delegation for clicks
-    nav.addEventListener('click', (ev) => {
-      const a = ev.target.closest('a.nav-link');
-      if (!a) return;
-      ev.preventDefault();
-      const catId = a.dataset.cat;
-      if (catId === 'home') renderHome(siteInfo, categories);
-      else if (catId === 'about') renderAbout(siteInfo);
-      else {
-        const cat = categories.find(c => c.id === catId);
-        if (cat) renderCategory(cat);
-      }
-      // small scroll to top
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  }
-
-  function renderHome(siteInfo, categories) {
-    const root = el('#catalogue-root');
-    root.innerHTML = '';
-
-    // banner (uses siteInfo.banner if exists)
-    const banner = create('section', { class: 'home-banner' }, [
-      create('img', { src: imgSrc(siteInfo?.banner || 'top banner picture for candles.png'), alt: 'Banner', class: 'home-banner-img' })
-    ]);
-    root.appendChild(banner);
-
-    // quick intro + featured categories (first row)
-    const intro = create('section', { class: 'home-intro' });
-    intro.appendChild(create('h1', { text: siteInfo?.name || 'Velvet Charms' }));
-    intro.appendChild(create('p', { text: siteInfo?.tagline || 'Handmade to order.' }));
-    root.appendChild(intro);
-
-    // featured categories preview (first 6 or available)
-    const preview = create('section', { class: 'home-preview' });
-    const grid = create('div', { class: 'preview-grid' });
-    categories.slice(0, 6).forEach(cat => {
-      const card = create('div', { class: 'preview-card' }, [
-        create('button', { class: 'preview-card-btn', 'data-cat': cat.id }, [
-          create('img', { src: imgSrc(cat.banner || (cat.subcategories && cat.subcategories[0] && (cat.subcategories[0].products && cat.subcategories[0].products[0] && cat.subcategories[0].products[0].images && cat.subcategories[0].products[0].images[0])) || 'wax_candle_medium.jpg'), alt: cat.name }),
-          create('span', { class: 'preview-card-title', text: cat.name })
-        ])
-      ]);
-      grid.appendChild(card);
-    });
-    preview.appendChild(grid);
-    root.appendChild(preview);
-
-    // small footer note about currencies
-    root.appendChild(create('section', { class: 'home-note' }, [
-      create('p', { text: 'Prices are shown in USD. Payments are processed via PayPal and are billed in USD. For an estimate in your currency, please check your bank or PayPal conversion.' })
-    ]));
-  }
-
-  function renderAbout(siteInfo) {
-    const root = el('#catalogue-root');
-    root.innerHTML = '';
-    const aboutSec = create('section', { class: 'about-section' });
-    aboutSec.appendChild(create('h2', { text: siteInfo?.about?.title || 'About Us' }));
-    aboutSec.appendChild(create('p', { text: siteInfo?.about?.text || '' }));
-    aboutSec.appendChild(create('p', { text: 'We dispatch from two hubs depending on your location: Frankfurt, Germany or Constanța, Romania.' }));
-    root.appendChild(aboutSec);
-  }
-
-  function renderCategory(category) {
-    const root = el('#catalogue-root');
-    root.innerHTML = '';
-    const header = create('header', { class: 'category-header' }, [
-      create('h2', { text: category.name }),
-      category.banner ? create('img', { src: imgSrc(category.banner), alt: category.name, class: 'category-banner' }) : null
-    ]);
-    root.appendChild(header);
-
-    // If category has subcategories render subcategory tabs:
-    if (category.subcategories && category.subcategories.length) {
-      const tabs = create('div', { class: 'subcat-tabs' });
-      category.subcategories.forEach((sc, idx) => {
-        const t = create('button', { class: 'subcat-tab' + (idx === 0 ? ' active' : ''), 'data-subcat': sc.id, text: sc.name });
-        tabs.appendChild(t);
+    // About and Contact are separate static top nav
+    document.querySelectorAll('.menu-btn').forEach(b => {
+      b.addEventListener('click', () => {
+        const selected = b.dataset.cat;
+        renderCategory(selected);
       });
-      root.appendChild(tabs);
-
-      const productsContainer = create('section', { class: 'products-section', id: `products-${category.id}` });
-      root.appendChild(productsContainer);
-
-      // initial render first subcat
-      renderSubcategory(category, category.subcategories[0]);
-
-      // tab clicks
-      tabs.addEventListener('click', (ev) => {
-        const b = ev.target.closest('button.subcat-tab');
-        if (!b) return;
-        const subcatId = b.dataset.subcat;
-        Array.from(tabs.children).forEach(x => x.classList.toggle('active', x === b));
-        const subcat = category.subcategories.find(s => s.id === subcatId);
-        if (subcat) renderSubcategory(category, subcat);
-      });
-    } else {
-      // no subcats -> render products array directly (if category.products)
-      const fakeSub = { id: category.id + '-all', name: 'All', products: category.products || [] };
-      renderSubcategory(category, fakeSub);
-    }
-  }
-
-  function renderSubcategory(category, subcat) {
-    const container = el(`#products-${category.id}`) || el('#catalogue-root');
-    container.innerHTML = '';
-
-    const grid = create('div', { class: 'product-grid' });
-    (subcat.products || []).forEach(product => {
-      const card = create('article', { class: 'product-card', 'data-prod': product.id });
-      const thumbImg = (product.images && product.images[0]) ? imgSrc(product.images[0]) : imgSrc('wax_candle_small.png');
-      card.appendChild(create('img', { src: thumbImg, alt: product.name, class: 'product-thumb' }));
-      card.appendChild(create('h3', { text: product.name }));
-      card.appendChild(create('p', { class: 'product-price', text: formatPrice(product.price) }));
-      const buyBtn = create('button', { class: 'btn-buy', text: 'Buy' });
-      buyBtn.addEventListener('click', () => openProductModal(product, category, subcat));
-      card.appendChild(buyBtn);
-
-      grid.appendChild(card);
     });
-
-    // If there are no products
-    if ((subcat.products || []).length === 0) {
-      container.appendChild(create('p', { text: 'No products available in this section.' }));
-    } else {
-      container.appendChild(grid);
-    }
   }
 
-  // ---------- Product Modal ----------
-  function openProductModal(product, category = {}, subcat = {}) {
-    const modal = el('#product-modal');
-    const pmBody = el('#pm-body');
-    pmBody.innerHTML = '';
-
-    // Title + price
-    pmBody.appendChild(create('h2', { text: product.name }));
-    pmBody.appendChild(create('p', { class: 'pm-price', text: formatPrice(product.price) }));
-
-    // Gallery (respect removeDetails)
-    const images = (product.images || []).filter((fn) => !shouldSkipImage(product, fn)).slice(0, MAX_GALLERY_IMAGES);
-    const gallery = create('div', { class: 'pm-gallery' });
-    if (images.length === 0) {
-      gallery.appendChild(create('img', { src: imgSrc('wax_candle_small.png'), alt: product.name }));
-    } else {
-      const mainImg = create('img', { src: imgSrc(images[0]), alt: product.name, class: 'pm-main-img' });
-      gallery.appendChild(mainImg);
-
-      if (images.length > 1) {
-        const thumbs = create('div', { class: 'pm-thumbs' });
-        images.forEach((fn, i) => {
-          const t = create('img', { src: imgSrc(fn), class: 'pm-thumb', 'data-src': imgSrc(fn), alt: `${product.name} preview ${i+1}` });
-          t.addEventListener('click', () => {
-            mainImg.src = t.dataset.src;
-          });
-          thumbs.appendChild(t);
-        });
-        gallery.appendChild(thumbs);
-      }
-    }
-    pmBody.appendChild(gallery);
-
-    // Description
-    pmBody.appendChild(create('p', { class: 'pm-desc', text: product.description || '' }));
-
-    // Options (render only if present)
-    const optionsWrapper = create('div', { class: 'pm-options' });
-    const optionFields = {}; // hold selected option elements
-
-    if (product.options) {
-      // generic handler for arrays: scent, intensity, aroma, etc.
-      for (const [optName, optVals] of Object.entries(product.options)) {
-        if (!Array.isArray(optVals) || optVals.length === 0) continue;
-        const field = create('div', { class: 'pm-option-field' });
-        field.appendChild(create('label', { text: optName.charAt(0).toUpperCase() + optName.slice(1) + ':' }));
-        const select = create('select', { class: 'pm-select', 'data-opt': optName });
-        optVals.forEach(v => select.appendChild(create('option', { value: v, text: v })));
-        field.appendChild(select);
-        optionsWrapper.appendChild(field);
-        optionFields[optName] = select;
-      }
-    }
-
-    // Quantity input
-    const qtyWrap = create('div', { class: 'pm-qty' }, [
-      create('label', { text: 'Quantity:' }),
-      create('input', { type: 'number', min: '1', value: '1', class: 'pm-qty-input', id: 'pm-qty-input' })
-    ]);
-    optionsWrapper.appendChild(qtyWrap);
-
-    pmBody.appendChild(optionsWrapper);
-
-    // PayPal / buy button
-    const actions = create('div', { class: 'pm-actions' });
-    const payBtn = create('button', { class: 'btn-pay', text: 'Pay with PayPal' });
-    payBtn.addEventListener('click', () => {
-      handlePayButton(product, optionFields);
-    });
-
-    // Quick buy note + shipping origin info
-    const note = create('p', { class: 'pm-note', text: 'Billing in USD. Orders ship from Frankfurt (DE) or Constanța (RO) depending on proximity.' });
-
-    actions.appendChild(payBtn);
-    actions.appendChild(note);
-    pmBody.appendChild(actions);
-
-    // show modal
-    modal.classList.remove('hidden');
-  }
-
-  function closeProductModal() {
-    const modal = el('#product-modal');
-    modal.classList.add('hidden');
-    el('#pm-body').innerHTML = '';
-  }
-
-  // Pay button behavior: open product.paymentLink (if present) in new tab and show processing notice
-  function handlePayButton(product, optionFields) {
-    // Build a short summary to send optionally as part of the checkout query (PayPal links you provided are custom links,
-    // many of them are PayPal payment pages that may not accept query strings — so we'll simply open the link in a new tab).
-    if (!product.paymentLink) {
-      alert('Payment link missing for this product. Please contact support.');
+  // Render a category page (list subcategories)
+  function renderCategory(catId){
+    const cat = catalogue.categories.find(c => c.id === catId);
+    if(!cat) {
+      showError('Category not found.');
       return;
     }
-
-    // Optional: collect selected options for later record (currently we just open the PayPal link)
-    const selectedOptions = {};
-    for (const [k, sel] of Object.entries(optionFields)) {
-      selectedOptions[k] = sel.value;
+    const cWrap = document.querySelector('#catalogue .content-inner');
+    cWrap.innerHTML = `<h2>${cat.name}</h2>`;
+    // show banner if present
+    if(cat.banner) {
+      cWrap.innerHTML += `<div class="category-banner"><img alt="${cat.name} banner" src="${cat.banner}" loading="lazy"></div>`;
     }
-    const qty = parseInt(el('#pm-qty-input').value || '1', 10);
-
-    // Open PayPal in new tab
-    window.open(product.paymentLink, '_blank');
-
-    // Show friendly confirmation on-site
-    showProcessingNotice();
-
-    // Close the modal after a short delay
-    setTimeout(closeProductModal, 900);
-  }
-
-  function showProcessingNotice() {
-    // small toast or alert
-    const toast = create('div', { class: 'site-toast' }, [create('p', { text: PROCESSING_NOTICE })]);
-    document.body.appendChild(toast);
-    setTimeout(() => toast.classList.add('show'), 10);
-    setTimeout(() => {
-      toast.classList.remove('show');
-      setTimeout(() => toast.remove(), 500);
-    }, 7000);
-  }
-
-  // ---------- Christmas theme toggle ----------
-  function applyChristmasTheme(enable) {
-    document.documentElement.classList.toggle('christmas-mode', !!enable);
-  }
-
-  // ---------- Init ----------
-  async function init() {
-    ensureRootContainers();
-
-    // small Christmas mode control in top-right
-    const topRight = create('div', { class: 'christmas-toggle' });
-    topRight.innerHTML = `
-      <label style="display:inline-flex;align-items:center;gap:.4rem">
-        <input type="checkbox" id="christmas-checkbox"> <span>♥ Christmas Theme</span>
-      </label>
-    `;
-    document.body.appendChild(topRight);
-    el('#christmas-checkbox').addEventListener('change', (e) => applyChristmasTheme(e.target.checked));
-
-    // fetch catalogue
-    try {
-      const resp = await fetch(CATALOGUE_PATH, { cache: 'no-store' });
-      if (!resp.ok) throw new Error(`Failed to fetch catalogue: ${resp.status}`);
-      const catalogue = await resp.json();
-
-      // store for debugging
-      window._velvetCatalogue = catalogue;
-
-      const siteInfo = catalogue.siteInfo || {};
-      const categories = catalogue.categories || [];
-
-      // render menu and homepage
-      renderMenu(siteInfo, categories);
-      renderHome(siteInfo, categories);
-
-      // global modal controls
-      document.getElementById('pm-close').addEventListener('click', closeProductModal);
-      document.getElementById('pm-backdrop').addEventListener('click', closeProductModal);
-
-      // small keyboard handler for Escape
-      document.addEventListener('keydown', (ev) => {
-        if (ev.key === 'Escape') closeProductModal();
+    // iterate subcats or direct products
+    if(cat.subcategories && cat.subcategories.length){
+      cat.subcategories.forEach(sub => {
+        const elSub = document.createElement('section');
+        elSub.className = 'subcat';
+        elSub.innerHTML = `<h3>${sub.name}</h3><div class="product-grid" id="grid-${sub.id}"></div>`;
+        cWrap.appendChild(elSub);
+        const grid = elSub.querySelector(`#grid-${sub.id}`);
+        // products list
+        const products = sub.products || sub.products === undefined ? sub.products : [];
+        if(Array.isArray(sub.products)) {
+          sub.products.forEach(p => {
+            grid.appendChild(buildProductCard(p, sub.name, cat.id));
+          });
+        }
       });
-
-      // apply any default christmas if siteInfo.christmasDefault true
-      if (siteInfo.christmasDefault) applyChristmasTheme(true);
-
-      // small accessibility note - add aria-live for toast
-      const al = create('div', { id: 'aria-live', 'aria-live': 'polite', style: 'position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden' });
-      document.body.appendChild(al);
-
-      console.info('Velvet Charms catalogue loaded successfully.');
-    } catch (err) {
-      console.error(err);
-      const root = el('#catalogue-root');
-      root.innerHTML = '<p class="error">Error loading catalogue. Please check that <code>/catalogue.json</code> is present and valid in the site root.</p>';
+    } else if (cat.products && cat.products.length){
+      const grid = document.createElement('div'); grid.className = 'product-grid';
+      cat.products.forEach(p => grid.appendChild(buildProductCard(p, cat.name, cat.id)));
+      cWrap.appendChild(grid);
     }
+
+    // scroll to catalogue view
+    window.location.hash = '#catalogue';
   }
 
-  // run
-  document.addEventListener('DOMContentLoaded', init);
+  // product card element
+  function buildProductCard(p, subname, catid){
+    const card = document.createElement('article');
+    card.className = 'product-card';
+    const img = (p.images && p.images.length) ? p.images[0] : 'placeholder.png';
+    const price = p.price || 0;
+    card.innerHTML = `
+      <div class="pc-image"><img src="${img}" alt="${p.name}" loading="lazy"></div>
+      <div class="pc-body">
+        <h4>${p.name}</h4>
+        <div class="pc-price" data-price="${price}">${formatPrice(price, catalogue.siteInfo.defaultCurrency)}</div>
+        <p class="pc-desc">${p.description || ''}</p>
+        <div class="pc-actions">
+          <button class="btn view-btn" data-id="${p.id}">Details</button>
+          ${p.paymentLink ? `<a class="btn buy-btn" target="_blank" rel="noopener" data-id="${p.id}" href="${p.paymentLink}">Buy</a>` : `<button class="btn buy-btn disabled" disabled>No PayPal</button>`}
+        </div>
+      </div>
+    `;
+    // add listeners
+    card.querySelector('.view-btn').addEventListener('click', () => openProductModal(p));
+    const buyEl = card.querySelector('.buy-btn');
+    if(buyEl && buyEl.href){
+      buyEl.addEventListener('click', (e) => {
+        // on buy click show confirmation modal after redirect opened
+        setTimeout(() => {
+          showOrderConfirmation(p);
+        }, 400);
+      });
+    }
+    return card;
+  }
+
+  // Modal helpers
+  function openProductModal(prod){
+    // populate modal content
+    el.modalTitle.textContent = prod.name;
+    const body = el.modalContent;
+    body.innerHTML = '';
+    // gallery
+    const galleryWrap = document.createElement('div');
+    galleryWrap.className = 'modal-gallery';
+    const images = (prod.images || []).slice(0, maxGallery);
+    if(images.length === 0) images.push('placeholder.png');
+    const mainImg = document.createElement('img');
+    mainImg.className = 'main-gallery-img';
+    mainImg.src = images[0];
+    mainImg.alt = prod.name;
+    galleryWrap.appendChild(mainImg);
+    const thumbs = document.createElement('div');
+    thumbs.className = 'thumbs';
+    images.forEach((src, idx) => {
+      const t = document.createElement('img');
+      t.className = 'thumb';
+      t.src = src;
+      t.alt = prod.name + ' ' + (idx+1);
+      t.loading = 'lazy';
+      t.addEventListener('click', ()=> mainImg.src = src);
+      thumbs.appendChild(t);
+    });
+    galleryWrap.appendChild(thumbs);
+    body.appendChild(galleryWrap);
+
+    // price and options
+    const priceDiv = document.createElement('div');
+    priceDiv.className = 'modal-price';
+    priceDiv.innerText = `${formatPrice(prod.price || 0, catalogue.siteInfo.defaultCurrency)}`;
+    body.appendChild(priceDiv);
+
+    if(prod.options){
+      const opts = document.createElement('div');
+      opts.className = 'modal-options';
+      for(const k in prod.options){
+        const optGroup = document.createElement('div'); optGroup.className = 'opt-group';
+        optGroup.innerHTML = `<label>${k.charAt(0).toUpperCase()+k.slice(1)}</label>`;
+        const sel = document.createElement('select'); sel.name = k;
+        prod.options[k].forEach(o => {
+          const option = document.createElement('option'); option.value = o; option.innerText = o;
+          sel.appendChild(option);
+        });
+        optGroup.appendChild(sel);
+        opts.appendChild(optGroup);
+      }
+      body.appendChild(opts);
+    }
+
+    // description and buy
+    const desc = document.createElement('p'); desc.className = 'modal-desc'; desc.innerText = prod.description || '';
+    body.appendChild(desc);
+
+    const actions = document.createElement('div'); actions.className = 'modal-actions';
+    if(prod.paymentLink){
+      const buyBtn = document.createElement('a');
+      buyBtn.className = 'btn buy-now';
+      buyBtn.href = prod.paymentLink;
+      buyBtn.target = '_blank';
+      buyBtn.rel = 'noopener';
+      buyBtn.innerText = 'Buy on PayPal';
+      buyBtn.addEventListener('click', () => {
+        setTimeout(()=> showOrderConfirmation(prod), 500);
+      });
+      actions.appendChild(buyBtn);
+    } else {
+      const noPay = document.createElement('button'); noPay.className='btn disabled'; noPay.innerText = 'No payment link';
+      actions.appendChild(noPay);
+    }
+    const closeBtn = document.createElement('button'); closeBtn.className = 'btn close-modal'; closeBtn.innerText = 'Close';
+    closeBtn.addEventListener('click', hideModal);
+    actions.appendChild(closeBtn);
+    body.appendChild(actions);
+
+    showModal();
+  }
+
+  function showModal(){
+    document.body.classList.add('modal-open');
+    el.modal.classList.add('open');
+  }
+
+  function hideModal(){
+    document.body.classList.remove('modal-open');
+    el.modal.classList.remove('open');
+  }
+
+  // On-buy confirmation (after they click PayPal button)
+  function showOrderConfirmation(product){
+    const msg = `Thank you! Your order for "${product.name}" has been received. We will start processing it within 48 hours and you'll receive a confirmation email when production begins.`;
+    alert(msg);
+  }
+
+  function showError(msg){
+    const target = document.querySelector('#main-content');
+    target.innerHTML = `<div class="error-card"><strong>Error loading catalogue.</strong><p>${msg}</p></div>`;
+  }
+
+  // Top-level: render entire catalogue landing page with categories as clickable menu
+  function renderCatalogueLanding(catalogueObj){
+    const root = document.querySelector('#catalogue .content-inner');
+    root.innerHTML = '';
+    catalogueObj.categories.forEach(cat => {
+      const section = document.createElement('section');
+      section.className = 'landing-cat';
+      section.innerHTML = `<h3>${cat.name}</h3><div class="landing-subcats"></div>`;
+      root.appendChild(section);
+      const subWrap = section.querySelector('.landing-subcats');
+      // display subcategory names as buttons
+      if(cat.subcategories && cat.subcategories.length){
+        cat.subcategories.forEach(sub => {
+          const btn = document.createElement('button');
+          btn.className = 'subcat-btn';
+          btn.innerText = sub.name;
+          btn.addEventListener('click', ()=> renderCategory(cat.id));
+          subWrap.appendChild(btn);
+        });
+      } else if(cat.products && cat.products.length){
+        const btn = document.createElement('button');
+        btn.className = 'subcat-btn';
+        btn.innerText = 'View ' + cat.name;
+        btn.addEventListener('click', ()=> renderCategory(cat.id));
+        subWrap.appendChild(btn);
+      }
+    });
+  }
+
+  // Contact form handling (basic: no backend)
+  function initContact(){
+    const form = document.querySelector('#contact-form');
+    if(!form) return;
+    form.addEventListener('submit', (ev) => {
+      ev.preventDefault();
+      const name = form.querySelector('[name=name]').value.trim();
+      const email = form.querySelector('[name=email]').value.trim();
+      const msg = form.querySelector('[name=message]').value.trim();
+      if(!name || !email || !msg) {
+        alert('Please fill all fields.');
+        return;
+      }
+      // Show local confirmation (no backend)
+      alert('Thanks ' + name + '! Your message has been received. We will reply by email.');
+      form.reset();
+    });
+  }
+
+  function initNavButtons(){
+    // catalogue button
+    const catBtn = document.querySelector('#nav-catalogue');
+    if(catBtn) catBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      renderCatalogueLanding(catalogue);
+      window.location.hash = '#catalogue';
+    });
+    const aboutBtn = document.querySelector('#nav-about');
+    if(aboutBtn) aboutBtn.addEventListener('click', (e) => { e.preventDefault(); window.location.hash = '#about-us'; });
+    const contactBtn = document.querySelector('#nav-contact');
+    if(contactBtn) contactBtn.addEventListener('click', (e) => { e.preventDefault(); window.location.hash = '#contact'; });
+  }
+
+  // some small accessibility / keyboard close
+  function initModalCloseOnEsc(){
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape') hideModal();
+    });
+  }
+
+  // Theme toggle (Christmas visuals)
+  function initThemeToggle(){
+    const toggle = document.querySelector('#christmas-toggle');
+    if(!toggle) return;
+    toggle.addEventListener('change', (e) => {
+      if(e.target.checked) document.body.classList.add('christmas-mode');
+      else document.body.classList.remove('christmas-mode');
+    });
+  }
+
+  // Boot
+  catalogue = await loadCatalogue();
+  if(!catalogue){
+    showError('Please ensure /catalogue.json exists and is valid in site root.');
+    return;
+  }
+
+  // Render site info
+  renderSite(catalogue.siteInfo);
+
+  // Build left menu
+  buildMenu(catalogue.categories);
+
+  // initial landing
+  renderCatalogueLanding(catalogue);
+
+  // initialize listeners
+  initContact();
+  initNavButtons();
+  initModalCloseOnEsc();
+  initThemeToggle();
+
+  // show about if hash is about
+  if(window.location.hash === '#about-us') window.scrollTo({top:0, behavior:'smooth'});
+
+  // Region / currency helper note insert
+  const curNote = document.querySelector('#currency-note');
+  if(curNote){
+    const locale = navigator.language || 'en-US';
+    const code = localeToCurrency(locale);
+    curNote.innerText = `Prices are shown in ${catalogue.siteInfo.defaultCurrency}. Shoppers in ${locale} will see locale-formatted prices; currency conversion is approximate and not a live exchange.`;
+  }
+
+  console.log('Catalogue loaded and site initialized.');
+
 })();
