@@ -2,91 +2,44 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Velvet Charms — Where Art Meets Emotion</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="icon" href="top banner picture for candles.png" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="site-header">
-    <div class="brand">
-      <div id="brand-name">Velvet Charms ❄️</div>
-      <div id="brand-tagline">Where Art Meets Emotion — Handcrafted with love</div>
-    </div>
+  <header id="site-header" class="site-header"></header>
 
-    <nav id="main-menu" class="main-nav">
-      <ul>
-        <li><a id="nav-home" href="./">Home</a></li>
-        <li><a id="nav-catalogue" href="#catalogue">Catalogue</a></li>
-        <li><a id="nav-about" href="#about-us">About Us</a></li>
-        <li><a id="nav-contact" href="#contact">Contact</a></li>
-      </ul>
-
-      <div class="theme-control">
-        <label><input id="christmas-toggle" type="checkbox"> ♥ Christmas Theme</label>
-      </div>
-    </nav>
-  </header>
-
-  <main id="main-content">
-    <section id="hero">
-      <div class="hero-inner">
-        <h1>Handcrafted Treasures</h1>
-        <p>Personalized, artisan-made pieces — created with love by our team of 12 art students.</p>
-        <div class="hero-actions">
-          <button id="explore-catalogue" class="btn">Explore Catalogue</button>
-          <a class="btn" href="#about-us">About Us</a>
-        </div>
-      </div>
-    </section>
-
-    <section id="catalogue" class="page-section">
-      <div class="page-inner">
-        <aside class="left-column">
-          <h4>Collections</h4>
-          <ul id="catalogue-menu"></ul>
-          <div class="note" id="currency-note">Prices are shown in USD.</div>
-        </aside>
-
-        <div class="content-inner">
-          <h2>Welcome to the shop</h2>
-          <p>Select a category from the left to view products.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="about-us" class="page-section">
-      <div class="page-inner about-inner">
-        <h2 id="about-title">About Us</h2>
-        <div id="about-text">
-          <p>We are a team of 12 passionate art students dedicated to creating personalized handcrafted items. Every piece is made with patience, care, and a touch of magic. We ship from Frankfurt (Germany) or Constanța (Romania) depending on proximity.</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="contact" class="page-section">
-      <div class="page-inner">
-        <h2>Contact Us</h2>
-        <form id="contact-form" class="contact-form">
-          <label>Name <input name="name" required /></label>
-          <label>Email <input name="email" type="email" required /></label>
-          <label>Message <textarea name="message" rows="4" required></textarea></label>
-          <button class="btn" type="submit">Send Message</button>
-        </form>
-      </div>
-    </section>
+  <main id="app" class="main-content">
+    <!-- Content injected by script.js -->
   </main>
 
   <!-- Product modal -->
-  <div id="product-modal" class="modal" role="dialog" aria-hidden="true">
-    <div class="modal-inner">
-      <header><h3 class="modal-title"></h3><button class="modal-close">×</button></header>
-      <div class="modal-body"></div>
+  <div id="product-modal" class="product-modal" aria-hidden="true">
+    <div class="modal-card">
+      <button class="modal-close btn ghost">×</button>
+      <div class="modal-left">
+        <div class="modal-images"></div>
+      </div>
+      <div class="modal-right">
+        <h3 class="modal-title"></h3>
+        <p class="modal-price"></p>
+        <p class="modal-desc"></p>
+        <div class="modal-options"></div>
+        <div class="modal-actions">
+          <button class="btn modal-buy primary">Buy</button>
+          <button class="btn modal-close ghost">Close</button>
+        </div>
+      </div>
     </div>
   </div>
 
+  <div id="order-toast" class="order-toast" role="status"></div>
+
   <footer class="site-footer">
-    <div>© 2025 Velvet Charms — All Rights Reserved</div>
-    <div>Ships from Frankfurt, Germany 🇩🇪 or Constanța, Romania 🇷🇴</div>
+    <div class="inner">
+      <small>© 2025 Velvet Charms — All Rights Reserved</small>
+    </div>
   </footer>
 
   <script src="script.js"></script>
