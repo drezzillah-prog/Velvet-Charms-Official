@@ -4,9 +4,27 @@
     "tagline": "Where Art Meets Emotion — Handcrafted with love",
     "about": {
       "title": "About Us",
-      "text": "We are a team of 12 passionate art students dedicated to creating personalized handcrafted items. Every piece is made with patience, care, and a touch of magic — whether you choose an existing product or request a fully custom creation built from your photos and ideas. We proudly ship worldwide, with orders dispatched from the location closest to you: Frankfurt, Germany or Constanța, Romania. Your order means the world to us — thank you for supporting handmade artistry."
+      "text": "We are a team of 12 passionate art students dedicated to creating personalized handcrafted items. Every piece is made with patience, care, and a touch of magic — whether you choose an existing product or request a fully custom creation built from your photos and ideas. We proudly ship worldwide, with orders dispatched from the location closest to you: Frankfurt, Germany or Constanța, Romania. Your order means the world to us — thank you for supporting handmade artistry. ❤️"
     },
-    "defaultCurrency": "USD"
+    "defaultCurrency": "USD",
+    "fragranceOptions": [
+      "Orange",
+      "Lemon",
+      "Lavender",
+      "Vanilla",
+      "Jasmine",
+      "Lemongrass",
+      "Coconut",
+      "Cinnamon",
+      "Pine",
+      "Sandalwood",
+      "Coffee",
+      "Sweet Almond",
+      "Myrrh",
+      "Sage",
+      "Frankincense",
+      "Unscented"
+    ]
   },
 
   "categories": [
@@ -21,68 +39,95 @@
           "products": [
             {
               "id": "spirit_full_200",
-              "name": "Custom Spiritual Candle — Full-body 3D relief (200ml)",
+              "name": "Custom Spiritual Candle — Full-body 3D Relief (200ml)",
               "price": 90,
               "paymentLink": "https://www.paypal.com/ncp/payment/2EP29S7758654",
-              "description": "Sculpted deity — 200ml. Choose myrrh, sage, frankincense, sandalwood, or unscented.",
-              "images": ["ethereal_candle_7.jpg"],
-              "options": { "scent": ["Myrrh","Sage","Frankincense","Sandalwood","Unscented"] },
-              "removeDetails": ["remove_second_image"]
+              "description": "Full-body sculpted spiritual candle with optional divine symbols. Choose scent: Myrrh, Sage, Frankincense, Sandalwood, or Unscented.",
+              "images": [
+                "ethereal_candle_7.jpg"
+              ],
+              "options": {
+                "scent": ["Myrrh", "Sage", "Frankincense", "Sandalwood", "Unscented"],
+                "intensity": ["Soft", "Medium", "Strong"]
+              },
+              "notes": "Second details image removed as requested."
             },
             {
               "id": "spirit_half_200",
-              "name": "Custom Spiritual Candle — Half-relief sculpted design (200ml)",
+              "name": "Custom Spiritual Candle — Half-relief Sculpted (200ml)",
               "price": 75,
               "paymentLink": "https://www.paypal.com/ncp/payment/W37Y4BFMBR4KY",
-              "description": "Half-relief deity sculpted into the candle.",
-              "images": ["spiritual candle (2).jpg"],
-              "options": { "scent": ["Myrrh","Sage","Frankincense","Sandalwood","Unscented"] }
+              "description": "Half-relief sculpted candle featuring deities or sacred motifs. Choose scent as above.",
+              "images": [
+                "spiritual candle (2).jpg"
+              ],
+              "options": {
+                "scent": ["Myrrh", "Sage", "Frankincense", "Sandalwood", "Unscented"]
+              }
             },
             {
               "id": "spirit_full_400",
               "name": "Custom Spiritual Candle — Full-body 3D Sculpture (400ml)",
               "price": 150,
               "paymentLink": "https://www.paypal.com/ncp/payment/NG6G9WXX7PQXW",
-              "description": "Larger sculpted piece — more detail.",
-              "images": ["ethereal_candle_6.jpg"],
-              "options": { "scent": ["Myrrh","Sage","Frankincense","Sandalwood","Unscented"] },
-              "removeDetails": ["remove_second_image"]
+              "description": "Large sculpted spiritual candle with detailed 3D figure. Choose scent as above.",
+              "images": [
+                "ethereal_candle_6.jpg"
+              ],
+              "options": {
+                "scent": ["Myrrh", "Sage", "Frankincense", "Sandalwood", "Unscented"]
+              },
+              "notes": "Second details image removed as requested."
             },
             {
               "id": "spirit_half_400",
-              "name": "Custom Spiritual Candle — Half-relief sculpted design (400ml)",
+              "name": "Custom Spiritual Candle — Half-relief Sculpted (400ml)",
               "price": 110,
               "paymentLink": "https://www.paypal.com/ncp/payment/XD5DD6QD8QJYQ",
-              "description": "Large half-relief sculpted candle.",
-              "images": ["ethereal_candle_4.jpg"],
-              "options": { "scent": ["Myrrh","Sage","Frankincense","Sandalwood","Unscented"] }
+              "description": "Large half-relief candle with sacred sculpted designs. Choose scent as above.",
+              "images": [
+                "ethereal_candle_4.jpg"
+              ],
+              "options": {
+                "scent": ["Myrrh", "Sage", "Frankincense", "Sandalwood", "Unscented"]
+              }
             }
           ]
         },
+
         {
           "id": "divination",
           "name": "Divination Candles",
           "products": [
             {
               "id": "div_200",
-              "name": "Divination Candle — Painted symbols & sacred characters (200ml)",
+              "name": "Divination Candle — Painted Symbols (200ml)",
               "price": 50,
               "paymentLink": "https://www.paypal.com/ncp/payment/VK7WLERJM3R88",
-              "description": "Painted symbols (moon, stars, runes) and sacred characters. Unscented available.",
-              "images": ["divination candle.jpg"],
-              "options": { "scent": ["Myrrh","Sage","Frankincense","Sandalwood","Unscented"] }
+              "description": "Altar candle painted with runes, moons, stars, or sacred icons. Light myrrh or sage recommended; unscented option available.",
+              "images": [
+                "divination candle.jpg"
+              ],
+              "options": {
+                "scent": ["Myrrh", "Sage", "Frankincense", "Sandalwood", "Unscented"]
+              }
             },
             {
               "id": "div_400",
-              "name": "Divination Candle — Painted symbols & sacred characters (400ml)",
+              "name": "Divination Candle — Painted Symbols (400ml)",
               "price": 80,
               "paymentLink": "https://www.paypal.com/ncp/payment/6QJL8HSLFL6YJ",
-              "description": "Larger painted altar candle.",
-              "images": ["divination candle.jpg"],
-              "options": { "scent": ["Myrrh","Sage","Frankincense","Sandalwood","Unscented"] }
+              "description": "Large altar candle painted with sacred symbols.",
+              "images": [
+                "divination candle.jpg"
+              ],
+              "options": {
+                "scent": ["Myrrh", "Sage", "Frankincense", "Sandalwood", "Unscented"]
+              }
             }
           ]
         },
+
         {
           "id": "classic",
           "name": "Classic & Decorative Candles",
@@ -92,11 +137,27 @@
               "name": "Wax Candle — Small (150ml)",
               "price": 20,
               "paymentLink": "https://www.paypal.com/ncp/payment/4XGJ5SMVP574W",
-              "description": "Choose any aroma and intensity, or request unscented.",
-              "images": ["wax_candle_small.png"],
+              "description": "Classic wax candle. Choose aroma and intensity.",
+              "images": [
+                "wax_candle_small.png"
+              ],
               "options": {
-                "scent": ["Orange","Lemon","Lavender","Vanilla","Jasmine","Lemongrass","Coconut","Cinnamon","Pine","Sandalwood","Coffee","Sweet Almond","Unscented"],
-                "intensity": ["Soft","Medium","Strong"]
+                "scent": [
+                  "Orange",
+                  "Lemon",
+                  "Lavender",
+                  "Vanilla",
+                  "Jasmine",
+                  "Lemongrass",
+                  "Coconut",
+                  "Cinnamon",
+                  "Pine",
+                  "Sandalwood",
+                  "Coffee",
+                  "Sweet Almond",
+                  "Unscented"
+                ],
+                "intensity": ["Soft", "Medium", "Strong"]
               }
             },
             {
@@ -104,11 +165,27 @@
               "name": "Wax Candle — Medium (250ml)",
               "price": 25,
               "paymentLink": "https://www.paypal.com/ncp/payment/DJVW5LQCPL6A6",
-              "description": "Choose any aroma and intensity.",
-              "images": ["wax_candle_medium.jpg"],
+              "description": "Medium-size decorative wax candle.",
+              "images": [
+                "wax_candle_medium.jpg"
+              ],
               "options": {
-                "scent": ["Orange","Lemon","Lavender","Vanilla","Jasmine","Lemongrass","Coconut","Cinnamon","Pine","Sandalwood","Coffee","Sweet Almond","Unscented"],
-                "intensity": ["Soft","Medium","Strong"]
+                "scent": [
+                  "Orange",
+                  "Lemon",
+                  "Lavender",
+                  "Vanilla",
+                  "Jasmine",
+                  "Lemongrass",
+                  "Coconut",
+                  "Cinnamon",
+                  "Pine",
+                  "Sandalwood",
+                  "Coffee",
+                  "Sweet Almond",
+                  "Unscented"
+                ],
+                "intensity": ["Soft", "Medium", "Strong"]
               }
             },
             {
@@ -116,11 +193,27 @@
               "name": "Wax Candle — Large (400ml)",
               "price": 33,
               "paymentLink": "https://www.paypal.com/ncp/payment/XFL9ZGYBJEHXW",
-              "description": "Large wax candle — choose aroma & intensity.",
-              "images": ["wax_candle_large.png"],
+              "description": "Large wax candle with customizable aroma and intensity.",
+              "images": [
+                "wax_candle_large.png"
+              ],
               "options": {
-                "scent": ["Orange","Lemon","Lavender","Vanilla","Jasmine","Lemongrass","Coconut","Cinnamon","Pine","Sandalwood","Coffee","Sweet Almond","Unscented"],
-                "intensity": ["Soft","Medium","Strong"]
+                "scent": [
+                  "Orange",
+                  "Lemon",
+                  "Lavender",
+                  "Vanilla",
+                  "Jasmine",
+                  "Lemongrass",
+                  "Coconut",
+                  "Cinnamon",
+                  "Pine",
+                  "Sandalwood",
+                  "Coffee",
+                  "Sweet Almond",
+                  "Unscented"
+                ],
+                "intensity": ["Soft", "Medium", "Strong"]
               }
             },
             {
@@ -128,9 +221,27 @@
               "name": "Jelly Candle — Medium (200ml)",
               "price": 32,
               "paymentLink": "https://www.paypal.com/ncp/payment/EMNC7ACUHJKQN",
-              "description": "Translucent decorative candle — choose scent & color.",
-              "images": ["jelly candles small.jpg"],
-              "options": { "scent": ["Orange","Lemon","Lavender","Vanilla","Jasmine","Lemongrass","Coconut","Cinnamon","Pine","Sandalwood","Coffee","Sweet Almond","Unscented"] }
+              "description": "Translucent decorative jelly candle. Choose color and scent.",
+              "images": [
+                "jelly candles small.jpg"
+              ],
+              "options": {
+                "scent": [
+                  "Orange",
+                  "Lemon",
+                  "Lavender",
+                  "Vanilla",
+                  "Jasmine",
+                  "Lemongrass",
+                  "Coconut",
+                  "Cinnamon",
+                  "Pine",
+                  "Sandalwood",
+                  "Coffee",
+                  "Sweet Almond",
+                  "Unscented"
+                ]
+              }
             },
             {
               "id": "jelly_large",
@@ -138,19 +249,53 @@
               "price": 40,
               "paymentLink": "https://www.paypal.com/ncp/payment/2MXLKBF8CPBZ2",
               "description": "Large translucent jelly candle with customizable color and scent.",
-              "images": ["Jelly_candle large.jpg"],
-              "options": { "scent": ["Orange","Lemon","Lavender","Vanilla","Jasmine","Lemongrass","Coconut","Cinnamon","Pine","Sandalwood","Coffee","Sweet Almond","Unscented"] }
+              "images": [
+                "Jelly_candle large.jpg"
+              ],
+              "options": {
+                "scent": [
+                  "Orange",
+                  "Lemon",
+                  "Lavender",
+                  "Vanilla",
+                  "Jasmine",
+                  "Lemongrass",
+                  "Coconut",
+                  "Cinnamon",
+                  "Pine",
+                  "Sandalwood",
+                  "Coffee",
+                  "Sweet Almond",
+                  "Unscented"
+                ]
+              }
             },
             {
               "id": "sand_small",
               "name": "Sand Candle — Small (150ml)",
               "price": 20,
               "paymentLink": "https://www.paypal.com/ncp/payment/AQZ2VDQVYEEGW",
-              "description": "Rustic texture candles — choose scent & intensity.",
-              "images": ["sand_candles_small.png"],
+              "description": "Rustic sand-texture candle, customizable scent & intensity.",
+              "images": [
+                "sand_candles_small.png"
+              ],
               "options": {
-                "scent": ["Orange","Lemon","Lavender","Vanilla","Jasmine","Lemongrass","Coconut","Cinnamon","Pine","Sandalwood","Coffee","Sweet Almond","Unscented"],
-                "intensity": ["Soft","Medium","Strong"]
+                "scent": [
+                  "Orange",
+                  "Lemon",
+                  "Lavender",
+                  "Vanilla",
+                  "Jasmine",
+                  "Lemongrass",
+                  "Coconut",
+                  "Cinnamon",
+                  "Pine",
+                  "Sandalwood",
+                  "Coffee",
+                  "Sweet Almond",
+                  "Unscented"
+                ],
+                "intensity": ["Soft", "Medium", "Strong"]
               }
             },
             {
@@ -158,11 +303,27 @@
               "name": "Sand Candle — Medium (250ml)",
               "price": 25,
               "paymentLink": "https://www.paypal.com/ncp/payment/KYJWZJXZDYT2U",
-              "description": "Rustic texture candles — choose scent & intensity.",
-              "images": ["sand_candles_medium.png"],
+              "description": "Medium-size rustic sand candle.",
+              "images": [
+                "sand_candles_medium.png"
+              ],
               "options": {
-                "scent": ["Orange","Lemon","Lavender","Vanilla","Jasmine","Lemongrass","Coconut","Cinnamon","Pine","Sandalwood","Coffee","Sweet Almond","Unscented"],
-                "intensity": ["Soft","Medium","Strong"]
+                "scent": [
+                  "Orange",
+                  "Lemon",
+                  "Lavender",
+                  "Vanilla",
+                  "Jasmine",
+                  "Lemongrass",
+                  "Coconut",
+                  "Cinnamon",
+                  "Pine",
+                  "Sandalwood",
+                  "Coffee",
+                  "Sweet Almond",
+                  "Unscented"
+                ],
+                "intensity": ["Soft", "Medium", "Strong"]
               }
             },
             {
@@ -170,22 +331,40 @@
               "name": "Sand Candle — Large (400ml)",
               "price": 33,
               "paymentLink": "https://www.paypal.com/ncp/payment/C6RL562GS3UUS",
-              "description": "Rustic sand candle — choose scent & intensity.",
-              "images": ["sand candles large.jpg"],
+              "description": "Large rustic sand candle.",
+              "images": [
+                "sand candles large.jpg"
+              ],
               "options": {
-                "scent": ["Orange","Lemon","Lavender","Vanilla","Jasmine","Lemongrass","Coconut","Cinnamon","Pine","Sandalwood","Coffee","Sweet Almond","Unscented"],
-                "intensity": ["Soft","Medium","Strong"]
+                "scent": [
+                  "Orange",
+                  "Lemon",
+                  "Lavender",
+                  "Vanilla",
+                  "Jasmine",
+                  "Lemongrass",
+                  "Coconut",
+                  "Cinnamon",
+                  "Pine",
+                  "Sandalwood",
+                  "Coffee",
+                  "Sweet Almond",
+                  "Unscented"
+                ],
+                "intensity": ["Soft", "Medium", "Strong"]
               }
             },
             {
-              "id": "seasonal",
+              "id": "seasonal_candle",
               "name": "Seasonal Candle — Custom painted glass (300ml)",
               "price": 50,
               "paymentLink": "https://www.paypal.com/ncp/payment/L4HGCYGCAM4G2",
-              "description": "Limited-edition seasonal paintwork; winter scents available.",
-              "images": ["seasonal candle.png"],
+              "description": "Limited-edition seasonal paintwork; choose winter scents like cinnamon, clove, orange peel, vanilla or sweet mint.",
+              "images": [
+                "seasonal candle.png"
+              ],
               "options": {
-                "scent": ["Cinnamon","Clove","Orange peel","Vanilla","Sweet Mint","Unscented"]
+                "scent": ["Cinnamon", "Clove", "Orange Peel", "Vanilla", "Sweet Mint", "Unscented"]
               }
             }
           ]
@@ -206,27 +385,39 @@
               "name": "Natural Face Cream (50ml)",
               "price": 28,
               "paymentLink": "https://www.paypal.com/ncp/payment/T9M3LBJ75FAVN",
-              "description": "Hydrating blend with shea butter & almond oil.",
-              "images": ["Natural Face Cream.png"],
-              "options": { "scent": ["Lavender","Vanilla","Citrus","Jasmine","Coconut","Rose","Sandalwood","Unscented"] }
+              "description": "Gentle moisturizing face cream with shea butter and almond oil.",
+              "images": [
+                "Natural Face Cream.png"
+              ],
+              "options": {
+                "scent": ["Lavender", "Vanilla", "Citrus", "Jasmine", "Coconut", "Rose", "Sandalwood", "Unscented"]
+              }
             },
             {
               "id": "body_butter",
               "name": "Body Butter (100ml)",
               "price": 35,
               "paymentLink": "https://www.paypal.com/ncp/payment/Y2AVDHZN9JCCQ",
-              "description": "Deeply hydrating, rich texture.",
-              "images": ["Body Butter.png"],
-              "options": { "scent": ["Lavender","Vanilla","Citrus","Jasmine","Coconut","Rose","Sandalwood","Unscented"] }
+              "description": "Deeply hydrating and rich body butter for all skin types.",
+              "images": [
+                "Body Butter.png"
+              ],
+              "options": {
+                "scent": ["Lavender", "Vanilla", "Citrus", "Jasmine", "Coconut", "Rose", "Sandalwood", "Unscented"]
+              }
             },
             {
               "id": "hand_foot",
               "name": "Hand & Foot Cream (50ml)",
               "price": 22,
               "paymentLink": "https://www.paypal.com/ncp/payment/XVQW4M785U6A4",
-              "description": "Nourishing and fast-absorbing.",
-              "images": ["Hand & Foot Cream.png"],
-              "options": { "scent": ["Lavender","Vanilla","Citrus","Jasmine","Coconut","Rose","Sandalwood","Unscented"] }
+              "description": "Non-greasy cream formulated for daily hydration.",
+              "images": [
+                "Hand & Foot Cream.png"
+              ],
+              "options": {
+                "scent": ["Lavender", "Vanilla", "Citrus", "Jasmine", "Coconut", "Rose", "Sandalwood", "Unscented"]
+              }
             }
           ]
         },
@@ -240,7 +431,7 @@
               "name": "Exfoliating Soap (100g)",
               "price": 12,
               "paymentLink": "https://www.paypal.com/ncp/payment/AZQZXG8AJ8VZL",
-              "description": "Coffee or oatmeal base for mild scrubbing.",
+              "description": "Exfoliating soap bar with coffee or oatmeal base.",
               "images": [
                 "Exfoliating Soap 1.png",
                 "Exfoliating Soap 2.png",
@@ -249,14 +440,16 @@
                 "Exfoliating Soap 5.png",
                 "Exfoliating Soap 6.png"
               ],
-              "options": { "aroma": ["Coffee","Oatmeal","Citrus","Lavender","Vanilla"] }
+              "options": {
+                "aroma": ["Coffee", "Oatmeal", "Citrus", "Lavender", "Vanilla"]
+              }
             },
             {
               "id": "soap_herbal",
               "name": "Natural Herbal Soap (100g)",
               "price": 12,
               "paymentLink": "https://www.paypal.com/ncp/payment/SYA68V9BU9TRN",
-              "description": "Chamomile, calendula, or mint blends.",
+              "description": "Natural herbal soap with chamomile, calendula, or mint.",
               "images": [
                 "Natural Herbal Soap.png",
                 "Natural Herbal Soap1.png",
@@ -266,15 +459,17 @@
                 "Natural Herbal Soap5.png",
                 "Natural Herbal Soap6.png"
               ],
-              "options": { "aroma": ["Chamomile","Calendula","Mint","Lavender","Vanilla"] },
-              "removeDetails": ["remove_third_image_if_candle"]
+              "options": {
+                "aroma": ["Chamomile", "Calendula", "Mint", "Lavender", "Vanilla"]
+              },
+              "notes": "Third details image removed (that picture was of a candle)."
             },
             {
               "id": "soap_flower",
-              "name": "Flower-shaped Soap (100g)",
+              "name": "Flower-Shaped Scented Soap (100g)",
               "price": 20,
               "paymentLink": "https://www.paypal.com/ncp/payment/2KNEUT86VGQYS",
-              "description": "Decorative flower-shaped soap with natural scent options.",
+              "description": "Hand-sculpted floral soap with essential oils. Choose whichever flower or request a custom flower.",
               "images": [
                 "Flower soaps (1).png",
                 "Flower soaps (2).png",
@@ -282,14 +477,16 @@
                 "Flower soaps (4).png",
                 "Flower soaps (5).png"
               ],
-              "options": { "aroma": ["Rose","Lavender","Vanilla","Jasmine","Citrus"] }
+              "options": {
+                "aroma": ["Rose", "Lavender", "Vanilla", "Jasmine", "Citrus"]
+              }
             },
             {
               "id": "soap_fruit",
-              "name": "Fruit-shaped Soap (100g)",
+              "name": "Fruit-Shaped Scented Soap (100g)",
               "price": 20,
               "paymentLink": "https://www.paypal.com/ncp/payment/C5ME744UZX58U",
-              "description": "Playful fruit-shaped soap, scented naturally.",
+              "description": "Handmade fruit-shaped soap — realistic and beautifully scented. Choose whichever fruit or request a custom fruit.",
               "images": [
                 "Fruit Soap.png",
                 "Fruit Soap2.png",
@@ -297,44 +494,55 @@
                 "Fruit Soap4.png",
                 "Fruit Soap5.png"
               ],
-              "options": { "aroma": ["Lemon","Orange","Apple","Peach","Vanilla"] }
+              "options": {
+                "aroma": ["Lemon", "Orange", "Apple", "Peach", "Vanilla"]
+              }
             },
-           {
-  "id": "soap_gift_herbal_exfoliating",
-  "name": "Gift Herbal / Exfoliating Soap Set (3 pcs)",
-  "price": 30,
-  "paymentLink": "https://www.paypal.com/ncp/payment/ZQ6X8AZMVY4XL",
-  "description": "Choose any 3 herbal or exfoliating soaps. You can also request custom combinations.",
-  "images": [
-    "Gift Herbal Exfoliating Soap Set (3 pcs) 1.png",
-    "Gift Herbal Exfoliating Soap Set (3 pcs) 2.png",
-    "Gift Herbal Exfoliating Soap Set (3 pcs) 3.png",
-    "Gift Herbal Exfoliating Soap Set (3 pcs) 4.png"
-  ]
-}
-{
-  "id": "soap_gift_flower_fruit",
-  "name": "Gift Fruit / Flower Soap Set (3 pcs)",
-  "price": 54,
-  "paymentLink": "https://www.paypal.com/ncp/payment/6QVGP97CQRGN2",
-  "description": "Choose any 3 fruit or flower-shaped soaps — or request any specific fruit/flower you want.",
-  "images": [
-    "Gift Fruit shaped Flower shaped Soap Set (3 pcs).png"
-  ]
-}
-{
-  "id": "soap_gift_set_new",
-  "name": "Gift Soap Set (3 pcs)",
-  "price": 30,
-  "paymentLink": "https://www.paypal.com/ncp/payment/ZQ6X8AZMVY4XL",
-  "description": "A curated trio of handmade soaps — you may choose any 3 scents.",
-  "images": [
-    "Gift Soap Set (3 pcs)1.png",
-    "Gift Soap Set (3 pcs)2.png",
-    "Gift Soap Set (3 pcs)3.png"
-  ]
-}
-]
+            {
+              "id": "soap_gift_herbal_exfoliating",
+              "name": "Gift Herbal / Exfoliating Soap Set (3 pcs)",
+              "price": 30,
+              "paymentLink": "https://www.paypal.com/ncp/payment/ZQ6X8AZMVY4XL",
+              "description": "A special selection of three herbal or exfoliating soaps — choose any three you like or ask for different combos.",
+              "images": [
+                "Gift Herbal Exfoliating Soap Set (3 pcs) 1.png",
+                "Gift Herbal Exfoliating Soap Set (3 pcs) 2.png",
+                "Gift Herbal Exfoliating Soap Set (3 pcs) 3.png",
+                "Gift Herbal Exfoliating Soap Set (3 pcs) 4.png"
+              ],
+              "options": {
+                "mix_and_match": true
+              }
+            },
+            {
+              "id": "soap_gift_flower_fruit",
+              "name": "Gift Fruit / Flower Soap Set (3 pcs)",
+              "price": 54,
+              "paymentLink": "https://www.paypal.com/ncp/payment/6QVGP97CQRGN2",
+              "description": "Three handcrafted scented soaps — mix of fruit or flower designs; choose any three or request custom picks.",
+              "images": [
+                "Gift Fruit shaped Flower shaped Soap Set (3 pcs).png"
+              ],
+              "options": {
+                "mix_and_match": true
+              }
+            },
+            {
+              "id": "soap_gift_set_new",
+              "name": "Gift Soap Set (3 pcs)",
+              "price": 30,
+              "paymentLink": "https://www.paypal.com/ncp/payment/ZQ6X8AZMVY4XL",
+              "description": "A curated trio of handmade soaps.",
+              "images": [
+                "Gift Soap Set (3 pcs)1.png",
+                "Gift Soap Set (3 pcs)2.png",
+                "Gift Soap Set (3 pcs)3.png"
+              ],
+              "options": {
+                "mix_and_match": true
+              }
+            }
+          ]
         }
       ]
     },
@@ -345,94 +553,236 @@
       "products": [
         {
           "id": "solid_perfume",
-          "name": "Solid Perfume — 50 ml",
+          "name": "Solid Perfume (50ml)",
           "price": 28,
           "paymentLink": "https://www.paypal.com/ncp/payment/BXDY354K5949A",
-          "description": "Compact natural wax base; suggested fragrances available.",
-          "images": ["Solid Perfume.png"],
-          "options": { "scent": ["Vanilla orchid","Amber Wood","Sandalwood Rose","White Musk"] }
+          "description": "Alcohol-free solid perfume with long-lasting natural aromas.",
+          "images": [
+            "Solid Perfume.png"
+          ],
+          "options": {
+            "scent": ["Vanilla Orchid", "Amber Wood", "Sandalwood Rose", "White Musk"]
+          }
         },
         {
           "id": "oil_rollon",
-          "name": "Oil Perfume Roll-On — 10 ml",
+          "name": "Oil Perfume Roll-On (10ml)",
           "price": 22,
           "paymentLink": "https://www.paypal.com/ncp/payment/9SGLCBQ76USZL",
-          "description": "Long-lasting scent roll-on.",
-          "images": ["Oil Perfume Roll-On.jpg"],
-          "options": { "scent": ["Citrus Bloom","Lavender Mist","Cedar & Amber","Floral Spice"] }
+          "description": "Essential oil roll-on perfume made in small batches.",
+          "images": [
+            "Oil Perfume Roll-On.jpg"
+          ],
+          "options": {
+            "scent": ["Citrus Bloom", "Lavender Mist", "Cedar & Amber", "Floral Spice"]
+          }
         }
       ]
     },
 
     {
       "id": "knitted_braided",
-      "name": "Knitted & Braided",
+      "name": "Knitted & Braided Wool Creations",
       "subcategories": [
         {
           "id": "beanies",
-          "name": "Beanies | Scarves | Mittens",
+          "name": "Hand-Knitted Beanies",
           "products": [
-            { "id": "beanie_small", "name": "Hand-Knitted Beanie — Small", "price": 35, "paymentLink": "https://www.paypal.com/ncp/payment/S4KAZSV8WN5MG", "images": ["Hand-Knitted Beanie - Small.png"] },
-            { "id": "beanie_medium", "name": "Hand-Knitted Beanie — Medium", "price": 38, "paymentLink": "https://www.paypal.com/ncp/payment/Q944A2C9DTQJW", "images": ["Hand-Knitted Beanie - Medium.png"] },
-            { "id": "beanie_large", "name": "Hand-Knitted Beanie — Large", "price": 42, "paymentLink": "https://www.paypal.com/ncp/payment/TT26KNF22D7QC", "images": ["Hand-Knitted Beanie - Large.png"] },
-            { "id": "beanie_xl", "name": "Hand-Knitted Beanie — Extra Large", "price": 45, "paymentLink": "https://www.paypal.com/ncp/payment/6RS4V7Y9E8AQN", "images": ["Hand-Knitted Beanie - Extra-Large.png"] },
-            { "id": "scarf", "name": "Hand-Knitted Scarf — One size", "price": 55, "paymentLink": "https://www.paypal.com/ncp/payment/BLYUGH43XL4RS", "images": ["Hand-Knitted Scarf - One size (150x25 cm avg.).png"] },
-            { "id": "mittens_small", "name": "Hand-Knitted Mittens — Small", "price": 28, "paymentLink": "https://www.paypal.com/ncp/payment/QESLM9KV4EQ38", "images": ["Hand-Knitted Mittens - Small.png"] },
-            { "id": "matching_set", "name": "Matching Winter Set — Beanie + Scarf + Mittens", "price": 110, "paymentLink": "https://www.paypal.com/ncp/payment/VWTNNVT586JBN", "images": ["Matching Winter Set — Beanie + Scarf + Mittens.png"] }
+            {
+              "id": "beanie_small",
+              "name": "Hand-Knitted Beanie — Small",
+              "price": 35,
+              "paymentLink": "https://www.paypal.com/ncp/payment/S4KAZSV8WN5MG",
+              "description": "Hand-knitted warm beanie. Color-customizable.",
+              "images": [
+                "Hand-Knitted Beanie - Small.png"
+              ]
+            },
+            {
+              "id": "beanie_medium",
+              "name": "Hand-Knitted Beanie — Medium",
+              "price": 38,
+              "paymentLink": "https://www.paypal.com/ncp/payment/Q944A2C9DTQJW",
+              "description": "Most popular size. Soft merino or acrylic yarn.",
+              "images": [
+                "Hand-Knitted Beanie - Medium.png"
+              ]
+            },
+            {
+              "id": "beanie_large",
+              "name": "Hand-Knitted Beanie — Large",
+              "price": 42,
+              "paymentLink": "https://www.paypal.com/ncp/payment/TT26KNF22D7QC",
+              "description": "Large size for extra warmth.",
+              "images": [
+                "Hand-Knitted Beanie - Large.png"
+              ]
+            },
+            {
+              "id": "beanie_xl",
+              "name": "Hand-Knitted Beanie — Extra Large",
+              "price": 45,
+              "paymentLink": "https://www.paypal.com/ncp/payment/6RS4V7Y9E8AQN",
+              "description": "Oversized cozy design.",
+              "images": [
+                "Hand-Knitted Beanie - Extra-Large.png"
+              ]
+            }
           ]
         },
+
+        {
+          "id": "scarves",
+          "name": "Hand-Knitted Scarves",
+          "products": [
+            {
+              "id": "scarf_standard",
+              "name": "Hand-Knitted Scarf — One Size",
+              "price": 55,
+              "paymentLink": "https://www.paypal.com/ncp/payment/BLYUGH43XL4RS",
+              "description": "Cozy knitted scarf (approx. 150×25 cm).",
+              "images": [
+                "Hand-Knitted Scarf - One size (150x25 cm avg.).png"
+              ]
+            }
+          ]
+        },
+
+        {
+          "id": "mittens",
+          "name": "Hand-Knitted Mittens",
+          "products": [
+            {
+              "id": "mittens_small",
+              "name": "Hand-Knitted Mittens — Small",
+              "price": 28,
+              "paymentLink": "https://www.paypal.com/ncp/payment/QESLM9KV4EQ38",
+              "description": "Classic warm mittens.",
+              "images": [
+                "Hand-Knitted Mittens - Small.png"
+              ]
+            },
+            {
+              "id": "mittens_medium",
+              "name": "Hand-Knitted Mittens — Medium",
+              "price": 32,
+              "paymentLink": "https://www.paypal.com/ncp/payment/GUGQG23BGUKWJ",
+              "description": "Medium-sized handcrafted mittens.",
+              "images": [
+                "Hand-Knitted Mittens - Medium.png"
+              ]
+            },
+            {
+              "id": "mittens_large",
+              "name": "Hand-Knitted Mittens — Large",
+              "price": 35,
+              "paymentLink": "https://www.paypal.com/ncp/payment/LHSJU6JBQXM64",
+              "description": "Soft and warm.",
+              "images": [
+                "Hand-Knitted Mittens - Large.png"
+              ]
+            },
+            {
+              "id": "mittens_xl",
+              "name": "Hand-Knitted Mittens — Extra Large",
+              "price": 40,
+              "paymentLink": "https://www.paypal.com/ncp/payment/ZJAE5KGTTDEP4",
+              "description": "Extra-large cozy mittens.",
+              "images": [
+                "Hand-Knitted Mittens - Extra Large.png"
+              ]
+            }
+          ]
+        },
+
+        {
+          "id": "knitted_set",
+          "name": "Matching Winter Set",
+          "products": [
+            {
+              "id": "winter_set",
+              "name": "Matching Winter Set — Beanie + Scarf + Mittens",
+              "price": 110,
+              "paymentLink": "https://www.paypal.com/ncp/payment/VWTNNVT586JBN",
+              "description": "Warm handcrafted winter set — 15% bundle discount.",
+              "images": [
+                "Matching Winter Set — Beanie + Scarf + Mittens.png"
+              ]
+            }
+          ]
+        },
+
         {
           "id": "braided_blankets",
           "name": "Braided Blankets",
           "products": [
-            { "id": "bb_small", "name": "Braided Blanket — Small", "price": 85, "paymentLink": "https://www.paypal.com/ncp/payment/3TB59Q7RG2SLE", "images": ["Braided Blanket (Small).png"] },
-            { "id": "bb_med", "name": "Braided Blanket — Medium", "price": 130, "paymentLink": "https://www.paypal.com/ncp/payment/B82QPFVQVDUQL", "images": ["Braided Blanket (Medium).png"] },
-            { "id": "bb_large", "name": "Braided Blanket — Large", "price": 180, "paymentLink": "https://www.paypal.com/ncp/payment/DXBW4QFN7T96J", "images": ["Braided Blanket (Large).png"] }
+            {
+              "id": "blanket_small",
+              "name": "Braided Blanket — Small (80×100 cm)",
+              "price": 85,
+              "paymentLink": "https://www.paypal.com/ncp/payment/3TB59Q7RG2SLE",
+              "description": "Small braided throw — perfect for babies or couch armrests.",
+              "images": [
+                "Braided Blanket (Small).png"
+              ]
+            },
+            {
+              "id": "blanket_medium",
+              "name": "Braided Blanket — Medium (120×150 cm)",
+              "price": 130,
+              "paymentLink": "https://www.paypal.com/ncp/payment/B82QPFVQVDUQL",
+              "description": "Medium-size braided blanket.",
+              "images": [
+                "Braided Blanket (Medium).png"
+              ]
+            },
+            {
+              "id": "blanket_large",
+              "name": "Braided Blanket — Large (150×200 cm)",
+              "price": 180,
+              "paymentLink": "https://www.paypal.com/ncp/payment/DXBW4QFN7T96J",
+              "description": "Large cozy chunky-knit blanket.",
+              "images": [
+                "Braided Blanket (Large).png"
+              ]
+            }
           ]
         },
+
         {
           "id": "felted_animals",
           "name": "Felted Animals",
           "products": [
-            { "id": "felt_small", "name": "Mini Felted Animal (Small)", "price": 35, "paymentLink": "https://www.paypal.com/ncp/payment/9GYLUVBC2USAU", "images": ["Mini Felted Animal (Small).png"] },
-            { "id": "felt_med", "name": "Felted Animal (Medium)", "price": 50, "paymentLink": "https://www.paypal.com/ncp/payment/RT3Y5Z86NTA2J", "images": ["Felted Animal (Medium).png"] },
-            { "id": "felt_family", "name": "Felted Animal Family Set", "price": 120, "paymentLink": "https://www.paypal.com/ncp/payment/TW7Q43A8X5ZKG", "images": ["Felted Animal Family Set 4.png"] }
-          ]
-        }
-      ]
-    },
-
-    {
-      "id": "artworks",
-      "name": "Artworks",
-      "subcategories": [
-        {
-          "id": "landscapes",
-          "name": "Landscapes",
-          "products": [
-            { "id": "landscape_small", "name": "Small Landscape Painting — 20x20 cm", "price": 45, "paymentLink": "https://www.paypal.com/ncp/payment/4XGNXNN38XE36", "images": ["painting_LANDSCAPE_SMALL.jpg","painting_LANDSCAPE_SMALL1.jpg"] },
-            { "id": "landscape_med", "name": "Medium Landscape Painting — 30x40 cm", "price": 80, "paymentLink": "https://www.paypal.com/ncp/payment/7EWPCAS2W98N6", "images": ["painting_LANDSCAPE_MEDIUM.jpg","painting_LANDSCAPE_MEDIUM2.jpg","painting_LANDSCAPE_MEDIUM3.jpg"] },
-            { "id": "landscape_large", "name": "Large Landscape Painting — 50x70 cm", "price": 140, "paymentLink": "https://www.paypal.com/ncp/payment/7K7G2HWWE74D2", "images": ["Large Landscape Painting.jpg","Large Landscape Painting1.jpg","Large Landscape Painting2.jpg"] },
-            { "id": "landscape_commission", "name": "Custom Landscape Commission", "price": 250, "paymentLink": "https://www.paypal.com/ncp/payment/UTK2B86NFZMDN", "images": ["Custom Landscape Commission.jpg"] }
-          ]
-        },
-        {
-          "id": "portraits",
-          "name": "Portraits",
-          "products": [
-            { "id": "portrait_2d", "name": "Portrait (2D)", "price": 120, "paymentLink": "https://www.paypal.com/ncp/payment/4WZ3FGUFLZ962", "images": ["painting_portrait_1.jpg","painting_portrait_3.jpg","painting_portrait_4.jpg"] },
-            { "id": "portrait_3d", "name": "Portrait (3D Relief)", "price": 180, "paymentLink": "https://www.paypal.com/ncp/payment/HTSJN3TULVWTN", "images": ["clay_3d_painting_1.png","clay_3d_painting_2.png","clay_3d_painting_3.png"] },
-            { "id": "portrait_family", "name": "Couple / Family Portrait", "price": 220, "paymentLink": "https://www.paypal.com/ncp/payment/NSCQQSNB7CS3W", "images": ["Couple or Family Portrait.png"] },
-            { "id": "portrait_mini", "name": "Mini Portrait Ornament", "price": 50, "paymentLink": "https://www.paypal.com/ncp/payment/QUMD499D3YGDS", "images": ["Mini Portrait Ornament.jpg"] }
-          ]
-        },
-        {
-          "id": "festive",
-          "name": "Festive Portraits",
-          "products": [
-            { "id": "holiday_2d", "name": "Holiday-Themed Portrait (2D)", "price": 130, "paymentLink": "https://www.paypal.com/ncp/payment/QYE3TFJQ34P3J", "images": ["painting_christmas_1.jpg","painting_christmas_3.jpg"] },
-            { "id": "holiday_3d", "name": "3D Festive Portrait Relief", "price": 190, "paymentLink": "https://www.paypal.com/ncp/payment/J3YMRLPT6CYYE", "images": ["3D Festive Portrait Relief.png"] },
-            { "id": "holiday_bundle", "name": "Custom Ornament Bundle", "price": 90, "paymentLink": "https://www.paypal.com/ncp/payment/WCED85EUGSVZS", "images": ["Holiday-Themed Portrait (2D).jpg"] }
+            {
+              "id": "felt_small",
+              "name": "Mini Felted Animal — Small (~5 cm)",
+              "price": 35,
+              "paymentLink": "https://www.paypal.com/ncp/payment/9GYLUVBC2USAU",
+              "description": "Small hand-felted wool figurine.",
+              "images": [
+                "Mini Felted Animal (Small).png"
+              ]
+            },
+            {
+              "id": "felt_medium",
+              "name": "Felted Animal — Medium (~10–12 cm)",
+              "price": 50,
+              "paymentLink": "https://www.paypal.com/ncp/payment/RT3Y5Z86NTA2J",
+              "description": "Medium-sized felted animal figurine.",
+              "images": [
+                "Felted Animal (Medium).png"
+              ]
+            },
+            {
+              "id": "felt_family",
+              "name": "Felted Animal Family Set (4 pcs)",
+              "price": 120,
+              "paymentLink": "https://www.paypal.com/ncp/payment/TW7Q43A8X5ZKG",
+              "description": "Custom animal family felted set.",
+              "images": [
+                "Felted Animal Family Set 4.png"
+              ]
+            }
           ]
         }
       ]
@@ -443,199 +793,467 @@
       "name": "Epoxy & Clay Creations",
       "subcategories": [
         {
-          "id": "jewelry",
-          "name": "Jewelry",
+          "id": "epoxy_candle_holders",
+          "name": "Epoxy Candle Holders",
           "products": [
-            { "id": "epoxy_pendant", "name": "Epoxy Resin Pendant", "price": 28, "paymentLink": "https://www.paypal.com/ncp/payment/BE5H4J3F8GYKA", "images": ["epoxy_pendant.png","epoxy_pendant_1.png","epoxy_pendant_2.png","epoxy_pendant_3.png"] },
-            { "id": "epoxy_earrings", "name": "Epoxy Earrings — Pair", "price": 25, "paymentLink": "https://www.paypal.com/ncp/payment/TF7H4CJV7SAJ6", "images": ["epoxy_earings_1.png","epoxy_earings_2.png","epoxy_earings_3.png","epoxy_earings_4.png","epoxy_earings_5.png","epoxy_earings_6.png"] },
-            { "id": "epoxy_ring", "name": "Epoxy Ring", "price": 22, "paymentLink": "https://www.paypal.com/ncp/payment/UUU7DUFZB36JS", "images": ["epoxy_ring_1.png","epoxy_ring_2.png","epoxy_ring_3.png","epoxy_ring_4.png","epoxy_ring_5.png"] },
-            { "id": "epoxy_brooch", "name": "Epoxy Brooch", "price": 20, "paymentLink": "", "images": ["epoxy_brooch.png","epoxy_brooch1.png","epoxy_brooch2.png"] }
+            {
+              "id": "candle_holder_a",
+              "name": "Epoxy Candle Holder A",
+              "price": 45,
+              "paymentLink": "https://www.paypal.com/ncp/payment/N6VJ7EN5RE4H2",
+              "description": "Small epoxy candle holder — decorative and sturdy.",
+              "images": [
+                "candle_holder_24.png",
+                "candle_holder_25.png",
+                "candle_holder_28.png",
+                "candle_holder_27.png"
+              ]
+            }
           ]
         },
+        {
+          "id": "epoxy_keychains",
+          "name": "Epoxy & Clay Keychains",
+          "products": [
+            {
+              "id": "keychain_christmas_set",
+              "name": "Epoxy & Clay Keychain — Holiday Set",
+              "price": 12,
+              "paymentLink": "https://www.paypal.com/ncp/payment/795JLUEF6R5SC",
+              "description": "Small epoxy & clay keychains — set of mini ornaments.",
+              "images": [
+                "clay_christmas_necklace_3.png",
+                "clay_christmas_necklace_2.png",
+                "clay_christmas_necklace_1.png",
+                "clay_christmas_keychain_3.png",
+                "clay_christmas_keychain_2.png",
+                "clay_christmas_keychain_1.png",
+                "clay_christmas_necklace_4.png"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "epoxy_jewelry",
+          "name": "Epoxy Jewelry & Boxes",
+          "products": [
+            {
+              "id": "epoxy_jewelry_box",
+              "name": "Epoxy & Wood Jewelry Box",
+              "price": 60,
+              "paymentLink": "https://www.paypal.com/ncp/payment/7YPZZ34FGZ6YQ",
+              "description": "10×10×6 cm jewelry box with hand-poured resin lid.",
+              "images": [
+                "epoxy jewelry box 1.png",
+                "epoxy jewelry box 2.png",
+                "epoxy jewelry box 3.png"
+              ]
+            },
+            {
+              "id": "epoxy_ring_1",
+              "name": "Epoxy Ring — Adjustable",
+              "price": 22,
+              "paymentLink": "https://www.paypal.com/ncp/payment/UUU7DUFZB36JS",
+              "description": "Adjustable epoxy ring — clear or tinted resin.",
+              "images": [
+                "epoxy_ring_1.png",
+                "epoxy_ring_2.png",
+                "epoxy_ring_3.png"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "decorative_figurines",
+          "name": "Decorative Figurines",
+          "products": [
+            {
+              "id": "fig_small",
+              "name": "Decorative Figurine — Small (5 cm)",
+              "price": 30,
+              "paymentLink": "https://www.paypal.com/ncp/payment/V6ASBN7E5AC4A",
+              "description": "Small delicate figurine — epoxy or clay.",
+              "images": [
+                "clay_christmas_11.png",
+                "clay_christmas_26.png",
+                "clay_christmas_17.png"
+              ]
+            },
+            {
+              "id": "fig_medium",
+              "name": "Decorative Figurine — Medium (12 cm)",
+              "price": 50,
+              "paymentLink": "https://www.paypal.com/ncp/payment/R29A37JV44YC2",
+              "description": "Medium-sized hand-sculpted figurine.",
+              "images": [
+                "Clay_epoxy_christmas_globe_1.png",
+                "Clay_epoxy_christmas_globe_3.png",
+                "clay_christmas_21.png"
+              ]
+            },
+            {
+              "id": "fig_large",
+              "name": "Decorative Figurine — Large (20 cm)",
+              "price": 80,
+              "paymentLink": "https://www.paypal.com/ncp/payment/RGQ85J5B9X77Y",
+              "description": "Large sculptural decorative figurine.",
+              "images": [
+                "clay_christmas_14.png",
+                "clay_christmas_18.png",
+                "clay_christmas_27.png"
+              ]
+            }
+          ]
+        },
+
         {
           "id": "phone_cases",
           "name": "Phone Cases",
           "products": [
-            { "id": "case_epoxy", "name": "Custom Epoxy Phone Case", "price": 45, "paymentLink": "https://www.paypal.com/ncp/payment/HUNK7CU2729PY", "images": ["PersonalizedCase (1).png","PersonalizedCase (2).png","PersonalizedCase (3).png","PersonalizedCase (4).png","PersonalizedCase (5).png","PersonalizedCase (6).png","PersonalizedCase (7).png","PersonalizedCase (8).png","PersonalizedCase (9).png","PersonalizedCase (10).png"] },
-            { "id": "case_clay", "name": "Clay-Decorated Phone Case", "price": 50, "paymentLink": "https://www.paypal.com/ncp/payment/STZEDJYEBEWX4", "images": ["PersonalizedCase (11).png","PersonalizedCase (12).png","PersonalizedCase (13).png","PersonalizedCase (14).png","PersonalizedCase (15).png","PersonalizedCase (16).png","PersonalizedCase (17).png","PersonalizedCase (18).png"] },
-            { "id": "personalized_case", "name": "PersonalizedCase", "price": 60, "paymentLink": "https://www.paypal.com/ncp/payment/795JLUEF6R5SC", "images": ["PersonalizedCase (1).png","PersonalizedCase (2).png"] }
-          ]
-        },
-        {
-          "id": "home_decor",
-          "name": "Home Decorations",
-          "products": [
-            { "id": "epoxy_coasters", "name": "Epoxy Coasters (set of 4)", "price": 35, "paymentLink": "https://www.paypal.com/ncp/payment/L24Y5HMDXF7FS", "images": ["epoxy_decorative_coaster_5.png","epoxy_decorative_coaster_6.png","epoxy_decorative_coaster_7.png","epoxy_decorative_coaster_8.png"] },
-            { "id": "epoxy_tray", "name": "Epoxy Decorative Tray", "price": 55, "paymentLink": "https://www.paypal.com/ncp/payment/NGQ33EF94LDKY", "images": ["epoxy_decorative_tray_1.png","epoxy_decorative_tray_2.png","epoxy_decorative_tray_3.png","epoxy_decorative_tray_4.png"] },
-            { "id": "fig_small", "name": "Decorative Figurine — Small (5 cm)", "price": 30, "paymentLink": "https://www.paypal.com/ncp/payment/V6ASBN7E5AC4A", "images": ["clay_christmas_11.png","clay_christmas_26.png","clay_christmas_17.png"] },
-            { "id": "fig_med", "name": "Decorative Figurine — Medium (12 cm)", "price": 50, "paymentLink": "https://www.paypal.com/ncp/payment/R29A37JV44YC2", "images": ["Clay_epoxy_christmas_globe_1.png","Clay_epoxy_christmas_globe_3.png","clay_christmas_21.png"] },
-            { "id": "fig_large", "name": "Decorative Figurine — Large (20 cm)", "price": 80, "paymentLink": "https://www.paypal.com/ncp/payment/RGQ85J5B9X77Y", "images": ["clay_christmas_14.png","clay_christmas_18.png","clay_christmas_27.png"] },
-            { "id": "epoxy_lamp", "name": "Epoxy Lamp (25 cm)", "price": 120, "paymentLink": "https://www.paypal.com/ncp/payment/6P2JZHR7RGYJ6", "images": ["Epoxy Lamp (1).png","Epoxy Lamp (2).png","Epoxy Lamp (3).png","Epoxy Lamp (4).png","Epoxy Lamp (5).png","Epoxy Lamp (6).png","Epoxy Lamp (7).png","Epoxy Lamp (8).png","Epoxy Lamp (9).png"] },
-            { "id": "epoxy_jewelry_box", "name": "Epoxy + Wood Jewelry Box", "price": 60, "paymentLink": "https://www.paypal.com/ncp/payment/7YPZZ34FGZ6YQ", "images": ["epoxy jewelry box 1.png","epoxy jewelry box 2.png","epoxy jewelry box 3.png"] }
-          ]
-        },
-    {
-  "id": "candle_holders",
-  "name": "Epoxy Candle Holders",
-  "products": [
-    {
-      "id": "holder_a",
-      "name": "Epoxy Candle Holder A",
-      "price": 35,
-      "paymentLink": "https://www.paypal.com/ncp/payment/N6VJ7EN5RE4H2",
-      "description": "Handcrafted epoxy candle holder with glossy finish.",
-      "images": [
-        "candle_holder_24.png"
-      ]
-    },
-    {
-      "id": "holder_b",
-      "name": "Epoxy Candle Holder B",
-      "price": 35,
-      "paymentLink": "https://www.paypal.com/ncp/payment/N6VJ7EN5RE4H2",
-      "description": "Handcrafted epoxy candle holder.",
-      "images": [
-        "candle_holder_25.png"
-      ]
-    },
-    {
-      "id": "holder_c",
-      "name": "Epoxy Candle Holder C",
-      "price": 35,
-      "paymentLink": "https://www.paypal.com/ncp/payment/N6VJ7EN5RE4H2",
-      "description": "Decorative resin candle holder with shimmering inclusions.",
-      "images": [
-        "candle_holder_28.png"
-      ]
-    },
-    {
-      "id": "holder_d",
-      "name": "Epoxy Candle Holder D",
-      "price": 35,
-      "paymentLink": "https://www.paypal.com/ncp/payment/N6VJ7EN5RE4H2",
-      "description": "Unique handcrafted resin candle holder.",
-      "images": [
-        "candle_holder_27.png"
-      ]
-    }
-  ]
-}
-,
-        {
-  "id": "keychains",
-  "name": "Epoxy & Clay Keychains",
-  "products": [
-    {
-      "id": "keychain_1",
-      "name": "Epoxy & Clay Keychain",
-      "price": 15,
-      "paymentLink": "https://www.paypal.com/ncp/payment/KXWNX7U5WWN9W",
-      "description": "Handcrafted Christmas-themed epoxy & clay keychain.",
-      "images": [
-        "clay_christmas_necklace_3.png",
-        "clay_christmas_necklace_2.png",
-        "clay_christmas_necklace_1.png",
-        "clay_christmas_keychain_3.png",
-        "clay_christmas_keychain_2.png",
-        "clay_christmas_keychain_1.png",
-        "clay_christmas_necklace_4.png"
-      ]
-    }
-  ]
-}
-,
-
-    {
-      "id": "hair",
-      "name": "Hair Accessories",
-      "subcategories": [
-     {
-  "id": "hair_clips",
-  "name": "Hair Clips",
-  "products": [
-    {
-      "id": "hair_clip_a",
-      "name": "Hair Clip",
-      "price": 18,
-      "paymentLink": "https://www.paypal.com/ncp/payment/9ZQ4G8NRFL3ZW",
-      "description": "Handmade resin hair clip with embedded florals.",
-      "images": [
-        "Hair clip - freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__81983.png",
-        "hair_clip_8.png",
-        "hair_clip_1.png",
-        "freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__90289.png",
-        "freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__90286.png",
-        "freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__90291.png",
-        "freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__90293.png"
-      ]
-    }
-  ]
-}
-,{
-  "id": "hair_pins",
-  "name": "Hairpins",
-  "products": [
-    {
-      "id": "hairpin_a",
-      "name": "Hairpin",
-      "price": 22,
-      "paymentLink": "https://www.paypal.com/ncp/payment/8Q4SYCK6K83SW",
-      "description": "Elegant handcrafted hairpin with natural resin elements.",
-      "images": [
-        "hair_pin_3.png",
-        "hair_pin_1.png",
-        "freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__81988.png"
-      ]
-    }
-  ]
-}
-]
-}
-{
-          "id": "hair_combs",
-          "name": "Decorative Combs",
-          "products": [
-            { "id": "comb_1", "name": "Decorative Comb", "price": 25, "paymentLink": "https://www.paypal.com/ncp/payment/LVNL7VJRTEKDQ", "images": ["hair_comb_1.png","hair_comb_2.png","hair_comb_2 (1).png","hair_comb_2 (2).png","hair_comb_2 (3).png"] }
-          ]
-        },
-        {
-          "id": "hair_sets",
-          "name": "Custom Hair Sets",
-          "products": [
-            { "id": "hair_set", "name": "Custom Hair Set — 3 matching pieces", "price": 50, "paymentLink": "https://www.paypal.com/ncp/payment/N4HZS34XPX3ZS", "images": ["Custom Hair Set.png","Custom Hair Set.jpeg"] }
+            {
+              "id": "personalized_case",
+              "name": "Personalized Case",
+              "price": 60,
+              "paymentLink": "https://www.paypal.com/ncp/payment/795JLUEF6R5SC",
+              "description": "Clay-decorated or epoxy case — personalized with image or text.",
+              "images": [
+                "PersonalizedCase (1).png",
+                "PersonalizedCase (2).png",
+                "PersonalizedCase (3).png",
+                "PersonalizedCase (4).png",
+                "PersonalizedCase (5).png",
+                "PersonalizedCase (6).png",
+                "PersonalizedCase (7).png",
+                "PersonalizedCase (8).png",
+                "PersonalizedCase (9).png",
+                "PersonalizedCase (10).png",
+                "PersonalizedCase (11).png",
+                "PersonalizedCase (12).png",
+                "PersonalizedCase (13).png",
+                "PersonalizedCase (14).png",
+                "PersonalizedCase (15).png",
+                "PersonalizedCase (16).png",
+                "PersonalizedCase (17).png",
+                "PersonalizedCase (18).png"
+              ],
+              "notes": "Swapped images with Clay-Decorated Case as requested."
+            }
           ]
         }
       ]
     },
 
     {
-      "id": "leather",
-      "name": "Leather Bags",
-      "products": [
-        { "id": "leather_small", "name": "Leather Bag — Small", "price": 85, "paymentLink": "https://www.paypal.com/ncp/payment/2UZ3FBG9E9MZS", "images": ["Leather Bag Small.png"] },
-        { "id": "leather_med", "name": "Leather Bag — Medium", "price": 120, "paymentLink": "https://www.paypal.com/ncp/payment/WQ9X4MDC9HZW4", "images": ["Leather Bag Medium.png"] },
-        { "id": "leather_large", "name": "Leather Bag — Large", "price": 160, "paymentLink": "https://www.paypal.com/ncp/payment/YQEM8SHX43S3E", "images": ["Leather Bag Large.png"] }
+      "id": "hair_accessories",
+      "name": "Hair Accessories",
+      "subcategories": [
+        {
+          "id": "hair_clips",
+          "name": "Hair Clips",
+          "products": [
+            {
+              "id": "hair_clip",
+              "name": "Hair Clip",
+              "price": 18,
+              "paymentLink": "https://www.paypal.com/ncp/payment/69NVMF2YG7VX4",
+              "description": "Resin or wool hair clip — floral, galaxy or botanical inclusions.",
+              "images": [
+                "freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__81983.png",
+                "hair_clip_8.png",
+                "hair_clip_1.png",
+                "freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__90289.png",
+                "freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__90286.png",
+                "freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__90291.png",
+                "freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__90293.png"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "hairpins",
+          "name": "Hairpins",
+          "products": [
+            {
+              "id": "hairpin",
+              "name": "Hairpin",
+              "price": 22,
+              "paymentLink": "https://www.paypal.com/ncp/payment/X5YVRQYLU2MW6",
+              "description": "Decorative hairpin (metal pin with clay or resin decoration).",
+              "images": [
+                "hair_pin_3.png",
+                "hair_pin_1.png",
+                "freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__81988.png"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "decorative_combs",
+          "name": "Decorative Combs",
+          "products": [
+            {
+              "id": "decorative_comb",
+              "name": "Decorative Comb",
+              "price": 25,
+              "paymentLink": "https://www.paypal.com/ncp/payment/LVNL7VJRTEKDQ",
+              "description": "Epoxy base comb with metallic or pearlescent accents.",
+              "images": [
+                "hair_comb_1.png",
+                "hair_comb_2.png",
+                "hair_comb_2 (1).png",
+                "hair_comb_2 (2).png",
+                "hair_comb_2 (3).png"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "custom_hair_set",
+          "name": "Custom Hair Set",
+          "products": [
+            {
+              "id": "custom_hair_set",
+              "name": "Custom Hair Set — 3 matching pieces",
+              "price": 50,
+              "paymentLink": "https://www.paypal.com/ncp/payment/N4HZS34XPX3ZS",
+              "description": "Personalized combo (choose color theme).",
+              "images": [
+                "Custom Hair Set.png",
+                "Custom Hair Set.jpeg"
+              ]
+            }
+          ]
+        }
       ]
     },
 
     {
-      "id": "home_decor",
-      "name": "Home Decor",
-      "products": [
-        { "id": "mug_800", "name": "Clay Mug — 800ml", "price": 40, "paymentLink": "https://www.paypal.com/ncp/payment/VENPN7AHXJFE4", "images": ["Clay Mugs (1).png","Clay Mugs (2).png","Clay Mugs (3).png","Clay Mugs (4).png","Clay Mugs (5).png","Clay Mugs (6).png","Clay Mugs (7).png","Clay Mugs (8).png","Clay Mugs (9).png","Clay Mugs (10).png"] },
-        { "id": "clock_25", "name": "Wall Clock — 25 cm", "price": 70, "paymentLink": "https://www.paypal.com/ncp/payment/RRDQ39ZGFQJSE", "images": ["Wall Clocks (2).png","Wall Clocks (3).png","Wall Clocks.png"] },
-        { "id": "clock_45", "name": "Wall Clock — 45 cm", "price": 120, "paymentLink": "https://www.paypal.com/ncp/payment/C66ABZXXCPRGU", "images": ["Wall Clocks (3).png","Wall Clocks.png"] }
+      "id": "artworks",
+      "name": "Paintings & Portraits",
+      "subcategories": [
+        {
+          "id": "landscapes",
+          "name": "Landscapes",
+          "products": [
+            {
+              "id": "landscape_small",
+              "name": "Small Landscape Painting — 20×20 cm",
+              "price": 45,
+              "paymentLink": "https://www.paypal.com/ncp/payment/4XGNXNN38XE36",
+              "description": "Mini landscape — acrylic on stretched canvas.",
+              "images": [
+                "painting_LANDSCAPE_SMALL.jpg",
+                "painting_LANDSCAPE_SMALL1.jpg"
+              ]
+            },
+            {
+              "id": "landscape_medium",
+              "name": "Medium Landscape Painting — 30×40 cm",
+              "price": 80,
+              "paymentLink": "https://www.paypal.com/ncp/payment/7EWPCAS2W98N6",
+              "description": "Medium landscape with textured brushwork.",
+              "images": [
+                "painting_LANDSCAPE_MEDIUM.jpg",
+                "painting_LANDSCAPE_MEDIUM2.jpg",
+                "painting_LANDSCAPE_MEDIUM3.jpg"
+              ]
+            },
+            {
+              "id": "landscape_large",
+              "name": "Large Landscape Painting — 50×70 cm",
+              "price": 140,
+              "paymentLink": "https://www.paypal.com/ncp/payment/7K7G2HWWE74D2",
+              "description": "Large statement landscape painting.",
+              "images": [
+                "Large Landscape Painting.jpg",
+                "Large Landscape Painting1.jpg",
+                "Large Landscape Painting2.jpg"
+              ]
+            }
+          ]
+        },
+
+        {
+          "id": "portraits",
+          "name": "Portraits",
+          "products": [
+            {
+              "id": "portrait_2d",
+              "name": "2D Portrait — 30×40 cm",
+              "price": 120,
+              "paymentLink": "https://www.paypal.com/ncp/payment/4WZ3FGUFLZ962",
+              "description": "2D painted portrait — person or pet.",
+              "images": [
+                "painting_portrait_1.jpg",
+                "painting_portrait_3.jpg",
+                "painting_portrait_4.jpg"
+              ]
+            },
+            {
+              "id": "portrait_3d",
+              "name": "3D Portrait Relief — 30×40 cm",
+              "price": 180,
+              "paymentLink": "https://www.paypal.com/ncp/payment/HTSJN3TULVWTN",
+              "description": "3D mixed-media portrait with sculptural texture.",
+              "images": [
+                "clay_3d_painting_1.png",
+                "clay_3d_painting_2.png",
+                "clay_3d_painting_3.png"
+              ]
+            },
+            {
+              "id": "portrait_family",
+              "name": "Couple or Family Portrait — 40×50 cm",
+              "price": 220,
+              "paymentLink": "https://www.paypal.com/ncp/payment/NSCQQSNB7CS3W",
+              "description": "Multi-person detailed portrait.",
+              "images": [
+                "Couple or Family Portrait.png"
+              ]
+            },
+            {
+              "id": "portrait_mini",
+              "name": "Mini Portrait Ornament — 10×10 cm",
+              "price": 50,
+              "paymentLink": "https://www.paypal.com/ncp/payment/QUMD499D3YGDS",
+              "description": "Small hand-painted ornament keepsake.",
+              "images": [
+                "Mini Portrait Ornament.jpg"
+              ]
+            }
+          ]
+        },
+
+        {
+          "id": "festive_portraits",
+          "name": "Festive Portraits",
+          "products": [
+            {
+              "id": "holiday_2d",
+              "name": "Holiday-Themed Portrait (2D) — 30×40 cm",
+              "price": 130,
+              "paymentLink": "https://www.paypal.com/ncp/payment/QYE3TFJQ34P3J",
+              "description": "Festive-themed 2D portrait with holiday magic.",
+              "images": [
+                "painting_christmas_1.jpg",
+                "painting_christmas_3.jpg"
+              ]
+            },
+            {
+              "id": "holiday_3d",
+              "name": "3D Festive Portrait Relief — 30×40 cm",
+              "price": 190,
+              "paymentLink": "https://www.paypal.com/ncp/payment/J3YMRLPT6CYYE",
+              "description": "Sculpted and painted festive portrait.",
+              "images": [
+                "3D Festive Portrait Relief.png"
+              ]
+            },
+            {
+              "id": "holiday_ornament_bundle",
+              "name": "Custom Ornament Bundle",
+              "price": 90,
+              "paymentLink": "https://www.paypal.com/ncp/payment/WCED85EUGSVZS",
+              "description": "Includes festive canvas + one small figurine or keychain.",
+              "images": [
+                "Holiday-Themed Portrait (2D).jpg"
+              ]
+            }
+          ]
+        }
       ]
     },
 
     {
       "id": "bundles",
       "name": "Bundles",
+      "subcategories": [
+        {
+          "id": "relax_restore",
+          "name": "Relax & Restore Set",
+          "products": [
+            {
+              "id": "relax_restore_set",
+              "name": "Relax & Restore Set",
+              "price": 65,
+              "paymentLink": "https://www.paypal.com/ncp/payment/X7EA4LJC8VQ3A",
+              "description": "Herbal soap + face cream + small wax candle — a soothing self-care trio.",
+              "images": [
+                "Herbal soap + face cream + small wax candle.png"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "cozy_winter",
+          "name": "Cozy Winter Set",
+          "products": [
+            {
+              "id": "cozy_winter_set",
+              "name": "Cozy Winter Set — Beanie + Scarf + Mittens + Small Candle",
+              "price": 140,
+              "paymentLink": "https://www.paypal.com/ncp/payment/8A3AKAZR6QVEL",
+              "description": "Perfect for gifting warmth.",
+              "images": [
+                "Cozy Winter Set.png"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "home_harmony_box",
+          "name": "Home Harmony Box",
+          "products": [
+            {
+              "id": "home_harmony_box",
+              "name": "Home Harmony Box",
+              "price": 100,
+              "paymentLink": "https://www.paypal.com/ncp/payment/9T3C2WRAXJJYN",
+              "description": "Epoxy decor + wax candle + seasonal soap.",
+              "images": [
+                "epoxy_decorative_tray_1.png"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "id": "misc",
+      "name": "Miscellaneous / Coming Soon",
       "products": [
-        { "id": "bundle_relax", "name": "Relax & Restore Set", "price": 65, "paymentLink": "https://www.paypal.com/ncp/payment/X7EA4LJC8VQ3A", "images": ["Relax & Restore Set.png","Herbal soap + face cream + small wax candle.png"] },
-        { "id": "bundle_winter", "name": "Cozy Winter Set", "price": 140, "paymentLink": "https://www.paypal.com/ncp/payment/8A3AKAZR6QVEL", "images": ["Cozy Winter Set.png","Matching Winter Set — Beanie + Scarf + Mittens.png"] },
-        { "id": "bundle_harmony", "name": "Home Harmony Box", "price": 100, "paymentLink": "https://www.paypal.com/ncp/payment/9T3C2WRAXJJYN", "images": ["epoxy_decorative_tray_1.png"] },
-        { "id": "bundle_personal", "name": "Personalized Gift Bundle", "price": 0, "paymentLink": "", "images": [] }
+        {
+          "id": "clay_mugs_set",
+          "name": "Clay Mug (Large — 800 ml)",
+          "price": 40,
+          "paymentLink": "https://www.paypal.com/ncp/payment/VENPN7AHXJFE4",
+          "description": "Handmade, hand-painted clay mug — food-safe.",
+          "images": [
+            "Clay Mugs (1).png",
+            "Clay Mugs (2).png",
+            "Clay Mugs (3).png",
+            "Clay Mugs (4).png",
+            "Clay Mugs (5).png",
+            "Clay Mugs (6).png",
+            "Clay Mugs (7).png",
+            "Clay Mugs (8).png",
+            "Clay Mugs (9).png",
+            "Clay Mugs (10).png"
+          ]
+        },
+        {
+          "id": "wall_clock_small",
+          "name": "Wall Clock — 25 cm",
+          "price": 70,
+          "paymentLink": "https://www.paypal.com/ncp/payment/RRDQ39ZGFQJSE",
+          "description": "Resin, wood, or clay base wall clock.",
+          "images": [
+            "Wall Clocks (2).png",
+            "Wall Clocks (3).png",
+            "Wall Clocks.png"
+          ]
+        }
       ]
     }
   ]
