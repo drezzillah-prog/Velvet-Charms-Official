@@ -379,3 +379,23 @@
   console.log('Catalogue loaded and site initialized.');
 
 })();
+/* ❄️ Christmas Theme Toggle */
+document.addEventListener("DOMContentLoaded", () => {
+  const toggle = document.querySelector("#christmasToggle");
+  if (!toggle) return;
+
+  let snowLayer;
+
+  toggle.addEventListener("click", () => {
+    document.body.classList.toggle("christmas-active");
+
+    if (document.body.classList.contains("christmas-active")) {
+      snowLayer = document.createElement("div");
+      snowLayer.className = "snow-overlay";
+      document.body.appendChild(snowLayer);
+    } else {
+      if (snowLayer) snowLayer.remove();
+    }
+  });
+});
+
