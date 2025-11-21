@@ -299,40 +299,42 @@
               ],
               "options": { "aroma": ["Lemon","Orange","Apple","Peach","Vanilla"] }
             },
-            {
-              "id": "soap_gift_herbal_exf",
-              "name": "Gift Herbal / Exfoliating Soap Set (3 pcs)",
-              "price": 30,
-              "paymentLink": "https://www.paypal.com/ncp/payment/ZQ6X8AZMVY4XL",
-              "description": "Mix & match any 3 soaps.",
-              "images": [
-                "Gift Herbal Exfoliating Soap Set (3 pcs) 1.png",
-                "Gift Herbal Exfoliating Soap Set (3 pcs) 2.png",
-                "Gift Herbal Exfoliating Soap Set (3 pcs) 3.png",
-                "Gift Herbal Exfoliating Soap Set (3 pcs) 4.png"
-              ]
-            },
-            {
-              "id": "soap_gift_flower_fruit",
-              "name": "Gift Fruit shaped / Flower shaped Soap Set (3 pcs)",
-              "price": 54,
-              "paymentLink": "https://www.paypal.com/ncp/payment/6QVGP97CQRGN2",
-              "description": "Mix of 3 handcrafted soaps.",
-              "images": ["Gift Fruit shaped Flower shaped Soap Set (3 pcs).png"]
-            },
-            {
-              "id": "soap_gift_new",
-              "name": "Gift Soap Set (3 pcs)",
-              "price": 30,
-              "paymentLink": "https://www.paypal.com/ncp/payment/ZQ6X8AZMVY4XL",
-              "description": "A curated trio of handmade soaps.",
-              "images": [
-                "Gift Soap Set (3 pcs)1.png",
-                "Gift Soap Set (3 pcs)2.png",
-                "Gift Soap Set (3 pcs)3.png"
-              ]
-            }
-          ]
+           {
+  "id": "soap_gift_herbal_exfoliating",
+  "name": "Gift Herbal / Exfoliating Soap Set (3 pcs)",
+  "price": 30,
+  "paymentLink": "https://www.paypal.com/ncp/payment/ZQ6X8AZMVY4XL",
+  "description": "Choose any 3 herbal or exfoliating soaps. You can also request custom combinations.",
+  "images": [
+    "Gift Herbal Exfoliating Soap Set (3 pcs) 1.png",
+    "Gift Herbal Exfoliating Soap Set (3 pcs) 2.png",
+    "Gift Herbal Exfoliating Soap Set (3 pcs) 3.png",
+    "Gift Herbal Exfoliating Soap Set (3 pcs) 4.png"
+  ]
+}
+{
+  "id": "soap_gift_flower_fruit",
+  "name": "Gift Fruit / Flower Soap Set (3 pcs)",
+  "price": 54,
+  "paymentLink": "https://www.paypal.com/ncp/payment/6QVGP97CQRGN2",
+  "description": "Choose any 3 fruit or flower-shaped soaps — or request any specific fruit/flower you want.",
+  "images": [
+    "Gift Fruit shaped Flower shaped Soap Set (3 pcs).png"
+  ]
+}
+{
+  "id": "soap_gift_set_new",
+  "name": "Gift Soap Set (3 pcs)",
+  "price": 30,
+  "paymentLink": "https://www.paypal.com/ncp/payment/ZQ6X8AZMVY4XL",
+  "description": "A curated trio of handmade soaps — you may choose any 3 scents.",
+  "images": [
+    "Gift Soap Set (3 pcs)1.png",
+    "Gift Soap Set (3 pcs)2.png",
+    "Gift Soap Set (3 pcs)3.png"
+  ]
+}
+]
         }
       ]
     },
@@ -472,45 +474,124 @@
             { "id": "epoxy_jewelry_box", "name": "Epoxy + Wood Jewelry Box", "price": 60, "paymentLink": "https://www.paypal.com/ncp/payment/7YPZZ34FGZ6YQ", "images": ["epoxy jewelry box 1.png","epoxy jewelry box 2.png","epoxy jewelry box 3.png"] }
           ]
         },
-        {
-          "id": "candle_holders",
-          "name": "Epoxy Candle Holders",
-          "products": [
-            { "id": "ch_24", "name": "Epoxy Candle Holder A", "price": 25, "paymentLink": "", "images": ["candle_holder_24.png"] },
-            { "id": "ch_25", "name": "Epoxy Candle Holder B", "price": 25, "paymentLink": "", "images": ["candle_holder_25.png"] },
-            { "id": "ch_28", "name": "Epoxy Candle Holder C", "price": 25, "paymentLink": "", "images": ["candle_holder_28.png"] },
-            { "id": "ch_27", "name": "Epoxy Candle Holder D", "price": 25, "paymentLink": "", "images": ["candle_holder_27.png"] }
-          ]
-        },
-        {
-          "id": "keychains",
-          "name": "Epoxy & Clay Keychains",
-          "products": [
-            { "id": "kc_1", "name": "Clay Keychain 1", "price": 12, "paymentLink": "", "images": ["clay_christmas_necklace_3.png","clay_christmas_necklace_2.png","clay_christmas_necklace_1.png","clay_christmas_keychain_3.png","clay_christmas_keychain_2.png","clay_christmas_keychain_1.png","clay_christmas_necklace_4.png"] }
-          ]
-        }
+    {
+  "id": "candle_holders",
+  "name": "Epoxy Candle Holders",
+  "products": [
+    {
+      "id": "holder_a",
+      "name": "Epoxy Candle Holder A",
+      "price": 35,
+      "paymentLink": "https://www.paypal.com/ncp/payment/N6VJ7EN5RE4H2",
+      "description": "Handcrafted epoxy candle holder with glossy finish.",
+      "images": [
+        "candle_holder_24.png"
       ]
     },
+    {
+      "id": "holder_b",
+      "name": "Epoxy Candle Holder B",
+      "price": 35,
+      "paymentLink": "https://www.paypal.com/ncp/payment/N6VJ7EN5RE4H2",
+      "description": "Handcrafted epoxy candle holder.",
+      "images": [
+        "candle_holder_25.png"
+      ]
+    },
+    {
+      "id": "holder_c",
+      "name": "Epoxy Candle Holder C",
+      "price": 35,
+      "paymentLink": "https://www.paypal.com/ncp/payment/N6VJ7EN5RE4H2",
+      "description": "Decorative resin candle holder with shimmering inclusions.",
+      "images": [
+        "candle_holder_28.png"
+      ]
+    },
+    {
+      "id": "holder_d",
+      "name": "Epoxy Candle Holder D",
+      "price": 35,
+      "paymentLink": "https://www.paypal.com/ncp/payment/N6VJ7EN5RE4H2",
+      "description": "Unique handcrafted resin candle holder.",
+      "images": [
+        "candle_holder_27.png"
+      ]
+    }
+  ]
+}
+,
+        {
+  "id": "keychains",
+  "name": "Epoxy & Clay Keychains",
+  "products": [
+    {
+      "id": "keychain_1",
+      "name": "Epoxy & Clay Keychain",
+      "price": 15,
+      "paymentLink": "https://www.paypal.com/ncp/payment/KXWNX7U5WWN9W",
+      "description": "Handcrafted Christmas-themed epoxy & clay keychain.",
+      "images": [
+        "clay_christmas_necklace_3.png",
+        "clay_christmas_necklace_2.png",
+        "clay_christmas_necklace_1.png",
+        "clay_christmas_keychain_3.png",
+        "clay_christmas_keychain_2.png",
+        "clay_christmas_keychain_1.png",
+        "clay_christmas_necklace_4.png"
+      ]
+    }
+  ]
+}
+,
 
     {
       "id": "hair",
       "name": "Hair Accessories",
       "subcategories": [
-        {
-          "id": "hair_clips",
-          "name": "Hair Clips",
-          "products": [
-            { "id": "hc_1", "name": "Hair Clip A", "price": 18, "paymentLink": "https://www.paypal.com/ncp/payment/69NVMF2YG7VX4", "images": ["freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__81983.png","hair_clip_8.png","hair_clip_1.png","freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__90289.png","freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__90286.png","freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__90291.png","freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__90293.png"] }
-          ]
-        },
-        {
-          "id": "hair_pins",
-          "name": "Hairpins (NOT clay)",
-          "products": [
-            { "id": "hp_1", "name": "Hairpin A", "price": 22, "paymentLink": "https://www.paypal.com/ncp/payment/X5YVRQYLU2MW6", "images": ["hair_pin_3.png","hair_pin_1.png","freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__81988.png"] }
-          ]
-        },
-        {
+     {
+  "id": "hair_clips",
+  "name": "Hair Clips",
+  "products": [
+    {
+      "id": "hair_clip_a",
+      "name": "Hair Clip",
+      "price": 18,
+      "paymentLink": "https://www.paypal.com/ncp/payment/9ZQ4G8NRFL3ZW",
+      "description": "Handmade resin hair clip with embedded florals.",
+      "images": [
+        "Hair clip - freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__81983.png",
+        "hair_clip_8.png",
+        "hair_clip_1.png",
+        "freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__90289.png",
+        "freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__90286.png",
+        "freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__90291.png",
+        "freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__90293.png"
+      ]
+    }
+  ]
+}
+,{
+  "id": "hair_pins",
+  "name": "Hairpins",
+  "products": [
+    {
+      "id": "hairpin_a",
+      "name": "Hairpin",
+      "price": 22,
+      "paymentLink": "https://www.paypal.com/ncp/payment/8Q4SYCK6K83SW",
+      "description": "Elegant handcrafted hairpin with natural resin elements.",
+      "images": [
+        "hair_pin_3.png",
+        "hair_pin_1.png",
+        "freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__81988.png"
+      ]
+    }
+  ]
+}
+]
+}
+{
           "id": "hair_combs",
           "name": "Decorative Combs",
           "products": [
