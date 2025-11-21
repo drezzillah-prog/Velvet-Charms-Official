@@ -33,7 +33,7 @@
         <h1>Handcrafted Treasures</h1>
         <p>Personalized, artisan-made pieces — created with love by our team of 12 art students.</p>
         <div class="hero-actions">
-          <button id="explore-catalogue" class="btn" onclick="document.querySelector('#catalogue').scrollIntoView({behavior:'smooth'})">Explore Catalogue</button>
+          <button id="explore-catalogue" class="btn">Explore Catalogue</button>
           <a class="btn" href="#about-us">About Us</a>
         </div>
       </div>
@@ -44,7 +44,7 @@
         <aside class="left-column">
           <h4>Collections</h4>
           <ul id="catalogue-menu"></ul>
-          <div class="note" id="currency-note"></div>
+          <div class="note" id="currency-note">Prices are shown in USD.</div>
         </aside>
 
         <div class="content-inner">
@@ -79,7 +79,7 @@
   <!-- Product modal -->
   <div id="product-modal" class="modal" role="dialog" aria-hidden="true">
     <div class="modal-inner">
-      <header><h3 class="modal-title"></h3><button class="modal-close" onclick="document.body.classList.remove('modal-open');document.querySelector('#product-modal').classList.remove('open')">×</button></header>
+      <header><h3 class="modal-title"></h3><button class="modal-close">×</button></header>
       <div class="modal-body"></div>
     </div>
   </div>
