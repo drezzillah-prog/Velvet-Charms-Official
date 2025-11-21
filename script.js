@@ -1,350 +1,349 @@
-// script.js - Velvet Charms catalogue renderer (vanilla JS)
-// Fetches /catalogue.json and renders the full shop.
-// Christmas theme is default. Small, well-documented, no external libraries.
+/* script.js - Velvet Charms site script
+   - Loads catalogue.json
+   - Renders categories and products
+   - Product modal with gallery and buy link
+   - Dropdown navigation and theme toggle
+*/
 
-const ASSET_ROOT = './'; // images are in root with index.html
-let catalogue = null;
-let currentCategoryId = null;
-let currentSubcategoryId = null;
-let modalProduct = null;
+(async function(){
+  const catalogueUrl = '/catalogue.json';
 
-// Theme handling: default is 'christmas'
-const THEMES = {
-  christmas: {
-    '--bg': '#fff8f6',
-    '--accent': '#b11a1a',
-    '--accent-2': '#c99a2a',
-    '--muted': '#5a4a3a',
-    '--card-bg': '#fffdfa',
-    '--glass': 'rgba(255,255,255,0.7)'
-  },
-  warmsoft: {
-    '--bg': '#fbf7f3',
-    '--accent': '#8b5e3c',
-    '--accent-2': '#b48b5b',
-    '--muted': '#6b4f3a',
-    '--card-bg': '#fffdfa',
-    '--glass': 'rgba(255,255,255,0.8)'
+  // DOM refs
+  const catalogueSection = document.getElementById('catalogueSection');
+  const categoryView = document.getElementById('categoryView');
+  const categoryTitle = document.getElementById('categoryTitle');
+  const productsGrid = document.getElementById('productsGrid');
+  const productModal = document.getElementById('productModal');
+  const modalClose = document.getElementById('modalClose');
+  const modalCloseBtn = document.getElementById('modalCloseBtn');
+  const modalMainImg = document.getElementById('modalMainImg');
+  const modalThumbs = document.getElementById('modalThumbs');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalDesc = document.getElementById('modalDesc');
+  const modalOptions = document.getElementById('modalOptions');
+  const modalPrice = document.getElementById('modalPrice');
+  const modalBuy = document.getElementById('modalBuy');
+  const openCatalogueBtn = document.getElementById('openCatalogue');
+  const openAboutBtn = document.getElementById('openAbout');
+  const aboutSection = document.getElementById('aboutSection');
+  const contactSection = document.getElementById('contactSection');
+  const themeToggle = document.getElementById('themeToggle');
+  const backToCatalogue = document.querySelector('.back-to-catalogue');
+
+  let catalogue = null;
+
+  // helpers
+  function el(tag, props = {}, children = []) {
+    const e = document.createElement(tag);
+    Object.entries(props).forEach(([k,v])=>{
+      if(k === 'class') e.className = v;
+      else if(k === 'html') e.innerHTML = v;
+      else e.setAttribute(k, String(v));
+    });
+    (Array.isArray(children)?children:[children]).flat().forEach(c=>{
+      if(!c) return;
+      if(typeof c === 'string') e.appendChild(document.createTextNode(c));
+      else e.appendChild(c);
+    });
+    return e;
   }
-};
 
-// util: format price by locale
-function formatPrice(amount, currency='USD') {
-  try {
-    return new Intl.NumberFormat(navigator.language || 'en-US', {
-      style: 'currency',
-      currency
-    }).format(amount);
-  } catch(e) {
-    return `${currency} ${amount.toFixed(2)}`;
+  function hideSections() {
+    document.getElementById('catalogueSection').classList.remove('hidden');
+    categoryView.classList.add('hidden');
+    aboutSection.classList.add('hidden');
+    contactSection.classList.add('hidden');
+    document.getElementById('catalogueSection').style.display = '';
   }
-}
 
-// apply theme (default christmas)
-function applyTheme(name) {
-  const root = document.documentElement;
-  const palette = THEMES[name] || THEMES.christmas;
-  Object.entries(palette).forEach(([k, v]) => root.style.setProperty(k, v));
-}
-applyTheme('christmas');
-
-// simple fade-in helper
-function fadeIn(el, delay=0) {
-  el.style.opacity = 0;
-  el.style.transform = 'translateY(8px)';
-  setTimeout(() => {
-    el.style.transition = 'opacity 260ms ease, transform 260ms ease';
-    el.style.opacity = 1;
-    el.style.transform = 'translateY(0)';
-  }, delay);
-}
-
-// fetch catalogue
-async function loadCatalogue() {
+  // load catalogue.json
   try {
-    const res = await fetch('/catalogue.json', {cache: 'no-store'});
-    if (!res.ok) throw new Error('catalogue.json not found');
+    const res = await fetch(catalogueUrl);
+    if(!res.ok) throw new Error('catalogue.json not found');
     catalogue = await res.json();
-    renderSiteHeader();
-    renderCategories();
-    renderHome();
   } catch (err) {
-    showError(`Error loading catalogue. Please ensure /catalogue.json is present and valid in site root.`);
     console.error(err);
+    catalogueSection.innerHTML = '<div class="error">Error loading catalogue. Please ensure /catalogue.json exists and is valid in site root.</div>';
+    return;
   }
-}
 
-// UI helpers
-function el(tag, cls='', inner='') {
-  const d = document.createElement(tag);
-  if (cls) d.className = cls;
-  if (inner) d.innerHTML = inner;
-  return d;
-}
-
-function showError(msg) {
-  const root = document.getElementById('app');
-  root.innerHTML = `<div class="error-card"><h3>${msg}</h3></div>`;
-}
-
-// header & nav
-function renderSiteHeader() {
-  const header = document.getElementById('site-header');
-  header.innerHTML = `
-    <div class="brand">
-      <div class="logo">Velvet Charms ❄️</div>
-      <div class="tag">${catalogue.siteInfo.tagline}</div>
-    </div>
-    <nav id="main-nav" class="main-nav"></nav>
-    <div class="theme-badge">♥ Christmas Theme</div>
-  `;
-  const nav = header.querySelector('#main-nav');
-  const items = ['Home','Catalogue','About Us','Contact'];
-  items.forEach(name => {
-    const a = el('button','nav-btn', name);
-    a.addEventListener('click', () => {
-      if (name === 'Home') renderHome();
-      else if (name === 'Catalogue') renderCategories();
-      else if (name === 'About Us') renderAbout();
-      else if (name === 'Contact') renderContact();
+  // render categories
+  function renderCategories(){
+    catalogueSection.innerHTML = '';
+    (catalogue.categories || []).forEach(cat=>{
+      const img = cat.categoryImage || (cat.subcategories && cat.subcategories[0] && cat.subcategories[0].products && cat.subcategories[0].products[0] && cat.subcategories[0].products[0].images && cat.subcategories[0].products[0].images[0]) || 'top banner picture for candles.png';
+      const subCount = cat.subcategories ? cat.subcategories.length : (cat.products?cat.products.length:0);
+      const card = el('div',{class:'category-card'},[
+        el('img',{src:img, alt:cat.name}),
+        el('div',{},[
+          el('h3',{},[cat.name]),
+          el('p',{},[subCount + (subCount === 1 ? ' collection' : ' collections')]),
+          el('div',{},[
+            el('button',{class:'btn small', 'data-cat':cat.id},'View')
+          ])
+        ])
+      ]);
+      catalogueSection.appendChild(card);
     });
-    nav.appendChild(a);
-  });
-}
 
-// home
-function renderHome() {
-  currentCategoryId = null;
-  currentSubcategoryId = null;
-  const root = document.getElementById('app');
-  root.innerHTML = '';
-  const hero = el('section','hero');
-  hero.innerHTML = `
-    <div class="hero-left">
-      <h1>Handcrafted Treasures</h1>
-      <p class="lead">Personalized, artisan-made pieces — created with love by our team of 12 art students.</p>
-      <div class="hero-actions">
-        <button id="explore-btn" class="btn primary">Explore Catalogue</button>
-        <button id="about-btn" class="btn ghost">About Us</button>
-      </div>
-    </div>
-    <div class="hero-right">
-      <img src="${ASSET_ROOT + (catalogue.siteInfo.banner || 'top banner picture for candles.png')}" alt="Candles banner" />
-    </div>
-  `;
-  root.appendChild(hero);
-  fadeIn(hero, 20);
-  document.getElementById('explore-btn').addEventListener('click', renderCategories);
-  document.getElementById('about-btn').addEventListener('click', renderAbout);
-  renderCollectionsPreview(root);
-}
-
-// preview of top categories
-function renderCollectionsPreview(root) {
-  const collection = el('section','collections');
-  // show a few top categories
-  const cids = catalogue.categories.slice(0,8);
-  cids.forEach(cat => {
-    const card = el('div','collection-card');
-    const banner = cat.banner || (cat.subcategories && cat.subcategories[0] && cat.subcategories[0].products && cat.subcategories[0].products[0] && (cat.subcategories[0].products[0].images || [])[0]) || '';
-    const bannerUrl = banner ? ASSET_ROOT + banner : '';
-    card.innerHTML = `
-      <div class="cc-thumb"><img src="${bannerUrl}" alt="${cat.name}" /></div>
-      <div class="cc-body">
-        <h4>${cat.name}</h4>
-        <small>${cat.subcategories ? cat.subcategories.length : 0} collections</small>
-      </div>
-    `;
-    card.addEventListener('click', () => renderCategory(cat.id));
-    collection.appendChild(card);
-  });
-  root.appendChild(collection);
-}
-
-// render all categories (catalogue index)
-function renderCategories() {
-  const root = document.getElementById('app');
-  root.innerHTML = '';
-  const header = el('div','catalog-header','<h2>Collections</h2>');
-  root.appendChild(header);
-
-  const grid = el('div','category-grid');
-  catalogue.categories.forEach(cat => {
-    const item = el('div','category-item');
-    const img = cat.banner ? `<img src="${ASSET_ROOT + cat.banner}" alt="${cat.name}" />` : '';
-    item.innerHTML = `
-      <div class="cat-thumb">${img}</div>
-      <div class="cat-body">
-        <h3>${cat.name}</h3>
-        <p class="muted">${cat.subcategories ? cat.subcategories.length+' sections' : ''}</p>
-        <div><button class="btn small" data-cat="${cat.id}">Explore</button></div>
-      </div>
-    `;
-    grid.appendChild(item);
-  });
-  root.appendChild(grid);
-
-  grid.querySelectorAll('button[data-cat]').forEach(b=>{
-    b.addEventListener('click', e=>{
-      const id = e.currentTarget.getAttribute('data-cat');
-      renderCategory(id);
-    });
-  });
-}
-
-// render a category and its subcategories
-function renderCategory(catId) {
-  currentCategoryId = catId;
-  currentSubcategoryId = null;
-  const cat = catalogue.categories.find(c => c.id === catId);
-  if (!cat) return renderCategories();
-  const root = document.getElementById('app');
-  root.innerHTML = `<h2>${cat.name}</h2>`;
-  const subWrap = el('div','sub-wrap');
-  if (cat.subcategories && cat.subcategories.length) {
-    cat.subcategories.forEach(sc => {
-      const scCard = el('div','subcat');
-      scCard.innerHTML = `<h3>${sc.name}</h3><div class="product-grid" id="grid-${sc.id}"></div>`;
-      subWrap.appendChild(scCard);
-      // render products in sc
-      const grid = scCard.querySelector('.product-grid');
-      (sc.products || []).forEach(p => grid.appendChild(renderProductCard(p)));
-      // attach event delegation for details
-    });
-  } else {
-    // category without subcategories: find products directly
-    const grid = el('div','product-grid');
-    (cat.products || []).forEach(p => grid.appendChild(renderProductCard(p)));
-    subWrap.appendChild(grid);
-  }
-  root.appendChild(subWrap);
-}
-
-// small product card
-function renderProductCard(p) {
-  const card = el('div','product-card');
-  const thumb = (p.images && p.images.length) ? ASSET_ROOT + p.images[0] : '';
-  card.innerHTML = `
-    <div class="pc-thumb"><img src="${thumb}" alt="${p.name}" /></div>
-    <div class="pc-body">
-      <h4>${p.name}</h4>
-      <p class="pc-price">${formatPrice(p.price || 0)}</p>
-      <div class="pc-actions">
-        <button class="btn small details">Details</button>
-        <a class="btn small buy" href="${p.paymentLink || '#'}" target="_blank" rel="noopener">Buy</a>
-      </div>
-    </div>
-  `;
-  // Details opens modal
-  card.querySelector('.details').addEventListener('click', () => openDetailsModal(p));
-  card.querySelector('.buy').addEventListener('click', () => {
-    // After clicking Buy they are taken to PayPal; show a toast/modal informing about processing
-    setTimeout(()=>showOrderConfirmed(), 400);
-  });
-  fadeIn(card, 10);
-  return card;
-}
-
-// Modal: product details
-function openDetailsModal(p) {
-  modalProduct = p;
-  const modal = document.getElementById('product-modal');
-  modal.querySelector('.modal-title').textContent = p.name;
-  modal.querySelector('.modal-price').textContent = formatPrice(p.price || 0);
-  modal.querySelector('.modal-desc').textContent = p.description || '';
-
-  const imgWrap = modal.querySelector('.modal-images');
-  imgWrap.innerHTML = '';
-  const images = p.images ? p.images.slice() : [];
-  // removeDetails indexes if present (they are indexes referencing removed images)
-  if (p.removeDetails && p.removeDetails.length) {
-    // we assume removeDetails: [1] means remove index 1 (0-based)
-    p.removeDetails.forEach(idx => {
-      if (idx >= 0 && idx < images.length) images.splice(idx, 1);
-    });
-  }
-  images.forEach(img => {
-    const im = el('img','detail-img');
-    im.src = ASSET_ROOT + img;
-    imgWrap.appendChild(im);
-  });
-
-  // options rendering
-  const optsWrap = modal.querySelector('.modal-options');
-  optsWrap.innerHTML = '';
-  if (p.options) {
-    Object.entries(p.options).forEach(([k,v])=>{
-      const field = el('div','opt-field');
-      const label = el('label','', k.charAt(0).toUpperCase() + k.slice(1));
-      field.appendChild(label);
-      const select = el('select','');
-      select.name = k;
-      (v || []).forEach(opt => {
-        const o = document.createElement('option');
-        o.value = opt;
-        o.textContent = opt;
-        select.appendChild(o);
+    // attach handlers
+    catalogueSection.querySelectorAll('button[data-cat]').forEach(btn=>{
+      btn.addEventListener('click', e=>{
+        const catId = e.currentTarget.getAttribute('data-cat');
+        openCategory(catId);
       });
-      field.appendChild(select);
-      optsWrap.appendChild(field);
     });
   }
 
-  // buy link with options appended (we will direct user to PayPal link)
-  const buyBtn = modal.querySelector('.modal-buy');
-  buyBtn.onclick = () => {
-    const url = p.paymentLink || '#';
-    window.open(url, '_blank');
-    showOrderConfirmed();
-  };
+  function findCategoryById(id){
+    return catalogue.categories.find(c=>c.id === id);
+  }
 
-  modal.classList.add('open');
-}
+  // render products for category
+  function openCategory(catId){
+    const cat = findCategoryById(catId);
+    if(!cat) return;
+    document.getElementById('catalogueSection').style.display = 'none';
+    categoryView.classList.remove('hidden');
+    aboutSection.classList.add('hidden');
+    contactSection.classList.add('hidden');
+    categoryTitle.textContent = cat.name;
+    productsGrid.innerHTML = '';
 
-// Confirmation toast/modal
-function showOrderConfirmed() {
-  const toast = document.getElementById('order-toast');
-  toast.classList.add('show');
-  toast.innerHTML = `<strong>Order received</strong><p>Thank you! Orders are processed within 48 hours. You will receive a confirmation email within 24 hours.</p>`;
-  setTimeout(()=>toast.classList.remove('show'), 6000);
-}
+    // flatten subcategories -> products
+    const subs = cat.subcategories || [];
+    subs.forEach(sub=>{
+      const header = el('h3',{class:'subcat-title'},[sub.name]);
+      productsGrid.appendChild(header);
+      const container = el('div',{class:'subcat-row'});
+      (sub.products || []).forEach(prod=>{
+        addProductCard(prod);
+      });
+    });
 
-// About & Contact
-function renderAbout() {
-  const root = document.getElementById('app');
-  root.innerHTML = `<section class="about-panel">
-    <h2>About Us</h2>
-    <p class="about-text">${catalogue.siteInfo.about.text}</p>
-  </section>`;
-}
+    // if cat has direct products (without subcategories)
+    if(cat.products){
+      (cat.products || []).forEach(prod=>{
+        addProductCard(prod);
+      });
+    }
 
-function renderContact() {
-  const root = document.getElementById('app');
-  root.innerHTML = `<section class="contact-panel">
-    <h2>Contact Us</h2>
-    <form id="contact-form" class="contact-form">
-      <label>Name<input name="name" required></label>
-      <label>Email<input name="email" type="email" required></label>
-      <label>Message<textarea name="message" rows="4" required></textarea></label>
-      <button class="btn primary" type="submit">Send Message</button>
-    </form>
-  </section>`;
-  document.getElementById('contact-form').addEventListener('submit', (e)=>{
-    e.preventDefault();
-    alert('Thanks! Message sent. We will reply within 48 hours.');
-    e.target.reset();
+    // helper for product card
+    function addProductCard(prod){
+      // apply removeDetailsIndex to filter images displayed in details gallery
+      const images = (prod.images || []).filter((_, i)=>!(prod.removeDetailsIndex && prod.removeDetailsIndex.includes(i)));
+      const thumbnail = images[0] || 'top banner picture for candles.png';
+      const card = el('div',{class:'product-card'},[
+        el('img',{src:thumbnail, alt:prod.name}),
+        el('h4',{},[prod.name]),
+        el('div',{class:'price'},['$'+(prod.price||0).toFixed(2)]),
+        el('p',{class:'muted'},[prod.description || '']),
+        el('div',{},[
+          el('button',{class:'btn small details', 'data-id':prod.id},'Details'),
+          el('a',{class:'btn small', href:prod.paymentLink, target:'_blank'},'Buy')
+        ])
+      ]);
+      productsGrid.appendChild(card);
+    }
+
+    // attach details handlers
+    productsGrid.querySelectorAll('.details').forEach(btn=>{
+      btn.addEventListener('click', e=>{
+        const id = e.currentTarget.getAttribute('data-id');
+        const prod = findProductById(id);
+        if(prod) openProductModal(prod);
+      });
+    });
+  }
+
+  // Find product by id across categories
+  function findProductById(id){
+    for(const cat of (catalogue.categories||[])){
+      if(cat.subcategories){
+        for(const sub of cat.subcategories){
+          if(sub.products){
+            for(const p of sub.products){
+              if(p.id === id) return p;
+            }
+          }
+        }
+      }
+      if(cat.products){
+        for(const p of cat.products){
+          if(p.id === id) return p;
+        }
+      }
+    }
+    return null;
+  }
+
+  // product modal
+  function openProductModal(prod){
+    productModal.classList.remove('hidden');
+    productModal.setAttribute('aria-hidden','false');
+
+    const images = (prod.images || []).filter((_, i)=>!(prod.removeDetailsIndex && prod.removeDetailsIndex.includes(i)));
+    const main = images[0] || 'top banner picture for candles.png';
+    modalMainImg.src = main;
+    modalMainImg.alt = prod.name;
+    modalTitle.textContent = prod.name;
+    modalDesc.textContent = prod.description || '';
+    modalPrice.textContent = '$' + (prod.price || 0).toFixed(2);
+    modalBuy.href = prod.paymentLink || '#';
+
+    // options
+    modalOptions.innerHTML = '';
+    if(prod.options){
+      Object.entries(prod.options).forEach(([optName,optVals])=>{
+        const row = el('div',{class:'option-row'});
+        row.appendChild(el('div',{class:'opt-label'},[optName.charAt(0).toUpperCase()+optName.slice(1)+': ']));
+        optVals.forEach(v=>{
+          const b = el('button',{class:'opt-btn', 'data-opt':optName, 'data-val':v},[v]);
+          b.addEventListener('click', ()=>{
+            // toggle active
+            b.parentNode.querySelectorAll('button').forEach(x=>x.classList.remove('active'));
+            b.classList.add('active');
+          });
+          row.appendChild(b);
+        });
+        modalOptions.appendChild(row);
+      });
+    }
+
+    // thumbs
+    modalThumbs.innerHTML = '';
+    images.forEach((src, idx)=>{
+      const t = el('img',{src, alt: prod.name + ' ' + (idx+1)});
+      if(idx === 0) t.classList.add('active');
+      t.addEventListener('click', ()=>{
+        modalMainImg.src = src;
+        modalThumbs.querySelectorAll('img').forEach(im => im.classList.remove('active'));
+        t.classList.add('active');
+      });
+      modalThumbs.appendChild(t);
+    });
+  }
+
+  // close modal
+  function closeModal(){
+    productModal.classList.add('hidden');
+    productModal.setAttribute('aria-hidden','true');
+  }
+
+  // nav handlers
+  document.querySelectorAll('.main-nav a[data-nav]').forEach(a=>{
+    a.addEventListener('click', (e)=>{
+      e.preventDefault();
+      const nav = a.getAttribute('data-nav');
+      if(nav === 'home'){
+        document.getElementById('catalogueSection').style.display = '';
+        categoryView.classList.add('hidden');
+        aboutSection.classList.add('hidden');
+        contactSection.classList.add('hidden');
+      } else if(nav === 'about'){
+        document.getElementById('catalogueSection').style.display = 'none';
+        categoryView.classList.add('hidden');
+        aboutSection.classList.remove('hidden');
+        contactSection.classList.add('hidden');
+      } else if(nav === 'contact'){
+        document.getElementById('catalogueSection').style.display = 'none';
+        categoryView.classList.add('hidden');
+        aboutSection.classList.add('hidden');
+        contactSection.classList.remove('hidden');
+      } else if(nav === 'catalogue'){
+        document.getElementById('catalogueSection').style.display = '';
+        categoryView.classList.add('hidden');
+        aboutSection.classList.add('hidden');
+        contactSection.classList.add('hidden');
+      }
+    });
   });
-}
 
-// modal close
-function initModal() {
-  const modal = document.getElementById('product-modal');
-  modal.querySelector('.modal-close').addEventListener('click', ()=>modal.classList.remove('open'));
-  document.getElementById('order-toast').addEventListener('click', ()=>document.getElementById('order-toast').classList.remove('show'));
-}
+  // catalogue dropdown links
+  document.querySelectorAll('.dropdown a').forEach(a=>{
+    a.addEventListener('click', e=>{
+      e.preventDefault();
+      const cat = a.getAttribute('data-cat');
+      if(cat === 'about'){
+        document.querySelector('[data-nav="about"]').click();
+      } else if(cat === 'contact'){
+        document.querySelector('[data-nav="contact"]').click();
+      } else {
+        openCategory(cat);
+      }
+    });
+  });
 
-// init
-document.addEventListener('DOMContentLoaded', () => {
-  initModal();
-  loadCatalogue();
-});
+  // theme toggle (Christmas default, allow toggle to inverse if user wants)
+  themeToggle.addEventListener('click', ()=>{
+    const isChristmas = document.body.classList.contains('christmas');
+    if(isChristmas){
+      document.body.classList.remove('christmas');
+      themeToggle.textContent = 'Switch to Christmas Theme';
+    } else {
+      document.body.classList.add('christmas');
+      themeToggle.textContent = '♥ Christmas Theme';
+    }
+  });
+
+  // open catalogue CTA
+  openCatalogueBtn.addEventListener('click', ()=> {
+    document.getElementById('catalogueSection').style.display = '';
+    categoryView.classList.add('hidden');
+    aboutSection.classList.add('hidden');
+    contactSection.classList.add('hidden');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+
+  openAboutBtn.addEventListener('click', ()=> {
+    document.querySelector('[data-nav="about"]').click();
+  });
+
+  // close modal events
+  modalClose.addEventListener('click', closeModal);
+  modalCloseBtn.addEventListener('click', closeModal);
+  window.addEventListener('keydown', (e)=> {
+    if(e.key === 'Escape') closeModal();
+  });
+  productModal.addEventListener('click', (e)=>{
+    if(e.target === productModal) closeModal();
+  });
+
+  // back-to-catalogue
+  backToCatalogue.addEventListener('click', ()=>{
+    document.getElementById('catalogueSection').style.display = '';
+    categoryView.classList.add('hidden');
+    aboutSection.classList.add('hidden');
+    contactSection.classList.add('hidden');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+
+  // attach details buttons from initial load (for any additional view)
+  document.addEventListener('click', (e)=>{
+    if(e.target && e.target.matches && e.target.matches('.product-card .details, button.details')){
+      e.preventDefault();
+      const id = e.target.dataset.id;
+      const prod = findProductById(id);
+      if(prod) openProductModal(prod);
+    }
+  });
+
+  // render top-level categories now
+  renderCategories();
+
+  // Show catalogue by default
+  document.getElementById('catalogueSection').style.display = '';
+
+  // make About text larger (additional beautify)
+  document.querySelectorAll('.about-copy').forEach(n => n.style.fontSize = '1.3rem');
+
+  // Additional small UX tweaks: make all images responsive and limited
+  const style = document.createElement('style');
+  style.innerHTML = `
+    img{max-width:100%;height:auto}
+    .product-card img{height:220px;object-fit:cover}
+    .category-card img{width:120px;height:120px}
+  `;
+  document.head.appendChild(style);
+
+})();
