@@ -2,45 +2,122 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Velvet Charms — Where Art Meets Emotion</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Velvet Charms — Handcrafted Treasures</title>
   <link rel="icon" href="top banner picture for candles.png" />
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-  <header id="site-header" class="site-header"></header>
+<body class="christmas">
+  <header class="site-header">
+    <div class="brand">
+      <img class="logo-snowflake" src="top banner picture for candles.png" alt="Velvet Charms">
+      <div class="titles">
+        <h1>Velvet Charms <span class="snowflake" aria-hidden="true"></span></h1>
+        <div class="tagline">Where Art Meets Emotion — Handcrafted with love</div>
+      </div>
+    </div>
 
-  <main id="app" class="main-content">
-    <!-- Content injected by script.js -->
+    <nav class="main-nav">
+      <ul>
+        <li><a href="#" data-nav="home" class="active">Home</a></li>
+        <li class="catalogue-dropdown">
+          <a href="#" data-nav="catalogue">Catalogue ▾</a>
+          <div class="dropdown">
+            <a href="#" data-cat="candles">Candles</a>
+            <a href="#" data-cat="bodycare">Body Care</a>
+            <a href="#" data-cat="perfumes">Perfumes</a>
+            <a href="#" data-cat="knitted_braided">Knitted & Braided</a>
+            <a href="#" data-cat="artworks">Paintings & Portraits</a>
+            <a href="#" data-cat="epoxy_clay">Epoxy & Clay Creations</a>
+            <a href="#" data-cat="hair_accessories">Hair Accessories</a>
+            <a href="#" data-cat="bundles">Bundles</a>
+            <a href="#" data-cat="about">About Us</a>
+            <a href="#" data-cat="contact">Contact</a>
+          </div>
+        </li>
+        <li><a href="#" data-nav="about">About Us</a></li>
+        <li><a href="#" data-nav="contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <button id="themeToggle" class="theme-toggle">♥ Christmas Theme</button>
+  </header>
+
+  <main id="app">
+    <section class="hero">
+      <div class="hero-content">
+        <h2>Handcrafted Treasures <span class="hero-snow"></span></h2>
+        <p class="hero-sub">Personalized, artisan-made pieces — created with love by our team of 12 art students.</p>
+        <div class="cta-row">
+          <button id="openCatalogue" class="btn primary">Explore Catalogue</button>
+          <button id="openAbout" class="btn outline">About Us</button>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img src="top banner picture for candles.png" alt="Candles hero" />
+      </div>
+    </section>
+
+    <section id="catalogueSection" class="catalogue-grid">
+      <!-- Category cards will be injected here by script.js -->
+    </section>
+
+    <section id="categoryView" class="category-view hidden">
+      <button class="back-to-catalogue btn small">← Back to Catalogue</button>
+      <h2 id="categoryTitle"></h2>
+      <div id="productsGrid" class="products-grid"></div>
+    </section>
+
+    <section id="aboutSection" class="about-section hidden">
+      <h2>About Us</h2>
+      <div class="about-inner">
+        <img src="top banner picture for candles.png" alt="About image" class="about-image" />
+        <div class="about-text">
+          <p class="about-copy">
+            We are a team of 12 passionate art students dedicated to creating personalized handcrafted items. Every piece is made with patience, care, and a touch of magic — whether you choose an existing product or request a fully custom creation built from your photos and ideas. We proudly ship worldwide, with orders dispatched from the location closest to you: Frankfurt, Germany or Constanța, Romania. Your order means the world to us — thank you for supporting handmade artistry.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contactSection" class="contact-section hidden">
+      <h2>Contact Us</h2>
+      <form id="contactForm" class="contact-form">
+        <label>Name<input type="text" name="name" required></label>
+        <label>Email<input type="email" name="email" required></label>
+        <label>Message<textarea name="message" rows="4" required></textarea></label>
+        <div><button type="submit" class="btn primary">Send Message</button></div>
+      </form>
+    </section>
   </main>
 
+  <footer class="site-footer">
+    <div>© 2025 Velvet Charms — All Rights Reserved</div>
+    <div class="footer-note">Orders ship from Frankfurt, Germany or Constanța, Romania — you'll be notified after purchase.</div>
+  </footer>
+
   <!-- Product modal -->
-  <div id="product-modal" class="product-modal" aria-hidden="true">
-    <div class="modal-card">
-      <button class="modal-close btn ghost">×</button>
-      <div class="modal-left">
-        <div class="modal-images"></div>
-      </div>
-      <div class="modal-right">
-        <h3 class="modal-title"></h3>
-        <p class="modal-price"></p>
-        <p class="modal-desc"></p>
-        <div class="modal-options"></div>
-        <div class="modal-actions">
-          <button class="btn modal-buy primary">Buy</button>
-          <button class="btn modal-close ghost">Close</button>
+  <div id="productModal" class="modal hidden" aria-hidden="true">
+    <div class="modal-dialog">
+      <button class="modal-close" id="modalClose">×</button>
+      <div class="modal-body">
+        <div class="modal-gallery">
+          <img id="modalMainImg" src="" alt="" />
+          <div id="modalThumbs" class="thumbs"></div>
+        </div>
+        <div class="modal-info">
+          <h3 id="modalTitle"></h3>
+          <p id="modalDesc"></p>
+          <div id="modalOptions" class="modal-options"></div>
+          <div class="price" id="modalPrice"></div>
+          <div class="modal-actions">
+            <button class="btn" id="modalCloseBtn">Close</button>
+            <a id="modalBuy" class="btn primary" href="#" target="_blank">Buy</a>
+          </div>
         </div>
       </div>
     </div>
   </div>
-
-  <div id="order-toast" class="order-toast" role="status"></div>
-
-  <footer class="site-footer">
-    <div class="inner">
-      <small>© 2025 Velvet Charms — All Rights Reserved</small>
-    </div>
-  </footer>
 
   <script src="script.js"></script>
 </body>
