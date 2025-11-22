@@ -1,6 +1,4 @@
-// Complete catalogue with all product images from GitHub
 const catalogue = [
-  // Example: Add all products similarly from GitHub with correct images
   {
     category: "Soaps",
     subcategory: "Gift Herbal / Exfoliating Soap Set (3 pcs)",
@@ -12,8 +10,7 @@ const catalogue = [
       "Gift Herbal Exfoliating Soap Set (3 pcs) 4.png"
     ],
     customizable: true,
-    price: "auto",
-    description: "Optional: Add text or upload an image for customization."
+    price: "auto"
   },
   {
     category: "Soaps",
@@ -21,8 +18,7 @@ const catalogue = [
     name: "Gift Fruit / Flower Soap Set (3 pcs)",
     images: ["Gift Fruit shaped Flower shaped Soap Set (3 pcs).png"],
     customizable: true,
-    price: "auto",
-    description: "Optional: Add text or upload an image for customization."
+    price: "auto"
   },
   {
     category: "Knitted Items",
@@ -30,8 +26,7 @@ const catalogue = [
     name: "Matching Winter Set — Beanie + Scarf + Mittens",
     images: ["Matching Winter Set — Beanie + Scarf + Mittens.png"],
     customizable: true,
-    price: "auto",
-    description: "Optional: Add text or upload an image for customization."
+    price: "auto"
   },
   {
     category: "Gift Sets",
@@ -39,89 +34,75 @@ const catalogue = [
     name: "Relax & Restore Set — Herbal soap + face cream + small wax candle",
     images: ["Gift Herbal Exfoliating Soap Set (3 pcs) 1.png"],
     customizable: true,
-    price: "auto",
-    description: "Optional: Add text or upload an image for customization."
-  },
-  // ... Add ALL other products similarly from your GitHub with correct images
+    price: "auto"
+  }
 ];
 
-// Region-based pricing
-function getPrice(price) {
-  const region = navigator.language || 'en-US';
-  // Placeholder logic; replace with real API/geolocation if needed
-  if (price !== "auto") return price;
+const container = document.getElementById("product-catalogue");
 
-  if (region.includes('ro')) return "RON 125"; 
-  if (region.includes('de')) return "€28"; 
-  return "$25";
+function getPrice(price) {
+  // automatic region detection placeholder
+  return "$25"; // You can implement region-based detection
 }
 
-const container = document.getElementById("product-catalogue");
 catalogue.forEach(product => {
   const card = document.createElement("div");
   card.className = "product-card";
-
+  
   card.innerHTML = `
     <img src="${product.images[0]}" alt="${product.name}">
     <h2>${product.name}</h2>
-    <p>${product.description}</p>
-    <p>Price: ${getPrice(product.price)}</p>
     ${product.customizable ? `
       <form class="customize-form">
-        <textarea placeholder="Optional: Notes for customization"></textarea>
+        <textarea placeholder="Optional notes for customization"></textarea>
         <input type="file" accept="image/*">
         <button type="submit">Add customization</button>
       </form>
     ` : ''}
+    <p class="price">Price: ${getPrice(product.price)}</p>
   `;
-
   container.appendChild(card);
 });
 
-// Christmas Snowflakes Animation
-const canvas = document.getElementById('snowflakes');
-const ctx = canvas.getContext('2d');
+/* Snowflakes effect */
+const canvas = document.createElement('canvas');
+canvas.id = 'snow-canvas';
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
+document.getElementById('snowflakes').appendChild(canvas);
+const ctx = canvas.getContext('2d');
 
-const snowflakes = [];
-for (let i = 0; i < 100; i++) {
+let snowflakes = [];
+for (let i = 0; i < 150; i++) {
   snowflakes.push({
     x: Math.random() * canvas.width,
     y: Math.random() * canvas.height,
     r: Math.random() * 4 + 1,
+    color: Math.random() > 0.7 ? "#d14646" : Math.random() > 0.5 ? "#3c6b3c" : "white",
     d: Math.random() * 1
   });
 }
 
 function drawSnowflakes() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = "rgba(255,255,255,0.8)";
-  ctx.beginPath();
   snowflakes.forEach(f => {
-    ctx.moveTo(f.x, f.y);
+    ctx.beginPath();
+    ctx.fillStyle = f.color;
     ctx.arc(f.x, f.y, f.r, 0, Math.PI*2, true);
+    ctx.fill();
   });
-  ctx.fill();
   updateSnowflakes();
 }
 
 function updateSnowflakes() {
   snowflakes.forEach(f => {
-    f.y += Math.cos(f.d) + 1 + f.r / 2;
-    f.x += Math.sin(f.d) * 2;
-
+    f.y += Math.pow(f.d, 2) + 0.5;
     if (f.y > canvas.height) {
-      f.x = Math.random() * canvas.width;
       f.y = 0;
+      f.x = Math.random() * canvas.width;
     }
   });
   requestAnimationFrame(drawSnowflakes);
 }
 
 drawSnowflakes();
-
-window.addEventListener('resize', () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-});
