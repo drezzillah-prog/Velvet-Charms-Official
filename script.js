@@ -1,381 +1,462 @@
-// catalogue-driven shop script for Velvet Charms
-// Features: loads catalogue.json, renders nav + categories, product cards,
-// details modal with personalization form, Add to Cart, Cart modal, favorites,
-// locale price formatting with approximate EUR/RON conversion, post-pay message.
+/* script.js - Velvet Charms
+   Loads catalogue.json, renders categories, products, modal, cart, favorites, and simple PayPal redirect checkout.
+   Christmas theme is default. Cart & customization form are client-side (localStorage).
+*/
 
-const FORM_ACTION = "https://formspree.io/f/YOUR_FORMSPREE_ID"; // <-- Replace with your Formspree endpoint
-const CONTACT_EMAIL = "rosalinda.mauve@gmail.com"; // contact fallback
+"use strict";
 
-// Basic approximate conversion rates (display only; not for accounting)
-const RATES = {
-  EUR: 0.92, // 1 USD -> EUR (approx)
-  RON: 4.5   // 1 USD -> RON (approx)
+const APP = {
+  catalogue: null,
+  currency: "USD",
+  cart: [],
+  favorites: new Set(),
+  el: {}
 };
 
-let catalogue = null;
-let cart = JSON.parse(localStorage.getItem("vc_cart") || "[]");
-let favorites = JSON.parse(localStorage.getItem("vc_favs") || "[]");
-let userLocale = navigator.language || "en-US";
+function q(selector, root = document) { return root.querySelector(selector); }
+function qa(selector, root = document) { return Array.from(root.querySelectorAll(selector)); }
 
-function fmtPriceUSD(v) {
-  return v.toFixed(2) + " $";
-}
-function formatPriceForLocale(v) {
-  // Choose currency by language hints
-  if (/^ro\b/i.test(userLocale)) {
-    return "≈ " + (v * RATES.RON).toFixed(2) + " RON";
-  } else if (/^fr|^de|^es|^it|^nl|^pt\b/i.test(userLocale)) {
-    return "≈ " + (v * RATES.EUR).toFixed(2) + " €";
-  } else {
-    // default USD locale formatting
-    return v.toLocaleString(userLocale, { style: "currency", currency: "USD", minimumFractionDigits:2 });
-  }
-}
-
-function qsel(s){return document.querySelector(s);}
-function qall(s){return Array.from(document.querySelectorAll(s));}
-
-async function loadCatalogue() {
+// --- Helpers
+function formatPrice(amount, currency) {
   try {
-    const res = await fetch("/catalogue.json");
-    if(!res.ok) throw new Error("catalogue.json not loaded");
-    catalogue = await res.json();
-    renderSite();
+    return new Intl.NumberFormat(undefined, { style: "currency", currency }).format(amount);
   } catch (e) {
-    console.error(e);
-    showCatalogError();
+    return `${amount} ${currency}`;
   }
 }
 
-function showCatalogError(){
-  const main = qsel("#main");
-  main.innerHTML = `<div class="error">Error loading catalogue. Please ensure <code>/catalogue.json</code> is present in the site root.</div>`;
+function detectCurrency() {
+  // best-effort via navigator language and timezone; map to provided mapping
+  try {
+    const locale = navigator.language || 'en-US';
+    const country = locale.split('-')[1] || 'US';
+    const mapping = APP.catalogue.siteInfo.currencyMapping || {};
+    return mapping[country] || APP.catalogue.siteInfo.defaultCurrency || "USD";
+  } catch (e) { return APP.catalogue.siteInfo.defaultCurrency || "USD"; }
 }
 
-// NAV build
-function renderNav() {
-  const nav = qsel("#nav-categories");
-  nav.innerHTML = "";
-  const ul = document.createElement("ul");
-  ul.className = "nav-cat-list";
-  catalogue.categories.forEach(cat => {
-    const li = document.createElement("li");
-    li.className = "nav-cat-item";
-    const a = document.createElement("a");
-    a.href = "#";
-    a.textContent = cat.name;
-    a.dataset.cat = cat.id;
-    a.onclick = (ev) => { ev.preventDefault(); renderCategory(cat.id); }
-    li.appendChild(a);
+function saveState() {
+  localStorage.setItem('vc_cart', JSON.stringify(APP.cart));
+  localStorage.setItem('vc_favs', JSON.stringify(Array.from(APP.favorites)));
+}
 
-    // add dropdown for subcategories
-    if (cat.subcategories && cat.subcategories.length) {
-      const drop = document.createElement("div");
-      drop.className = "nav-subcat";
-      cat.subcategories.forEach(sc => {
-        const sa = document.createElement("a");
-        sa.href = "#";
-        sa.textContent = sc.name;
-        sa.onclick = (ev) => { ev.preventDefault(); renderSubcategory(cat.id, sc.id); }
-        drop.appendChild(sa);
-      });
-      li.appendChild(drop);
-    }
-    ul.appendChild(li);
+function loadState() {
+  try {
+    APP.cart = JSON.parse(localStorage.getItem('vc_cart')) || [];
+    const favs = JSON.parse(localStorage.getItem('vc_favs')) || [];
+    APP.favorites = new Set(favs);
+  } catch (e) {
+    APP.cart = []; APP.favorites = new Set();
+  }
+}
+
+// --- DOM Renderers
+function renderHeader() {
+  const root = q('#site-header');
+  root.innerHTML = `
+    <div class="logo">
+      <h1>${APP.catalogue.siteInfo.name} <span class="snow">❄️</span></h1>
+      <p class="tagline">${APP.catalogue.siteInfo.tagline}</p>
+    </div>
+    <nav class="main-nav">
+      <button class="nav-btn" data-target="home">Home</button>
+      <button class="nav-btn" data-target="catalogue">Catalogue</button>
+      <button class="nav-btn" data-target="about">About Us</button>
+      <button class="nav-btn" data-target="contact">Contact</button>
+    </nav>
+    <div class="actions">
+      <button id="favoritesBtn" title="Favorites">❤ <span id="fav-count">0</span></button>
+      <button id="cartBtn" title="Cart">🛒 <span id="cart-count">0</span></button>
+    </div>
+  `;
+  qa('.nav-btn').forEach(b => b.addEventListener('click', (ev)=>{
+    const t = b.dataset.target;
+    navigateTo(t);
+  }));
+}
+
+function renderHome() {
+  const root = q('#content');
+  root.innerHTML = `
+    <section class="hero">
+      <img src="${APP.catalogue.categories.find(c=>c.id==='candles')?.banner || ''}" alt="banner" class="hero-img"/>
+      <div class="hero-text">
+        <h2>Handcrafted Treasures</h2>
+        <p>Personalized, artisan-made pieces — created with love by our team of 12 art students. Preorder now for holiday gifting.</p>
+        <div class="hero-cta">
+          <button id="exploreBtn">Explore Catalogue</button>
+          <button id="aboutBtn">About Us</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="category-grid" id="categoriesGrid"></section>
+  `;
+  q('#exploreBtn').addEventListener('click', ()=>navigateTo('catalogue'));
+  q('#aboutBtn').addEventListener('click', ()=>navigateTo('about'));
+  renderCategoriesGrid();
+}
+
+function renderCategoriesGrid() {
+  const grid = q('#categoriesGrid');
+  grid.innerHTML = '';
+  APP.catalogue.categories.forEach(cat=>{
+    const img = cat.categoryImage || (cat.banner || '');
+    const el = document.createElement('article');
+    el.className = 'cat-card';
+    el.innerHTML = `
+      <img src="${img}" alt="${cat.name}" onerror="this.style.opacity=.06">
+      <div class="cat-info"><h3>${cat.name}</h3></div>
+    `;
+    el.addEventListener('click', ()=>renderCategory(cat.id));
+    grid.appendChild(el);
   });
-  nav.appendChild(ul);
 }
 
-// Main page render
-function renderSite() {
-  renderNav();
-  renderHeader();
-  // show catalogue overview (categories grid)
-  const main = qsel("#main");
-  main.innerHTML = `<div class="categories-grid" id="categories-grid"></div>`;
-  const grid = qsel("#categories-grid");
-  catalogue.categories.forEach(cat => {
-    const card = document.createElement("div");
-    card.className = "category-card";
-    const img = document.createElement("img");
-    img.alt = cat.name;
-    img.src = cat.categoryImage || cat.banner || "top banner picture for candles.png";
-    img.loading = "lazy";
-    const h = document.createElement("h3");
-    h.textContent = cat.name;
-    card.appendChild(img);
-    card.appendChild(h);
-    card.onclick = () => renderCategory(cat.id);
+function renderCategory(categoryId) {
+  const cat = APP.catalogue.categories.find(c=>c.id===categoryId);
+  if(!cat) return;
+  const root = q('#content');
+  root.innerHTML = `<section class="category-page"><h2>${cat.name}</h2><div class="sub-grid"></div></section>`;
+  const subGrid = q('.sub-grid');
+  // If category has subcategories show them
+  if(cat.subcategories && cat.subcategories.length) {
+    cat.subcategories.forEach(sub=>{
+      const subCard = document.createElement('div');
+      subCard.className = 'subcard';
+      const sampleImage = (sub.products && sub.products[0] && (sub.products[0].images||[])[0]) || cat.categoryImage || '';
+      subCard.innerHTML = `
+        <img src="${sampleImage}" alt="${sub.name}" onerror="this.style.opacity=.06">
+        <div class="subcard-info"><h3>${sub.name}</h3><button class="view-sub" data-sub="${sub.id}">View</button></div>
+      `;
+      subCard.querySelector('.view-sub').addEventListener('click', ()=>renderSubcategory(categoryId, sub.id));
+      subGrid.appendChild(subCard);
+    });
+  } else if(cat.products) { // some categories may have direct products
+    renderProductsList(cat.products, root);
+  } else {
+    root.innerHTML += `<p class="muted">No items found.</p>`;
+  }
+}
+
+function renderSubcategory(categoryId, subId) {
+  const cat = APP.catalogue.categories.find(c=>c.id===categoryId);
+  const sub = (cat.subcategories||[]).find(s=>s.id===subId);
+  const root = q('#content');
+  root.innerHTML = `<section class="subcat-page"><h2>${sub.name}</h2><div class="products-grid"></div></section>`;
+  const grid = q('.products-grid');
+  (sub.products||[]).forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'product-card';
+    card.innerHTML = `
+      <img src="${(p.images && p.images[0])||''}" alt="${p.name}" loading="lazy">
+      <h4>${p.name}</h4>
+      <p class="price">${formatPrice(p.price, APP.currency)}</p>
+      <div class="card-actions">
+        <button class="details-btn" data-id="${p.id}">Details</button>
+        <button class="buy-btn" data-id="${p.id}">Buy</button>
+      </div>
+    `;
+    card.querySelector('.details-btn').addEventListener('click', ()=>openDetailsModal(categoryId, subId, p.id));
+    card.querySelector('.buy-btn').addEventListener('click', ()=>openCustomizeThenCheckout(categoryId, subId, p.id));
     grid.appendChild(card);
   });
-  updateCartCount();
 }
 
-// header / hero
-function renderHeader(){
-  qsel("#site-title").textContent = catalogue.siteInfo.name + " ❄️";
-  qsel("#site-tagline").textContent = catalogue.siteInfo.tagline;
-  qsel("#about-text").innerHTML = `<h2>${catalogue.siteInfo.about.title}</h2><p class="about-text">${catalogue.siteInfo.about.text}</p>`;
-  // About modal image and style adjustments done via CSS
+function renderProductsList(products, root) {
+  const html = `<div class="products-grid"></div>`;
+  root.innerHTML += html;
+  const grid = q('.products-grid');
+  products.forEach(p=>{
+    const card = document.createElement('div'); card.className='product-card';
+    card.innerHTML = `
+      <img src="${(p.images&&p.images[0])||''}" alt="${p.name}" loading="lazy">
+      <h4>${p.name}</h4>
+      <p class="price">${formatPrice(p.price, APP.currency)}</p>
+      <div class="card-actions"><button class="details-btn" data-id="${p.id}">Details</button><button class="buy-btn" data-id="${p.id}">Buy</button></div>
+    `;
+    card.querySelector('.details-btn').addEventListener('click', ()=>openGenericDetails(p));
+    card.querySelector('.buy-btn').addEventListener('click', ()=>openCustomizeThenCheckoutForProduct(p));
+    grid.appendChild(card);
+  });
 }
 
-// Category page render
-function renderCategory(catId) {
-  const cat = catalogue.categories.find(c => c.id === catId);
-  if(!cat) return;
-  const main = qsel("#main");
-  main.innerHTML = `
-    <div class="category-header">
-      <img src="${cat.banner || cat.categoryImage || 'top banner picture for candles.png'}" alt="${cat.name}" loading="lazy"/>
-      <div>
-        <h2>${cat.name}</h2>
-        ${cat.subcategories && cat.subcategories.length ? `<p class="subhint">Choose a subcategory below</p>` : ""}
+function openGenericDetails(product) {
+  openProductModal(product);
+}
+
+function openDetailsModal(categoryId, subId, productId) {
+  const cat = APP.catalogue.categories.find(c=>c.id===categoryId);
+  const sub = (cat.subcategories||[]).find(s=>s.id===subId);
+  const product = (sub.products||[]).find(p=>p.id===productId);
+  if(!product) return;
+  openProductModal(product);
+}
+
+function openProductModal(product) {
+  const modal = q('#modal');
+  modal.innerHTML = buildProductModalHTML(product);
+  modal.classList.add('open');
+  modal.querySelector('.modal-close').addEventListener('click', closeModal);
+  modal.querySelector('.add-to-cart')?.addEventListener('click', ()=>{
+    const customization = collectCustomization(modal);
+    addToCart(product, customization);
+    closeModal();
+  });
+  // image gallery click handlers
+  qa('.modal-thumb').forEach(t=>{
+    t.addEventListener('click', ()=> {
+      q('.modal-main-img').src = t.dataset.src;
+    });
+  });
+}
+
+function buildProductModalHTML(product) {
+  const images = product.images || [];
+  // Trim removed details if flagged
+  const thumbs = images.map((src,i)=>`<img class="modal-thumb" data-src="${src}" src="${src}" alt="" loading="lazy" />`).join('');
+  const optionsHtml = buildOptionsHTML(product.options);
+  return `
+    <div class="modal-card">
+      <button class="modal-close" title="Close">✕</button>
+      <div class="modal-body">
+        <div class="modal-gallery">
+          <img class="modal-main-img" src="${images[0]||''}" alt="${product.name}">
+          <div class="modal-thumbs">${thumbs}</div>
+        </div>
+        <div class="modal-info">
+          <h3>${product.name}</h3>
+          <p class="modal-price">${formatPrice(product.price, APP.currency)}</p>
+          <p class="modal-desc">${product.description || ''}</p>
+          ${optionsHtml}
+          <label>Quantity <input id="modal-qty" type="number" min="1" value="1"></label>
+          <div class="modal-actions">
+            <button class="add-to-cart">Add to Cart</button>
+            <button class="buy-now">Buy Now</button>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="subcat-list" id="subcat-list"></div>
-    <div id="products-grid" class="products-grid"></div>
   `;
+}
 
-  // subcategory list
-  const scList = qsel("#subcat-list");
-  if (cat.subcategories && cat.subcategories.length) {
-    cat.subcategories.forEach(sc => {
-      const btn = document.createElement("button");
-      btn.className = "chip";
-      btn.textContent = sc.name;
-      btn.onclick = () => renderSubcategory(catId, sc.id);
-      scList.appendChild(btn);
-    });
-    // open first subcategory by default
-    renderSubcategory(catId, cat.subcategories[0].id);
-  } else {
-    // render products directly if none
-    renderProducts(catId, null);
+function buildOptionsHTML(options) {
+  if(!options) return '';
+  let html = '<div class="options">';
+  for(const [key, vals] of Object.entries(options)) {
+    if(!Array.isArray(vals)) continue;
+    html += `<label>${capitalize(key)}<select data-opt="${key}">`;
+    vals.forEach(v => html += `<option value="${v}">${v}</option>`);
+    html += `</select></label>`;
   }
+  html += '</div>';
+  return html;
 }
 
-// Subcategory page render
-function renderSubcategory(catId, subcatId) {
-  const cat = catalogue.categories.find(c => c.id === catId);
-  const sc = cat.subcategories.find(s => s.id === subcatId);
-  qsel("#products-grid").innerHTML = `<h3 class="sc-title">${sc.name}</h3><div class="products-list" id="products-list"></div>`;
-  const container = qsel("#products-list");
-  sc.products.forEach(p => {
-    const card = productCard(p, cat, sc);
-    container.appendChild(card);
-  });
+function collectCustomization(modalEl) {
+  const opts = {};
+  qa('select[data-opt]', modalEl).forEach(s => opts[s.dataset.opt] = s.value);
+  const qty = parseInt(q('#modal-qty', modalEl).value) || 1;
+  return { options: opts, quantity: qty };
 }
 
-// product card creation
-function productCard(p, cat, sc){
-  const card = document.createElement("div");
-  card.className = "product-card";
-  const img = document.createElement("img");
-  img.src = p.images && p.images.length ? p.images[0] : "wax_candle_small.png";
-  img.alt = p.name;
-  img.loading = "lazy";
-  img.onerror = () => { img.style.opacity = 0.6; }
-  const h = document.createElement("h4"); h.textContent = p.name;
-  const price = document.createElement("div"); price.className="price";
-  price.textContent = formatPriceForLocale(p.price || 0);
-  const btns = document.createElement("div"); btns.className = "product-actions";
-  const details = document.createElement("button"); details.className="btn details-btn"; details.textContent="Details";
-  details.onclick = (ev) => { ev.preventDefault(); openDetailsModal(p, cat, sc); };
-  const buy = document.createElement("button"); buy.className="btn buy-btn"; buy.textContent="Buy";
-  buy.onclick = (ev) => { ev.preventDefault(); addToCartFromCard(p); };
-  const fav = document.createElement("button"); fav.className="btn fav-btn"; fav.textContent = favorites.includes(p.id) ? "♥" : "♡";
-  fav.onclick = () => { toggleFav(p.id, fav); };
-  btns.appendChild(details);
-  btns.appendChild(buy);
-  btns.appendChild(fav);
-  card.appendChild(img);
-  card.appendChild(h);
-  card.appendChild(price);
-  card.appendChild(btns);
-  return card;
-}
-
-function toggleFav(pid, btn) {
-  const idx = favorites.indexOf(pid);
-  if(idx === -1) favorites.push(pid); else favorites.splice(idx,1);
-  localStorage.setItem("vc_favs", JSON.stringify(favorites));
-  btn.textContent = favorites.includes(pid) ? "♥" : "♡";
-}
-
-// DETAILS modal (with personalization)
-function openDetailsModal(product, cat, sc) {
-  const modal = qsel("#details-modal");
-  modal.style.display = "block";
-  qsel("#details-close").onclick = () => modal.style.display = "none";
-  const gallery = qsel("#details-gallery"); gallery.innerHTML = "";
-  (product.images || []).forEach((src, i) => {
-    const im = document.createElement("img");
-    im.src = src;
-    im.loading = "lazy";
-    im.className = "details-thumb";
-    gallery.appendChild(im);
-  });
-  qsel("#details-title").textContent = product.name;
-  qsel("#details-desc").textContent = product.description || "";
-  qsel("#details-price").textContent = formatPriceForLocale(product.price || 0);
-  // build personalization form
-  const form = qsel("#personalization-form");
-  form.innerHTML = `
-    <label>Choose scent / aroma (if available)</label>
-    ${product.options && product.options.scent ? `<select name="scent" id="p_scent">${product.options.scent.map(s => `<option value="${s}">${s}</option>`).join("")}</select>` : ""}
-    ${product.options && product.options.intensity ? `<label>Intensity</label><select name="intensity" id="p_int">${product.options.intensity.map(i=>`<option>${i}</option>`).join("")}</select>` : ""}
-    <label>Personalization notes (size, names, details)</label>
-    <textarea id="p_notes" placeholder="Add any details or attach images after checkout..."></textarea>
-    <label>Upload up to 3 images (optional)</label>
-    <input type="file" id="p_images" accept="image/*" multiple />
-    <div class="modal-actions">
-      <button id="personalize-add" class="btn">Add to Cart</button>
-      <button id="personalize-buy" class="btn primary">Buy Now</button>
-    </div>
-  `;
-  // handlers
-  qsel("#personalize-add").onclick = (e) => {
-    e.preventDefault();
-    const personalization = collectPersonalization(product.id);
-    addToCart(product, personalization);
-    modal.style.display = "none";
-    showToast("Added to cart");
-  };
-  qsel("#personalize-buy").onclick = (e) => {
-    e.preventDefault();
-    const personalization = collectPersonalization(product.id);
-    // Save personalization to a temporary order and open PayPal link in new tab
-    window.open(product.paymentLink || "#", "_blank");
-    modal.style.display = "none";
-    showPostPaymentNotice();
-  };
-}
-
-function collectPersonalization(pid) {
-  const scent = qsel("#p_scent") ? qsel("#p_scent").value : null;
-  const intensity = qsel("#p_int") ? qsel("#p_int").value : null;
-  const notes = qsel("#p_notes") ? qsel("#p_notes").value : "";
-  // Note: file uploads are not posted to server here; stored in session as filenames only
-  const files = qsel("#p_images") ? Array.from(qsel("#p_images").files).slice(0,3).map(f => f.name) : [];
-  return { scent, intensity, notes, images: files, pid, ts: Date.now() };
-}
-
-// CART functions
-function addToCartFromCard(product) {
-  // open details modal quickly to collect personalization if options exist
-  if(product.options && (product.options.scent || product.options.intensity)) {
-    openDetailsModal(product);
-    return;
-  }
-  addToCart(product, { notes: "", images: [], ts: Date.now() });
-  showToast("Added to cart");
-}
-
-function addToCart(product, personalization) {
+function addToCart(product, customization = {options:{}, quantity:1}) {
   const item = {
     id: product.id,
     name: product.name,
     price: product.price,
-    qty: 1,
     paymentLink: product.paymentLink,
-    personalization
+    images: product.images,
+    quantity: customization.quantity || 1,
+    options: customization.options || {}
   };
-  cart.push(item);
-  localStorage.setItem("vc_cart", JSON.stringify(cart));
-  updateCartCount();
+  APP.cart.push(item);
+  saveState();
+  renderCartCount();
+  toast('Added to cart');
 }
 
-function updateCartCount(){
-  qsel("#cart-count").textContent = cart.length;
+function renderCartCount() {
+  q('#cart-count').textContent = APP.cart.reduce((s,i)=>s+i.quantity,0);
+}
+function renderFavCount(){ q('#fav-count').textContent = APP.favorites.size; }
+
+function closeModal(){ q('#modal').classList.remove('open'); q('#modal').innerHTML=''; }
+
+function openCustomizeThenCheckout(categoryId, subId, productId) {
+  const cat = APP.catalogue.categories.find(c=>c.id===categoryId);
+  const sub = (cat.subcategories||[]).find(s=>s.id===subId);
+  const product = (sub.products||[]).find(p=>p.id===productId);
+  if(!product) return;
+  openProductModal(product);
+  // Buy now -> redirect to PayPal for this demo
+  setTimeout(()=>{
+    const buyBtn = q('.buy-now');
+    if(buyBtn) buyBtn.addEventListener('click', ()=> {
+      const customization = collectCustomization(q('#modal'));
+      addToCart(product, customization);
+      // client-side post-purchase message simulation
+      window.open(product.paymentLink, '_blank');
+      setTimeout(()=>toast('Payment window opened. Order will be processed within 48 hours.'), 400);
+    });
+  }, 200);
 }
 
-function openCartModal(){
-  const modal = qsel("#cart-modal");
-  const list = qsel("#cart-list");
-  list.innerHTML = "";
-  if(cart.length===0) list.innerHTML = "<p>Your cart is empty.</p>";
-  cart.forEach((it, idx) => {
-    const div = document.createElement("div");
-    div.className = "cart-item";
-    div.innerHTML = `<div><strong>${it.name}</strong><div class="cart-price">${formatPriceForLocale(it.price)}</div>
-      <div class="cart-personal">Notes: ${escapeHtml(it.personalization.notes || "")}</div></div>
-      <div class="cart-actions">
-        <button class="btn" data-i="${idx}" onclick="decreaseQty(event)">-</button>
-        <span>${it.qty}</span>
-        <button class="btn" data-i="${idx}" onclick="increaseQty(event)">+</button>
-        <button class="btn danger" data-i="${idx}" onclick="removeCartItem(event)">Remove</button>
-      </div>`;
-    list.appendChild(div);
+function openCustomizeThenCheckoutForProduct(product) {
+  openProductModal(product);
+  setTimeout(()=>{
+    const buyBtn = q('.buy-now');
+    if(buyBtn) buyBtn.addEventListener('click', ()=> {
+      const customization = collectCustomization(q('#modal'));
+      addToCart(product, customization);
+      window.open(product.paymentLink, '_blank');
+      setTimeout(()=>toast('Payment window opened. Order will be processed within 48 hours.'), 400);
+    });
+  },200);
+}
+
+// Cart UI
+function showCart() {
+  const cartModal = q('#modal');
+  cartModal.innerHTML = `
+    <div class="modal-card">
+      <button class="modal-close" title="Close">✕</button>
+      <div class="modal-body cart-body">
+        <h3>Your Cart</h3>
+        <div class="cart-items">${APP.cart.map((it, idx)=>`
+          <div class="cart-item">
+            <img src="${(it.images||[])[0]||''}" alt="" />
+            <div class="cart-item-info">
+              <strong>${it.name}</strong>
+              <small>${Object.entries(it.options||{}).map(([k,v])=>`${k}: ${v}`).join(' • ')}</small>
+              <div class="cart-item-qty">Qty: <input data-idx="${idx}" class="qty-input" type="number" min="1" value="${it.quantity}"/></div>
+              <div>${formatPrice(it.price * it.quantity, APP.currency)}</div>
+            </div>
+            <button class="remove" data-idx="${idx}">Remove</button>
+          </div>`).join('')}</div>
+        <div class="cart-actions">
+          <div class="cart-total">Total: ${formatPrice(APP.cart.reduce((s,i)=>s+i.price*i.quantity,0), APP.currency)}</div>
+          <div class="cart-buttons">
+            <button id="checkoutBtn">Checkout</button>
+            <button id="clearCart">Clear Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  cartModal.classList.add('open');
+  cartModal.querySelector('.modal-close').addEventListener('click', closeModal);
+  qa('.remove').forEach(b => b.addEventListener('click', (ev)=>{
+    const idx = parseInt(b.dataset.idx);
+    APP.cart.splice(idx,1); saveState(); showCart(); renderCartCount();
+  }));
+  qa('.qty-input').forEach(inp => inp.addEventListener('change', ()=>{
+    const idx = parseInt(inp.dataset.idx);
+    const v = Math.max(1, parseInt(inp.value) || 1);
+    APP.cart[idx].quantity = v; saveState(); showCart(); renderCartCount();
+  }));
+  q('#clearCart').addEventListener('click', ()=>{ APP.cart = []; saveState(); showCart(); renderCartCount(); });
+  q('#checkoutBtn').addEventListener('click', async ()=>{
+    if(APP.cart.length === 0){ toast('Cart is empty'); return; }
+    // For static site - open each item's paypal link in separate windows (simple approach)
+    // Better: integrate with PayPal cart / server-side in future.
+    APP.cart.forEach(it => {
+      window.open(it.paymentLink, '_blank');
+    });
+    toast('Checkout opened for each item. Orders are processed within 48 hours after payment confirmation.');
   });
-  qsel("#checkout-btn").onclick = checkoutCart;
-  modal.style.display = "block";
-  qsel("#cart-close").onclick = () => modal.style.display = "none";
 }
 
-function decreaseQty(e){
-  const i = +e.target.dataset.i;
-  if(cart[i].qty>1) cart[i].qty--;
-  localStorage.setItem("vc_cart", JSON.stringify(cart));
-  openCartModal();
-  updateCartCount();
-}
-function increaseQty(e){
-  const i = +e.target.dataset.i;
-  cart[i].qty++;
-  localStorage.setItem("vc_cart", JSON.stringify(cart));
-  openCartModal();
-  updateCartCount();
-}
-function removeCartItem(e){
-  const i = +e.target.dataset.i;
-  cart.splice(i,1);
-  localStorage.setItem("vc_cart", JSON.stringify(cart));
-  openCartModal();
-  updateCartCount();
+// Favorites toggle
+function toggleFavorite(id) {
+  if(APP.favorites.has(id)) APP.favorites.delete(id); else APP.favorites.add(id);
+  saveState(); renderFavCount();
 }
 
-function checkoutCart(){
-  if(cart.length===0) { showToast("Cart is empty"); return; }
-  // Create a simple pre-checkout form summary and open first product PayPal (or ask user)
-  // For now we'll guide user: we'll open PayPal links in new tabs one by one for each item (simple flow)
-  cart.forEach(it => {
-    if(it.paymentLink) window.open(it.paymentLink, "_blank");
-  });
-  showPostPaymentNotice();
-  // Note: in production you'd integrate a proper cart checkout server-side or PayPal cart API
+// About page & Contact
+function renderAbout() {
+  const root = q('#content');
+  const about = APP.catalogue.siteInfo.about;
+  root.innerHTML = `
+    <section class="about-page">
+      <div class="about-left">
+        <h2>${about.title}</h2>
+        <p class="about-text">${about.text}</p>
+      </div>
+      <div class="about-right">
+        <img src="Herbal soap + face cream + small wax candle.png" alt="team & bundles" onerror="this.style.opacity=.06"/>
+      </div>
+    </section>
+  `;
 }
 
-function showPostPaymentNotice(){
-  const modal = qsel("#postpay-modal");
-  modal.style.display = "block";
-  qsel("#postpay-close").onclick = () => modal.style.display = "none";
+function renderContact() {
+  const root = q('#content');
+  root.innerHTML = `
+    <section class="contact-page">
+      <h2>Contact Us</h2>
+      <form id="contactForm" action="https://formspree.io/f/FORM_SPREE_ID" method="POST">
+        <label>Name <input name="name" required></label>
+        <label>Email <input name="email" type="email" required></label>
+        <label>Message <textarea name="message" rows="5" required></textarea></label>
+        <button type="submit">Send Message</button>
+      </form>
+    </section>
+  `;
+  // Note: replace FORM_SPREE_ID in index.html with your real id
 }
 
-// UTIL
-function escapeHtml(s){ return String(s||"").replace(/[&<>"]/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c])); }
-
-function showToast(msg){
-  const t = document.createElement("div"); t.className="toast"; t.textContent=msg;
+// Small utilities
+function toast(msg) {
+  const t = document.createElement('div'); t.className='toast'; t.textContent = msg;
   document.body.appendChild(t);
-  setTimeout(()=> t.classList.add("visible"), 10);
-  setTimeout(()=> { t.classList.remove("visible"); setTimeout(()=>t.remove(),300); }, 2500);
+  setTimeout(()=> t.classList.add('visible'),20);
+  setTimeout(()=> { t.classList.remove('visible'); setTimeout(()=>t.remove(),300); }, 3500);
+}
+function capitalize(s){ return s[0]?.toUpperCase()+s.slice(1) || s; }
+
+// --- App Init
+async function loadCatalogue() {
+  try {
+    const r = await fetch('/catalogue.json');
+    APP.catalogue = await r.json();
+    APP.currency = detectCurrency();
+    renderHeader();
+    renderHome();
+    loadState();
+    renderCartCount();
+    renderFavCount();
+    attachGlobalHandlers();
+  } catch (err) {
+    q('#content').innerHTML = `<div class="error">Error loading catalogue. Please ensure /catalogue.json is present and valid in site root.</div>`;
+    console.error('Catalogue load error', err);
+  }
 }
 
-// DETAILS modal close on outside click
-window.onclick = function(e) {
-  const dm = qsel("#details-modal");
-  const cm = qsel("#cart-modal");
-  if (e.target === dm) dm.style.display = "none";
-  if (e.target === cm) cm.style.display = "none";
-};
+function attachGlobalHandlers() {
+  q('#cartBtn').addEventListener('click', showCart);
+  q('#favoritesBtn').addEventListener('click', ()=> {
+    // simple favorites listing modal
+    const modal = q('#modal');
+    modal.innerHTML = `<div class="modal-card"><button class="modal-close">✕</button><div class="modal-body"><h3>Favorites</h3><div class="fav-list">${Array.from(APP.favorites).map(id=>`<div>${id}</div>`).join('')||'<p>No favorites yet</p>'}</div></div></div>`;
+    modal.classList.add('open');
+    modal.querySelector('.modal-close').addEventListener('click', closeModal);
+  });
+  // nav handlers
+  document.addEventListener('click', e => {
+    if(e.target.matches('[data-nav]')) {
+      navigateTo(e.target.dataset.nav);
+    }
+  });
+}
 
-// Initialize
-document.addEventListener("DOMContentLoaded", () => {
-  // wire top buttons
-  qsel("#btn-catalogue").onclick = () => renderSite();
-  qsel("#btn-about").onclick = () => { document.querySelector('#main').scrollIntoView({behavior:'smooth'}); };
-  qsel("#btn-contact").onclick = () => qsel("#contact-form-wrap").scrollIntoView({behavior:'smooth'});
-  qsel("#cart-open").onclick = openCartModal;
-  qsel("#fav-open").onclick = () => { alert("Favorites: " + (favorites.length ? favorites.join(", ") : "none")); };
-  loadCatalogue();
-});
+function navigateTo(section) {
+  if(section === 'home') renderHome();
+  else if(section === 'catalogue') renderCategoriesGrid();
+  else if(section === 'about') renderAbout();
+  else if(section === 'contact') renderContact();
+  else renderHome();
+}
+
+// initialize
+document.addEventListener('DOMContentLoaded', ()=> loadCatalogue());
