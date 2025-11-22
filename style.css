@@ -1,114 +1,156 @@
-body {
-  font-family: 'Arial', sans-serif;
-  background-color: #fff8f3;
+/* General Reset */
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: #fff8f0; /* Soft cream background */
+  color: #5c4a42; /* Warm brown text */
+  line-height: 1.6;
   overflow-x: hidden;
 }
 
+/* Banner */
 .banner {
   text-align: center;
   padding: 2rem 1rem;
-  background: linear-gradient(135deg, #fce4ec, #e8f5e9);
-  color: #333;
+  background: linear-gradient(to bottom, #ffe8e6, #fff8f0);
+  position: relative;
+  z-index: 2;
 }
 
 .banner h1 {
-  font-family: 'Pacifico', cursive;
+  font-family: 'Brush Script MT', cursive;
   font-size: 3rem;
-  color: #d14646;
-  text-shadow: 0 0 6px #fff8f3, 0 0 10px #d1f9e3;
-  margin: 0;
+  color: #b85c5c; /* cozy dusty pink */
 }
 
 .banner .subtitle {
-  color: #3c6b3c;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   margin-top: 0.5rem;
+  color: #7a5c5c;
 }
 
 .banner .shipping,
 .banner .copyright {
   font-size: 0.9rem;
-  margin-top: 0.5rem;
-  color: #5c5c5c;
+  color: #a48787;
+  margin-top: 0.2rem;
 }
 
-#product-catalogue {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
-  padding: 2rem;
+/* Catalogue & Cards */
+.catalogue {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+}
+
+.category {
+  width: 100%;
+  max-width: 1200px;
+  margin-bottom: 3rem;
+}
+
+.category h2 {
+  font-family: 'Brush Script MT', cursive;
+  font-size: 2rem;
+  color: #b85c5c;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #f0d9d9;
+  padding-bottom: 0.5rem;
 }
 
 .product-card {
-  background-color: #fff8f3;
+  background: #fff4f0; /* soft beige */
   border-radius: 20px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
   padding: 1rem;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.08);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  margin-bottom: 2rem;
+  text-align: center;
+  transition: transform 0.2s ease;
 }
 
 .product-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
 }
 
 .product-card img {
-  width: 100%;
+  max-width: 100%;
   border-radius: 15px;
+  margin-bottom: 0.5rem;
 }
 
-.product-card h2 {
+.product-card h3 {
   font-size: 1.2rem;
   margin: 0.5rem 0;
-  color: #d14646;
+  color: #7a5c5c;
 }
 
-.price {
+.product-card .price {
   font-weight: bold;
-  margin-top: 0.5rem;
+  color: #b85c5c;
+  margin-bottom: 0.5rem;
 }
 
-.customize-form {
+.customization-form {
   margin-top: 0.5rem;
   display: flex;
   flex-direction: column;
+  gap: 0.3rem;
 }
 
-.customize-form textarea {
-  resize: vertical;
-  min-height: 40px;
-  padding: 0.4rem;
-  margin-bottom: 0.4rem;
-  border-radius: 8px;
+.customization-form label {
+  font-size: 0.9rem;
+  color: #7a5c5c;
+  text-align: left;
+}
+
+.customization-form textarea {
+  border-radius: 10px;
   border: 1px solid #ccc;
+  padding: 0.5rem;
+  resize: vertical;
 }
 
-.customize-form input[type="file"] {
-  margin-bottom: 0.4rem;
+.customization-form input[type="file"] {
+  padding: 0.3rem;
 }
 
-.customize-form button {
-  background-color: #d14646;
+.buy-button {
+  margin-top: 0.5rem;
+  background-color: #b85c5c;
   color: #fff;
   border: none;
-  padding: 0.5rem;
-  border-radius: 10px;
+  padding: 0.5rem 1rem;
+  border-radius: 15px;
   cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.3s ease;
 }
 
-.customize-form button:hover {
-  background-color: #b33a3a;
+.buy-button:hover {
+  background-color: #d77c7c;
 }
 
 /* Snowflakes */
-#snowflakes {
+.snowflake {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: -10px;
+  z-index: 1;
+  user-select: none;
   pointer-events: none;
-  z-index: 9999;
+  color: white;
+  font-size: 1rem;
+  animation-name: fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes fall {
+  0% { transform: translateY(0) rotate(0deg); }
+  100% { transform: translateY(100vh) rotate(360deg); }
 }
