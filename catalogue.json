@@ -775,13 +775,13 @@
               "price": 18,
               "paymentLink": "https://www.paypal.com/ncp/payment/69NVMF2YG7VX4",
               "images": [
-                "freepik_glass-hair-pins-with-long-pins-to-hold-the-hair-ch_81983.png",
+                "freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__81983.png",
                 "hair_clip_8.png",
                 "hair_clip_1.png",
-                "freepik_glass-hair-pins-with-long-pins-to-hold-the-hair-ch_90289.png",
-                "freepik_glass-hair-pins-with-long-pins-to-hold-the-hair-ch_90286.png",
-                "freepik_glass-hair-pins-with-long-pins-to-hold-the-hair-ch_90291.png",
-                "freepik_glass-hair-pins-with-long-pins-to-hold-the-hair-ch_90293.png"
+                "freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__90289.png",
+                "freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__90286.png",
+                "freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__90291.png",
+                "freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__90293.png"
               ]
             }
           ]
@@ -795,7 +795,7 @@
               "name": "Hairpin",
               "price": 22,
               "paymentLink": "https://www.paypal.com/ncp/payment/X5YVRQYLU2MW6",
-              "images": ["hair_pin_3.png","hair_pin_1.png","freepik_glass-hair-pins-with-long-pins-to-hold-the-hair-ch_81988.png"]
+              "images": ["hair_pin_3.png","hair_pin_1.png","freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__81988.png"]
             }
           ]
         },
