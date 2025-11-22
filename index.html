@@ -4,96 +4,130 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Velvet Charms — Handcrafted</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body class="christmas-default">
   <header class="site-header">
-    <div class="header-inner">
-      <div class="brand">
-        <img src="top banner picture for candles.png" alt="Velvet Charms" class="brand-logo">
-        <div>
-          <h1 id="page-title">Velvet Charms ❄️</h1>
-          <p class="tagline" id="hero-tagline">Where Art Meets Emotion — Handcrafted with love</p>
-        </div>
-      </div>
-
-      <nav class="site-nav">
-        <ul>
-          <li><a href="#" id="home-link">Home</a></li>
-          <li>
-            <div class="catalogue-dropdown">
-              <button class="btn nav-catalogue">Catalogue ▾</button>
-              <ul id="nav-categories" class="catalogue-menu"></ul>
-            </div>
-          </li>
-          <li><a href="#" id="about-link">About Us</a></li>
-          <li><a href="#" id="contact-link">Contact</a></li>
-        </ul>
-      </nav>
-
-      <div class="header-actions">
-        <button id="cart-toggle" class="btn">Cart <span id="cart-count">0</span></button>
-        <button class="btn" id="wishlist-btn">❤ <span id="wishlist-count">0</span></button>
-      </div>
+    <div class="header-left">
+      <h1 id="site-title">Velvet Charms</h1>
+      <p id="site-tagline">Where Art Meets Emotion — Handcrafted with love</p>
     </div>
-
-    <div class="hero">
-      <div class="hero-left">
-        <h2 class="hero-title">Handcrafted Treasures</h2>
-        <p id="hero-sub" class="hero-sub">Unique artisan pieces — handmade to order.</p>
-        <div class="hero-cta">
-          <button id="explore-btn" class="btn primary" onclick="document.querySelector('#main-content').scrollIntoView({behavior:'smooth'})">Explore Catalogue</button>
-        </div>
-      </div>
-      <div class="hero-right">
-        <img src="top banner picture for candles.png" alt="candles" class="hero-image">
-      </div>
+    <nav class="site-nav">
+      <a id="btn-catalogue" href="#">Catalogue</a>
+      <a id="btn-about" href="#about">About Us</a>
+      <a id="btn-contact" href="#contact">Contact</a>
+      <div id="nav-categories" class="nav-cats"></div>
+    </nav>
+    <div class="header-right">
+      <button id="fav-open" class="icon">♡</button>
+      <button id="cart-open" class="icon">Cart <span id="cart-count">0</span></button>
+      <button id="theme-toggle" class="icon" title="Toggle theme">🎄</button>
     </div>
   </header>
 
-  <main id="main-content" class="container">
-    <!-- Filled by script -->
-  </main>
-
-  <aside id="cart-panel" class="cart-panel">
-    <div class="cart-inner">
-      <h3>Your Cart</h3>
-      <div id="cart-items" class="cart-items"></div>
-      <div class="cart-footer">
-        <div>Total: <strong id="cart-total">$0.00</strong></div>
-        <div class="cart-actions">
-          <button class="btn" id="continue-shopping">Continue</button>
-          <button class="btn primary" id="checkout-btn">Checkout</button>
+  <main id="main" class="main">
+    <section class="hero">
+      <div class="hero-text">
+        <h2>Handcrafted Treasures Await</h2>
+        <p>Personalized, artisan-made pieces — created with love by our team of 12 art students.</p>
+        <div class="hero-cta">
+          <button id="explore-btn" class="btn primary" onclick="document.querySelector('#main').scrollIntoView({behavior:'smooth'})">Explore Catalogue</button>
+          <button class="btn" id="about-cta" onclick="document.querySelector('#about').scrollIntoView({behavior:'smooth'})">About Us</button>
         </div>
       </div>
-    </div>
-  </aside>
-
-  <footer class="site-footer">
-    <div class="footer-inner">
-      <div class="footer-left">
-        <h4>Velvet Charms</h4>
-        <p>Handmade with love. Orders ship from Frankfurt, Germany or Constanța, Romania.</p>
+      <div class="hero-image">
+        <img src="top banner picture for candles.png" alt="Candles banner" loading="lazy" />
       </div>
-      <div class="footer-right">
-        <form id="contact-form" class="contact-form">
-          <h4>Contact Us</h4>
-          <input name="name" placeholder="Your name" required>
-          <input name="email" type="email" placeholder="Your email" required>
-          <textarea name="message" placeholder="Your message" rows="3" required></textarea>
-          <button class="btn primary" type="submit">Send Message</button>
-        </form>
+    </section>
+
+    <!-- where catalogue renders -->
+    <div id="categories-grid" class="categories-grid" aria-live="polite"></div>
+
+    <section id="about" class="about" aria-labelledby="about-heading">
+      <div id="about-text"></div>
+    </section>
+
+    <section id="contact" class="contact">
+      <h3>Contact Us</h3>
+      <form id="contact-form" action="" method="POST" class="contact-form" onsubmit="submitContact(event)">
+        <!-- Replace FORM_ACTION in script.js with your Formspree ID or paste action here -->
+        <input type="text" name="name" placeholder="Your name" required />
+        <input type="email" name="email" placeholder="Your email" required />
+        <textarea name="message" placeholder="Your message" required></textarea>
+        <button class="btn primary" type="submit">Send Message</button>
+      </form>
+      <p class="contact-note">For customization, please include photos and details in the personalization form on each product. Payments are taken online; prepayment required.</p>
+    </section>
+
+    <footer class="site-footer">
+      <p>© 2025 Velvet Charms — All Rights Reserved</p>
+    </footer>
+  </main>
+
+  <!-- Details Modal -->
+  <div id="details-modal" class="modal">
+    <div class="modal-content">
+      <button id="details-close" class="modal-close">×</button>
+      <div class="details-left">
+        <div id="details-gallery" class="details-gallery"></div>
+      </div>
+      <div class="details-right">
+        <h3 id="details-title"></h3>
+        <div id="details-desc"></div>
+        <div id="details-price" class="details-price"></div>
+        <form id="personalization-form"></form>
       </div>
     </div>
-    <div class="site-copy">© <span id="year"></span> Velvet Charms — All Rights Reserved</div>
-  </footer>
+  </div>
 
-  <!-- product modal is created by script -->
-  <div id="error" class="error" aria-live="polite"></div>
+  <!-- Cart Modal -->
+  <div id="cart-modal" class="modal">
+    <div class="modal-content small">
+      <button id="cart-close" class="modal-close">×</button>
+      <h3>Your Cart</h3>
+      <div id="cart-list"></div>
+      <div class="cart-actions">
+        <button id="checkout-btn" class="btn primary">Proceed to Pay (opens PayPal links)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Post-pay notice -->
+  <div id="postpay-modal" class="modal">
+    <div class="modal-content small">
+      <button id="postpay-close" class="modal-close">×</button>
+      <h3>Thank you!</h3>
+      <p>Payment window opened. Please complete payment in the PayPal tab. After payment is received, we will process your order within 48 hours and send confirmation to your email.</p>
+    </div>
+  </div>
+
+  <!-- Toast placeholder -->
+  <div id="toast-root"></div>
 
   <script>
-    // Small helpers to set current year and cart count
-    document.getElementById('year').textContent = new Date().getFullYear();
+    // contact form handler (uses FORM_ACTION constant in script.js)
+    async function submitContact(e){
+      e.preventDefault();
+      const form = e.target;
+      const fd = new FormData(form);
+      // try sending to Formspree endpoint via fetch if configured in script.js
+      const action = (typeof FORM_ACTION !== "undefined" && FORM_ACTION !== "https://formspree.io/f/YOUR_FORMSPREE_ID") ? FORM_ACTION : null;
+      if(action){
+        try {
+          await fetch(action, { method: "POST", body: fd });
+          alert("Message sent — we'll reply as soon as possible.");
+          form.reset();
+        } catch (err) {
+          alert("Couldn't send via Formspree — please email " + CONTACT_EMAIL);
+        }
+      } else {
+        alert("Form not configured. Please email: " + CONTACT_EMAIL);
+      }
+    }
+
+    // expose small helpers to global scope used by script.js (so it can reference them)
+    window.FORM_ACTION = "https://formspree.io/f/YOUR_FORMSPREE_ID";
+    window.CONTACT_EMAIL = "rosalinda.mauve@gmail.com";
   </script>
 
   <script src="script.js"></script>
