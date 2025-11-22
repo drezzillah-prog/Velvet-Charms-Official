@@ -1,46 +1,57 @@
-// Automatic currency conversion (USD default)
-const priceElements = document.querySelectorAll('.price');
+// Automatic currency conversion
+document.querySelectorAll('.price').forEach(el => {
+    const basePrice = parseFloat(el.dataset.base);
+    const userRegion = navigator.language || 'en-US';
 
-function updatePrices() {
-  let userLang = navigator.language || 'en-US';
-  let currency = 'USD';
-  if(userLang.includes('ro')) currency = 'RON';
-  if(userLang.includes('de')) currency = 'EUR';
+    let price = basePrice;
+    if(userRegion.startsWith('de')) price = (basePrice * 0.92).toFixed(2); // EUR approx
+    if(userRegion.startsWith('ro')) price = (basePrice * 4.4).toFixed(2); // RON approx
 
-  priceElements.forEach(el => {
-    const usdPrice = parseFloat(el.dataset.usd);
-    let displayPrice = usdPrice;
+    el.textContent = `$${price}`;
+});
 
-    if(currency === 'EUR') displayPrice = (usdPrice * 0.91).toFixed(2);
-    if(currency === 'RON') displayPrice = (usdPrice * 4.65).toFixed(2);
+// Snowflakes
+const canvas = document.getElementById('snowfall');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+const ctx = canvas.getContext('2d');
+let flakes = [];
 
-    el.textContent = displayPrice;
-  });
+for(let i=0; i<100; i++){
+    flakes.push({
+        x: Math.random()*canvas.width,
+        y: Math.random()*canvas.height,
+        r: Math.random()*4+1,
+        d: Math.random()*1
+    });
 }
 
-updatePrices();
-
-// White falling snowflakes
-const snowflakeCount = 40;
-for(let i=0; i<snowflakeCount; i++){
-  let snow = document.createElement('div');
-  snow.className = 'snowflake';
-  snow.textContent = '❄';
-  snow.style.left = Math.random() * window.innerWidth + 'px';
-  snow.style.animationDuration = (5 + Math.random() * 10) + 's';
-  snow.style.fontSize = (10 + Math.random() * 20) + 'px';
-  document.body.appendChild(snow);
+function drawFlakes(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle = 'white';
+    ctx.beginPath();
+    for(let i=0;i<flakes.length;i++){
+        let f = flakes[i];
+        ctx.moveTo(f.x,f.y);
+        ctx.arc(f.x,f.y,f.r,0,Math.PI*2,true);
+    }
+    ctx.fill();
+    moveFlakes();
 }
 
-// Smooth floating effect for snow
-function animateSnow() {
-  const snowflakes = document.querySelectorAll('.snowflake');
-  snowflakes.forEach(s => {
-    let top = parseFloat(s.style.top) || -10;
-    top += 1 + Math.random()*2;
-    if(top > window.innerHeight) top = -10;
-    s.style.top = top + 'px';
-  });
-  requestAnimationFrame(animateSnow);
+let angle = 0;
+function moveFlakes(){
+    angle += 0.01;
+    for(let i=0;i<flakes.length;i++){
+        let f = flakes[i];
+        f.y += Math.cos(angle + f.d) + 1 + f.r/2;
+        f.x += Math.sin(angle) * 2;
+
+        if(f.y > canvas.height){
+            flakes[i] = {x: Math.random()*canvas.width, y: 0, r:f.r, d:f.d};
+        }
+    }
+    requestAnimationFrame(drawFlakes);
 }
-animateSnow();
+
+drawFlakes();
