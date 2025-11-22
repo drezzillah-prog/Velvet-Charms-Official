@@ -1,50 +1,23 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Velvet Charms — Handcrafted</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Velvet Charms</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="app">
-    <header id="site-header"></header>
+<header>
+  <h1>Velvet Charms</h1>
+  <p>Where Art Meets Emotion — Handcrafted with Love<br>
+  Orders ship from Frankfurt 🇩🇪 or Constanța 🇷🇴</p>
+</header>
 
-    <main id="content" role="main"></main>
+<div class="container" id="catalogue"></div>
 
-    <footer>
-      <div class="footer-left">
-        <h4>Velvet Charms</h4>
-        <p>Where Art Meets Emotion — Handcrafted with love</p>
-        <p>Orders ship from Frankfurt 🇩🇪 or Constanța 🇷🇴 depending on proximity.</p>
-      </div>
-      <div class="footer-right">
-        <p>© 2025 Velvet Charms — All Rights Reserved</p>
-      </div>
-    </footer>
+<div id="contactBtn" class="floating-btn" onclick="window.location.href='mailto:velvetcharms@gmail.com'">Contact</div>
+<div id="orderBtn" class="floating-btn" onclick="window.location.href='https://www.facebook.com/messages/t/61550786757660'">Order</div>
 
-    <!-- Modal root -->
-    <div id="modal" class="modal-root" aria-hidden="true"></div>
-
-    <!-- Toast container: appended by JS -->
-
-  </div>
-
-  <!-- Script -->
-  <script src="script.js"></script>
-  <!-- small polyfill-ish to make sure contact form works: replace FORM_SPREE_ID with your Formspree endpoint -->
-  <script>
-    // Replace placeholder Formspree id in contact form if you have it
-    document.addEventListener('DOMContentLoaded', ()=>{
-      const form = document.querySelector('#contactForm');
-      if(form){
-        // Replace with a real formspree endpoint if available:
-        const real = 'https://formspree.io/f/YOURENDP0INT'; // <-- replace with your real ID or ensure it's set in script.js/catalogue
-        if(form.action.indexOf('FORM_SPREE_ID') !== -1){
-          form.action = form.action.replace('FORM_SPREE_ID', 'mleqklez'); // fallback placeholder; replace with real
-        }
-      }
-    });
-  </script>
+<script src="script.js"></script>
 </body>
 </html>
