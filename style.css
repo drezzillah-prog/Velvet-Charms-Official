@@ -1,156 +1,88 @@
-/* General Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
 body {
-  background-color: #fff8f0; /* Soft cream background */
-  color: #5c4a42; /* Warm brown text */
-  line-height: 1.6;
-  overflow-x: hidden;
+    font-family: 'Helvetica', sans-serif;
+    background-color: #fff8f2;
+    color: #333;
+    margin: 0;
+    padding: 0;
 }
 
-/* Banner */
-.banner {
-  text-align: center;
-  padding: 2rem 1rem;
-  background: linear-gradient(to bottom, #ffe8e6, #fff8f0);
-  position: relative;
-  z-index: 2;
+header {
+    text-align: center;
+    background-color: #f7e9e6;
+    padding: 20px;
+    border-bottom: 2px solid #f2dede;
 }
 
-.banner h1 {
-  font-family: 'Brush Script MT', cursive;
-  font-size: 3rem;
-  color: #b85c5c; /* cozy dusty pink */
+header h1 {
+    margin: 0;
+    font-size: 2.5em;
+    color: #c05c5c;
 }
 
-.banner .subtitle {
-  font-size: 1.2rem;
-  margin-top: 0.5rem;
-  color: #7a5c5c;
-}
-
-.banner .shipping,
-.banner .copyright {
-  font-size: 0.9rem;
-  color: #a48787;
-  margin-top: 0.2rem;
-}
-
-/* Catalogue & Cards */
-.catalogue {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 2rem 1rem;
+header p {
+    margin: 5px 0;
+    font-size: 1em;
 }
 
 .category {
-  width: 100%;
-  max-width: 1200px;
-  margin-bottom: 3rem;
+    margin: 40px auto;
+    max-width: 1000px;
+    text-align: center;
 }
 
 .category h2 {
-  font-family: 'Brush Script MT', cursive;
-  font-size: 2rem;
-  color: #b85c5c;
-  margin-bottom: 1rem;
-  border-bottom: 1px solid #f0d9d9;
-  padding-bottom: 0.5rem;
+    font-size: 1.8em;
+    color: #a03c3c;
+    margin-bottom: 20px;
 }
 
 .product-card {
-  background: #fff4f0; /* soft beige */
-  border-radius: 20px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-  padding: 1rem;
-  margin-bottom: 2rem;
-  text-align: center;
-  transition: transform 0.2s ease;
+    background-color: #fff3f0;
+    border-radius: 15px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 400px;
+    transition: transform 0.2s;
 }
 
 .product-card:hover {
-  transform: translateY(-5px);
+    transform: translateY(-5px);
 }
 
 .product-card img {
-  max-width: 100%;
-  border-radius: 15px;
-  margin-bottom: 0.5rem;
+    max-width: 100%;
+    border-radius: 10px;
 }
 
-.product-card h3 {
-  font-size: 1.2rem;
-  margin: 0.5rem 0;
-  color: #7a5c5c;
+.custom-form {
+    margin-top: 10px;
 }
 
-.product-card .price {
-  font-weight: bold;
-  color: #b85c5c;
-  margin-bottom: 0.5rem;
+.custom-form input,
+.custom-form textarea {
+    width: 100%;
+    margin: 5px 0;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
 }
 
-.customization-form {
-  margin-top: 0.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
+.price {
+    font-weight: bold;
+    margin: 10px 0;
+    font-size: 1.2em;
 }
 
-.customization-form label {
-  font-size: 0.9rem;
-  color: #7a5c5c;
-  text-align: left;
+.buy {
+    background-color: #c05c5c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
 }
 
-.customization-form textarea {
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  padding: 0.5rem;
-  resize: vertical;
-}
-
-.customization-form input[type="file"] {
-  padding: 0.3rem;
-}
-
-.buy-button {
-  margin-top: 0.5rem;
-  background-color: #b85c5c;
-  color: #fff;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 15px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background 0.3s ease;
-}
-
-.buy-button:hover {
-  background-color: #d77c7c;
-}
-
-/* Snowflakes */
-.snowflake {
-  position: fixed;
-  top: -10px;
-  z-index: 1;
-  user-select: none;
-  pointer-events: none;
-  color: white;
-  font-size: 1rem;
-  animation-name: fall;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-}
-
-@keyframes fall {
-  0% { transform: translateY(0) rotate(0deg); }
-  100% { transform: translateY(100vh) rotate(360deg); }
+.buy:hover {
+    background-color: #a03c3c;
 }
