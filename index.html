@@ -1,113 +1,61 @@
 <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Velvet Charms — Where Art Meets Emotion</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body id="app">
-  <header id="site-header" class="site-header">
-    <div class="logo">
-      <h1 id="brand-name">Velvet Charms</h1>
-      <div class="tagline" id="brand-tagline">Where Art Meets Emotion — Handcrafted with love</div>
-      <div class="shipping" id="shipping-line">Orders ship from Frankfurt 🇩🇪 or Constanța 🇷🇴 depending on proximity.</div>
-    </div>
+<button class="btn" type="submit">Send Message</button>
+</form>
+</div>
+</section>
+</main>
 
-    <nav class="main-nav" id="main-nav">
-      <button class="nav-btn" id="nav-home">Home</button>
-      <button class="nav-btn" id="nav-catalogue">Catalogue</button>
-      <button class="nav-btn" id="nav-about">About Us</button>
-      <button class="nav-btn" id="nav-contact">Contact</button>
-    </nav>
-  </header>
 
-  <main id="main-content">
-    <section class="hero" id="hero">
-      <img class="hero-img" id="hero-img" src="Matching Winter Set - Beanie + Scarf + Mittens.png" alt="Velvet Charms hero image">
-      <div class="hero-text">
-        <h2>Handcrafted Treasures</h2>
-        <p>Personalized, artisan-made pieces — created with love by our team of 12 art students.</p>
-        <div class="hero-cta">
-          <button id="explore-catalogue" class="btn">Explore Catalogue</button>
-          <button id="learn-more" class="btn secondary">About Us</button>
-        </div>
-      </div>
-    </section>
+<!-- Modal (product details + optional customization) -->
+<div id="modal-root" class="modal-root" aria-hidden="true">
+<div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+<button class="modal-close" id="modal-close">✕</button>
+<div class="modal-body">
+<div class="modal-gallery">
+<img id="modal-main-img" class="modal-main-img" src="placeholder.png" alt="">
+<div id="modal-thumbs" class="modal-thumbs"></div>
+</div>
+<div class="modal-info">
+<h3 id="modal-title"></h3>
+<div id="modal-price" class="price"></div>
+<div id="modal-options" class="options"></div>
+<p id="modal-desc" class="modal-desc"></p>
 
-    <section id="catalogue-section" class="page-section">
-      <aside class="left-column">
-        <h4>Collections</h4>
-        <ul id="catalogue-menu" aria-label="Catalogue collections"></ul>
-        <div class="note" id="currency-note"></div>
-      </aside>
 
-      <div class="content-inner">
-        <div id="catalogue-root" class="catalogue-root">
-          <!-- catalogue landing or category will render here -->
-        </div>
-      </div>
-    </section>
+<!-- customization form gets injected here when applicable -->
+<form id="customization-form" style="display:none">
+<h4>Optional — Personalize this item</h4>
+<label>Message / Details (optional)
+<textarea name="custom_notes" rows="3" placeholder="e.g. Please add initials, colour preferences, or instructions"></textarea>
+</label>
+<label>Reference images (optional)
+<input name="custom_files" type="file" accept="image/*" multiple />
+</label>
+<div class="modal-actions">
+<button type="button" id="save-custom" class="add-to-cart">Save Customization</button>
+</div>
+</form>
 
-    <section id="about-us" class="page-section about-page" aria-labelledby="about-title">
-      <div class="about-left">
-        <h2 id="about-title">About Us</h2>
-        <div id="about-text"></div>
-      </div>
-      <div class="about-right">
-        <img src="Herbal soap + face cream + small wax candle.png" alt="About image">
-      </div>
-    </section>
 
-    <section id="contact" class="page-section" aria-labelledby="contact-title">
-      <h2 id="contact-title">Contact Us</h2>
-      <form id="contact-form" class="contact-form">
-        <label>Name <input name="name" required /></label>
-        <label>Email <input name="email" type="email" required /></label>
-        <label>Message <textarea name="message" rows="4" required></textarea></label>
-        <button class="btn" type="submit">Send Message</button>
-      </form>
-    </section>
-  </main>
+<div class="modal-actions" id="modal-action-row">
+<!-- buy button is injected by script -->
+</div>
+</div>
+</div>
+</div>
+</div>
 
-  <!-- Floating quick actions -->
-  <div class="floating-actions">
-    <button id="floating-contact" title="Contact Us">Contact</button>
-    <button id="floating-cart" title="Orders / Cart">Orders</button>
-  </div>
 
-  <!-- Product modal -->
-  <div id="product-modal" class="modal-root" role="dialog" aria-hidden="true">
-    <div class="modal-card" role="document" aria-modal="true">
-      <button class="modal-close" id="modal-close" aria-label="Close">×</button>
-      <div class="modal-body">
-        <div class="modal-gallery">
-          <img class="modal-main-img" id="modal-main-img" src="" alt="">
-          <div class="modal-thumbs" id="modal-thumbs"></div>
-        </div>
-        <div class="modal-info">
-          <h3 id="modal-title"></h3>
-          <div class="modal-desc" id="modal-desc"></div>
-          <div class="options" id="modal-options"></div>
-          <div class="modal-actions">
-            <a id="modal-buy" class="buy-now" target="_blank" rel="noopener">Buy on PayPal</a>
-            <button id="modal-close-btn" class="btn">Close</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<footer>
+<div class="footer-left">
+<h4>Velvet Charms</h4>
+<div>Where Art Meets Emotion — Handcrafted with love</div>
+<div>Orders ship from Frankfurt 🇩🇪 or Constanța 🇷🇴 depending on proximity.</div>
+</div>
+<div class="footer-right">© 2025 Velvet Charms — All Rights Reserved</div>
+</footer>
 
-  <footer id="site-footer">
-    <div class="footer-left">
-      <div>© 2025 Velvet Charms — All Rights Reserved</div>
-      <div id="footer-shipping">Ships from Frankfurt, Germany 🇩🇪 or Constanța, Romania 🇷🇴</div>
-    </div>
-    <div class="footer-right">
-      <small>Prices shown in USD. Locale-formatted prices may differ.</small>
-    </div>
-  </footer>
 
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
