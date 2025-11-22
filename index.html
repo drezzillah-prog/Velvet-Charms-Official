@@ -3,127 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Velvet Charms — Handmade Cozy Boutique</title>
+  <title>Velvet Charms — Handcrafted Boutique</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- HEADER / BANNER -->
   <header>
-    <h1>Velvet Charms</h1>
-    <p>Where Art Meets Emotion — Handcrafted with love</p>
-    <p>Orders ship from Frankfurt 🇩🇪 or Constanța 🇷🇴 depending on proximity.</p>
-    <p>© 2025 Velvet Charms — All Rights Reserved</p>
+    <div class="banner">
+      <h1>Velvet Charms</h1>
+      <p class="subtitle">Where Art Meets Emotion — Handcrafted with love</p>
+      <p class="shipping">Orders ship from Frankfurt 🇩🇪 or Constanța 🇷🇴 depending on proximity.</p>
+      <p class="copyright">© 2025 Velvet Charms — All Rights Reserved</p>
+    </div>
   </header>
 
-  <!-- PRODUCT SECTIONS -->
-  <main id="product-sections">
-    <!-- Candles -->
-    <section class="category">
-      <h2>Candles</h2>
-      <div class="products">
-        <div class="product-card">
-          <img src="top banner picture for candles.png" alt="Candles">
-          <h3>Seasonal Candle</h3>
-          <button class="buy-button" data-product="Seasonal Candle">Buy on PayPal</button>
-          <form class="customize-form">
-            <label>Optional: Customization or Reference File
-              <input type="file" name="custom-file">
-            </label>
-            <textarea placeholder="Additional instructions"></textarea>
-          </form>
-        </div>
-        <!-- Add other candles similarly -->
-      </div>
-    </section>
-
-    <!-- Gift Herbal / Exfoliating Soap Set -->
-    <section class="category">
-      <h2>Gift Herbal / Exfoliating Soap Set (3 pcs)</h2>
-      <div class="products">
-        <div class="product-card">
-          <img src="Gift Herbal Exfoliating Soap Set (3 pcs).png" alt="Gift Herbal Exfoliating Soap Set">
-          <h3>Gift Herbal Exfoliating Soap Set (3 pcs)</h3>
-          <div class="extra-images">
-            <img src="Gift Herbal Exfoliating Soap Set (3 pcs) 2.png">
-            <img src="Gift Herbal Exfoliating Soap Set (3 pcs) 3.png">
-            <img src="Gift Herbal Exfoliating Soap Set (3 pcs) 4.png">
-          </div>
-          <button class="buy-button" data-product="Gift Herbal Exfoliating Soap Set (3 pcs)">Buy on PayPal</button>
-          <form class="customize-form">
-            <label>Optional: Customization or Reference File
-              <input type="file" name="custom-file">
-            </label>
-            <textarea placeholder="Additional instructions"></textarea>
-          </form>
-        </div>
-      </div>
-    </section>
-
-    <!-- Gift Fruit / Flower Soap Set -->
-    <section class="category">
-      <h2>Gift Fruit / Flower Soap Set (3 pcs)</h2>
-      <div class="products">
-        <div class="product-card">
-          <img src="Gift Fruit shaped Flower shaped Soap Set (3 pcs).png" alt="Gift Fruit / Flower Soap Set">
-          <h3>Gift Fruit / Flower Soap Set (3 pcs)</h3>
-          <button class="buy-button" data-product="Gift Fruit / Flower Soap Set (3 pcs)">Buy on PayPal</button>
-          <form class="customize-form">
-            <label>Optional: Customization or Reference File
-              <input type="file" name="custom-file">
-            </label>
-            <textarea placeholder="Additional instructions"></textarea>
-          </form>
-        </div>
-      </div>
-    </section>
-
-    <!-- Matching Winter Set -->
-    <section class="category">
-      <h2>Matching Winter Set — Beanie + Scarf + Mittens</h2>
-      <div class="products">
-        <div class="product-card">
-          <img src="Matching Winter Set — Beanie + Scarf + Mittens.png" alt="Matching Winter Set">
-          <h3>Matching Winter Set — Beanie + Scarf + Mittens</h3>
-          <button class="buy-button" data-product="Matching Winter Set — Beanie + Scarf + Mittens">Buy on PayPal</button>
-          <form class="customize-form">
-            <label>Optional: Customization or Reference File
-              <input type="file" name="custom-file">
-            </label>
-            <textarea placeholder="Additional instructions"></textarea>
-          </form>
-        </div>
-      </div>
-    </section>
-
-    <!-- Relax & Restore Set -->
-    <section class="category">
-      <h2>Relax & Restore Set — Herbal Soap + Face Cream + Small Wax Candle</h2>
-      <div class="products">
-        <div class="product-card">
-          <img src="Gift Herbal Exfoliating Soap Set (3 pcs) 1.png" alt="Relax & Restore Set">
-          <h3>Relax & Restore Set</h3>
-          <button class="buy-button" data-product="Relax & Restore Set">Buy on PayPal</button>
-          <form class="customize-form">
-            <label>Optional: Customization or Reference File
-              <input type="file" name="custom-file">
-            </label>
-            <textarea placeholder="Additional instructions"></textarea>
-          </form>
-        </div>
-      </div>
-    </section>
-
-    <!-- Continue adding all other categories in the same structure -->
+  <main>
+    <section id="product-catalogue" class="catalogue"></section>
   </main>
 
-  <!-- MODAL (for JS) -->
-  <div id="product-modal">
-    <div id="modal-box">
-      <span id="modal-close">✕</span>
-      <div id="modal-content"></div>
-    </div>
-  </div>
+  <footer>
+    <p>Handcrafted with love by Velvet Charms</p>
+  </footer>
 
-  <script src="script.js" defer></script>
+  <script src="script.js"></script>
 </body>
 </html>
