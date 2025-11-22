@@ -1,61 +1,129 @@
-<!doctype html>
-<button class="btn" type="submit">Send Message</button>
-</form>
-</div>
-</section>
-</main>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Velvet Charms — Handmade Cozy Boutique</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- HEADER / BANNER -->
+  <header>
+    <h1>Velvet Charms</h1>
+    <p>Where Art Meets Emotion — Handcrafted with love</p>
+    <p>Orders ship from Frankfurt 🇩🇪 or Constanța 🇷🇴 depending on proximity.</p>
+    <p>© 2025 Velvet Charms — All Rights Reserved</p>
+  </header>
 
+  <!-- PRODUCT SECTIONS -->
+  <main id="product-sections">
+    <!-- Candles -->
+    <section class="category">
+      <h2>Candles</h2>
+      <div class="products">
+        <div class="product-card">
+          <img src="top banner picture for candles.png" alt="Candles">
+          <h3>Seasonal Candle</h3>
+          <button class="buy-button" data-product="Seasonal Candle">Buy on PayPal</button>
+          <form class="customize-form">
+            <label>Optional: Customization or Reference File
+              <input type="file" name="custom-file">
+            </label>
+            <textarea placeholder="Additional instructions"></textarea>
+          </form>
+        </div>
+        <!-- Add other candles similarly -->
+      </div>
+    </section>
 
-<!-- Modal (product details + optional customization) -->
-<div id="modal-root" class="modal-root" aria-hidden="true">
-<div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-<button class="modal-close" id="modal-close">✕</button>
-<div class="modal-body">
-<div class="modal-gallery">
-<img id="modal-main-img" class="modal-main-img" src="placeholder.png" alt="">
-<div id="modal-thumbs" class="modal-thumbs"></div>
-</div>
-<div class="modal-info">
-<h3 id="modal-title"></h3>
-<div id="modal-price" class="price"></div>
-<div id="modal-options" class="options"></div>
-<p id="modal-desc" class="modal-desc"></p>
+    <!-- Gift Herbal / Exfoliating Soap Set -->
+    <section class="category">
+      <h2>Gift Herbal / Exfoliating Soap Set (3 pcs)</h2>
+      <div class="products">
+        <div class="product-card">
+          <img src="Gift Herbal Exfoliating Soap Set (3 pcs).png" alt="Gift Herbal Exfoliating Soap Set">
+          <h3>Gift Herbal Exfoliating Soap Set (3 pcs)</h3>
+          <div class="extra-images">
+            <img src="Gift Herbal Exfoliating Soap Set (3 pcs) 2.png">
+            <img src="Gift Herbal Exfoliating Soap Set (3 pcs) 3.png">
+            <img src="Gift Herbal Exfoliating Soap Set (3 pcs) 4.png">
+          </div>
+          <button class="buy-button" data-product="Gift Herbal Exfoliating Soap Set (3 pcs)">Buy on PayPal</button>
+          <form class="customize-form">
+            <label>Optional: Customization or Reference File
+              <input type="file" name="custom-file">
+            </label>
+            <textarea placeholder="Additional instructions"></textarea>
+          </form>
+        </div>
+      </div>
+    </section>
 
+    <!-- Gift Fruit / Flower Soap Set -->
+    <section class="category">
+      <h2>Gift Fruit / Flower Soap Set (3 pcs)</h2>
+      <div class="products">
+        <div class="product-card">
+          <img src="Gift Fruit shaped Flower shaped Soap Set (3 pcs).png" alt="Gift Fruit / Flower Soap Set">
+          <h3>Gift Fruit / Flower Soap Set (3 pcs)</h3>
+          <button class="buy-button" data-product="Gift Fruit / Flower Soap Set (3 pcs)">Buy on PayPal</button>
+          <form class="customize-form">
+            <label>Optional: Customization or Reference File
+              <input type="file" name="custom-file">
+            </label>
+            <textarea placeholder="Additional instructions"></textarea>
+          </form>
+        </div>
+      </div>
+    </section>
 
-<!-- customization form gets injected here when applicable -->
-<form id="customization-form" style="display:none">
-<h4>Optional — Personalize this item</h4>
-<label>Message / Details (optional)
-<textarea name="custom_notes" rows="3" placeholder="e.g. Please add initials, colour preferences, or instructions"></textarea>
-</label>
-<label>Reference images (optional)
-<input name="custom_files" type="file" accept="image/*" multiple />
-</label>
-<div class="modal-actions">
-<button type="button" id="save-custom" class="add-to-cart">Save Customization</button>
-</div>
-</form>
+    <!-- Matching Winter Set -->
+    <section class="category">
+      <h2>Matching Winter Set — Beanie + Scarf + Mittens</h2>
+      <div class="products">
+        <div class="product-card">
+          <img src="Matching Winter Set — Beanie + Scarf + Mittens.png" alt="Matching Winter Set">
+          <h3>Matching Winter Set — Beanie + Scarf + Mittens</h3>
+          <button class="buy-button" data-product="Matching Winter Set — Beanie + Scarf + Mittens">Buy on PayPal</button>
+          <form class="customize-form">
+            <label>Optional: Customization or Reference File
+              <input type="file" name="custom-file">
+            </label>
+            <textarea placeholder="Additional instructions"></textarea>
+          </form>
+        </div>
+      </div>
+    </section>
 
+    <!-- Relax & Restore Set -->
+    <section class="category">
+      <h2>Relax & Restore Set — Herbal Soap + Face Cream + Small Wax Candle</h2>
+      <div class="products">
+        <div class="product-card">
+          <img src="Gift Herbal Exfoliating Soap Set (3 pcs) 1.png" alt="Relax & Restore Set">
+          <h3>Relax & Restore Set</h3>
+          <button class="buy-button" data-product="Relax & Restore Set">Buy on PayPal</button>
+          <form class="customize-form">
+            <label>Optional: Customization or Reference File
+              <input type="file" name="custom-file">
+            </label>
+            <textarea placeholder="Additional instructions"></textarea>
+          </form>
+        </div>
+      </div>
+    </section>
 
-<div class="modal-actions" id="modal-action-row">
-<!-- buy button is injected by script -->
-</div>
-</div>
-</div>
-</div>
-</div>
+    <!-- Continue adding all other categories in the same structure -->
+  </main>
 
+  <!-- MODAL (for JS) -->
+  <div id="product-modal">
+    <div id="modal-box">
+      <span id="modal-close">✕</span>
+      <div id="modal-content"></div>
+    </div>
+  </div>
 
-<footer>
-<div class="footer-left">
-<h4>Velvet Charms</h4>
-<div>Where Art Meets Emotion — Handcrafted with love</div>
-<div>Orders ship from Frankfurt 🇩🇪 or Constanța 🇷🇴 depending on proximity.</div>
-</div>
-<div class="footer-right">© 2025 Velvet Charms — All Rights Reserved</div>
-</footer>
-
-
-<script src="script.js"></script>
+  <script src="script.js" defer></script>
 </body>
 </html>
