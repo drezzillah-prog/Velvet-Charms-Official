@@ -1,533 +1,381 @@
-/* script.js - Velvet Charms
-   - Assumes catalogue.json is in site root
-   - Smart gallery: limit images per product (maxGalleryImages)
-*/
+// catalogue-driven shop script for Velvet Charms
+// Features: loads catalogue.json, renders nav + categories, product cards,
+// details modal with personalization form, Add to Cart, Cart modal, favorites,
+// locale price formatting with approximate EUR/RON conversion, post-pay message.
 
-const maxGalleryImages = 10; // Option 2: smart gallery cap
+const FORM_ACTION = "https://formspree.io/f/YOUR_FORMSPREE_ID"; // <-- Replace with your Formspree endpoint
+const CONTACT_EMAIL = "rosalinda.mauve@gmail.com"; // contact fallback
 
-// Utility
-const $ = sel => document.querySelector(sel);
-const $$ = sel => Array.from(document.querySelectorAll(sel));
-const qs = (el, sel) => el.querySelector(sel);
+// Basic approximate conversion rates (display only; not for accounting)
+const RATES = {
+  EUR: 0.92, // 1 USD -> EUR (approx)
+  RON: 4.5   // 1 USD -> RON (approx)
+};
 
-// State
 let catalogue = null;
-let cart = JSON.parse(localStorage.getItem('vc_cart') || '[]');
-let wishlist = JSON.parse(localStorage.getItem('vc_wishlist') || '[]');
-let currentProduct = null;
+let cart = JSON.parse(localStorage.getItem("vc_cart") || "[]");
+let favorites = JSON.parse(localStorage.getItem("vc_favs") || "[]");
+let userLocale = navigator.language || "en-US";
 
-// Init
-document.addEventListener('DOMContentLoaded', init);
-
-async function init(){
-  try {
-    catalogue = await (await fetch('/catalogue.json')).json();
-  } catch (e) {
-    console.error('Failed loading catalogue.json', e);
-    showError('Error loading catalogue. Please check that /catalogue.json is present and valid in site root.');
-    return;
+function fmtPriceUSD(v) {
+  return v.toFixed(2) + " $";
+}
+function formatPriceForLocale(v) {
+  // Choose currency by language hints
+  if (/^ro\b/i.test(userLocale)) {
+    return "≈ " + (v * RATES.RON).toFixed(2) + " RON";
+  } else if (/^fr|^de|^es|^it|^nl|^pt\b/i.test(userLocale)) {
+    return "≈ " + (v * RATES.EUR).toFixed(2) + " €";
+  } else {
+    // default USD locale formatting
+    return v.toLocaleString(userLocale, { style: "currency", currency: "USD", minimumFractionDigits:2 });
   }
-
-  setupHeader();
-  renderHome();
-  renderCatalogue();
-  setupCartUI();
-  setupContactForm();
-  setupThemeToggle(); // placeholder if you later add toggle
-  beautifyUI();
 }
 
-function showError(msg){
-  const err = $('#error');
-  if(err) err.textContent = msg;
-  else alert(msg);
+function qsel(s){return document.querySelector(s);}
+function qall(s){return Array.from(document.querySelectorAll(s));}
+
+async function loadCatalogue() {
+  try {
+    const res = await fetch("/catalogue.json");
+    if(!res.ok) throw new Error("catalogue.json not loaded");
+    catalogue = await res.json();
+    renderSite();
+  } catch (e) {
+    console.error(e);
+    showCatalogError();
+  }
 }
 
-// Header & nav
-function setupHeader(){
-  const nav = $('#nav-categories');
-  nav.innerHTML = ''; // build catalogue dropdown
+function showCatalogError(){
+  const main = qsel("#main");
+  main.innerHTML = `<div class="error">Error loading catalogue. Please ensure <code>/catalogue.json</code> is present in the site root.</div>`;
+}
+
+// NAV build
+function renderNav() {
+  const nav = qsel("#nav-categories");
+  nav.innerHTML = "";
+  const ul = document.createElement("ul");
+  ul.className = "nav-cat-list";
   catalogue.categories.forEach(cat => {
-    const li = document.createElement('li');
-    li.className = 'nav-cat';
-    li.innerHTML = `<button class="cat-btn" data-cat="${cat.id}">${cat.name}</button>`;
-    nav.appendChild(li);
-  });
+    const li = document.createElement("li");
+    li.className = "nav-cat-item";
+    const a = document.createElement("a");
+    a.href = "#";
+    a.textContent = cat.name;
+    a.dataset.cat = cat.id;
+    a.onclick = (ev) => { ev.preventDefault(); renderCategory(cat.id); }
+    li.appendChild(a);
 
-  // Nav click
-  $('#nav-categories').addEventListener('click', (e) => {
-    const btn = e.target.closest('.cat-btn');
-    if(!btn) return;
-    const catId = btn.dataset.cat;
-    openCategory(catId);
+    // add dropdown for subcategories
+    if (cat.subcategories && cat.subcategories.length) {
+      const drop = document.createElement("div");
+      drop.className = "nav-subcat";
+      cat.subcategories.forEach(sc => {
+        const sa = document.createElement("a");
+        sa.href = "#";
+        sa.textContent = sc.name;
+        sa.onclick = (ev) => { ev.preventDefault(); renderSubcategory(cat.id, sc.id); }
+        drop.appendChild(sa);
+      });
+      li.appendChild(drop);
+    }
+    ul.appendChild(li);
   });
-
-  // Home link
-  $('#home-link').addEventListener('click', (e) => {
-    e.preventDefault();
-    renderHome();
-  });
-
-  // About link
-  $('#about-link').addEventListener('click', (e) => {
-    e.preventDefault();
-    renderAbout();
-  });
-
-  // Contact link
-  $('#contact-link').addEventListener('click', (e) => {
-    e.preventDefault();
-    scrollToSection('#contact-section');
-  });
+  nav.appendChild(ul);
 }
 
-// Render pages
-function renderHome(){
-  $('#page-title').textContent = catalogue.siteInfo?.name || 'Velvet Charms';
-  $('#hero-tagline').textContent = catalogue.siteInfo?.tagline || '';
-  $('#hero-sub').textContent = 'Personalized, artisan-made pieces — created with love by our team of 12 art students.';
-  $('#main-content').innerHTML = `
-    <section class="home-intro">
-      <div class="intro-left">
-        <h2>Handcrafted Treasures</h2>
-        <p class="lead">Personalized, artisan-made pieces — created with love by our team of 12 art students.</p>
-        <div class="hero-actions">
-          <button id="explore-catalogue" class="btn primary">Explore Catalogue</button>
-          <button id="open-about" class="btn">About Us</button>
-        </div>
-      </div>
-      <div class="intro-right">
-        <img src="${catalogue.categories[0]?.banner || 'top banner picture for candles.png'}" alt="Candles banner" class="hero-image">
-      </div>
-    </section>
-    <section id="featured-grid" class="featured-grid"></section>
-  `;
-
-  $('#explore-catalogue').addEventListener('click', () => openCategory(catalogue.categories[0].id));
-  $('#open-about').addEventListener('click', (e) => { e.preventDefault(); renderAbout(); });
-
-  // Show a few featured categories
-  const grid = $('#featured-grid');
-  catalogue.categories.slice(0,6).forEach(cat => {
-    const img = cat.categoryImage || (cat.subcategories && cat.subcategories[0] && cat.subcategories[0].products && cat.subcategories[0].products[0] && cat.subcategories[0].products[0].images && cat.subcategories[0].products[0].images[0]) || 'top banner picture for candles.png';
-    const card = document.createElement('div');
-    card.className = 'feature-card';
-    card.innerHTML = `
-      <img src="${img}" alt="${cat.name}">
-      <h3>${cat.name}</h3>
-      <button class="btn small" data-cat="${cat.id}">Open</button>
-    `;
+// Main page render
+function renderSite() {
+  renderNav();
+  renderHeader();
+  // show catalogue overview (categories grid)
+  const main = qsel("#main");
+  main.innerHTML = `<div class="categories-grid" id="categories-grid"></div>`;
+  const grid = qsel("#categories-grid");
+  catalogue.categories.forEach(cat => {
+    const card = document.createElement("div");
+    card.className = "category-card";
+    const img = document.createElement("img");
+    img.alt = cat.name;
+    img.src = cat.categoryImage || cat.banner || "top banner picture for candles.png";
+    img.loading = "lazy";
+    const h = document.createElement("h3");
+    h.textContent = cat.name;
+    card.appendChild(img);
+    card.appendChild(h);
+    card.onclick = () => renderCategory(cat.id);
     grid.appendChild(card);
-    card.querySelector('button').addEventListener('click', () => openCategory(cat.id));
   });
+  updateCartCount();
 }
 
-// About
-function renderAbout(){
-  document.title = 'About — Velvet Charms';
-  $('#main-content').innerHTML = `
-    <section class="about">
-      <div class="about-inner">
-        <h2>${catalogue.siteInfo.about.title}</h2>
-        <p class="about-text large">${catalogue.siteInfo.about.text}</p>
-        <p class="about-extra">Payments are taken online prior to production. Orders are processed within 48 hours after payment confirmation.</p>
-      </div>
-    </section>
-  `;
+// header / hero
+function renderHeader(){
+  qsel("#site-title").textContent = catalogue.siteInfo.name + " ❄️";
+  qsel("#site-tagline").textContent = catalogue.siteInfo.tagline;
+  qsel("#about-text").innerHTML = `<h2>${catalogue.siteInfo.about.title}</h2><p class="about-text">${catalogue.siteInfo.about.text}</p>`;
+  // About modal image and style adjustments done via CSS
 }
 
-// Category view
-function openCategory(catId){
+// Category page render
+function renderCategory(catId) {
   const cat = catalogue.categories.find(c => c.id === catId);
   if(!cat) return;
-  document.title = `${cat.name} — Velvet Charms`;
-  const subcats = cat.subcategories || [];
-  const productsDirect = cat.products || [];
-  $('#main-content').innerHTML = `
-    <section class="category-header">
-      <h2>${cat.name}</h2>
-      ${cat.categoryImage ? `<img class="category-thumb" src="${cat.categoryImage}" alt="${cat.name}">` : ''}
-      <p class="category-intro">${cat.description || ''}</p>
-    </section>
-    <section id="subcategories-list" class="subcategories-list"></section>
+  const main = qsel("#main");
+  main.innerHTML = `
+    <div class="category-header">
+      <img src="${cat.banner || cat.categoryImage || 'top banner picture for candles.png'}" alt="${cat.name}" loading="lazy"/>
+      <div>
+        <h2>${cat.name}</h2>
+        ${cat.subcategories && cat.subcategories.length ? `<p class="subhint">Choose a subcategory below</p>` : ""}
+      </div>
+    </div>
+    <div class="subcat-list" id="subcat-list"></div>
+    <div id="products-grid" class="products-grid"></div>
   `;
 
-  const container = $('#subcategories-list');
-
-  // Render subcategories or direct products
-  if(subcats.length){
-    subcats.forEach(sub => {
-      const box = document.createElement('div');
-      box.className = 'subcat-box';
-      const subImg = sub.categoryImage || (sub.products && sub.products[0] && sub.products[0].images && sub.products[0].images[0]) || '';
-      box.innerHTML = `
-        <div class="subcat-head">
-          <h3>${sub.name}</h3>
-          ${subImg ? `<img src="${subImg}" alt="${sub.name}" class="subcat-img">` : ''}
-        </div>
-        <div class="products-grid" data-sub="${sub.id}"></div>
-      `;
-      container.appendChild(box);
-      renderProductsGrid(sub.products || [], box.querySelector('.products-grid'));
+  // subcategory list
+  const scList = qsel("#subcat-list");
+  if (cat.subcategories && cat.subcategories.length) {
+    cat.subcategories.forEach(sc => {
+      const btn = document.createElement("button");
+      btn.className = "chip";
+      btn.textContent = sc.name;
+      btn.onclick = () => renderSubcategory(catId, sc.id);
+      scList.appendChild(btn);
     });
-  }
-
-  if(productsDirect.length){
-    const directBox = document.createElement('div');
-    directBox.className = 'subcat-box';
-    directBox.innerHTML = `<div class="products-grid"></div>`;
-    container.appendChild(directBox);
-    renderProductsGrid(productsDirect, directBox.querySelector('.products-grid'));
+    // open first subcategory by default
+    renderSubcategory(catId, cat.subcategories[0].id);
+  } else {
+    // render products directly if none
+    renderProducts(catId, null);
   }
 }
 
-// Render product grid for a subcategory
-function renderProductsGrid(products, targetEl){
-  targetEl.innerHTML = '';
-  products.forEach(prod => {
-    const thumb = prod.images && prod.images.length ? prod.images[0] : 'wax_candle_small.png';
-    const card = document.createElement('div');
-    card.className = 'product-card';
-    card.innerHTML = `
-      <img src="${thumb}" alt="${prod.name}" class="product-thumb">
-      <div class="product-info">
-        <h4 class="product-name">${prod.name}</h4>
-        <div class="product-price">$${prod.price.toFixed(2)}</div>
-        <div class="product-actions">
-          <button class="btn small details-btn" data-id="${prod.id}">Details</button>
-          <button class="btn small buy-btn" data-id="${prod.id}">Buy</button>
-          <button class="wish-btn" data-id="${prod.id}" aria-label="Add to wishlist">❤</button>
-        </div>
-      </div>
-    `;
-    targetEl.appendChild(card);
-
-    card.querySelector('.details-btn').addEventListener('click', () => openProductModal(prod));
-    card.querySelector('.buy-btn').addEventListener('click', () => addToCartFromCard(prod));
-    card.querySelector('.wish-btn').addEventListener('click', () => toggleWishlist(prod.id));
+// Subcategory page render
+function renderSubcategory(catId, subcatId) {
+  const cat = catalogue.categories.find(c => c.id === catId);
+  const sc = cat.subcategories.find(s => s.id === subcatId);
+  qsel("#products-grid").innerHTML = `<h3 class="sc-title">${sc.name}</h3><div class="products-list" id="products-list"></div>`;
+  const container = qsel("#products-list");
+  sc.products.forEach(p => {
+    const card = productCard(p, cat, sc);
+    container.appendChild(card);
   });
 }
 
-// Modal product view (detail)
-function openProductModal(product){
-  currentProduct = product;
-  // Create modal
-  let modal = $('#product-modal');
-  if(!modal){
-    modal = document.createElement('div');
-    modal.id = 'product-modal';
-    modal.className = 'modal';
-    modal.innerHTML = `
-      <div class="modal-content">
-        <button class="modal-close" id="modal-close">×</button>
-        <div class="modal-body">
-          <div class="modal-gallery"></div>
-          <div class="modal-details">
-            <h3 id="modal-title"></h3>
-            <p id="modal-desc"></p>
-            <div id="modal-options"></div>
-            <form id="modal-custom-form">
-              <h4>Customization</h4>
-              <label>Notes (size, color or personalization)</label>
-              <textarea name="customNotes" placeholder="Add details or photos will be requested on checkout" rows="3"></textarea>
-              <label>Quantity</label>
-              <input type="number" name="quantity" value="1" min="1" />
-              <div class="modal-actions">
-                <button class="btn primary" id="modal-add-cart">Add to cart</button>
-                <a id="modal-pay-link" class="btn">Buy now</a>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    `;
-    document.body.appendChild(modal);
+// product card creation
+function productCard(p, cat, sc){
+  const card = document.createElement("div");
+  card.className = "product-card";
+  const img = document.createElement("img");
+  img.src = p.images && p.images.length ? p.images[0] : "wax_candle_small.png";
+  img.alt = p.name;
+  img.loading = "lazy";
+  img.onerror = () => { img.style.opacity = 0.6; }
+  const h = document.createElement("h4"); h.textContent = p.name;
+  const price = document.createElement("div"); price.className="price";
+  price.textContent = formatPriceForLocale(p.price || 0);
+  const btns = document.createElement("div"); btns.className = "product-actions";
+  const details = document.createElement("button"); details.className="btn details-btn"; details.textContent="Details";
+  details.onclick = (ev) => { ev.preventDefault(); openDetailsModal(p, cat, sc); };
+  const buy = document.createElement("button"); buy.className="btn buy-btn"; buy.textContent="Buy";
+  buy.onclick = (ev) => { ev.preventDefault(); addToCartFromCard(p); };
+  const fav = document.createElement("button"); fav.className="btn fav-btn"; fav.textContent = favorites.includes(p.id) ? "♥" : "♡";
+  fav.onclick = () => { toggleFav(p.id, fav); };
+  btns.appendChild(details);
+  btns.appendChild(buy);
+  btns.appendChild(fav);
+  card.appendChild(img);
+  card.appendChild(h);
+  card.appendChild(price);
+  card.appendChild(btns);
+  return card;
+}
 
-    // Close handlers
-    modal.querySelector('#modal-close').addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => {
-      if(e.target === modal) closeModal();
-    });
-  }
+function toggleFav(pid, btn) {
+  const idx = favorites.indexOf(pid);
+  if(idx === -1) favorites.push(pid); else favorites.splice(idx,1);
+  localStorage.setItem("vc_favs", JSON.stringify(favorites));
+  btn.textContent = favorites.includes(pid) ? "♥" : "♡";
+}
 
-  // Fill modal
-  $('#modal-title').textContent = product.name;
-  $('#modal-desc').textContent = product.description || '';
-  const optionsEl = $('#modal-options');
-  optionsEl.innerHTML = '';
-
-  // Options (scent/intensity/aroma)
-  if(product.options){
-    Object.keys(product.options).forEach(opt => {
-      const values = product.options[opt];
-      const wrapper = document.createElement('div');
-      wrapper.className = 'option-row';
-      wrapper.innerHTML = `<label>${capitalize(opt)}</label>`;
-      const select = document.createElement('select');
-      select.name = opt;
-      values.forEach(v => {
-        const o = document.createElement('option');
-        o.value = v;
-        o.textContent = v;
-        select.appendChild(o);
-      });
-      wrapper.appendChild(select);
-      optionsEl.appendChild(wrapper);
-    });
-  }
-
-  // Gallery: respect removeDetailsIndex and limit images
-  const gallery = $('.modal-gallery');
-  gallery.innerHTML = '';
-  let images = Array.isArray(product.images) ? product.images.slice() : [];
-  if(product.removeDetailsIndex && product.removeDetailsIndex.length){
-    // remove indices (1-based from user's notes) convert to 0-based
-    const toRemove = product.removeDetailsIndex.map(i => i - 1);
-    images = images.filter((_, idx) => !toRemove.includes(idx));
-  }
-  // cap images to maxGalleryImages
-  images = images.slice(0, maxGalleryImages);
-  if(images.length === 0) images = ['wax_candle_small.png'];
-
-  const thumbs = document.createElement('div');
-  thumbs.className = 'gallery-main';
-  thumbs.innerHTML = `
-    <div class="gallery-large"><img src="${images[0]}" alt="${product.name}" id="gallery-large-img"></div>
-    <div class="gallery-thumbs"></div>
-  `;
-  gallery.appendChild(thumbs);
-  const thumbsEl = gallery.querySelector('.gallery-thumbs');
-
-  images.forEach((src, i) => {
-    const t = document.createElement('button');
-    t.className = 'thumb-btn';
-    t.innerHTML = `<img src="${src}" alt="${product.name} thumb ${i+1}">`;
-    t.addEventListener('click', () => {
-      $('#gallery-large-img').src = src;
-    });
-    thumbsEl.appendChild(t);
+// DETAILS modal (with personalization)
+function openDetailsModal(product, cat, sc) {
+  const modal = qsel("#details-modal");
+  modal.style.display = "block";
+  qsel("#details-close").onclick = () => modal.style.display = "none";
+  const gallery = qsel("#details-gallery"); gallery.innerHTML = "";
+  (product.images || []).forEach((src, i) => {
+    const im = document.createElement("img");
+    im.src = src;
+    im.loading = "lazy";
+    im.className = "details-thumb";
+    gallery.appendChild(im);
   });
-
-  // Modal add to cart
-  $('#modal-add-cart').onclick = (e) => {
+  qsel("#details-title").textContent = product.name;
+  qsel("#details-desc").textContent = product.description || "";
+  qsel("#details-price").textContent = formatPriceForLocale(product.price || 0);
+  // build personalization form
+  const form = qsel("#personalization-form");
+  form.innerHTML = `
+    <label>Choose scent / aroma (if available)</label>
+    ${product.options && product.options.scent ? `<select name="scent" id="p_scent">${product.options.scent.map(s => `<option value="${s}">${s}</option>`).join("")}</select>` : ""}
+    ${product.options && product.options.intensity ? `<label>Intensity</label><select name="intensity" id="p_int">${product.options.intensity.map(i=>`<option>${i}</option>`).join("")}</select>` : ""}
+    <label>Personalization notes (size, names, details)</label>
+    <textarea id="p_notes" placeholder="Add any details or attach images after checkout..."></textarea>
+    <label>Upload up to 3 images (optional)</label>
+    <input type="file" id="p_images" accept="image/*" multiple />
+    <div class="modal-actions">
+      <button id="personalize-add" class="btn">Add to Cart</button>
+      <button id="personalize-buy" class="btn primary">Buy Now</button>
+    </div>
+  `;
+  // handlers
+  qsel("#personalize-add").onclick = (e) => {
     e.preventDefault();
-    const form = $('#modal-custom-form');
-    const data = new FormData(form);
-    const notes = data.get('customNotes') || '';
-    const quantity = parseInt(data.get('quantity') || 1, 10);
-    // collect selected options
-    const options = {};
-    Array.from(optionsEl.querySelectorAll('select')).forEach(s => options[s.name] = s.value);
-    addToCart(product, quantity, options, notes);
-    closeModal();
-    renderCart();
+    const personalization = collectPersonalization(product.id);
+    addToCart(product, personalization);
+    modal.style.display = "none";
+    showToast("Added to cart");
   };
-
-  // Pay now link -> PayPal link with name and price appended (simple)
-  const payLink = $('#modal-pay-link');
-  payLink.href = product.paymentLink || '#';
-  payLink.target = '_blank';
-  payLink.textContent = 'Buy now';
-
-  // Show modal
-  modal.classList.add('open');
+  qsel("#personalize-buy").onclick = (e) => {
+    e.preventDefault();
+    const personalization = collectPersonalization(product.id);
+    // Save personalization to a temporary order and open PayPal link in new tab
+    window.open(product.paymentLink || "#", "_blank");
+    modal.style.display = "none";
+    showPostPaymentNotice();
+  };
 }
 
-// helpers
-function capitalize(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
-
-function closeModal(){
-  const modal = $('#product-modal');
-  if(modal) modal.classList.remove('open');
+function collectPersonalization(pid) {
+  const scent = qsel("#p_scent") ? qsel("#p_scent").value : null;
+  const intensity = qsel("#p_int") ? qsel("#p_int").value : null;
+  const notes = qsel("#p_notes") ? qsel("#p_notes").value : "";
+  // Note: file uploads are not posted to server here; stored in session as filenames only
+  const files = qsel("#p_images") ? Array.from(qsel("#p_images").files).slice(0,3).map(f => f.name) : [];
+  return { scent, intensity, notes, images: files, pid, ts: Date.now() };
 }
 
-// Cart functions
-function addToCart(product, quantity = 1, options = {}, notes = ''){
+// CART functions
+function addToCartFromCard(product) {
+  // open details modal quickly to collect personalization if options exist
+  if(product.options && (product.options.scent || product.options.intensity)) {
+    openDetailsModal(product);
+    return;
+  }
+  addToCart(product, { notes: "", images: [], ts: Date.now() });
+  showToast("Added to cart");
+}
+
+function addToCart(product, personalization) {
   const item = {
     id: product.id,
     name: product.name,
     price: product.price,
-    qty: quantity,
-    options,
-    notes,
-    images: (product.images || []).slice(0,3)
+    qty: 1,
+    paymentLink: product.paymentLink,
+    personalization
   };
-  // if same id+options, merge
-  const existing = cart.find(c => c.id === item.id && JSON.stringify(c.options) === JSON.stringify(item.options) && c.notes === item.notes);
-  if(existing){
-    existing.qty += quantity;
-  } else {
-    cart.push(item);
-  }
-  saveCart();
-  toast('Added to cart');
+  cart.push(item);
+  localStorage.setItem("vc_cart", JSON.stringify(cart));
+  updateCartCount();
 }
 
-function addToCartFromCard(product){
-  // quick add — defaults
-  addToCart(product, 1, {}, '');
-  renderCart();
+function updateCartCount(){
+  qsel("#cart-count").textContent = cart.length;
 }
 
-function toggleWishlist(id){
-  const idx = wishlist.indexOf(id);
-  if(idx === -1) wishlist.push(id);
-  else wishlist.splice(idx,1);
-  localStorage.setItem('vc_wishlist', JSON.stringify(wishlist));
-  renderWishlist();
-  toast('Wishlist updated');
-}
-
-// Cart UI
-function setupCartUI(){
-  renderCart();
-  $('#cart-toggle').addEventListener('click', (e) => {
-    e.preventDefault();
-    $('#cart-panel').classList.toggle('open');
+function openCartModal(){
+  const modal = qsel("#cart-modal");
+  const list = qsel("#cart-list");
+  list.innerHTML = "";
+  if(cart.length===0) list.innerHTML = "<p>Your cart is empty.</p>";
+  cart.forEach((it, idx) => {
+    const div = document.createElement("div");
+    div.className = "cart-item";
+    div.innerHTML = `<div><strong>${it.name}</strong><div class="cart-price">${formatPriceForLocale(it.price)}</div>
+      <div class="cart-personal">Notes: ${escapeHtml(it.personalization.notes || "")}</div></div>
+      <div class="cart-actions">
+        <button class="btn" data-i="${idx}" onclick="decreaseQty(event)">-</button>
+        <span>${it.qty}</span>
+        <button class="btn" data-i="${idx}" onclick="increaseQty(event)">+</button>
+        <button class="btn danger" data-i="${idx}" onclick="removeCartItem(event)">Remove</button>
+      </div>`;
+    list.appendChild(div);
   });
-  $('#checkout-btn').addEventListener('click', () => openCheckout());
+  qsel("#checkout-btn").onclick = checkoutCart;
+  modal.style.display = "block";
+  qsel("#cart-close").onclick = () => modal.style.display = "none";
 }
 
-function renderCart(){
-  localStorage.setItem('vc_cart', JSON.stringify(cart));
-  const list = $('#cart-items');
-  list.innerHTML = '';
-  if(cart.length === 0){
-    list.innerHTML = '<div class="empty">Your cart is empty</div>';
-    $('#cart-total').textContent = '$0.00';
-    return;
-  }
-  cart.forEach((it, i) => {
-    const row = document.createElement('div');
-    row.className = 'cart-item';
-    row.innerHTML = `
-      <div class="cart-thumb"><img src="${(it.images && it.images[0]) || 'wax_candle_small.png'}" alt="${it.name}"></div>
-      <div class="cart-meta">
-        <div class="cart-name">${it.name}</div>
-        <div class="cart-opts">${JSON.stringify(it.options) !== '{}' ? JSON.stringify(it.options) : ''}</div>
-        <div class="cart-notes">${it.notes ? 'Notes: ' + it.notes : ''}</div>
-        <div class="cart-qty">
-          <button class="qty-dec" data-i="${i}">−</button>
-          <span>${it.qty}</span>
-          <button class="qty-inc" data-i="${i}">+</button>
-        </div>
-      </div>
-      <div class="cart-price">$${(it.price * it.qty).toFixed(2)}</div>
-      <button class="cart-remove" data-i="${i}">×</button>
-    `;
-    list.appendChild(row);
+function decreaseQty(e){
+  const i = +e.target.dataset.i;
+  if(cart[i].qty>1) cart[i].qty--;
+  localStorage.setItem("vc_cart", JSON.stringify(cart));
+  openCartModal();
+  updateCartCount();
+}
+function increaseQty(e){
+  const i = +e.target.dataset.i;
+  cart[i].qty++;
+  localStorage.setItem("vc_cart", JSON.stringify(cart));
+  openCartModal();
+  updateCartCount();
+}
+function removeCartItem(e){
+  const i = +e.target.dataset.i;
+  cart.splice(i,1);
+  localStorage.setItem("vc_cart", JSON.stringify(cart));
+  openCartModal();
+  updateCartCount();
+}
+
+function checkoutCart(){
+  if(cart.length===0) { showToast("Cart is empty"); return; }
+  // Create a simple pre-checkout form summary and open first product PayPal (or ask user)
+  // For now we'll guide user: we'll open PayPal links in new tabs one by one for each item (simple flow)
+  cart.forEach(it => {
+    if(it.paymentLink) window.open(it.paymentLink, "_blank");
   });
-
-  // attach events
-  $$('.qty-inc').forEach(b => b.addEventListener('click', () => {
-    const i = parseInt(b.dataset.i,10); cart[i].qty++; saveCart(); renderCart();
-  }));
-  $$('.qty-dec').forEach(b => b.addEventListener('click', () => {
-    const i = parseInt(b.dataset.i,10); if(cart[i].qty>1) cart[i].qty--; else cart.splice(i,1); saveCart(); renderCart();
-  }));
-  $$('.cart-remove').forEach(b => b.addEventListener('click', () => {
-    const i = parseInt(b.dataset.i,10); cart.splice(i,1); saveCart(); renderCart();
-  }));
-
-  const total = cart.reduce((s,it)=>s + it.price*it.qty, 0);
-  $('#cart-total').textContent = '$' + total.toFixed(2);
+  showPostPaymentNotice();
+  // Note: in production you'd integrate a proper cart checkout server-side or PayPal cart API
 }
 
-function saveCart(){ localStorage.setItem('vc_cart', JSON.stringify(cart)); }
-
-function openCheckout(){
-  if(cart.length === 0){
-    toast('Cart empty — add items first');
-    return;
-  }
-  // Build a lightweight checkout modal with a combined form that posts to Formspree
-  const checkout = document.createElement('div');
-  checkout.className = 'modal checkout';
-  checkout.innerHTML = `
-    <div class="modal-content">
-      <button class="modal-close">×</button>
-      <div class="modal-body small">
-        <h3>Checkout</h3>
-        <form id="checkout-form" method="POST" action="https://formspree.io/f/YOUR_FORMSPREE_ID">
-          <label>Your name</label><input name="name" required />
-          <label>Your email</label><input name="email" type="email" required />
-          <label>Shipping country</label><input name="country" required />
-          <label>Notes for order</label><textarea name="orderNotes" rows="3"></textarea>
-          <input type="hidden" name="orderSummary" value='${JSON.stringify(cart)}' />
-          <div class="modal-actions">
-            <button class="btn primary" type="submit">Submit order & pay via PayPal</button>
-            <button class="btn" type="button" id="checkout-cancel">Cancel</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(checkout);
-  checkout.classList.add('open');
-  checkout.querySelector('.modal-close').addEventListener('click', () => checkout.remove());
-  checkout.querySelector('#checkout-cancel').addEventListener('click', () => checkout.remove());
-  // On submit, Formspree will email you. We instruct buyer to complete PayPal after sending form.
-  // Add a message to user after submit via Formspree (they will see default response).
+function showPostPaymentNotice(){
+  const modal = qsel("#postpay-modal");
+  modal.style.display = "block";
+  qsel("#postpay-close").onclick = () => modal.style.display = "none";
 }
 
-// Wishlist view
-function renderWishlist(){
-  // optional: show wishlist count
-  $('#wishlist-count').textContent = wishlist.length;
+// UTIL
+function escapeHtml(s){ return String(s||"").replace(/[&<>"]/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c])); }
+
+function showToast(msg){
+  const t = document.createElement("div"); t.className="toast"; t.textContent=msg;
+  document.body.appendChild(t);
+  setTimeout(()=> t.classList.add("visible"), 10);
+  setTimeout(()=> { t.classList.remove("visible"); setTimeout(()=>t.remove(),300); }, 2500);
 }
 
-// Contact / order form handler
-function setupContactForm(){
-  const contactForm = $('#contact-form');
-  if(!contactForm) return;
-  contactForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const data = new FormData(contactForm);
-    fetch('https://formspree.io/f/YOUR_FORMSPREE_ID', {
-      method: 'POST',
-      body: data,
-      headers: { 'Accept': 'application/json' }
-    }).then(res => {
-      if(res.ok) {
-        toast('Message sent. We will reply within 48h.');
-        contactForm.reset();
-      } else {
-        toast('Error sending message.');
-      }
-    }).catch(err => {
-      console.error(err);
-      toast('Network error.');
-    });
-  });
-}
+// DETAILS modal close on outside click
+window.onclick = function(e) {
+  const dm = qsel("#details-modal");
+  const cm = qsel("#cart-modal");
+  if (e.target === dm) dm.style.display = "none";
+  if (e.target === cm) cm.style.display = "none";
+};
 
-// Small helpers & UI polish
-function toast(msg, ms = 2500){
-  let t = $('#toast');
-  if(!t){
-    t = document.createElement('div');
-    t.id = 'toast';
-    document.body.appendChild(t);
-  }
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(()=> t.classList.remove('show'), ms);
-}
-
-function scrollToSection(sel){
-  const el = document.querySelector(sel);
-  if(el) el.scrollIntoView({behavior:'smooth'});
-}
-
-function beautifyUI(){
-  // Make sure details buttons are visible (fix issue of white-on-white etc.)
-  document.documentElement.classList.add('vc-ready');
-  // Render wishlist count
-  renderWishlist();
-}
-
-// theme toggle placeholder
-function setupThemeToggle(){
-  // Christmas by default. If you later add toggle, change body class
-  document.body.classList.add('theme-christmas');
-}
+// Initialize
+document.addEventListener("DOMContentLoaded", () => {
+  // wire top buttons
+  qsel("#btn-catalogue").onclick = () => renderSite();
+  qsel("#btn-about").onclick = () => { document.querySelector('#main').scrollIntoView({behavior:'smooth'}); };
+  qsel("#btn-contact").onclick = () => qsel("#contact-form-wrap").scrollIntoView({behavior:'smooth'});
+  qsel("#cart-open").onclick = openCartModal;
+  qsel("#fav-open").onclick = () => { alert("Favorites: " + (favorites.length ? favorites.join(", ") : "none")); };
+  loadCatalogue();
+});
