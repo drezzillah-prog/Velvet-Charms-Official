@@ -1,196 +1,101 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Velvet Charms — Handcrafted Art</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Velvet Charms — Handcrafted</title>
+  <link rel="stylesheet" href="style.css">
 </head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <img src="top banner picture for candles.png" alt="Velvet Charms" class="brand-logo">
+        <div>
+          <h1 id="page-title">Velvet Charms ❄️</h1>
+          <p class="tagline" id="hero-tagline">Where Art Meets Emotion — Handcrafted with love</p>
+        </div>
+      </div>
 
-<body class="christmas-theme">
-
-<!-- ============================
-     HEADER + NAVIGATION
-============================ -->
-<header>
-    <div class="logo">Velvet Charms</div>
-
-    <nav>
-        <button id="menuToggle">☰</button>
-
-        <div id="dropdownMenu" class="dropdown-content">
-            <a href="#home">Home</a>
-
-            <div class="dropdown-section">
-                <p>Catalogue ▼</p>
-                <div id="catalogueDropdown"></div>
+      <nav class="site-nav">
+        <ul>
+          <li><a href="#" id="home-link">Home</a></li>
+          <li>
+            <div class="catalogue-dropdown">
+              <button class="btn nav-catalogue">Catalogue ▾</button>
+              <ul id="nav-categories" class="catalogue-menu"></ul>
             </div>
+          </li>
+          <li><a href="#" id="about-link">About Us</a></li>
+          <li><a href="#" id="contact-link">Contact</a></li>
+        </ul>
+      </nav>
 
-            <a href="#about">About</a>
-            <a href="#contact">Contact</a>
-        </div>
-    </nav>
-</header>
-
-<script>
-document.getElementById("menuToggle").onclick = () => {
-    document.getElementById("dropdownMenu").classList.toggle("show");
-};
-</script>
-
-<!-- ============================
-     HERO BANNER
-============================ -->
-<section id="home" class="hero">
-    <div class="hero-text">
-        <h1>Where Art Meets Emotion</h1>
-        <p>Handcrafted with love, shaped with care, designed to feel personal.</p>
-        <a href="#catalogue" class="cta-btn">Explore Catalogue</a>
+      <div class="header-actions">
+        <button id="cart-toggle" class="btn">Cart <span id="cart-count">0</span></button>
+        <button class="btn" id="wishlist-btn">❤ <span id="wishlist-count">0</span></button>
+      </div>
     </div>
-</section>
 
-<!-- ============================
-     CATALOGUE SECTION
-============================ -->
-<section id="catalogue" class="catalogue-section">
-    <h2 class="section-title">Explore Catalogue</h2>
-    <div id="catalogue"></div>
-</section>
-
-<!-- ============================
-     PRODUCT DETAILS MODAL
-============================ -->
-<div id="detailsModal" class="modal">
-    <div class="modal-content">
-
-        <span id="modalClose" class="close">&times;</span>
-
-        <h2 class="modal-title"></h2>
-        <p class="modal-price"></p>
-
-        <div class="modal-gallery"></div>
-
-        <p class="modal-description"></p>
-
-        <div class="modal-options"></div>
-
-        <button id="startCustomization" class="customize-btn">Customize & Continue</button>
-    </div>
-</div>
-
-<script>
-document.getElementById("startCustomization").onclick = () => {
-    document.querySelector("#detailsModal").style.display = "none";
-    document.querySelector("#customizationFormSection").scrollIntoView({behavior: "smooth"});
-};
-</script>
-
-<!-- ============================
-     CUSTOMIZATION FORM
-============================ -->
-<section id="customizationFormSection" class="form-section">
-    <h2>Customization Form</h2>
-
-    <p class="form-note">
-        Every Velvet Charms item is handmade and crafted on request.
-        Because each piece is custom-produced, <b>payment upon delivery is not available</b>.
-        After selecting your products, please fill in the details below so our artists can create your item exactly the way you imagine it.
-    </p>
-
-    <form id="customForm">
-        <label>Your Name</label>
-        <input type="text" required>
-
-        <label>Your Email</label>
-        <input type="email" required>
-
-        <label>Which product are you customizing?</label>
-        <input type="text" id="customProductName" placeholder="You can copy the product name from the catalogue">
-
-        <label>Describe your custom request</label>
-        <textarea rows="5" placeholder="Colours, size, model, text, theme, anything important"></textarea>
-
-        <label>Upload reference images (optional)</label>
-        <input type="file" accept="image/*" multiple>
-
-        <button type="submit" class="submit-btn">Save Custom Request</button>
-    </form>
-
-    <p id="formSaved" class="success-msg" style="display:none;">
-        Your customization details have been saved! You can now proceed to payment.
-    </p>
-</section>
-
-<script>
-document.getElementById("customForm").onsubmit = function(e) {
-    e.preventDefault();
-    document.getElementById("formSaved").style.display = "block";
-    setTimeout(() => {
-        document.getElementById("formSaved").style.display = "none";
-    }, 4000);
-};
-</script>
-
-<!-- ============================
-     ABOUT SECTION
-============================ -->
-<section id="about" class="about-section">
-    <h2>About Us</h2>
-
-    <div class="about-content">
-
-        <div class="about-text">
-            <p>
-                We are Velvet Charms — a collective of 12 passionate art students dedicated to creating
-                personalized handcrafted items. Every piece is made with patience, care, and a touch of magic —
-                whether you choose a product from our catalogue or use it as inspiration for a fully custom creation.
-            </p>
-
-            <p>
-                Orders are crafted on demand, which allows us to customize every detail — but it also means that
-                <b>payment cannot be made upon delivery</b>. Each order is accepted and prepared only after payment is confirmed.
-            </p>
-
-            <p>
-                All items are prepared with love and shipped from the studio closest to you:
-                Frankfurt, Germany 🇩🇪 or Constanța, Romania 🇷🇴.
-            </p>
-
-            <p>
-                Thank you for supporting small creators — your trust keeps art alive.
-            </p>
+    <div class="hero">
+      <div class="hero-left">
+        <h2 class="hero-title">Handcrafted Treasures</h2>
+        <p id="hero-sub" class="hero-sub">Unique artisan pieces — handmade to order.</p>
+        <div class="hero-cta">
+          <button id="explore-btn" class="btn primary" onclick="document.querySelector('#main-content').scrollIntoView({behavior:'smooth'})">Explore Catalogue</button>
         </div>
-
-        <div class="about-image">
-            <img src="top banner picture for candles.png" alt="Studio Image" onerror="this.style.display='none'">
-        </div>
-
+      </div>
+      <div class="hero-right">
+        <img src="top banner picture for candles.png" alt="candles" class="hero-image">
+      </div>
     </div>
-</section>
+  </header>
 
-<!-- ============================
-     CONTACT SECTION
-============================ -->
-<section id="contact" class="contact-section">
-    <h2>Contact</h2>
+  <main id="main-content" class="container">
+    <!-- Filled by script -->
+  </main>
 
-    <p>
-        For inquiries, bulk orders or collaboration requests:<br>
-        <b>Email:</b> velvetcharms.studio@gmail.com
-    </p>
-</section>
+  <aside id="cart-panel" class="cart-panel">
+    <div class="cart-inner">
+      <h3>Your Cart</h3>
+      <div id="cart-items" class="cart-items"></div>
+      <div class="cart-footer">
+        <div>Total: <strong id="cart-total">$0.00</strong></div>
+        <div class="cart-actions">
+          <button class="btn" id="continue-shopping">Continue</button>
+          <button class="btn primary" id="checkout-btn">Checkout</button>
+        </div>
+      </div>
+    </div>
+  </aside>
 
-<!-- ============================
-     FOOTER
-============================ -->
-<footer>
-    <p>© 2025 Velvet Charms — Handcrafted Art</p>
-</footer>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-left">
+        <h4>Velvet Charms</h4>
+        <p>Handmade with love. Orders ship from Frankfurt, Germany or Constanța, Romania.</p>
+      </div>
+      <div class="footer-right">
+        <form id="contact-form" class="contact-form">
+          <h4>Contact Us</h4>
+          <input name="name" placeholder="Your name" required>
+          <input name="email" type="email" placeholder="Your email" required>
+          <textarea name="message" placeholder="Your message" rows="3" required></textarea>
+          <button class="btn primary" type="submit">Send Message</button>
+        </form>
+      </div>
+    </div>
+    <div class="site-copy">© <span id="year"></span> Velvet Charms — All Rights Reserved</div>
+  </footer>
 
-<!-- ============================
-     SCRIPT
-============================ -->
-<script src="script.js"></script>
+  <!-- product modal is created by script -->
+  <div id="error" class="error" aria-live="polite"></div>
 
+  <script>
+    // Small helpers to set current year and cart count
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+  <script src="script.js"></script>
 </body>
 </html>
