@@ -1,245 +1,356 @@
-/* script.js - Velvet Charms: Catalogue loader, modal, cart-ish quick buy (PayPal links) */
-/* Assumes catalogue.json is in root. Loads categories, builds dropdown, product grid, gallery modal, and handles PayPal button links. Christmas theme loads by default. */
+/* script.js - Velvet Charms
+   Replaces older scripts with a single authoritative front-end.
+   Requires: catalogue.json present in site root and images in same folder.
+*/
 
-const APP = {
-  catalogueUrl: '/catalogue.json',
-  data: null,
-  elems: {
-    headerCat: null,
-    catList: null,
-    grid: null,
-    modal: null,
-    modalContent: null,
-    aboutBtn: null
-  }
-};
+(() => {
+  // Utilities
+  const $ = sel => document.querySelector(sel);
+  const $$ = sel => Array.from(document.querySelectorAll(sel));
 
-function q(sel){ return document.querySelector(sel); }
-function qa(sel){ return document.querySelectorAll(sel); }
+  // Elements
+  const brandEl = $('#brand');
+  const taglineEl = $('#tagline');
+  const navCatalogue = $('#nav-catalogue');
+  const navList = $('#catalogue-list');
+  const mainTitle = $('#main-title');
+  const mainSubtitle = $('#main-subtitle');
+  const content = $('#content');
+  const detailsModal = $('#details-modal');
+  const detailsClose = $('#details-close');
+  const modalTitle = $('#modal-title');
+  const modalImagesWrap = $('#modal-images');
+  const modalThumbs = $('#modal-thumbs');
+  const modalDesc = $('#modal-desc');
+  const modalOptions = $('#modal-options');
+  const modalPrice = $('#modal-price');
+  const modalBuy = $('#modal-buy');
+  const aboutBtn = $('#about-btn');
+  const aboutModal = $('#about-modal');
+  const aboutClose = $('#about-close');
+  const contactForm = $('#contact-form');
+  const themeSnow = $('#snow-canvas');
 
-async function loadCatalogue(){
-  try{
-    const res = await fetch(APP.catalogueUrl + '?_=' + Date.now());
-    if(!res.ok) throw new Error('catalogue.json not found');
-    APP.data = await res.json();
-    buildHeader(); buildCategories(); showHome();
-  } catch(err){
-    console.error('Error loading catalogue:', err);
-    const grid = APP.elems.grid || q('#main-grid');
-    if(grid) grid.innerHTML = `<div class="error">Error loading catalogue. Please ensure /catalogue.json exists and is valid.</div>`;
-  }
-}
+  let catalogue = null;
+  let currentProduct = null;
 
-/* build header dropdown for categories */
-function buildHeader(){
-  const header = q('#catalogue-dropdown');
-  if(!header) return;
-  header.innerHTML = '';
-  const list = document.createElement('ul');
-  list.className = 'cat-dropdown-list';
-  APP.data.categories.forEach(cat=>{
-    const li = document.createElement('li');
-    const a = document.createElement('a');
-    a.href = '#';
-    a.textContent = cat.name;
-    a.dataset.cat = cat.id;
-    a.addEventListener('click', (e)=>{
-      e.preventDefault(); openCategory(cat.id);
-    });
-    li.appendChild(a);
-    list.appendChild(li);
-  });
-  header.appendChild(list);
-}
-
-/* build categories section (thumbnail cards) */
-function buildCategories(){
-  const container = q('#categories');
-  if(!container) return;
-  container.innerHTML = '';
-  APP.data.categories.forEach(cat=>{
-    const card = document.createElement('div');
-    card.className = 'cat-card';
-    const img = document.createElement('img');
-    img.alt = cat.name;
-    img.src = cat.categoryImage || cat.banner || 'top banner picture for candles.png';
-    const h = document.createElement('h3');
-    h.textContent = cat.name;
-    card.appendChild(img);
-    card.appendChild(h);
-    card.addEventListener('click', ()=> openCategory(cat.id));
-    container.appendChild(card);
-  });
-}
-
-/* open a category by id */
-function openCategory(catId){
-  const cat = APP.data.categories.find(c=>c.id===catId);
-  if(!cat) return;
-  q('#main-title').textContent = cat.name;
-  q('#main-subtitle').textContent = cat.description || '';
-  renderCategoryProducts(cat);
-  window.scrollTo({top: 200, behavior:'smooth'});
-}
-
-/* render products for the opened category */
-function renderCategoryProducts(cat){
-  const grid = q('#main-grid');
-  grid.innerHTML = '';
-  // If subcategories, show subcategory tiles first
-  if(cat.subcategories && cat.subcategories.length){
-    cat.subcategories.forEach(sub=>{
-      const subSec = document.createElement('section');
-      subSec.className = 'subcategory';
-      const title = document.createElement('h4');
-      title.textContent = sub.name;
-      subSec.appendChild(title);
-
-      const row = document.createElement('div');
-      row.className = 'product-row';
-      (sub.products || []).forEach(prod => {
-        row.appendChild(buildProductCard(prod, sub, cat));
-      });
-      subSec.appendChild(row);
-      grid.appendChild(subSec);
-    });
-  } else if (cat.products && cat.products.length){
-    const row = document.createElement('div');
-    row.className = 'product-row';
-    cat.products.forEach(prod=> row.appendChild(buildProductCard(prod, null, cat)));
-    grid.appendChild(row);
-  } else {
-    grid.innerHTML = '<p class="empty">No products found in this category.</p>';
-  }
-}
-
-/* build an individual product card */
-function buildProductCard(prod, sub, cat){
-  const card = document.createElement('article');
-  card.className = 'product-card';
-  const mainImg = (prod.images && prod.images[0]) ? prod.images[0] : (cat.categoryImage || 'wax_candle_small.png');
-  const img = document.createElement('img');
-  img.src = mainImg;
-  img.alt = prod.name;
-  img.loading = 'lazy';
-  img.className = 'product-thumb';
-  card.appendChild(img);
-
-  const info = document.createElement('div');
-  info.className = 'product-info';
-  const h = document.createElement('h5'); h.textContent = prod.name; info.appendChild(h);
-  const p = document.createElement('p'); p.className='price'; p.textContent = `$${prod.price.toFixed(2)}`; info.appendChild(p);
-
-  const btns = document.createElement('div'); btns.className = 'card-buttons';
-  const details = document.createElement('button');
-  details.className = 'btn btn-details';
-  details.textContent = 'Details';
-  details.addEventListener('click', ()=> openProductModal(prod, cat));
-  btns.appendChild(details);
-
-  const buy = document.createElement('a');
-  buy.className = 'btn btn-buy';
-  buy.textContent = 'Buy';
-  buy.href = prod.paymentLink || '#';
-  buy.target = '_blank';
-  btns.appendChild(buy);
-
-  info.appendChild(btns);
-  card.appendChild(info);
-  return card;
-}
-
-/* modal for product details */
-function openProductModal(prod, cat){
-  const modal = q('#product-modal');
-  const content = q('#product-modal .modal-body');
-  modal.classList.add('open');
-
-  // header
-  q('#product-modal .modal-title').textContent = prod.name;
-  // gallery
-  const gallery = content.querySelector('.gallery');
-  gallery.innerHTML = '';
-  (prod.images || []).forEach((src, i)=>{
-    const im = document.createElement('img');
-    im.src = src;
-    im.alt = prod.name + ' ' + (i+1);
-    im.className = 'modal-img';
-    gallery.appendChild(im);
-  });
-  // description
-  content.querySelector('.desc').textContent = prod.description || '';
-  // price and options
-  const meta = content.querySelector('.meta');
-  meta.innerHTML = `<div class="modal-price">$${(prod.price||0).toFixed(2)}</div>`;
-  if(prod.options){
-    for(const [k,vals] of Object.entries(prod.options)){
-      const row = document.createElement('div');
-      row.className = 'opt-row';
-      const label = document.createElement('label'); label.textContent = k.charAt(0).toUpperCase() + k.slice(1);
-      const sel = document.createElement('select');
-      sel.name = k;
-      vals.forEach(v=>{
-        const o = document.createElement('option'); o.value = v; o.textContent = v; sel.appendChild(o);
-      });
-      row.appendChild(label); row.appendChild(sel);
-      meta.appendChild(row);
+  // Load catalogue.json
+  async function loadCatalogue() {
+    try {
+      const res = await fetch('/catalogue.json', {cache: 'no-store'});
+      if (!res.ok) throw new Error('catalogue.json not found');
+      catalogue = await res.json();
+      applySiteInfo();
+      buildCatalogueMenu();
+      renderHome();
+    } catch (err) {
+      console.error(err);
+      content.innerHTML = `<div class="error">Error loading catalogue. Please ensure /catalogue.json exists and is valid in site root.</div>`;
     }
   }
 
-  // Buy link
-  const buyBtn = content.querySelector('.modal-buy');
-  buyBtn.href = prod.paymentLink || '#';
-  buyBtn.target = '_blank';
-
-  // close handlers
-  q('#product-modal .close').onclick = ()=> modal.classList.remove('open');
-}
-
-/* About dialog open/close */
-function openAbout(){
-  const modal = q('#about-modal');
-  modal.classList.add('open');
-}
-function closeAbout(){
-  q('#about-modal').classList.remove('open');
-}
-
-/* small helper: render homepage */
-function showHome(){
-  q('#main-title').textContent = APP.data.siteInfo.name;
-  q('#main-subtitle').textContent = APP.data.siteInfo.tagline;
-  buildCategories();
-  // Show first category products preview
-  if(APP.data.categories && APP.data.categories.length){
-    renderCategoryProducts(APP.data.categories[0]);
+  function applySiteInfo() {
+    if (!catalogue.siteInfo) return;
+    brandEl.textContent = catalogue.siteInfo.name || 'Velvet Charms';
+    taglineEl.textContent = catalogue.siteInfo.tagline || '';
+    // About text used by about modal
+    const aboutText = (catalogue.siteInfo.about && catalogue.siteInfo.about.text) || '';
+    $('#about-text').textContent = aboutText;
   }
-}
 
-/* attach DOM handlers */
-function attachEvents(){
-  APP.elems.headerCat = q('#catalogue-dropdown');
-  APP.elems.grid = q('#main-grid');
-  q('#logo').addEventListener('click', ()=> { showHome(); window.scrollTo({top:0, behavior:'smooth'}); });
-  q('#about-link').addEventListener('click', (e)=>{ e.preventDefault(); openAbout(); });
-  // modal: close by overlay
-  qAll = qa;
-  const modal = q('#product-modal');
-  modal.addEventListener('click', (ev)=>{
-    if(ev.target === modal || ev.target.classList.contains('close')) modal.classList.remove('open');
-  });
-  const aboutModal = q('#about-modal');
-  aboutModal.addEventListener('click', (ev)=>{
-    if(ev.target === aboutModal || ev.target.classList.contains('close')) aboutModal.classList.remove('open');
-  });
-}
+  // Build the dropdown catalogue menu
+  function buildCatalogueMenu() {
+    navList.innerHTML = ''; // clear
+    if (!catalogue.categories) return;
+    catalogue.categories.forEach(cat => {
+      const li = document.createElement('li');
+      li.className = 'catalogue-cat';
+      const a = document.createElement('a');
+      a.href = '#';
+      a.textContent = cat.name;
+      a.dataset.cat = cat.id;
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        renderCategory(cat.id);
+      });
+      li.appendChild(a);
 
-/* small polyfill for querySelectorAll NodeList forEach in older browsers */
-function qAll(sel){ return document.querySelectorAll(sel); }
+      // build sub-list
+      if (cat.subcategories && cat.subcategories.length) {
+        const subUL = document.createElement('ul');
+        subUL.className = 'catalogue-sub';
+        cat.subcategories.forEach(sub => {
+          const subLi = document.createElement('li');
+          const subA = document.createElement('a');
+          subA.href = '#';
+          subA.textContent = sub.name;
+          subA.dataset.sub = `${cat.id}||${sub.id}`;
+          subA.addEventListener('click', e => {
+            e.preventDefault();
+            renderSubcategory(cat.id, sub.id);
+          });
+          subLi.appendChild(subA);
+          subUL.appendChild(subLi);
+        });
+        li.appendChild(subUL);
+      } else if (cat.products && cat.products.length) {
+        // some categories have products directly
+      }
+      navList.appendChild(li);
+    });
+  }
 
-/* init */
-document.addEventListener('DOMContentLoaded', ()=>{
-  APP.elems.grid = q('#main-grid');
-  attachEvents();
-  loadCatalogue();
-});
+  // Home render
+  function renderHome() {
+    mainTitle.textContent = catalogue.siteInfo.name;
+    mainSubtitle.textContent = catalogue.siteInfo.tagline;
+    // show featured categories (first 6)
+    const featured = catalogue.categories.slice(0, 8);
+    content.innerHTML = `<div class="grid categories-grid"></div>`;
+    const grid = content.querySelector('.categories-grid');
+    featured.forEach(cat => {
+      const img = cat.categoryImage || cat.banner || (cat.subcategories && cat.subcategories[0] && cat.subcategories[0].products && cat.subcategories[0].products[0] && cat.subcategories[0].products[0].images && cat.subcategories[0].products[0].images[0]) || '';
+      const card = document.createElement('div');
+      card.className = 'cat-card';
+      card.innerHTML = `
+        <div class="cat-image-wrap"><img src="${img}" alt="${cat.name}" onerror="this.style.opacity=.4;"/></div>
+        <h3>${cat.name}</h3>
+        <p class="cat-sub">${(cat.subcategories && cat.subcategories.length) ? cat.subcategories.map(s=>s.name).slice(0,3).join(' • ') : ''}</p>
+        <button class="btn btn-ghost" data-cat="${cat.id}">Explore</button>
+      `;
+      card.querySelector('button').addEventListener('click', ()=>renderCategory(cat.id));
+      grid.appendChild(card);
+    });
+  }
+
+  // Render whole category page
+  function renderCategory(catId) {
+    const cat = catalogue.categories.find(c => c.id === catId);
+    if (!cat) return;
+    content.innerHTML = `
+      <div class="category-header">
+        <div class="category-banner"><img src="${cat.banner || cat.categoryImage || ''}" alt="${cat.name}" onerror="this.style.opacity=.5"/></div>
+        <div class="category-info">
+          <h2>${cat.name}</h2>
+          <p class="lead">${cat.description || ''}</p>
+          <div class="subnav"></div>
+        </div>
+      </div>
+      <div id="category-content"></div>
+    `;
+    const subnav = content.querySelector('.subnav');
+    // Build subcategory links
+    if (cat.subcategories && cat.subcategories.length) {
+      cat.subcategories.forEach(sub => {
+        const b = document.createElement('button');
+        b.className = 'btn btn-mini';
+        b.textContent = sub.name;
+        b.addEventListener('click', ()=>renderSubcategory(catId, sub.id));
+        subnav.appendChild(b);
+      });
+    } else {
+      // direct products
+      renderProductsList(cat, null);
+      return;
+    }
+    // default: render first subcategory
+    renderSubcategory(catId, cat.subcategories[0].id);
+  }
+
+  function renderSubcategory(catId, subId) {
+    const cat = catalogue.categories.find(c => c.id === catId);
+    if (!cat) return;
+    const sub = (cat.subcategories || []).find(s => s.id === subId);
+    if (!sub) return;
+    const target = $('#category-content');
+    target.innerHTML = `
+      <h3 class="subcat-title">${sub.name}</h3>
+      <div class="grid products-grid"></div>
+    `;
+    const grid = target.querySelector('.products-grid');
+    (sub.products || []).forEach(prod => {
+      const img = (prod.images && prod.images[0]) || '';
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      card.innerHTML = `
+        <div class="product-image"><img src="${img}" alt="${prod.name}" /></div>
+        <div class="product-body">
+          <h4 class="product-title">${prod.name}</h4>
+          <p class="product-price">$${Number(prod.price).toFixed(2)}</p>
+          <div class="product-actions">
+            <button class="btn btn-details" data-prod="${catId}||${subId}||${prod.id}">Details</button>
+            <a class="btn btn-buy" target="_blank" rel="noopener" href="${prod.paymentLink}">Buy</a>
+          </div>
+        </div>
+      `;
+      card.querySelector('.btn-details').addEventListener('click', e=>{
+        const key = e.currentTarget.dataset.prod;
+        openDetailsByKey(key);
+      });
+      grid.appendChild(card);
+    });
+  }
+
+  // Key: cat||sub||prod
+  function openDetailsByKey(key) {
+    const [catId, subId, prodId] = key.split('||');
+    const cat = catalogue.categories.find(c => c.id === catId);
+    if (!cat) return;
+    const sub = cat.subcategories.find(s => s.id === subId);
+    if (!sub) return;
+    const prod = (sub.products || []).find(p => p.id === prodId);
+    if (!prod) return;
+    openProductModal(prod);
+  }
+
+  // Render product modal
+  function openProductModal(prod) {
+    currentProduct = prod;
+    modalTitle.textContent = prod.name;
+    modalDesc.textContent = prod.description || '';
+    modalPrice.textContent = `$${Number(prod.price).toFixed(2)}`;
+    // images carousel
+    modalImagesWrap.innerHTML = '';
+    modalThumbs.innerHTML = '';
+    const imgs = prod.images || [];
+    if (imgs.length === 0) {
+      modalImagesWrap.innerHTML = `<div class="modal-img-empty">No image</div>`;
+    } else {
+      imgs.forEach((f, idx) => {
+        const img = document.createElement('img');
+        img.src = f;
+        img.className = 'modal-main-img';
+        img.dataset.index = idx;
+        img.style.display = idx === 0 ? 'block' : 'none';
+        img.onerror = () => { img.style.opacity = 0.5; };
+        modalImagesWrap.appendChild(img);
+
+        const t = document.createElement('img');
+        t.src = f;
+        t.className = 'modal-thumb';
+        t.dataset.index = idx;
+        t.addEventListener('click', () => showModalImage(idx));
+        modalThumbs.appendChild(t);
+      });
+    }
+
+    // Options
+    modalOptions.innerHTML = '';
+    if (prod.options) {
+      for (const [name, vals] of Object.entries(prod.options)) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'option-row';
+        const label = document.createElement('label');
+        label.textContent = name.charAt(0).toUpperCase() + name.slice(1);
+        const select = document.createElement('select');
+        select.name = name;
+        vals.forEach(v => {
+          const opt = document.createElement('option');
+          opt.value = v;
+          opt.textContent = v;
+          select.appendChild(opt);
+        });
+        wrapper.appendChild(label);
+        wrapper.appendChild(select);
+        modalOptions.appendChild(wrapper);
+      }
+    }
+
+    // Remove unwanted detail images if requested (removeDetailsIndex)
+    if (prod.removeDetailsIndex && prod.images && prod.images.length) {
+      prod.removeDetailsIndex.sort((a,b)=>b-a).forEach(i => {
+        // hide thumbnail + main image at that index
+        const imgsAll = modalImagesWrap.querySelectorAll('.modal-main-img');
+        if (imgsAll[i]) imgsAll[i].remove();
+        const thumbsAll = modalThumbs.querySelectorAll('.modal-thumb');
+        if (thumbsAll[i]) thumbsAll[i].remove();
+      });
+    }
+
+    // Buy button action: opens PayPal link; we append selected options as query for your review
+    modalBuy.onclick = () => {
+      const link = prod.paymentLink || '#';
+      // gather options
+      const selects = Array.from(modalOptions.querySelectorAll('select'));
+      const params = selects.map(s => `${encodeURIComponent(s.name)}=${encodeURIComponent(s.value)}`).join('&');
+      let final = link;
+      if (params) {
+        // Try to append as query string — PayPal won't necessarily accept, but useful for record if you have server side.
+        final = link.includes('?') ? `${link}&${params}` : `${link}?${params}`;
+      }
+      window.open(final, '_blank');
+    };
+
+    // show modal
+    detailsModal.classList.add('open');
+    setTimeout(()=> {
+      detailsModal.classList.add('visible');
+      // ensure first image is focused
+      showModalImage(0);
+    }, 10);
+  }
+
+  function showModalImage(index) {
+    const imgs = modalImagesWrap.querySelectorAll('.modal-main-img');
+    imgs.forEach((im, i) => im.style.display = i === index ? 'block' : 'none');
+    const thumbs = modalThumbs.querySelectorAll('.modal-thumb');
+    thumbs.forEach((t, i) => t.classList.toggle('active', i === index));
+  }
+
+  // Attach modal close handlers
+  function bindModals() {
+    detailsClose.addEventListener('click', closeDetails);
+    detailsModal.addEventListener('click', (e)=>{
+      if (e.target === detailsModal) closeDetails();
+    });
+    document.addEventListener('keydown', (e)=> {
+      if (e.key === 'Escape') closeDetails();
+    });
+    aboutClose.addEventListener('click', ()=> {
+      aboutModal.classList.remove('open','visible');
+    });
+    aboutBtn.addEventListener('click', ()=> {
+      aboutModal.classList.add('open');
+      setTimeout(()=>aboutModal.classList.add('visible'),10);
+    });
+  }
+
+  function closeDetails() {
+    detailsModal.classList.remove('visible');
+    setTimeout(()=>detailsModal.classList.remove('open'), 250);
+  }
+
+  // Contact form
+  function bindContact() {
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = contactForm.querySelector('[name=name]').value.trim();
+      const email = contactForm.querySelector('[name=email]').value.trim();
+      const msg = contactForm.querySelector('[name=message]').value.trim();
+      if (!name || !email) {
+        alert('Please enter name and email.');
+        return;
+      }
+      // Use mailto for immediate demo; for production integrate server or Formspree
+      const subject = encodeURIComponent(`Velvet Charms Contact – ${name}`);
+      const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${msg}`);
+      window.location.href = `mailto:hello@velvetcharms.example?subject=${subject}&body=${body}`;
+    });
+  }
+
+  // Small helpers for layout formatting (currency etc.)
+  function beautifyPrices() {
+    // If you want locale-based formatting in future, add here.
+  }
+
+  // Kickoff
+  function init() {
+    bindModals();
+    bindContact();
+    loadCatalogue();
+    // Theme: snow canvas toggle is handled in CSS
+  }
+
+  // Start
+  document.addEventListener('DOMContentLoaded', init);
+})();
