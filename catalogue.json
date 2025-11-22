@@ -4,10 +4,9 @@
     "tagline": "Where Art Meets Emotion — Handcrafted with love",
     "about": {
       "title": "About Us",
-      "text": "We are a team of 12 passionate art students dedicated to creating personalized handcrafted items. Every piece is made with patience, care, and a touch of magic — whether you choose products from our catalogue or use them as inspiration for a custom commission. You can order items exactly as shown or request changes (size, color, personalization) — add photos and details in the customisation form before checkout. Orders are prepared with love and shipped from the studio closest to you: Frankfurt, Germany 🇩🇪 or Constanța, Romania 🇷🇴. Payments are taken online prior to production. Thank you for supporting handmade artistry."
+      "text": "We are a team of 12 passionate art students dedicated to creating personalized handcrafted items. Every piece is made with patience, care, and a touch of magic — whether you choose a product from our catalogue as inspiration or request a fully custom creation from your photos and ideas. We design, sculpt, and finish each object in small batches, using thoughtful materials and gentle craft. Orders are prepared with love and dispatched from the studio closest to you: Frankfurt, Germany (DE) or Constanța, Romania (RO). Payments are collected online (prepayment required) and orders are processed within 48 hours of payment confirmation. Thank you for supporting handmade artistry."
     }
   },
-
   "categories": [
     {
       "id": "candles",
@@ -23,7 +22,7 @@
               "name": "Custom Spiritual Candle — Full-body 3D Relief (200ml)",
               "price": 90,
               "paymentLink": "https://www.paypal.com/ncp/payment/2EP29S7758654",
-              "description": "Full-body sculpted spiritual candle with optional divine symbols. Choose scent and intensity.",
+              "description": "Full-body sculpted spiritual candle with optional divine symbols.",
               "images": ["ethereal_candle_7.jpg"],
               "options": {
                 "scent": ["Myrrh","Sage","Frankincense","Sandalwood","Unscented"],
@@ -39,7 +38,8 @@
               "description": "Half-relief sculpted candle featuring deities or sacred motifs.",
               "images": ["spiritual candle (2).jpg"],
               "options": {
-                "scent": ["Myrrh","Sage","Frankincense","Sandalwood","Unscented"]
+                "scent": ["Myrrh","Sage","Frankincense","Sandalwood","Unscented"],
+                "intensity": ["Soft","Medium","Strong"]
               }
             },
             {
@@ -47,7 +47,7 @@
               "name": "Custom Spiritual Candle — Full-body 3D Sculpture (400ml)",
               "price": 150,
               "paymentLink": "https://www.paypal.com/ncp/payment/NG6G9WXX7PQXW",
-              "description": "Large sculpted spiritual candle with detailed 3D figure.",
+              "description": "Larger sculpted piece with more detail.",
               "images": ["ethereal_candle_6.jpg"],
               "options": {
                 "scent": ["Myrrh","Sage","Frankincense","Sandalwood","Unscented"],
@@ -60,7 +60,7 @@
               "name": "Custom Spiritual Candle — Half-relief Sculpted (400ml)",
               "price": 110,
               "paymentLink": "https://www.paypal.com/ncp/payment/XD5DD6QD8QJYQ",
-              "description": "Large half-relief candle with sacred sculpted designs.",
+              "description": "Large half-relief sculpted candle.",
               "images": ["ethereal_candle_4.jpg"],
               "options": {
                 "scent": ["Myrrh","Sage","Frankincense","Sandalwood","Unscented"],
@@ -78,7 +78,7 @@
               "name": "Divination Candle — Painted Symbols (200ml)",
               "price": 50,
               "paymentLink": "https://www.paypal.com/ncp/payment/VK7WLERJM3R88",
-              "description": "Altar candle painted with runes, moons, stars, or sacred icons.",
+              "description": "Altar candle painted with runes, moons, stars, or sacred icons. Unscented available.",
               "images": ["divination candle.jpg"],
               "options": {
                 "scent": ["Myrrh","Sage","Frankincense","Sandalwood","Unscented"]
@@ -89,7 +89,7 @@
               "name": "Divination Candle — Painted Symbols (400ml)",
               "price": 80,
               "paymentLink": "https://www.paypal.com/ncp/payment/6QJL8HSLFL6YJ",
-              "description": "Large altar candle painted with sacred symbols.",
+              "description": "Larger painted altar candle.",
               "images": ["divination candle.jpg"],
               "options": {
                 "scent": ["Myrrh","Sage","Frankincense","Sandalwood","Unscented"]
@@ -118,7 +118,7 @@
               "name": "Wax Candle — Medium (250ml)",
               "price": 25,
               "paymentLink": "https://www.paypal.com/ncp/payment/DJVW5LQCPL6A6",
-              "description": "Medium-size decorative wax candle.",
+              "description": "Medium decorative wax candle.",
               "images": ["wax_candle_medium.jpg"],
               "options": {
                 "scent": ["Orange","Lemon","Lavender","Vanilla","Jasmine","Lemongrass","Coconut","Cinnamon","Pine","Sandalwood","Coffee","Sweet Almond","Unscented"],
@@ -176,7 +176,7 @@
               "name": "Sand Candle — Medium (250ml)",
               "price": 25,
               "paymentLink": "https://www.paypal.com/ncp/payment/KYJWZJXZDYT2U",
-              "description": "Medium-size rustic sand candle.",
+              "description": "Medium rustic sand candle.",
               "images": ["sand_candles_medium.png"],
               "options": {
                 "scent": ["Orange","Lemon","Lavender","Vanilla","Jasmine","Lemongrass","Coconut","Cinnamon","Pine","Sandalwood","Coffee","Sweet Almond","Unscented"],
@@ -200,7 +200,7 @@
               "name": "Seasonal Candle — Custom painted glass (300ml)",
               "price": 50,
               "paymentLink": "https://www.paypal.com/ncp/payment/L4HGCYGCAM4G2",
-              "description": "Limited-edition seasonal paintwork; choose winter scents like cinnamon, clove, orange peel, vanilla or sweet mint.",
+              "description": "Limited-edition seasonal paintwork; choose winter scents.",
               "images": ["seasonal candle.png"],
               "options": {
                 "scent": ["Cinnamon","Clove","Orange Peel","Vanilla","Sweet Mint","Unscented"]
@@ -336,11 +336,11 @@
               "paymentLink": "https://www.paypal.com/ncp/payment/ZQ6X8AZMVY4XL",
               "description": "Mix & match any 3 soaps; choose herbs or exfoliating combos.",
               "images": [
-                "Gift Herbal Exfoliating Soap Set (3 pcs).png",
                 "Gift Herbal Exfoliating Soap Set (3 pcs) 1.png",
                 "Gift Herbal Exfoliating Soap Set (3 pcs) 2.png",
                 "Gift Herbal Exfoliating Soap Set (3 pcs) 3.png",
-                "Gift Herbal Exfoliating Soap Set (3 pcs) 4.png"
+                "Gift Herbal Exfoliating Soap Set (3 pcs) 4.png",
+                "Gift Herbal Exfoliating Soap Set (3 pcs).png"
               ],
               "note": "Customer may choose which 3 soaps to include."
             },
@@ -374,6 +374,7 @@
     {
       "id": "perfumes",
       "name": "Perfumes",
+      "categoryImage": "Oil Perfume Roll-On.jpg",
       "products": [
         {
           "id": "solid_perfume",
@@ -397,8 +398,7 @@
             "scent": ["Citrus Bloom","Lavender Mist","Cedar & Amber","Floral Spice"]
           }
         }
-      ],
-      "categoryImage": "Oil Perfume Roll-On.jpg"
+      ]
     },
     {
       "id": "knitted_braided",
@@ -540,13 +540,6 @@
               "price": 140,
               "paymentLink": "https://www.paypal.com/ncp/payment/7K7G2HWWE74D2",
               "images": ["Large Landscape Painting.jpg","Large Landscape Painting1.jpg","Large Landscape Painting2.jpg"]
-            },
-            {
-              "id": "landscape_custom",
-              "name": "Custom Landscape Commission",
-              "price": 250,
-              "paymentLink": "https://www.paypal.com/ncp/payment/UTK2B86NFZMDN",
-              "images": ["Custom Landscape Commission.jpg"]
             }
           ]
         },
@@ -594,22 +587,15 @@
               "price": 190,
               "paymentLink": "https://www.paypal.com/ncp/payment/J3YMRLPT6CYYE",
               "images": ["3D Festive Portrait Relief.png"]
-            },
-            {
-              "id": "holiday_ornament_bundle",
-              "name": "Custom Ornament Bundle",
-              "price": 90,
-              "paymentLink": "https://www.paypal.com/ncp/payment/WCED85EUGSVZS",
-              "images": ["Holiday-Themed Portrait (2D).jpg"]
             }
           ]
         }
       ]
     },
-
     {
       "id": "epoxy_clay",
       "name": "Epoxy & Clay Creations",
+      "categoryImage": "epoxy_decorative_tray_1.png",
       "subcategories": [
         {
           "id": "home_decor",
@@ -661,7 +647,6 @@
               "name": "Epoxy & Clay Candle Holders — Assorted",
               "price": 45,
               "paymentLink": "https://www.paypal.com/ncp/payment/N6VJ7EN5RE4H2",
-              "description": "Hand-poured epoxy candle holders — mixed styles. Choose color on request.",
               "images": ["candle_holder_24.png","candle_holder_25.png","candle_holder_28.png","candle_holder_27.png"]
             }
           ]
@@ -731,39 +716,13 @@
               ]
             }
           ]
-        },
-        {
-          "id": "clay_mugs_and_bags_clocks",
-          "name": "Mugs, Bags & Clocks",
-          "products": [
-            {
-              "id": "clay_mugs_group",
-              "name": "Clay Mugs — assorted",
-              "price": 40,
-              "paymentLink": "https://www.paypal.com/ncp/payment/VENPN7AHXJFE4",
-              "images": ["Clay Mugs (1).png","Clay Mugs (2).png","Clay Mugs (3).png","Clay Mugs (4).png","Clay Mugs (5).png","Clay Mugs (6).png","Clay Mugs (7).png","Clay Mugs (8).png","Clay Mugs (9).png","Clay Mugs (10).png"]
-            },
-            {
-              "id": "leather_bags",
-              "name": "Leather Bags — Small / Medium / Large",
-              "price": 120,
-              "paymentLink": "https://www.paypal.com/ncp/payment/WQ9X4MDC9HZW4",
-              "images": ["Leather Bag Small.png","Leather Bag Medium.png","Leather Bag Large.png"]
-            },
-            {
-              "id": "wall_clocks",
-              "name": "Wall Clocks",
-              "price": 70,
-              "paymentLink": "https://www.paypal.com/ncp/payment/RRDQ39ZGFQJSE",
-              "images": ["Wall Clocks.png","Wall Clocks (2).png","Wall Clocks (3).png"]
-            }
-          ]
         }
       ]
     },
     {
       "id": "hair_accessories",
       "name": "Hair Accessories",
+      "categoryImage": "hair_clip_1.png",
       "subcategories": [
         {
           "id": "hair_clips",
@@ -855,7 +814,7 @@
               "name": "Cozy Winter Set — Beanie + Scarf + Mittens + small candle",
               "price": 140,
               "paymentLink": "https://www.paypal.com/ncp/payment/8A3AKAZR6QVEL",
-              "images": ["Cozy Winter Set.png","Matching Winter Set - Beanie + Scarf + Mittens.png"]
+              "images": ["Cozy Winter Set.png"]
             }
           ]
         },
@@ -870,6 +829,72 @@
               "paymentLink": "https://www.paypal.com/ncp/payment/9T3C2WRAXJJYN",
               "images": ["epoxy_decorative_tray_1.png"],
               "description": "Epoxy decor + wax candle + seasonal soap — a harmonious gift box."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "home_decor",
+      "name": "Home Decor",
+      "subcategories": [
+        {
+          "id": "clocks",
+          "name": "Wall Clocks",
+          "products": [
+            {
+              "id": "clock_25",
+              "name": "Wall Clock — 25 cm",
+              "price": 70,
+              "paymentLink": "https://www.paypal.com/ncp/payment/RRDQ39ZGFQJSE",
+              "images": ["Wall Clocks.png","Wall Clocks (2).png","Wall Clocks (3).png"]
+            },
+            {
+              "id": "clock_45",
+              "name": "Wall Clock — 45 cm",
+              "price": 120,
+              "paymentLink": "https://www.paypal.com/ncp/payment/C66ABZXXCPRGU",
+              "images": ["Wall Clocks (3).png","Wall Clocks.png"]
+            }
+          ]
+        },
+        {
+          "id": "mugs",
+          "name": "Clay Mugs",
+          "products": [
+            {
+              "id": "mug_set",
+              "name": "Clay Mug — assorted sizes",
+              "price": 40,
+              "paymentLink": "https://www.paypal.com/ncp/payment/VENPN7AHXJFE4",
+              "images": ["Clay Mugs (1).png","Clay Mugs (2).png","Clay Mugs (3).png","Clay Mugs (4).png","Clay Mugs (5).png","Clay Mugs (6).png","Clay Mugs (7).png","Clay Mugs (8).png","Clay Mugs (9).png","Clay Mugs (10).png"]
+            }
+          ]
+        },
+        {
+          "id": "leather_bags",
+          "name": "Leather Bags",
+          "products": [
+            {
+              "id": "leather_small",
+              "name": "Leather Bag — Small",
+              "price": 85,
+              "paymentLink": "https://www.paypal.com/ncp/payment/2UZ3FBG9E9MZS",
+              "images": ["Leather Bag Small.png"]
+            },
+            {
+              "id": "leather_medium",
+              "name": "Leather Bag — Medium",
+              "price": 120,
+              "paymentLink": "https://www.paypal.com/ncp/payment/WQ9X4MDC9HZW4",
+              "images": ["Leather Bag Medium.png"]
+            },
+            {
+              "id": "leather_large",
+              "name": "Leather Bag — Large",
+              "price": 160,
+              "paymentLink": "https://www.paypal.com/ncp/payment/YQEM8SHX43S3E",
+              "images": ["Leather Bag Large.png"]
             }
           ]
         }
