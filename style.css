@@ -1,92 +1,177 @@
-/* style.css - Velvet Charms - Cozy Christmas default theme */
+/* style.css - Velvet Charms
+   Christmas default (warm cozy) + accessible UI
+   Keep file named style.css and reference it from index.html
+*/
 
-/* Reset / base */
-*{box-sizing:border-box}
-html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, "Helvetica Neue", Arial; background: linear-gradient(180deg,#fff7f5 0%, #fff1e6 40%, #fff7f0 100%); color:#2b2b2b; -webkit-font-smoothing:antialiased}
-a{color:inherit;text-decoration:none}
-.container{max-width:1100px;margin:0 auto;padding:18px}
-
-/* Header */
-.header{
-  display:flex;align-items:center;justify-content:space-between;padding:14px 0;
-  border-bottom:1px solid rgba(0,0,0,0.06);
+/* ---- Theme variables ---- */
+:root{
+  --bg:#fff8f6;
+  --panel:#fff;
+  --text:#3b2f2a;
+  --muted:#6b5a55;
+  --accent:#b83b3b;        /* warm red */
+  --accent-2:#d4a02a;      /* gold */
+  --accent-3:#2b5d3a;      /* deep green */
+  --btn-bg: linear-gradient(180deg,var(--accent),#8f2323);
+  --glass: rgba(255,255,255,0.7);
+  --shadow: 0 6px 18px rgba(0,0,0,0.12);
+  --radius:14px;
+  --card-radius:12px;
+  --maxwidth:1200px;
+  font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial;
 }
-.brand{display:flex;align-items:center;gap:12px}
-.brand img{height:56px;width:56px;border-radius:10px;object-fit:cover;box-shadow:0 6px 18px rgba(0,0,0,0.08)}
-.brand h1{margin:0;font-size:20px;letter-spacing:0.5px}
-.nav{display:flex;gap:14px;align-items:center}
-.nav a{padding:8px 12px;border-radius:8px}
-#catalogue-dropdown{position:relative}
-.cat-dropdown-list{position:absolute;left:0;top:46px;background:#fff;border-radius:8px;padding:8px 0;box-shadow:0 10px 30px rgba(0,0,0,0.08);min-width:200px;display:none}
-#catalogue-dropdown:hover .cat-dropdown-list{display:block}
-.cat-dropdown-list li{list-style:none;margin:0}
-.cat-dropdown-list a{display:block;padding:8px 16px;color:#333}
 
-/* Hero */
-.hero{display:flex;align-items:center;gap:18px;padding:28px 0}
-.hero .left{flex:1}
-.hero h2{font-size:28px;margin:0;color:#6b2b2b}
-.hero p{margin:10px 0 0;font-size:16px;color:#4a3a3a}
-.hero .explore{margin-top:18px;display:flex;gap:10px}
-.btn{background:#8b2a2a;color:white;padding:10px 16px;border-radius:12px;border:none;cursor:pointer;box-shadow:0 8px 20px rgba(139,42,42,0.18);font-weight:600}
-.btn-outline{background:transparent;border:2px solid rgba(139,42,42,0.12);color:#6b2b2b;padding:9px 16px;border-radius:12px}
+/* Soft textured warm background (subtle gradient) */
+body{
+  margin:0;
+  background:
+    radial-gradient(circle at 10% 10%, rgba(255,245,240,0.6), transparent 10%),
+    linear-gradient(180deg,#fff8f6 0%, #fff4f2 100%);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  min-height:100vh;
+}
 
-/* Categories grid */
-#categories{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
-.cat-card{width:160px;border-radius:12px;overflow:hidden;background:linear-gradient(180deg,#fff,#fff7f7);box-shadow:0 6px 18px rgba(0,0,0,0.06);cursor:pointer;text-align:center;padding:10px}
-.cat-card img{width:100%;height:100px;object-fit:cover;border-radius:10px}
-.cat-card h3{margin:10px 0 0;font-size:14px}
+/* container */
+.app {
+  max-width:var(--maxwidth);
+  margin:28px auto;
+  padding:22px;
+}
 
-/* Main grid and product cards */
-#main-grid{margin-top:8px}
-.subcategory{margin-bottom:26px}
-.subcategory h4{font-size:18px;margin:8px 0 12px;color:#5a2a2a}
-.product-row{display:flex;flex-wrap:wrap;gap:12px}
-.product-card{display:flex;gap:12px;background:#fff;border-radius:12px;padding:12px;align-items:center;box-shadow:0 6px 18px rgba(0,0,0,0.05);width:calc(33.333% - 8px)}
-.product-card img.product-thumb{width:110px;height:110px;object-fit:cover;border-radius:10px}
-.product-info{flex:1}
-.product-info h5{margin:0;font-size:15px}
-.product-info .price{color:#6b2b2b;font-weight:700;margin:8px 0}
-.card-buttons{display:flex;gap:8px;align-items:center}
-.btn-details{background:transparent;border:1px solid rgba(107,43,43,0.12);padding:8px;border-radius:10px;cursor:pointer}
-.btn-buy{background:#6b2b2b;color:#fff;padding:8px 10px;border-radius:10px}
+/* header */
+.header {
+  display:flex;
+  gap:18px;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:18px;
+}
+.brand {
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+.brand img{ width:60px;height:60px; border-radius:12px; object-fit:cover; box-shadow:var(--shadow); }
+.brand h1{ margin:0; font-size:22px; letter-spacing:0.4px;}
+.brand p{ margin:0; color:var(--muted); font-size:13px;}
 
-/* Modal */
-.modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:linear-gradient(180deg, rgba(10,10,10,0.45), rgba(10,10,10,0.6));padding:20px;z-index:200}
-.modal.open{display:flex}
-.modal .modal-window{background:#fff;border-radius:14px;max-width:900px;width:100%;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.5)}
-.modal .modal-head{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid #eee}
-.modal .modal-body{display:flex;gap:16px;padding:18px}
-.modal .gallery{flex:1;display:flex;flex-direction:column;gap:8px}
-.modal .gallery img{width:100%;max-height:380px;object-fit:contain;border-radius:8px}
-.modal .meta{width:320px}
-.modal .modal-buy{display:inline-block;margin-top:12px;background:#a22b2b;color:#fff;padding:10px 14px;border-radius:10px}
+/* nav */
+.topnav {
+  display:flex; gap:10px; align-items:center;
+}
+.topnav a, .topnav button {
+  background:transparent; border:0; padding:10px 14px; border-radius:10px;
+  color:var(--text); text-decoration:none; cursor:pointer; font-weight:600;
+}
+.topnav a:hover, .topnav button:hover { background:rgba(0,0,0,0.03); }
 
-/* About modal larger text & image */
-#about-modal .modal-body{flex-direction:row;gap:22px}
-#about-modal .about-text{font-size:18px;line-height:1.6;color:#4a2b2b;padding:10px}
-#about-modal .about-image{width:260px}
+/* catalogue dropdown */
+.catalogue-dropdown { position:relative; }
+#catalogue-list { display:flex; gap:8px; align-items:center; list-style:none; padding:8px; margin:0; }
+#catalogue-list li { position:relative; }
+#catalogue-list a { color:var(--text); padding:6px 10px; display:inline-block; border-radius:8px; }
+.catalogue-sub { display:none; position:absolute; top:40px; left:0; background:var(--panel); padding:12px; border-radius:10px; box-shadow:var(--shadow); min-width:220px; z-index:80; }
+.catalogue-cat:hover .catalogue-sub { display:block; }
+.catalogue-sub li { margin:0 0 6px 0; }
 
-/* small screens */
+/* main hero */
+.hero {
+  display:flex;
+  gap:18px;
+  align-items:center;
+  background:linear-gradient(135deg, rgba(184,59,59,0.06), rgba(212,160,42,0.03));
+  padding:22px;
+  border-radius:18px;
+  box-shadow:var(--shadow);
+}
+.hero .titles { flex:1; }
+#main-title { font-size:28px; margin:0 0 6px 0; }
+#main-subtitle { margin:0; color:var(--muted); font-size:15px; }
+
+/* categories grid */
+.grid { display:grid; gap:16px; }
+.categories-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin-top:18px; }
+.cat-card { background:var(--panel); border-radius:12px; padding:12px; box-shadow:var(--shadow); text-align:center; }
+.cat-image-wrap img { width:100%; height:140px; object-fit:cover; border-radius:10px; }
+
+/* products grid */
+.products-grid { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin-top:16px; }
+.product-card { background:var(--panel); border-radius:12px; padding:10px; box-shadow:var(--shadow); display:flex; gap:10px; align-items:center; }
+.product-image img { width:120px; height:120px; object-fit:cover; border-radius:10px; }
+.product-body { flex:1; }
+.product-title { margin:0 0 6px 0; font-size:16px; }
+.product-price { margin:0 0 8px 0; color:var(--accent-3); font-weight:700; }
+.product-actions { display:flex; gap:8px; }
+
+/* Buttons */
+.btn { border:0; padding:10px 14px; border-radius:10px; cursor:pointer; font-weight:700; }
+.btn-details { background:transparent; color:var(--accent-3); border:2px solid rgba(43,93,58,0.08); }
+.btn-buy { background:var(--btn-bg); color:white; box-shadow: 0 6px 20px rgba(184,59,59,0.18); }
+.btn-ghost { background:transparent; border:1px dashed rgba(0,0,0,0.06); padding:8px 12px; }
+
+/* modal */
+.modal {
+  position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
+  background: rgba(10,10,10,0.45); opacity:0; pointer-events:none; transition:opacity .18s ease;
+  z-index:120;
+}
+.modal.open { opacity:1; pointer-events:auto; }
+.modal .modal-card { width:94%; max-width:1000px; background:var(--panel); border-radius:14px; padding:18px; box-shadow:0 20px 50px rgba(0,0,0,0.35); transform:translateY(10px); transition:transform .22s ease; opacity:0; }
+.modal.visible .modal-card { transform:none; opacity:1; }
+.modal .modal-top { display:flex; justify-content:space-between; align-items:center; gap:10px; }
+.modal .modal-main { display:flex; gap:14px; margin-top:10px; }
+.modal-images { flex:1; min-height:280px; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+.modal-images img { max-width:100%; max-height:420px; border-radius:10px; box-shadow:var(--shadow); }
+.modal-thumbs { width:110px; display:flex; flex-direction:column; gap:8px; overflow:auto; }
+.modal-thumb { width:84px; height:84px; object-fit:cover; border-radius:8px; cursor:pointer; opacity:0.8; border:2px solid transparent; }
+.modal-thumb.active { border-color:var(--accent-2); opacity:1; }
+
+/* modal details right column */
+.modal-side { width:340px; }
+.modal-side h3 { margin:0 0 6px 0; }
+.option-row { margin:10px 0; display:flex; flex-direction:column; gap:6px; }
+.option-row select { padding:8px; border-radius:8px; border:1px solid rgba(0,0,0,0.07); }
+
+/* about modal small */
+.about-card { padding:20px; text-align:center; font-size:16px; line-height:1.6; }
+.about-card img { width:140px; border-radius:12px; }
+
+/* responsive */
 @media (max-width:900px){
-  .product-card{width:calc(50% - 8px)}
-  .modal .modal-body{flex-direction:column}
-  #about-modal .modal-body{flex-direction:column}
-}
-@media (max-width:520px){
-  .product-card{width:100%}
-  .cat-card{width:48%}
+  .modal .modal-main { flex-direction:column; }
+  .modal-thumbs { flex-direction:row; width:100%; order:2; }
+  .modal-side { width:100%; }
 }
 
-/* Tiny snowflake accent (uses pseudo-element) */
-body::after{
-  content:'';
-  position:fixed;right:0;top:0;width:120px;height:120px;background-image:url("snowflake-warm.png");background-size:contain;opacity:0.9;pointer-events:none;mix-blend-mode:screen;
+/* snow animation (subtle) */
+.snow {
+  position:fixed; inset:0; pointer-events:none; z-index:10;
+}
+.snow .flake {
+  position:absolute; top:-10vh; width:12px; height:12px; background: radial-gradient(circle at 30% 30%, #fff, rgba(255,255,255,0.6));
+  opacity:0.9; border-radius:50%;
+  box-shadow:0 0 8px rgba(212,160,42,0.08), inset 0 0 6px rgba(255,255,255,0.35);
+  animation: fall 12s linear infinite;
+}
+@keyframes fall {
+  0%{ transform:translateY(-10vh) translateX(0) rotate(0deg); opacity:0; }
+  10%{ opacity:1; }
+  100%{ transform:translateY(120vh) translateX(60vw) rotate(360deg); opacity:0.6; }
 }
 
-/* Buttons beautified */
-.btn, .btn-buy { transition: transform .12s ease, box-shadow .12s ease }
-.btn:hover, .btn-buy:hover { transform: translateY(-3px); box-shadow:0 18px 40px rgba(0,0,0,0.18) }
+/* small helpers */
+.lead { color:var(--muted); }
+.error { padding:24px; background:#fff0f0; border-radius:10px; color:#7a1a1a; font-weight:700; }
+.subcat-title { font-size:20px; margin-top:6px; margin-bottom:10px; }
 
-/* small error */
-.error{background:#ffecec;padding:14px;border-radius:10px;color:#8a1f1f}
+/* subtle decorative border */
+footer { text-align:center; color:var(--muted); margin-top:28px; font-size:13px; }
+
+/* Make details buttons clearly visible */
+.btn-details { color:var(--accent-3); background:linear-gradient(180deg, rgba(240,248,240,0.6), rgba(255,255,255,0.6)); border:1px solid rgba(43,93,58,0.08); }
+
+/* improved input / contact */
+input, textarea { padding:10px; border-radius:8px; border:1px solid rgba(0,0,0,0.07); width:100%; box-sizing:border-box; }
+textarea { min-height:100px; resize:vertical; }
