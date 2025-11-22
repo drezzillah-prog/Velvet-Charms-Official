@@ -50,7 +50,7 @@ function setupHeader(){
   catalogue.categories.forEach(cat => {
     const li = document.createElement('li');
     li.className = 'nav-cat';
-    li.innerHTML = <button class="cat-btn" data-cat="${cat.id}">${cat.name}</button>;
+    li.innerHTML = `<button class="cat-btn" data-cat="${cat.id}">${cat.name}</button>`;
     nav.appendChild(li);
   });
 
@@ -140,13 +140,13 @@ function renderAbout(){
 function openCategory(catId){
   const cat = catalogue.categories.find(c => c.id === catId);
   if(!cat) return;
-  document.title = ${cat.name} — Velvet Charms;
+  document.title = `${cat.name} — Velvet Charms`;
   const subcats = cat.subcategories || [];
   const productsDirect = cat.products || [];
   $('#main-content').innerHTML = `
     <section class="category-header">
       <h2>${cat.name}</h2>
-      ${cat.categoryImage ? <img class="category-thumb" src="${cat.categoryImage}" alt="${cat.name}"> : ''}
+      ${cat.categoryImage ? `<img class="category-thumb" src="${cat.categoryImage}" alt="${cat.name}">` : ''}
       <p class="category-intro">${cat.description || ''}</p>
     </section>
     <section id="subcategories-list" class="subcategories-list"></section>
@@ -163,7 +163,7 @@ function openCategory(catId){
       box.innerHTML = `
         <div class="subcat-head">
           <h3>${sub.name}</h3>
-          ${subImg ? <img src="${subImg}" alt="${sub.name}" class="subcat-img"> : ''}
+          ${subImg ? `<img src="${subImg}" alt="${sub.name}" class="subcat-img">` : ''}
         </div>
         <div class="products-grid" data-sub="${sub.id}"></div>
       `;
@@ -175,7 +175,7 @@ function openCategory(catId){
   if(productsDirect.length){
     const directBox = document.createElement('div');
     directBox.className = 'subcat-box';
-    directBox.innerHTML = <div class="products-grid"></div>;
+    directBox.innerHTML = `<div class="products-grid"></div>`;
     container.appendChild(directBox);
     renderProductsGrid(productsDirect, directBox.querySelector('.products-grid'));
   }
@@ -262,7 +262,7 @@ function openProductModal(product){
       const values = product.options[opt];
       const wrapper = document.createElement('div');
       wrapper.className = 'option-row';
-      wrapper.innerHTML = <label>${capitalize(opt)}</label>;
+      wrapper.innerHTML = `<label>${capitalize(opt)}</label>`;
       const select = document.createElement('select');
       select.name = opt;
       values.forEach(v => {
@@ -301,7 +301,7 @@ function openProductModal(product){
   images.forEach((src, i) => {
     const t = document.createElement('button');
     t.className = 'thumb-btn';
-    t.innerHTML = <img src="${src}" alt="${product.name} thumb ${i+1}">;
+    t.innerHTML = `<img src="${src}" alt="${product.name} thumb ${i+1}">`;
     t.addEventListener('click', () => {
       $('#gallery-large-img').src = src;
     });
