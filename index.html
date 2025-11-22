@@ -3,70 +3,92 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Velvet Charms — Where Art Meets Emotion</title>
+  <title>Velvet Charms — Handcrafted</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
+  <!-- Snow layer (decorative) -->
+  <div id="snow-canvas" class="snow" aria-hidden="true">
+    <!-- JS will not be required to add flakes; CSS handles simple motion.
+         We will add a few DOM nodes for flakes -->
+    <div class="flake" style="left:5%; animation-duration:9s; width:10px;height:10px;"></div>
+    <div class="flake" style="left:25%; animation-duration:13s; width:14px;height:14px;"></div>
+    <div class="flake" style="left:60%; animation-duration:11s; width:12px;height:12px;"></div>
+    <div class="flake" style="left:80%; animation-duration:15s; width:9px;height:9px;"></div>
+  </div>
+
+  <div class="app">
     <header class="header">
       <div class="brand">
-        <img id="logo" src="top banner picture for candles.png" alt="Velvet Charms logo">
+        <img src="top banner picture for candles.png" alt="Velvet Charms">
         <div>
-          <h1 id="site-name">Velvet Charms ❄️</h1>
-          <div style="font-size:13px;color:#6b2b2b">Where Art Meets Emotion — Handcrafted with love</div>
+          <h1 id="brand">Velvet Charms ❄️</h1>
+          <p id="tagline">Where Art Meets Emotion — Handcrafted with love</p>
         </div>
       </div>
 
-      <nav class="nav">
-        <a href="#" id="home-link">Home</a>
-        <div id="catalogue-dropdown"><a href="#">Catalogue ▾</a></div>
-        <a href="#" id="about-link">About Us</a>
+      <nav class="topnav" role="navigation" aria-label="Main">
+        <div class="catalogue-dropdown">
+          <button id="nav-catalogue">Catalogue ▾</button>
+          <ul id="catalogue-list"></ul>
+        </div>
+        <button id="about-btn">About Us</button>
         <a href="#contact">Contact</a>
       </nav>
     </header>
 
     <main>
       <section class="hero">
-        <div class="left">
-          <h2 id="main-title">Handcrafted Treasures Await</h2>
+        <div class="titles">
+          <h2 id="main-title">Handcrafted Treasures</h2>
           <p id="main-subtitle">Personalized, artisan-made pieces — created with love by our team of 12 art students.</p>
-          <div class="explore">
-            <button class="btn" onclick="document.querySelector('#catalogue-dropdown a').click()">Explore Catalogue</button>
-            <button class="btn-outline" id="about-cta">About Us</button>
-          </div>
         </div>
-        <div class="right">
-          <img src="top banner picture for candles.png" alt="banner" style="height:200px;border-radius:12px;object-fit:cover">
+        <div>
+          <button onclick="document.querySelector('#catalogue-list a')?.click()" class="btn btn-buy">Explore Catalogue</button>
         </div>
       </section>
 
-      <section id="categories"></section>
+      <div id="content"></div>
 
-      <section id="catalogue-area">
-        <div id="main-grid"></div>
+      <section id="contact" style="margin-top:26px;">
+        <h3>Contact Us</h3>
+        <form id="contact-form">
+          <label>Your name<input name="name" required /></label><br/>
+          <label>Your email<input name="email" type="email" required /></label><br/>
+          <label>Your message<textarea name="message"></textarea></label><br/>
+          <button type="submit" class="btn btn-buy">Send Message</button>
+        </form>
       </section>
-
-      <footer style="margin-top:30px;padding:18px 0;border-top:1px solid rgba(0,0,0,0.06);text-align:center;color:#6b2b2b">
-        © 2025 Velvet Charms — All Rights Reserved
-      </footer>
     </main>
+
+    <footer>
+      © 2025 Velvet Charms — All Rights Reserved
+    </footer>
   </div>
 
-  <!-- Product Modal -->
-  <div id="product-modal" class="modal" aria-hidden="true">
-    <div class="modal-window" role="dialog" aria-modal="true">
-      <div class="modal-head">
-        <div class="modal-title">Product</div>
-        <button class="close" aria-label="Close">✕</button>
-      </div>
-      <div class="modal-body">
-        <div class="gallery">
-          <!-- images injected here -->
+  <!-- Details Modal -->
+  <div id="details-modal" class="modal" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-top">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <h3 id="modal-title">Product</h3>
         </div>
-        <div class="meta">
-          <div class="desc" style="margin-bottom:10px"></div>
-          <div class="meta"></div>
-          <a class="modal-buy btn modal-buy" href="#" target="_blank">Buy on PayPal</a>
+        <div>
+          <button id="details-close" class="btn">Close ✕</button>
+        </div>
+      </div>
+
+      <div class="modal-main">
+        <div class="modal-images" id="modal-images"></div>
+        <div class="modal-thumbs" id="modal-thumbs"></div>
+        <div class="modal-side">
+          <h3 id="modal-price">$0.00</h3>
+          <p id="modal-desc" class="lead"></p>
+          <div id="modal-options"></div>
+          <div style="margin-top:12px; display:flex; gap:8px;">
+            <button id="modal-buy" class="btn btn-buy">Buy</button>
+            <button id="modal-close" class="btn btn-ghost" onclick="document.getElementById('details-close').click()">Cancel</button>
+          </div>
         </div>
       </div>
     </div>
@@ -74,30 +96,11 @@
 
   <!-- About Modal -->
   <div id="about-modal" class="modal" aria-hidden="true">
-    <div class="modal-window">
-      <div class="modal-head">
-        <div class="modal-title">About Us</div>
-        <button class="close" aria-label="Close">✕</button>
-      </div>
-      <div class="modal-body">
-        <div class="about-image">
-          <img src="Herbal soap + face cream + small wax candle.png" alt="Relax & Restore" style="width:100%;border-radius:8px">
-        </div>
-        <div class="about-text">
-          <h3 style="margin-top:0">We are Velvet Charms</h3>
-          <p style="font-size:18px;line-height:1.6">
-            We are a team of 12 passionate art students dedicated to creating personalized handcrafted items.
-            Every piece is made with patience, care, and a touch of magic — whether you choose an existing product
-            or request a fully custom creation built from your photos and ideas. We design, sculpt and finish
-            each object in small batches, with an emphasis on thoughtful materials and gentle craft.
-          </p>
-          <p style="font-size:18px;line-height:1.6">
-            Orders are prepared with love and dispatched from the studio closest to you: Frankfurt, Germany 🇩🇪
-            or Constanța, Romania 🇷🇴. Payments trigger a confirmation message and orders are processed within
-            48 hours. Thank you for supporting small creators — your trust keeps art alive.
-          </p>
-        </div>
-      </div>
+    <div class="modal-card about-card">
+      <div style="display:flex;justify-content:flex-end;"><button id="about-close" class="btn">Close ✕</button></div>
+      <h2 id="about-title">About Us</h2>
+      <img src="Herbal soap + face cream + small wax candle.png" alt="Relax & Restore" style="margin:10px auto;display:block;"/>
+      <p id="about-text" style="font-size:18px;line-height:1.6"></p>
     </div>
   </div>
 
