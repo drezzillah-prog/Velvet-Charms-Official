@@ -4,7 +4,7 @@
     "tagline": "Where Art Meets Emotion — Handcrafted with love",
     "about": {
       "title": "About Us",
-      "text": "We are a team of 12 passionate art students dedicated to creating personalized handcrafted items. Every piece is made with patience, care, and a touch of magic — whether you choose products from our catalogue as inspiration or request a fully custom creation built from your photos and ideas. We design, sculpt and finish each object in small batches, with an emphasis on thoughtful materials and gentle craft. Orders are prepared with love and dispatched from the studio closest to you: Frankfurt, Germany 🇩🇪 or Constanța, Romania 🇷🇴. Payment is required online at purchase time (we do not accept cash on delivery because items are made to order). Payments trigger a confirmation message and orders are processed within 48 hours. Thank you for supporting small creators — your trust keeps art alive."
+      "text": "We are a team of 12 passionate art students dedicated to creating personalized handcrafted items. Every piece is made with patience, care, and a touch of magic — whether you choose products from our catalogue or use them as inspiration for a custom commission. You can order items exactly as shown or request changes (size, color, personalization) — add photos and details in the customisation form before checkout. Orders are prepared with love and shipped from the studio closest to you: Frankfurt, Germany 🇩🇪 or Constanța, Romania 🇷🇴. Payments are taken online prior to production. Thank you for supporting handmade artistry."
     }
   },
 
@@ -69,7 +69,6 @@
             }
           ]
         },
-
         {
           "id": "divination",
           "name": "Divination Candles",
@@ -98,7 +97,6 @@
             }
           ]
         },
-
         {
           "id": "classic",
           "name": "Classic & Decorative Candles",
@@ -212,7 +210,6 @@
         }
       ]
     },
-
     {
       "id": "bodycare",
       "name": "Body Care",
@@ -256,7 +253,6 @@
             }
           ]
         },
-
         {
           "id": "soaps",
           "name": "Soaps",
@@ -340,11 +336,11 @@
               "paymentLink": "https://www.paypal.com/ncp/payment/ZQ6X8AZMVY4XL",
               "description": "Mix & match any 3 soaps; choose herbs or exfoliating combos.",
               "images": [
+                "Gift Herbal Exfoliating Soap Set (3 pcs).png",
                 "Gift Herbal Exfoliating Soap Set (3 pcs) 1.png",
                 "Gift Herbal Exfoliating Soap Set (3 pcs) 2.png",
                 "Gift Herbal Exfoliating Soap Set (3 pcs) 3.png",
-                "Gift Herbal Exfoliating Soap Set (3 pcs) 4.png",
-                "Gift Herbal Exfoliating Soap Set (3 pcs).png"
+                "Gift Herbal Exfoliating Soap Set (3 pcs) 4.png"
               ],
               "note": "Customer may choose which 3 soaps to include."
             },
@@ -375,7 +371,6 @@
         }
       ]
     },
-
     {
       "id": "perfumes",
       "name": "Perfumes",
@@ -405,7 +400,6 @@
       ],
       "categoryImage": "Oil Perfume Roll-On.jpg"
     },
-
     {
       "id": "knitted_braided",
       "name": "Knitted & Braided Wool Creations",
@@ -445,7 +439,6 @@
             }
           ]
         },
-
         {
           "id": "matching_winter_set",
           "name": "Matching Winter Set",
@@ -463,7 +456,6 @@
             }
           ]
         },
-
         {
           "id": "braided_blankets",
           "name": "Braided Blankets",
@@ -491,7 +483,6 @@
             }
           ]
         },
-
         {
           "id": "felted_animals",
           "name": "Felted Animals",
@@ -521,7 +512,6 @@
         }
       ]
     },
-
     {
       "id": "artworks",
       "name": "Paintings & Portraits",
@@ -550,6 +540,13 @@
               "price": 140,
               "paymentLink": "https://www.paypal.com/ncp/payment/7K7G2HWWE74D2",
               "images": ["Large Landscape Painting.jpg","Large Landscape Painting1.jpg","Large Landscape Painting2.jpg"]
+            },
+            {
+              "id": "landscape_custom",
+              "name": "Custom Landscape Commission",
+              "price": 250,
+              "paymentLink": "https://www.paypal.com/ncp/payment/UTK2B86NFZMDN",
+              "images": ["Custom Landscape Commission.jpg"]
             }
           ]
         },
@@ -580,7 +577,6 @@
             }
           ]
         },
-
         {
           "id": "festive_portraits",
           "name": "Festive Portraits",
@@ -656,7 +652,6 @@
             }
           ]
         },
-
         {
           "id": "candle_holders",
           "name": "Epoxy & Clay Candle Holders",
@@ -671,7 +666,6 @@
             }
           ]
         },
-
         {
           "id": "keychains",
           "name": "Epoxy & Clay Keychains",
@@ -693,7 +687,6 @@
             }
           ]
         },
-
         {
           "id": "jewelry_boxes",
           "name": "Epoxy & Wood Jewelry Boxes",
@@ -707,7 +700,6 @@
             }
           ]
         },
-
         {
           "id": "lamps",
           "name": "Epoxy Lamps",
@@ -724,7 +716,6 @@
             }
           ]
         },
-
         {
           "id": "phone_cases",
           "name": "Phone Cases",
@@ -740,10 +731,36 @@
               ]
             }
           ]
+        },
+        {
+          "id": "clay_mugs_and_bags_clocks",
+          "name": "Mugs, Bags & Clocks",
+          "products": [
+            {
+              "id": "clay_mugs_group",
+              "name": "Clay Mugs — assorted",
+              "price": 40,
+              "paymentLink": "https://www.paypal.com/ncp/payment/VENPN7AHXJFE4",
+              "images": ["Clay Mugs (1).png","Clay Mugs (2).png","Clay Mugs (3).png","Clay Mugs (4).png","Clay Mugs (5).png","Clay Mugs (6).png","Clay Mugs (7).png","Clay Mugs (8).png","Clay Mugs (9).png","Clay Mugs (10).png"]
+            },
+            {
+              "id": "leather_bags",
+              "name": "Leather Bags — Small / Medium / Large",
+              "price": 120,
+              "paymentLink": "https://www.paypal.com/ncp/payment/WQ9X4MDC9HZW4",
+              "images": ["Leather Bag Small.png","Leather Bag Medium.png","Leather Bag Large.png"]
+            },
+            {
+              "id": "wall_clocks",
+              "name": "Wall Clocks",
+              "price": 70,
+              "paymentLink": "https://www.paypal.com/ncp/payment/RRDQ39ZGFQJSE",
+              "images": ["Wall Clocks.png","Wall Clocks (2).png","Wall Clocks (3).png"]
+            }
+          ]
         }
       ]
     },
-
     {
       "id": "hair_accessories",
       "name": "Hair Accessories",
@@ -810,7 +827,6 @@
         }
       ]
     },
-
     {
       "id": "bundles",
       "name": "Bundles",
@@ -839,7 +855,7 @@
               "name": "Cozy Winter Set — Beanie + Scarf + Mittens + small candle",
               "price": 140,
               "paymentLink": "https://www.paypal.com/ncp/payment/8A3AKAZR6QVEL",
-              "images": ["Cozy Winter Set.png"]
+              "images": ["Cozy Winter Set.png","Matching Winter Set - Beanie + Scarf + Mittens.png"]
             }
           ]
         },
@@ -854,74 +870,6 @@
               "paymentLink": "https://www.paypal.com/ncp/payment/9T3C2WRAXJJYN",
               "images": ["epoxy_decorative_tray_1.png"],
               "description": "Epoxy decor + wax candle + seasonal soap — a harmonious gift box."
-            }
-          ]
-        }
-      ]
-    },
-
-    {
-      "id": "leather_bags",
-      "name": "Leather Bags",
-      "products": [
-        {
-          "id": "bag_small",
-          "name": "Leather Bag — Small",
-          "price": 85,
-          "paymentLink": "https://www.paypal.com/ncp/payment/2UZ3FBG9E9MZS",
-          "images": ["Leather Bag Small.png"]
-        },
-        {
-          "id": "bag_medium",
-          "name": "Leather Bag — Medium",
-          "price": 120,
-          "paymentLink": "https://www.paypal.com/ncp/payment/WQ9X4MDC9HZW4",
-          "images": ["Leather Bag Medium.png"]
-        },
-        {
-          "id": "bag_large",
-          "name": "Leather Bag — Large",
-          "price": 160,
-          "paymentLink": "https://www.paypal.com/ncp/payment/YQEM8SHX43S3E",
-          "images": ["Leather Bag Large.png"]
-        }
-      ]
-    },
-
-    {
-      "id": "home_decor_misc",
-      "name": "Home Decor & Mugs & Clocks",
-      "subcategories": [
-        {
-          "id": "clocks",
-          "name": "Wall Clocks",
-          "products": [
-            {
-              "id": "clock_small",
-              "name": "Wall Clock — Small (25 cm)",
-              "price": 70,
-              "paymentLink": "https://www.paypal.com/ncp/payment/RRDQ39ZGFQJSE",
-              "images": ["Wall Clocks.png","Wall Clocks (2).png","Wall Clocks (3).png"]
-            },
-            {
-              "id": "clock_large",
-              "name": "Wall Clock — Large (45 cm)",
-              "price": 120,
-              "paymentLink": "https://www.paypal.com/ncp/payment/C66ABZXXCPRGU",
-              "images": ["Wall Clocks (3).png","Wall Clocks.png"]
-            }
-          ]
-        },
-        {
-          "id": "mugs",
-          "name": "Clay Mugs",
-          "products": [
-            {
-              "id": "clay_mugs_set",
-              "name": "Clay Mugs — Assorted",
-              "price": 40,
-              "paymentLink": "https://www.paypal.com/ncp/payment/VENPN7AHXJFE4",
-              "images": ["Clay Mugs (1).png","Clay Mugs (2).png","Clay Mugs (3).png","Clay Mugs (4).png","Clay Mugs (5).png","Clay Mugs (6).png","Clay Mugs (7).png","Clay Mugs (8).png","Clay Mugs (9).png","Clay Mugs (10).png"]
             }
           ]
         }
