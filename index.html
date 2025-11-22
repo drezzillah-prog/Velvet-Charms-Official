@@ -1,123 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Velvet Charms</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Velvet Charms</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Banner -->
+    <header>
+        <h1>Velvet Charms</h1>
+        <p>Where Art Meets Emotion — Handcrafted with love</p>
+        <p>Orders ship from Frankfurt 🇩🇪 or Constanța 🇷🇴 depending on proximity.</p>
+        <p>© 2025 Velvet Charms — All Rights Reserved</p>
+    </header>
 
-<!-- Banner -->
-<header class="banner">
-  <h1>Velvet Charms</h1>
-  <p class="subtitle">Where Art Meets Emotion — Handcrafted with love</p>
-  <p class="shipping">Orders ship from Frankfurt 🇩🇪 or Constanța 🇷🇴 depending on proximity.</p>
-  <p class="copyright">© 2025 Velvet Charms — All Rights Reserved</p>
-</header>
+    <!-- Product Sections -->
+    <main>
+        <!-- Candles -->
+        <section class="category">
+            <h2>Candles</h2>
+            <div class="product-card">
+                <img src="wax_candle_small.png" alt="Wax Candle">
+                <h3>Wax Candle</h3>
+                <form class="custom-form">
+                    <label>Optional: Add text or upload an image for customization.</label>
+                    <input type="file" name="custom_image">
+                    <textarea placeholder="Add extra notes..."></textarea>
+                </form>
+                <p class="price" data-base="20">$20</p>
+                <button class="buy">Buy on PayPal</button>
+            </div>
 
-<!-- Catalogue -->
-<main class="catalogue">
+            <div class="product-card">
+                <img src="spiritual_candle (2).jpg" alt="Spiritual Candle">
+                <h3>Spiritual Candle</h3>
+                <form class="custom-form">
+                    <label>Optional: Add text or upload an image for customization.</label>
+                    <input type="file" name="custom_image">
+                    <textarea placeholder="Add extra notes..."></textarea>
+                </form>
+                <p class="price" data-base="20">$20</p>
+                <button class="buy">Buy on PayPal</button>
+            </div>
+        </section>
 
-  <!-- Candles -->
-  <section class="category">
-    <h2>Candles</h2>
-    <div class="product-card">
-      <img src="top banner picture for candles.png" alt="Candle">
-      <h3>Spiritual Candle</h3>
-      <p>Price: <span class="price" data-usd="20">20</span></p>
-      <form class="customization-form">
-        <label>Optional notes for customization</label>
-        <textarea name="notes" placeholder="Add text or special request"></textarea>
-        <label>Upload reference image</label>
-        <input type="file" name="file">
-      </form>
-      <button class="buy-button">Buy on PayPal</button>
-    </div>
-    <!-- Add more candles as per original catalogue with images -->
-  </section>
+        <!-- Soaps -->
+        <section class="category">
+            <h2>Gift Herbal / Exfoliating Soap Set (3 pcs)</h2>
+            <div class="product-card">
+                <img src="Gift Herbal Exfoliating Soap Set (3 pcs).png" alt="Gift Herbal Soap Set">
+                <img src="Gift Herbal Exfoliating Soap Set (3 pcs) 2.png" alt="Gift Herbal Soap Set 2">
+                <img src="Gift Herbal Exfoliating Soap Set (3 pcs) 3.png" alt="Gift Herbal Soap Set 3">
+                <img src="Gift Herbal Exfoliating Soap Set (3 pcs) 4.png" alt="Gift Herbal Soap Set 4">
+                <form class="custom-form">
+                    <label>Optional: Add text or upload an image for customization.</label>
+                    <input type="file" name="custom_image">
+                    <textarea placeholder="Add extra notes..."></textarea>
+                </form>
+                <p class="price" data-base="25">$25</p>
+                <button class="buy">Buy on PayPal</button>
+            </div>
 
-  <!-- Gift Herbal / Exfoliating Soap Set (3 pcs) -->
-  <section class="category">
-    <h2>Gift Herbal / Exfoliating Soap Set (3 pcs)</h2>
-    <div class="product-card">
-      <img src="Gift Herbal Exfoliating Soap Set (3 pcs).png" alt="Gift Herbal / Exfoliating Soap Set">
-      <h3>Gift Herbal / Exfoliating Soap Set (3 pcs)</h3>
-      <p>Price: <span class="price" data-usd="25">25</span></p>
-      <form class="customization-form">
-        <label>Optional notes for customization</label>
-        <textarea name="notes" placeholder="Add text or special request"></textarea>
-        <label>Upload reference image</label>
-        <input type="file" name="file">
-      </form>
-      <button class="buy-button">Buy on PayPal</button>
-    </div>
-    <div class="product-card">
-      <img src="Gift Herbal Exfoliating Soap Set (3 pcs) 2.png" alt="Gift Herbal / Exfoliating Soap Set">
-    </div>
-    <div class="product-card">
-      <img src="Gift Herbal Exfoliating Soap Set (3 pcs) 3.png" alt="Gift Herbal / Exfoliating Soap Set">
-    </div>
-    <div class="product-card">
-      <img src="Gift Herbal Exfoliating Soap Set (3 pcs) 4.png" alt="Gift Herbal / Exfoliating Soap Set">
-    </div>
-  </section>
+            <h2>Gift Fruit / Flower Soap Set (3 pcs)</h2>
+            <div class="product-card">
+                <img src="Gift Fruit shaped Flower shaped Soap Set (3 pcs).png" alt="Gift Fruit Flower Soap Set">
+                <form class="custom-form">
+                    <label>Optional: Add text or upload an image for customization.</label>
+                    <input type="file" name="custom_image">
+                    <textarea placeholder="Add extra notes..."></textarea>
+                </form>
+                <p class="price" data-base="25">$25</p>
+                <button class="buy">Buy on PayPal</button>
+            </div>
+        </section>
 
-  <!-- Gift Fruit / Flower Soap Set (3 pcs) -->
-  <section class="category">
-    <h2>Gift Fruit / Flower Soap Set (3 pcs)</h2>
-    <div class="product-card">
-      <img src="Gift Fruit shaped Flower shaped Soap Set (3 pcs).png" alt="Gift Fruit / Flower Soap Set">
-      <h3>Gift Fruit / Flower Soap Set (3 pcs)</h3>
-      <p>Price: <span class="price" data-usd="25">25</span></p>
-      <form class="customization-form">
-        <label>Optional notes for customization</label>
-        <textarea name="notes" placeholder="Add text or special request"></textarea>
-        <label>Upload reference image</label>
-        <input type="file" name="file">
-      </form>
-      <button class="buy-button">Buy on PayPal</button>
-    </div>
-  </section>
+        <!-- Matching Winter Set -->
+        <section class="category">
+            <h2>Matching Winter Set — Beanie + Scarf + Mittens</h2>
+            <div class="product-card">
+                <img src="Matching Winter Set — Beanie + Scarf + Mittens.png" alt="Matching Winter Set">
+                <form class="custom-form">
+                    <label>Optional: Add text or upload an image for customization.</label>
+                    <input type="file" name="custom_image">
+                    <textarea placeholder="Add extra notes..."></textarea>
+                </form>
+                <p class="price" data-base="25">$25</p>
+                <button class="buy">Buy on PayPal</button>
+            </div>
+        </section>
 
-  <!-- Matching Winter Set — Beanie + Scarf + Mittens -->
-  <section class="category">
-    <h2>Matching Winter Set — Beanie + Scarf + Mittens</h2>
-    <div class="product-card">
-      <img src="Matching Winter Set — Beanie + Scarf + Mittens.png" alt="Matching Winter Set">
-      <h3>Matching Winter Set — Beanie + Scarf + Mittens</h3>
-      <p>Price: <span class="price" data-usd="25">25</span></p>
-      <form class="customization-form">
-        <label>Optional notes for customization</label>
-        <textarea name="notes" placeholder="Add text or special request"></textarea>
-        <label>Upload reference image</label>
-        <input type="file" name="file">
-      </form>
-      <button class="buy-button">Buy on PayPal</button>
-    </div>
-  </section>
+        <!-- Relax & Restore Set -->
+        <section class="category">
+            <h2>Relax & Restore Set — Herbal soap + face cream + small wax candle</h2>
+            <div class="product-card">
+                <img src="Gift Herbal Exfoliating Soap Set (3 pcs) 1.png" alt="Relax & Restore Set">
+                <form class="custom-form">
+                    <label>Optional: Add text or upload an image for customization.</label>
+                    <input type="file" name="custom_image">
+                    <textarea placeholder="Add extra notes..."></textarea>
+                </form>
+                <p class="price" data-base="25">$25</p>
+                <button class="buy">Buy on PayPal</button>
+            </div>
+        </section>
+    </main>
 
-  <!-- Relax & Restore Set — Herbal soap + face cream + small wax candle -->
-  <section class="category">
-    <h2>Relax & Restore Set — Herbal soap + face cream + small wax candle</h2>
-    <div class="product-card">
-      <img src="Gift Herbal Exfoliating Soap Set (3 pcs) 1.png" alt="Relax & Restore Set">
-      <h3>Relax & Restore Set — Herbal soap + face cream + small wax candle</h3>
-      <p>Price: <span class="price" data-usd="25">25</span></p>
-      <form class="customization-form">
-        <label>Optional notes for customization</label>
-        <textarea name="notes" placeholder="Add text or special request"></textarea>
-        <label>Upload reference image</label>
-        <input type="file" name="file">
-      </form>
-      <button class="buy-button">Buy on PayPal</button>
-    </div>
-  </section>
+    <!-- White snowflakes -->
+    <canvas id="snowfall"></canvas>
 
-  <!-- Add all remaining categories and products exactly as in your GitHub catalogue with images -->
-
-</main>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
