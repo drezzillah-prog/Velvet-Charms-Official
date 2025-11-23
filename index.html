@@ -1,52 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Velvet Charms Catalogue</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Velvet Charms Catalogue</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1>Velvet Charms Catalogue</h1>
-    <nav>
-      <ul id="menu">
-        <li><a href="#" data-category="paintings">Paintings</a></li>
-        <li><a href="#" data-category="epoxy_clay">Epoxy & Clay Creations</a></li>
-        <li><a href="#" data-category="hair_accessories">Hair Accessories</a></li>
-        <li><a href="#" data-category="leather_bags">Leather Bags</a></li>
-        <li><a href="#" data-category="home_decor">Home Decor</a></li>
-        <li><a href="#" data-category="candles">Candles</a></li>
-        <li><a href="#" data-category="body_care">Body Care</a></li>
-        <li><a href="#" data-category="bundles">Bundles</a></li>
-      </ul>
-      <input type="text" id="search" placeholder="Search products...">
-    </nav>
-    <div id="cart-wishlist">
-      <button id="view-cart">Cart (<span id="cart-count">0</span>)</button>
-      <button id="view-wishlist">Wishlist (<span id="wishlist-count">0</span>)</button>
+    <header>
+        <h1>Velvet Charms</h1>
+        <nav>
+            <ul id="menu">
+                <li><a href="#" data-category="paintings">Paintings</a></li>
+                <li><a href="#" data-category="epoxy_clay">Epoxy & Clay Creations</a></li>
+                <li><a href="#" data-category="hair_accessories">Hair Accessories</a></li>
+                <li><a href="#" data-category="leather_bags">Leather Bags</a></li>
+                <li><a href="#" data-category="home_decor">Home Decor</a></li>
+                <li><a href="#" data-category="candles">Candles</a></li>
+                <li><a href="#" data-category="body_care">Body Care</a></li>
+                <li><a href="#" data-category="bundles">Bundles</a></li>
+            </ul>
+        </nav>
+        <input type="text" id="search" placeholder="Search products...">
+        <div id="cart-wishlist">
+            <button id="view-cart">Cart (<span id="cart-count">0</span>)</button>
+            <button id="view-wishlist">Wishlist (<span id="wishlist-count">0</span>)</button>
+        </div>
+    </header>
+    <main id="catalogue-container">
+        <!-- Catalogue content will be injected here -->
+    </main>
+
+    <!-- Product Modal -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="product-gallery" id="modal-images"></div>
+            <h2 id="modal-name"></h2>
+            <p id="modal-description"></p>
+            <p id="modal-price"></p>
+            <p id="modal-size"></p>
+            <label>Customization:</label>
+            <input type="text" id="modal-customization" placeholder="Enter customization details">
+            <button id="modal-add-cart">Add to Cart</button>
+            <button id="modal-add-wishlist">Add to Wishlist</button>
+            <a id="modal-paypal" target="_blank">Buy Now via PayPal</a>
+        </div>
     </div>
-  </header>
 
-  <main id="catalogue-container">
-    <!-- Products will be rendered here -->
-  </main>
+    <!-- Snowflake Container -->
+    <div id="snowflakes"></div>
 
-  <!-- Product modal -->
-  <div id="product-modal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <div id="modal-images"></div>
-      <h2 id="modal-title"></h2>
-      <p id="modal-description"></p>
-      <p id="modal-price"></p>
-      <p id="modal-size"></p>
-      <button id="add-to-cart">Add to Cart</button>
-      <button id="add-to-wishlist">Add to Wishlist</button>
-      <a id="paypal-link" href="#" target="_blank">Buy Now</a>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
