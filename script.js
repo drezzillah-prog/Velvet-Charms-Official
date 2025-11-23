@@ -1,182 +1,215 @@
-// Load catalogue JSON
-const catalogue = JSON.parse(document.getElementById('catalogue-data').textContent);
+// Catalogue data will be in catalogue.json
+let catalogue = {}; // will fetch from catalogue.json
 
-const aboutText = document.getElementById('about-text');
-aboutText.textContent = catalogue.siteInfo.about.text;
-
-// Header & catalogue dropdown
-const catalogueBtn = document.getElementById('catalogue-btn');
-const catalogueDropdown = document.getElementById('catalogue-dropdown');
-const categoriesList = document.getElementById('categories-list');
-
-catalogueBtn.addEventListener('click', () => {
-  catalogueDropdown.classList.toggle('hidden');
-});
-
-// Render categories in dropdown
-catalogue.categories.forEach(cat => {
-  const li = document.createElement('li');
-  li.classList.add('dd-item');
-  const a = document.createElement('a');
-  a.href="#";
-  a.textContent = cat.name;
-  a.addEventListener('click', () => {
-    renderProducts(cat);
-    catalogueDropdown.classList.add('hidden');
-  });
-  li.appendChild(a);
-  categoriesList.appendChild(li);
-});
-
-// Products rendering
-const productsGrid = document.getElementById('products-grid');
-
-function renderProducts(category) {
-  productsGrid.innerHTML = '';
-  if(category.subcategories){
-    category.subcategories.forEach(sub => {
-      sub.products.forEach(prod => {
-        const card = document.createElement('div');
-        card.classList.add('product-card');
-        const img = document.createElement('img');
-        img.className = 'product-thumb';
-        img.src = prod.images?.[0] || 'https://via.placeholder.com/160';
-        img.alt = prod.name;
-        card.appendChild(img);
-
-        const title = document.createElement('h4');
-        title.className = 'product-title';
-        title.textContent = prod.name;
-        card.appendChild(title);
-
-        const price = document.createElement('p');
-        price.className = 'product-price';
-        price.textContent = `$${prod.price}`;
-        card.appendChild(price);
-
-        const btn = document.createElement('button');
-        btn.className = 'btn btn-primary';
-        btn.textContent = 'View';
-        btn.addEventListener('click', () => openModal(prod));
-        card.appendChild(btn);
-
-        productsGrid.appendChild(card);
-      });
-    });
-  } else if(category.products){
-    category.products.forEach(prod => {
-      const card = document.createElement('div');
-      card.classList.add('product-card');
-      const img = document.createElement('img');
-      img.className = 'product-thumb';
-      img.src = prod.images?.[0] || 'https://via.placeholder.com/160';
-      img.alt = prod.name;
-      card.appendChild(img);
-
-      const title = document.createElement('h4');
-      title.className = 'product-title';
-      title.textContent = prod.name;
-      card.appendChild(title);
-
-      const price = document.createElement('p');
-      price.className = 'product-price';
-      price.textContent = `$${prod.price}`;
-      card.appendChild(price);
-
-      const btn = document.createElement('button');
-      btn.className = 'btn btn-primary';
-      btn.textContent = 'View';
-      btn.addEventListener('click', () => openModal(prod));
-      card.appendChild(btn);
-
-      productsGrid.appendChild(card);
-    });
-  }
-}
-
-// Product modal
-const modalOverlay = document.getElementById('modal-overlay');
-const modalMainImg = modalOverlay.querySelector('.modal-main-img');
-const modalGallery = modalOverlay.querySelector('.modal-gallery');
-const modalTitle = modalOverlay.querySelector('.modal-title');
-const modalDesc = modalOverlay.querySelector('.modal-desc');
-const optionsContainer = document.getElementById('options-container');
-const modalQty = modalOverlay.querySelector('.modal-qty');
-
-function openModal(prod){
-  modalOverlay.classList.add('visible');
-  modalMainImg.src = prod.images?.[0] || 'https://via.placeholder.com/300';
-  modalTitle.textContent = prod.name;
-  modalDesc.textContent = prod.description || '';
-  modalGallery.innerHTML = '';
-  optionsContainer.innerHTML = '';
-
-  if(prod.images?.length > 1){
-    prod.images.forEach(imgSrc => {
-      const img = document.createElement('img');
-      img.src = imgSrc;
-      img.alt = prod.name;
-      img.addEventListener('click', ()=> modalMainImg.src = imgSrc);
-      modalGallery.appendChild(img);
-    });
-  }
-
-  if(prod.options){
-    Object.entries(prod.options).forEach(([opt, values]) => {
-      const row = document.createElement('div');
-      row.className = 'option-row';
-      const select = document.createElement('select');
-      select.className = 'option-select';
-      values.forEach(v => {
-        const optEl = document.createElement('option');
-        optEl.value = v;
-        optEl.textContent = v;
-        select.appendChild(optEl);
-      });
-      row.appendChild(select);
-      optionsContainer.appendChild(row);
-    });
-  }
-}
-
-modalOverlay.addEventListener('click', e => {
-  if(e.target===modalOverlay) modalOverlay.classList.remove('visible');
-});
-
-// Cart (simplified)
-const cartBtn = document.getElementById('cart-btn');
-const cartModal = document.getElementById('cart-modal');
-const cartList = document.getElementById('cart-list');
+// Cart and Wishlist
 let cart = [];
+let wishlist = [];
 
-cartBtn.addEventListener('click', () => {
-  cartModal.classList.toggle('hidden');
-  renderCart();
+// Load catalogue JSON
+fetch('catalogue.json')
+    .then(response => response.json())
+    .then(data => {
+        catalogue = data;
+        displayCategory('paintings');
+    });
+
+// Menu click
+document.querySelectorAll('#menu a').forEach(link => {
+    link.addEventListener('click', e => {
+        e.preventDefault();
+        const category = link.getAttribute('data-category');
+        displayCategory(category);
+    });
 });
 
-function renderCart(){
-  cartList.innerHTML = '';
-  cart.forEach(item=>{
-    const row = document.createElement('div');
-    row.className = 'cart-row';
-    const img = document.createElement('img');
-    img.className = 'cart-thumb';
-    img.src = item.image || 'https://via.placeholder.com/64';
-    const info = document.createElement('div');
-    info.className = 'cart-info';
-    info.textContent = `${item.name} x ${item.qty} - $${item.price*item.qty}`;
-    row.appendChild(img);
-    row.appendChild(info);
-    cartList.appendChild(row);
-  });
+// Search functionality
+document.getElementById('search').addEventListener('input', e => {
+    const query = e.target.value.toLowerCase();
+    const currentCategory = document.querySelector('#menu a.active')?.getAttribute('data-category') || 'paintings';
+    displayCategory(currentCategory, query);
+});
+
+// Display products by category and optional search query
+function displayCategory(categoryId, query = '') {
+    const container = document.getElementById('catalogue-container');
+    container.innerHTML = '';
+    const category = catalogue.categories.find(cat => cat.id === categoryId);
+    if (!category) return;
+
+    // Flatten subcategories
+    let products = [];
+    category.subcategories.forEach(sub => {
+        sub.products.forEach(prod => {
+            prod.subcategory = sub.name;
+            products.push(prod);
+        });
+    });
+
+    if (query) {
+        products = products.filter(p => 
+            p.name.toLowerCase().includes(query) || 
+            p.description.toLowerCase().includes(query)
+        );
+    }
+
+    products.forEach(product => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+            <img src="${product.images[0]}" alt="${product.name}">
+            <div class="product-info">
+                <h3>${product.name}</h3>
+                <p>Price: $${product.price}</p>
+                <p>Size: ${product.size || 'Standard'}</p>
+                <button class="view-details" data-id="${product.id}">View Details</button>
+            </div>
+        `;
+        container.appendChild(card);
+    });
+
+    document.querySelectorAll('.view-details').forEach(btn => {
+        btn.addEventListener('click', e => {
+            const prodId = e.target.getAttribute('data-id');
+            openProductModal(prodId);
+        });
+    });
 }
 
-document.getElementById('add-to-cart-btn').addEventListener('click', ()=>{
-  const name = modalTitle.textContent;
-  const price = parseFloat(modalDesc.textContent.match(/\$?(\d+\.?\d*)/)?.[1]||0);
-  const qty = parseInt(modalQty.value);
-  const image = modalMainImg.src;
-  cart.push({name, price, qty, image});
-  modalOverlay.classList.remove('visible');
-  document.getElementById('cart-count').textContent = cart.reduce((a,b)=>a+b.qty,0);
+// Modal elements
+const modal = document.getElementById('product-modal');
+const modalClose = modal.querySelector('.close');
+const modalImages = document.getElementById('modal-images');
+const modalName = document.getElementById('modal-name');
+const modalDescription = document.getElementById('modal-description');
+const modalPrice = document.getElementById('modal-price');
+const modalSize = document.getElementById('modal-size');
+const modalCustomization = document.getElementById('modal-customization');
+const modalAddCart = document.getElementById('modal-add-cart');
+const modalAddWishlist = document.getElementById('modal-add-wishlist');
+const modalPaypal = document.getElementById('modal-paypal');
+
+modalClose.addEventListener('click', () => modal.style.display = 'none');
+window.addEventListener('click', e => { if (e.target === modal) modal.style.display = 'none'; });
+
+// Snowflakes
+function createSnowflake() {
+    const snowflake = document.createElement('div');
+    snowflake.className = 'snowflake';
+    snowflake.style.left = Math.random() * window.innerWidth + 'px';
+    snowflake.style.fontSize = Math.random() * 10 + 10 + 'px';
+    snowflake.style.animationDuration = Math.random() * 5 + 5 + 's';
+    snowflake.innerHTML = '❄';
+    document.getElementById('snowflakes').appendChild(snowflake);
+    setTimeout(() => snowflake.remove(), 10000);
+}
+setInterval(createSnowflake, 200);
+// Open product modal
+function openProductModal(prodId) {
+    const product = findProductById(prodId);
+    if (!product) return;
+
+    modalImages.innerHTML = '';
+    product.images.forEach((img, idx) => {
+        const imgEl = document.createElement('img');
+        imgEl.src = img;
+        imgEl.alt = product.name + ' image ' + (idx + 1);
+        imgEl.addEventListener('click', () => {
+            modal.querySelector('.main-image')?.remove();
+            const mainImg = document.createElement('img');
+            mainImg.src = img;
+            mainImg.alt = product.name;
+            mainImg.className = 'main-image';
+            mainImg.style.width = '100%';
+            mainImg.style.height = '300px';
+            mainImg.style.objectFit = 'cover';
+            modalImages.prepend(mainImg);
+        });
+        modalImages.appendChild(imgEl);
+    });
+
+    // Set default main image
+    const mainImg = document.createElement('img');
+    mainImg.src = product.images[0];
+    mainImg.alt = product.name;
+    mainImg.className = 'main-image';
+    mainImg.style.width = '100%';
+    mainImg.style.height = '300px';
+    mainImg.style.objectFit = 'cover';
+    modalImages.prepend(mainImg);
+
+    modalName.textContent = product.name;
+    modalDescription.textContent = product.description;
+    modalPrice.textContent = `Price: $${product.price}`;
+    modalSize.textContent = `Size: ${product.size || 'Standard'}`;
+    modalCustomization.value = '';
+
+    modalAddCart.onclick = () => {
+        const custom = modalCustomization.value;
+        addToCart(product, custom);
+        modal.style.display = 'none';
+    };
+    modalAddWishlist.onclick = () => {
+        const custom = modalCustomization.value;
+        addToWishlist(product, custom);
+        modal.style.display = 'none';
+    };
+    modalPaypal.href = product.paymentLink;
+
+    modal.style.display = 'flex';
+}
+
+// Find product by ID
+function findProductById(id) {
+    for (let cat of catalogue.categories) {
+        for (let sub of cat.subcategories) {
+            for (let prod of sub.products) {
+                if (prod.id === id) return prod;
+            }
+        }
+    }
+    return null;
+}
+
+// Cart & Wishlist Functions
+function addToCart(product, customization) {
+    cart.push({ product, customization });
+    alert(`${product.name} added to cart.`);
+}
+
+function addToWishlist(product, customization) {
+    wishlist.push({ product, customization });
+    alert(`${product.name} added to wishlist.`);
+}
+
+// Display Cart/Wishlist Summary
+document.getElementById('cart-summary').addEventListener('click', () => {
+    let text = 'Cart:\n';
+    cart.forEach((item, i) => {
+        text += `${i+1}. ${item.product.name} - $${item.product.price}`;
+        if(item.customization) text += ` (Customization: ${item.customization})`;
+        text += '\n';
+    });
+    alert(text || 'Cart is empty.');
 });
+
+document.getElementById('wishlist-summary').addEventListener('click', () => {
+    let text = 'Wishlist:\n';
+    wishlist.forEach((item, i) => {
+        text += `${i+1}. ${item.product.name} - $${item.product.price}`;
+        if(item.customization) text += ` (Customization: ${item.customization})`;
+        text += '\n';
+    });
+    alert(text || 'Wishlist is empty.');
+});
+
+// Filters by subcategory
+function filterBySubcategory(subcatName) {
+    const currentCategory = document.querySelector('#menu a.active')?.getAttribute('data-category');
+    displayCategory(currentCategory, '');
+    const container = document.getElementById('catalogue-container');
+    Array.from(container.children).forEach(card => {
+        const prod = findProductById(card.querySelector('.view-details').dataset.id);
+        if(prod.subcategory !== subcatName) card.style.display = 'none';
+    });
+}
+
