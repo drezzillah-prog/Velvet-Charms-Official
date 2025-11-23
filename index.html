@@ -1,124 +1,259 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Velvet Charms — Where Art Meets Emotion</title>
-  <link rel="stylesheet" href="./style.css" />
-  <!-- meta for cache control -->
-  <meta http-equiv="Cache-control" content="no-cache">
-  <style>
-    /* small inline to avoid FOUC for christmas theme */
-    body { opacity: 0; transition: opacity 200ms ease-in; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Velvet Charms</title>
+<link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <div class="container">
+<body class="theme-christmas">
 
-    <!-- header -->
-    <header class="header">
-      <div class="brand">
-        <div class="logo" id="site-icon">VC</div>
-        <div>
-          <h1 id="site-title">Velvet Charms</h1>
-          <p id="site-tagline">Where Art Meets Emotion — Handcrafted with love</p>
-        </div>
-      </div>
-
-      <nav class="nav">
-        <div class="catalogue-wrap">
-          <button id="catalogue-btn" class="icon-btn">Catalogue ▾</button>
-          <ul id="catalogue-dropdown" class="catalogue-dropdown" style="display:none;"></ul>
-        </div>
-        <a href="#" id="home-link">Home</a>
-        <a href="#" onclick="document.querySelector('#about-section').scrollIntoView({behavior:'smooth'});return false;">About Us</a>
-        <button class="icon-btn open-cart" data-open-cart>🛒 <span class="cart-count">0</span></button>
-        <button class="icon-btn">❤ <span class="fav-count">0</span></button>
-      </nav>
-    </header>
-
-    <div id="error-box" style="display:none;background:#ffe7e7;padding:10px;border-radius:8px;margin-bottom:10px;color:#6b0b0b"></div>
-
-    <!-- main catalogue root -->
-    <main id="catalogue-root"></main>
-
-    <!-- About -->
-    <section id="about-section" class="about-box">
-      <h2>About Us</h2>
-      <p>
-        We are a team of 12 passionate art students dedicated to creating personalized handcrafted items. Every piece is made with patience, care, and a touch of magic — whether you choose a product from our catalogue to inspire your order, or request a fully custom creation built from your photos and ideas. We design, sculpt and finish each object in small batches, with emphasis on thoughtful materials and gentle craft.
-      </p>
-      <p>
-        Orders are prepared with love and dispatched from the studio closest to you: Frankfurt, Germany 🇩🇪 or Constanța, Romania 🇷🇴. Payments are processed online before production; orders are processed within 48 hours after confirmed payment.
-      </p>
-    </section>
-
-    <!-- Contact -->
-    <section id="contact" style="margin-top:18px">
-      <h3>Contact Us</h3>
-      <form id="contact-form" method="POST" action="" style="display:flex;flex-direction:column;gap:8px;max-width:640px;">
-        <input type="text" name="name" placeholder="Your name" required style="padding:10px;border-radius:8px;border:1px solid #eee">
-        <input type="email" name="email" placeholder="Your email" required style="padding:10px;border-radius:8px;border:1px solid #eee">
-        <textarea name="message" placeholder="Your message" rows="6" required style="padding:10px;border-radius:8px;border:1px solid #eee"></textarea>
-        <button type="submit" class="btn btn-primary">Send Message</button>
-      </form>
-    </section>
-
-    <footer style="margin-top:28px;padding:12px;text-align:center;color:#6b6b6b">
-      © 2025 Velvet Charms — All Rights Reserved
-    </footer>
-  </div>
-
-  <!-- modal overlay & product modal -->
-  <div id="modal-overlay" class="">
-    <!-- product modal -->
-    <div id="product-modal" class="modal" role="dialog" aria-modal="true" style="display:none">
-      <div class="modal-main">
-        <img class="modal-main-img" src="" alt="product image" />
-        <div class="modal-gallery"></div>
-      </div>
-      <div class="modal-side">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <h3 class="modal-title">Product</h3>
-          <button class="modal-close btn" onclick="closeModal()">✕</button>
-        </div>
-        <div class="modal-desc"></div>
-        <div class="modal-price" style="font-weight:700"></div>
-        <div class="modal-options"></div>
-        <div style="display:flex;gap:8px;align-items:center;margin-top:8px">
-          <label>Qty</label>
-          <input type="number" class="modal-qty" min="1" value="1" />
-        </div>
-        <div style="display:flex;gap:8px;margin-top:12px">
-          <button class="modal-add btn btn-primary">Add to cart</button>
-          <button class="modal-buy btn btn-accent">Buy now</button>
-        </div>
+<div class="container">
+  <!-- Header -->
+  <header class="header">
+    <div class="brand">
+      <div class="logo">VC</div>
+      <div>
+        <h1>Velvet Charms</h1>
+        <p>Where Art Meets Emotion — Handcrafted with love</p>
       </div>
     </div>
-
-    <!-- cart modal -->
-    <div id="cart-modal" class="cart-modal" style="display:none">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <h3>Your cart</h3>
-        <button class="modal-close btn" onclick="document.querySelector('#modal-overlay').classList.remove('visible');document.querySelector('#cart-modal').classList.remove('visible')">✕</button>
+    <nav class="nav">
+      <div class="catalogue-wrap">
+        <button id="catalogue-btn">Catalogue ▼</button>
+        <ul class="catalogue-dropdown hidden" id="catalogue-dropdown"></ul>
       </div>
-      <div class="cart-list"></div>
+      <button id="cart-btn">Cart 🛒 <span class="count" id="cart-count">0</span></button>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <div class="hero">
+    <img src="https://via.placeholder.com/120x100?text=Velvet+Charms" class="hero-img" alt="Velvet Charms">
+    <div class="hero-text">
+      <h1>Cozy Handmade Christmas Gifts</h1>
+      <p>Discover unique handcrafted items for the holidays.</p>
     </div>
   </div>
 
-  <script src="./script.js"></script>
-  <script>
-    // small UI hydration to show dropdown toggle and initial page fade-in
-    document.addEventListener('DOMContentLoaded', () => {
-      const ddBtn = document.getElementById('catalogue-btn');
-      const dd = document.getElementById('catalogue-dropdown');
-      ddBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const show = dd.style.display === 'flex' ? 'none' : 'flex';
-        dd.style.display = show;
+  <!-- Categories -->
+  <div id="categories" class="categories-grid"></div>
+
+  <!-- About -->
+  <div class="about-box">
+    <h2>About Us</h2>
+    <p>We are a team of 12 passionate art students dedicated to creating personalized handcrafted items. Every piece is made with patience, care, and a touch of magic. Orders are prepared with love and dispatched from Frankfurt 🇩🇪 or Constanța 🇷🇴.</p>
+  </div>
+</div>
+
+<!-- Product Modal -->
+<div id="modal-overlay" class="hidden">
+  <div class="modal">
+    <div class="modal-main">
+      <img src="" class="modal-main-img" id="modal-img">
+      <div class="modal-gallery" id="modal-gallery"></div>
+    </div>
+    <div class="modal-side">
+      <h3 class="modal-title" id="modal-title"></h3>
+      <p class="modal-desc" id="modal-desc"></p>
+      <div id="modal-options"></div>
+      <input type="number" id="modal-qty" class="modal-qty" value="1" min="1">
+      <button class="btn btn-primary" id="modal-add">Add to Cart</button>
+      <button class="btn btn-accent" id="modal-close">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Cart Modal -->
+<div id="cart-modal" class="cart-modal hidden">
+  <h3>Cart</h3>
+  <div class="cart-list" id="cart-list"></div>
+  <button class="btn btn-accent" id="cart-close">Close</button>
+</div>
+
+<script>
+// --------- JSON catalogue embedded to avoid external fetch ---------
+const catalogue = /* INSERT YOUR JSON CATALOGUE HERE */;
+
+// --------- DOM elements ---------
+const categoriesEl = document.getElementById('categories');
+const catalogueBtn = document.getElementById('catalogue-btn');
+const catalogueDropdown = document.getElementById('catalogue-dropdown');
+const modalOverlay = document.getElementById('modal-overlay');
+const modalImg = document.getElementById('modal-img');
+const modalGallery = document.getElementById('modal-gallery');
+const modalTitle = document.getElementById('modal-title');
+const modalDesc = document.getElementById('modal-desc');
+const modalOptions = document.getElementById('modal-options');
+const modalQty = document.getElementById('modal-qty');
+const modalAdd = document.getElementById('modal-add');
+const modalClose = document.getElementById('modal-close');
+const cartBtn = document.getElementById('cart-btn');
+const cartCount = document.getElementById('cart-count');
+const cartModal = document.getElementById('cart-modal');
+const cartList = document.getElementById('cart-list');
+const cartClose = document.getElementById('cart-close');
+
+let cart = [];
+
+// --------- Helpers ---------
+function safeImage(src) {
+  return src || 'https://via.placeholder.com/160x160?text=No+Image';
+}
+
+function createOptionRow(name, values) {
+  const row = document.createElement('div');
+  row.className = 'option-row';
+  const label = document.createElement('label');
+  label.innerText = name;
+  const select = document.createElement('select');
+  select.className = 'option-select';
+  values.forEach(v => {
+    const opt = document.createElement('option');
+    opt.value = v;
+    opt.innerText = v;
+    select.appendChild(opt);
+  });
+  row.appendChild(label);
+  row.appendChild(select);
+  return row;
+}
+
+function renderCart() {
+  cartList.innerHTML = '';
+  cart.forEach((item,i) => {
+    const row = document.createElement('div');
+    row.className = 'cart-row';
+    row.innerHTML = `
+      <img src="${safeImage(item.images[0])}" class="cart-thumb">
+      <div class="cart-info">
+        <strong>${item.name}</strong><br>
+        Qty: ${item.qty} | Price: $${item.price * item.qty}
+      </div>
+      <button class="btn-sm" onclick="removeCartItem(${i})">Remove</button>
+    `;
+    cartList.appendChild(row);
+  });
+  cartCount.innerText = cart.reduce((sum,i)=>sum+i.qty,0);
+}
+
+function removeCartItem(index) {
+  cart.splice(index,1);
+  renderCart();
+}
+
+// --------- Render categories ---------
+function renderCategories() {
+  categoriesEl.innerHTML = '';
+  catalogue.categories.forEach(cat=>{
+    const card = document.createElement('div');
+    card.className = 'cat-card';
+    const thumb = document.createElement('img');
+    thumb.className = 'cat-thumb';
+    thumb.src = safeImage(cat.categoryImage || 'https://via.placeholder.com/220x140?text=No+Image');
+    thumb.alt = cat.name;
+    const name = document.createElement('div');
+    name.className = 'cat-name';
+    name.innerText = cat.name;
+    card.appendChild(thumb);
+    card.appendChild(name);
+    card.addEventListener('click', ()=>renderProducts(cat));
+    categoriesEl.appendChild(card);
+  });
+}
+
+// --------- Render products ---------
+function renderProducts(category) {
+  categoriesEl.innerHTML = '';
+  category.subcategories.forEach(sub=>{
+    if(sub.products.length === 0) return;
+    const header = document.createElement('h3');
+    header.innerText = sub.name;
+    categoriesEl.appendChild(header);
+
+    const grid = document.createElement('div');
+    grid.className = 'products-grid';
+    sub.products.forEach(p=>{
+      const card = document.createElement('div');
+      card.className = 'product-card';
+      const img = document.createElement('img');
+      img.className = 'product-thumb';
+      img.src = safeImage(p.images[0]);
+      const title = document.createElement('div');
+      title.className = 'product-title';
+      title.innerText = p.name;
+      const price = document.createElement('div');
+      price.className = 'product-price';
+      price.innerText = `$${p.price}`;
+      const btn = document.createElement('button');
+      btn.className = 'btn btn-primary btn-sm';
+      btn.innerText = 'View';
+      btn.addEventListener('click', ()=>{
+        openModal(p);
       });
-      document.body.style.opacity = 1;
+      card.appendChild(img);
+      card.appendChild(title);
+      card.appendChild(price);
+      card.appendChild(btn);
+      grid.appendChild(card);
     });
-  </script>
+    categoriesEl.appendChild(grid);
+  });
+}
+
+// --------- Modal ---------
+function openModal(product) {
+  modalOverlay.classList.remove('hidden');
+  modalImg.src = safeImage(product.images[0]);
+  modalTitle.innerText = product.name;
+  modalDesc.innerText = product.description || '';
+  modalOptions.innerHTML = '';
+  modalQty.value = 1;
+
+  if(product.options){
+    Object.keys(product.options).forEach(k=>{
+      const row = createOptionRow(k, product.options[k]);
+      modalOptions.appendChild(row);
+    });
+  }
+
+  modalAdd.onclick = () => {
+    const qty = parseInt(modalQty.value) || 1;
+    cart.push({name: product.name, price: product.price, qty, images: product.images});
+    renderCart();
+    modalOverlay.classList.add('hidden');
+  }
+}
+
+modalClose.onclick = ()=>modalOverlay.classList.add('hidden');
+
+// --------- Catalogue dropdown ---------
+catalogueBtn.addEventListener('click', ()=>{
+  catalogueDropdown.classList.toggle('hidden');
+});
+catalogue.categories.forEach(cat=>{
+  const li = document.createElement('li');
+  li.className = 'dd-item';
+  const a = document.createElement('a');
+  a.href="#";
+  a.innerText = cat.name;
+  a.addEventListener('click', e=>{
+    e.preventDefault();
+    catalogueDropdown.classList.add('hidden');
+    renderProducts(cat);
+  });
+  li.appendChild(a);
+  catalogueDropdown.appendChild(li);
+});
+
+// --------- Cart modal ---------
+cartBtn.addEventListener('click', ()=>cartModal.classList.toggle('hidden'));
+cartClose.addEventListener('click', ()=>cartModal.classList.add('hidden'));
+
+// --------- Init ---------
+renderCategories();
+renderCart();
+</script>
+
 </body>
 </html>
