@@ -1,481 +1,516 @@
-/* script.js — Velvet Charms patch replacement
-   - Renders catalogue.json into a clean card grid
-   - Modal details with gallery + unlimited image upload for customization
-   - Wishlist (localStorage)
-   - Cart (localStorage)
-   - Filters out the "Oil Perfume (50ml)" product by name
-   - Fixes details button contrast & modal close
-*/
+/* script.js — full site client logic: render catalogue, modal details, cart, wishlist, personalization, contact (Formspree) */
 
-(() => {
-  const CATALOGUE_URL = '/catalogue.json'; // ensure this file exists in root
-  const APP = document.getElementById('app') || document.body;
-  const state = {
-    catalogue: null,
-    wishlist: JSON.parse(localStorage.getItem('vc_wishlist') || '[]'),
-    cart: JSON.parse(localStorage.getItem('vc_cart') || '[]'),
-    activeProduct: null
+/* ---------- Utilities ---------- */
+const $ = (sel, root = document) => root.querySelector(sel);
+const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+const formatPrice = (p, cur = 'USD') => new Intl.NumberFormat('en-US', { style: 'currency', currency: cur }).format(p);
+
+/* ---------- App state ---------- */
+const STATE = {
+  catalogue: null,
+  currentCategoryId: null,
+  currentSubcategoryId: null,
+  currentProduct: null,
+  cart: JSON.parse(localStorage.getItem('vc_cart') || '[]'),
+  wishlist: JSON.parse(localStorage.getItem('vc_wishlist') || '[]'),
+  formspreeEndpoint: 'https://formspree.io/f/REPLACE_WITH_YOUR_FORM_ID' // <-- REPLACE with your Formspree ID
+};
+
+/* ---------- Init ---------- */
+document.addEventListener('DOMContentLoaded', () => {
+  initUI();
+  loadCatalogue();
+  restoreCartAndWishlist();
+});
+
+/* ---------- Load Catalogue JSON ---------- */
+async function loadCatalogue() {
+  try {
+    const res = await fetch('/catalogue.json', { cache: 'no-store' });
+    if (!res.ok) throw new Error('Catalogue not found');
+    const json = await res.json();
+    STATE.catalogue = json;
+    renderSiteInfo();
+    renderCategories();
+    renderHero();
+  } catch (err) {
+    console.error(err);
+    showError('Error loading catalogue. Please ensure /catalogue.json is present in site root.');
+  }
+}
+
+/* ---------- UI Rendering ---------- */
+function renderSiteInfo() {
+  const si = STATE.catalogue.siteInfo;
+  $('#site-title').textContent = si.name;
+  $('#site-tagline').textContent = si.tagline;
+  $('#about-text').textContent = si.about?.text || '';
+}
+
+function renderHero() {
+  // if candle banner exists, show small banner
+  const topBanner = STATE.catalogue.categories?.find(c => c.banner)?.banner;
+  if (topBanner) {
+    const hero = $('#hero-banner');
+    hero.style.backgroundImage = `url("${escapeFilename(topBanner)}")`;
+    hero.classList.remove('hidden');
+  }
+}
+
+/* Categories nav + tiles */
+function renderCategories() {
+  const catNav = $('#categories-list');
+  const grid = $('#catalogue-grid');
+  catNav.innerHTML = '';
+  grid.innerHTML = '';
+
+  (STATE.catalogue.categories || []).forEach(cat => {
+    // nav
+    const li = document.createElement('li');
+    li.className = 'cat-nav-item';
+    li.innerHTML = `<button data-cat="${cat.id}" class="cat-btn">${escapeHtml(cat.name)}</button>`;
+    catNav.appendChild(li);
+    // tile
+    const tile = document.createElement('div');
+    tile.className = 'cat-tile';
+    const thumb = cat.categoryImage || (cat.banner || '');
+    tile.innerHTML = `
+      <div class="cat-thumb" style="background-image: url('${escapeFilename(thumb)}')"></div>
+      <div class="cat-info">
+        <h3>${escapeHtml(cat.name)}</h3>
+        <button class="open-cat" data-cat="${cat.id}">Open</button>
+      </div>
+    `;
+    grid.appendChild(tile);
+  });
+
+  // attach listeners
+  $$('.cat-btn').forEach(b => b.addEventListener('click', (e) => {
+    const id = e.currentTarget.dataset.cat;
+    openCategory(id);
+  }));
+  $$('.open-cat').forEach(b => b.addEventListener('click', (e) => {
+    const id = e.currentTarget.dataset.cat;
+    openCategory(id);
+  }));
+}
+
+/* Show category view: subcategories and products */
+function openCategory(catId) {
+  const category = STATE.catalogue.categories.find(c => c.id === catId);
+  if (!category) return;
+  STATE.currentCategoryId = catId;
+
+  // title
+  $('#main-title').textContent = category.name;
+
+  // render subcategories list
+  const sublist = $('#subcategories-list');
+  sublist.innerHTML = '';
+  if (category.subcategories && category.subcategories.length) {
+    category.subcategories.forEach(s => {
+      const li = document.createElement('li');
+      li.innerHTML = `<button class="sub-btn" data-sub="${s.id}" data-cat="${catId}">${escapeHtml(s.name)}</button>`;
+      sublist.appendChild(li);
+    });
+  } else {
+    sublist.innerHTML = `<li class="muted">No subcategories</li>`;
+  }
+
+  // render product cards for whole category (all subcats)
+  const cards = $('#products-cards');
+  cards.innerHTML = '';
+  if (category.subcategories) {
+    category.subcategories.forEach(sub => {
+      if (!sub.products) return;
+      sub.products.forEach(p => {
+        cards.appendChild(renderProductCard(p, category, sub));
+      });
+    });
+  }
+  // also support categories with direct products array (like phone_cases)
+  if (category.products) {
+    category.products.forEach(p => cards.appendChild(renderProductCard(p, category, null)));
+  }
+
+  // attach subcategory listeners
+  $$('.sub-btn').forEach(b => b.addEventListener('click', (e) => {
+    const subId = e.currentTarget.dataset.sub;
+    openSubcategory(catId, subId);
+  }));
+
+  // show the catalogue area
+  $('#catalogue-area').classList.remove('hidden');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* Open a subcategory (render only its products) */
+function openSubcategory(catId, subId) {
+  const category = STATE.catalogue.categories.find(c => c.id === catId);
+  const sub = category?.subcategories?.find(s => s.id === subId);
+  if (!sub) return;
+  STATE.currentSubcategoryId = subId;
+  $('#main-title').textContent = `${category.name} — ${sub.name}`;
+  const cards = $('#products-cards');
+  cards.innerHTML = '';
+  if (sub.products) sub.products.forEach(p => cards.appendChild(renderProductCard(p, category, sub)));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* Product Card */
+function renderProductCard(product, category, subcategory) {
+  const card = document.createElement('article');
+  card.className = 'product-card';
+  const img = (product.images && product.images[0]) ? escapeFilename(product.images[0]) : '';
+  card.innerHTML = `
+    <div class="product-image" style="background-image: url('${img}')"></div>
+    <div class="product-body">
+      <h4>${escapeHtml(product.name)}</h4>
+      <div class="price">${formatPrice(product.price, STATE.catalogue.siteInfo.currency)}</div>
+      <div class="card-actions">
+        <button class="details-btn" data-id="${product.id}">Details</button>
+        <button class="add-wish" data-id="${product.id}" title="Add to wishlist">❤</button>
+        <button class="add-cart" data-id="${product.id}">Add</button>
+      </div>
+    </div>
+  `;
+  // listeners
+  card.querySelector('.details-btn').addEventListener('click', () => openDetails(product, category, subcategory));
+  card.querySelector('.add-wish').addEventListener('click', () => toggleWishlist(product));
+  card.querySelector('.add-cart').addEventListener('click', () => quickAddToCart(product));
+  return card;
+}
+
+/* ---------- Details modal (product + personalization) ---------- */
+function openDetails(prod, category, subcategory) {
+  STATE.currentProduct = { prod, category, subcategory };
+  const modal = $('#product-modal');
+  modal.querySelector('.modal-title').textContent = prod.name;
+  modal.querySelector('.modal-price').textContent = formatPrice(prod.price, STATE.catalogue.siteInfo.currency);
+  modal.querySelector('.modal-desc').textContent = prod.description || '';
+  // images carousel
+  const imgs = modal.querySelector('.modal-images');
+  imgs.innerHTML = '';
+  (prod.images || []).forEach((f, i) => {
+    const imgEl = document.createElement('img');
+    imgEl.src = escapeFilename(f);
+    imgEl.alt = `${prod.name} ${i+1}`;
+    imgEl.className = 'modal-thumb';
+    imgs.appendChild(imgEl);
+  });
+  // options selector
+  const optionsWrap = modal.querySelector('.modal-options');
+  optionsWrap.innerHTML = '';
+  const opts = prod.options || {};
+  Object.keys(opts).forEach(k => {
+    const sel = document.createElement('select');
+    sel.name = k;
+    sel.innerHTML = `<option value="">Choose ${escapeHtml(k)}</option>` + (opts[k].map(v => `<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`).join(''));
+    const label = document.createElement('label');
+    label.textContent = `${k}:`;
+    label.appendChild(sel);
+    optionsWrap.appendChild(label);
+  });
+
+  // personalization form: text + multiple file upload
+  const pform = modal.querySelector('#personalization-form');
+  pform.reset();
+  modal.querySelector('#personalization-preview').innerHTML = '';
+
+  // attach upload preview handler
+  pform.querySelector('#personalization-files').onchange = (e) => {
+    previewFiles(e.target.files, '#personalization-preview');
   };
 
-  // Helpers
-  const $ = (sel, ctx = document) => ctx.querySelector(sel);
-  const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
-  const formatPrice = p => `$${Number(p).toFixed(2)}`;
+  // Add to Cart handler
+  modal.querySelector('#modal-add-to-cart').onclick = () => {
+    const formData = new FormData(pform);
+    const personalization = {
+      text: formData.get('personal-note') || '',
+      files: []
+    };
+    const files = pform.querySelector('#personalization-files').files;
+    // read files as base64 strings for in-memory preview + storing to localStorage
+    const readers = [];
+    for (let i=0;i<files.length;i++){
+      readers.push(readFileAsDataURL(files[i]));
+    }
+    Promise.all(readers).then(dataUrls => {
+      personalization.files = dataUrls;
+      const selections = {};
+      optionsWrap.querySelectorAll('select').forEach(s => { if (s.value) selections[s.name] = s.value; });
+      addToCart(prod, 1, selections, personalization);
+      closeModal();
+      showToast('Added to cart');
+      renderCartUI();
+    });
+  };
 
-  // persist
-  function saveWishlist() { localStorage.setItem('vc_wishlist', JSON.stringify(state.wishlist)); updateWishlistCounter(); }
-  function saveCart() { localStorage.setItem('vc_cart', JSON.stringify(state.cart)); updateCartCounter(); }
+  // Buy direct handler: opens PayPal link (new tab) but still collects personalization via a quick saving step
+  modal.querySelector('#modal-buy-now').onclick = () => {
+    // save any personalization before proceeding
+    const formData = new FormData(pform);
+    const personalization = { text: formData.get('personal-note') || '' };
+    // don't wait for files to finish; user intent is to buy — allow
+    addToCart(prod, 1, {}, personalization, { skipToast:true });
+    // open PayPal link in new tab
+    window.open(prod.paymentLink || '#', '_blank');
+    closeModal();
+    renderCartUI();
+  };
 
-  // UI counters
-  function updateWishlistCounter() {
-    $$('.wishlist-count').forEach(el => el.textContent = state.wishlist.length);
+  // show modal
+  modal.classList.add('open');
+}
+
+/* modal helpers */
+function closeModal() {
+  $('#product-modal').classList.remove('open');
+}
+$('#product-modal .modal-close').addEventListener('click', closeModal);
+$('#product-modal .modal-backdrop').addEventListener('click', closeModal);
+
+/* preview file list to container */
+function previewFiles(files, containerSel) {
+  const container = document.querySelector(containerSel);
+  container.innerHTML = '';
+  Array.from(files).forEach(f => {
+    const fr = new FileReader();
+    fr.onload = e => {
+      const img = document.createElement('img');
+      img.src = e.target.result;
+      img.className = 'preview-thumb';
+      container.appendChild(img);
+    };
+    fr.readAsDataURL(f);
+  });
+}
+
+/* read file as dataURL -> Promise */
+function readFileAsDataURL(file) {
+  return new Promise((resolve) => {
+    const fr = new FileReader();
+    fr.onload = e => resolve({ name: file.name, data: e.target.result });
+    fr.readAsDataURL(file);
+  });
+}
+
+/* ---------- Cart & Wishlist ---------- */
+function restoreCartAndWishlist() {
+  renderCartUI();
+  renderWishlistUI();
+}
+
+function addToCart(product, qty=1, selections={}, personalization={}, opts={}) {
+  const item = {
+    id: product.id,
+    name: product.name,
+    price: product.price,
+    qty,
+    selections,
+    personalization,
+    paymentLink: product.paymentLink || null
+  };
+  // merge if already in cart with same options
+  const key = JSON.stringify({id:item.id, sel:item.selections, per:item.personalization.text});
+  let merged = false;
+  for (let i=0;i<STATE.cart.length;i++){
+    const c = STATE.cart[i];
+    const ckey = JSON.stringify({id:c.id, sel:c.selections, per:c.personalization?.text});
+    if (ckey === key){
+      STATE.cart[i].qty += qty;
+      merged = true;
+      break;
+    }
   }
-  function updateCartCounter() {
-    $$('.cart-count').forEach(el => el.textContent = state.cart.reduce((s,i) => s + (i.qty||1),0));
-  }
+  if (!merged) STATE.cart.push(item);
+  localStorage.setItem('vc_cart', JSON.stringify(STATE.cart));
+  if (!opts.skipToast) showToast('Product added to cart');
+}
 
-  // Fetch & render
-  async function loadCatalogue() {
+function quickAddToCart(product) {
+  addToCart(product, 1, {}, { text: '' });
+  renderCartUI();
+}
+
+function renderCartUI() {
+  const cartCount = STATE.cart.reduce((s,i)=>s+i.qty,0);
+  $('#cart-count').textContent = cartCount;
+  const drawer = $('#cart-drawer .cart-items');
+  drawer.innerHTML = '';
+  if (STATE.cart.length === 0) drawer.innerHTML = '<div class="muted">Your cart is empty</div>';
+  STATE.cart.forEach((it, idx) => {
+    const div = document.createElement('div');
+    div.className = 'cart-item';
+    div.innerHTML = `
+      <div class="ci-left">
+        <div class="ci-title">${escapeHtml(it.name)}</div>
+        <div class="ci-meta">${Object.keys(it.selections || {}).map(k=>`${k}: ${it.selections[k]}`).join(' • ') || ''}</div>
+      </div>
+      <div class="ci-right">
+        <div class="ci-qty">x${it.qty}</div>
+        <div class="ci-price">${formatPrice(it.price * it.qty, STATE.catalogue.siteInfo.currency)}</div>
+        <button class="ci-remove" data-idx="${idx}">Remove</button>
+      </div>
+    `;
+    drawer.appendChild(div);
+    div.querySelector('.ci-remove').addEventListener('click', (e)=> {
+      STATE.cart.splice(idx,1);
+      localStorage.setItem('vc_cart', JSON.stringify(STATE.cart));
+      renderCartUI();
+    });
+  });
+  // total
+  const total = STATE.cart.reduce((s,i)=>s + (i.price * i.qty), 0);
+  $('#cart-total').textContent = formatPrice(total, STATE.catalogue.siteInfo.currency);
+
+  // checkout handler
+  $('#cart-checkout').onclick = () => {
+    if (STATE.cart.length === 0) return showToast('Cart is empty');
+    openCheckoutModal();
+  };
+
+  // toggle cart drawer
+  $('#cart-toggle').onclick = () => {
+    $('#cart-drawer').classList.toggle('open');
+  };
+}
+
+/* Open checkout modal: shows order summary and PayPal links per-item, + final submit to record personalization via Formspree */
+function openCheckoutModal(){
+  const cm = $('#checkout-modal');
+  const list = cm.querySelector('.order-list');
+  list.innerHTML = '';
+  STATE.cart.forEach((it, idx) => {
+    const li = document.createElement('div');
+    li.className = 'order-item';
+    li.innerHTML = `
+      <div><strong>${escapeHtml(it.name)}</strong> x${it.qty}</div>
+      <div>${formatPrice(it.price * it.qty)}</div>
+      <div class="small muted">${escapeHtml(it.personalization?.text || '')}</div>
+      <div class="small"><a target="_blank" href="${it.paymentLink || '#'}">Pay item</a></div>
+    `;
+    list.appendChild(li);
+  });
+  cm.querySelector('.order-total').textContent = formatPrice(STATE.cart.reduce((s,i)=>s+i.price*i.qty,0));
+  // Submit form button: sends order summary to Formspree for your records (you still need to collect payment via PayPal links)
+  cm.querySelector('#checkout-submit-form').onclick = async () => {
+    // prepare payload
+    const payload = {
+      order: STATE.cart,
+      note: cm.querySelector('#checkout-note').value || ''
+    };
     try {
-      const res = await fetch(CATALOGUE_URL + '?_=' + Date.now());
-      if (!res.ok) throw new Error('catalogue fetch failed');
-      const json = await res.json();
-      state.catalogue = json;
-      renderSite();
+      await fetch(STATE.formspreeEndpoint, {
+        method: 'POST',
+        headers: { 'Content-Type':'application/json' },
+        body: JSON.stringify(payload)
+      });
+      showToast('Order saved. Please pay using the links shown (each item opens PayPal).');
+      // Optionally empty cart for now:
+      // STATE.cart = [];
+      // localStorage.setItem('vc_cart', JSON.stringify(STATE.cart));
+      // renderCartUI();
     } catch (err) {
       console.error(err);
-      showCatalogueError();
+      showToast('Could not send order form (Formspree). Replace your Formspree endpoint if needed.');
     }
+  };
+
+  cm.classList.add('open');
+}
+$('#checkout-modal .close').addEventListener('click', ()=> $('#checkout-modal').classList.remove('open'));
+
+/* Wishlist */
+function toggleWishlist(product) {
+  const idx = STATE.wishlist.findIndex(i => i.id===product.id);
+  if (idx >= 0) {
+    STATE.wishlist.splice(idx,1);
+  } else {
+    STATE.wishlist.push({id:product.id, name: product.name});
   }
+  localStorage.setItem('vc_wishlist', JSON.stringify(STATE.wishlist));
+  renderWishlistUI();
+}
+function renderWishlistUI() {
+  $('#wish-count').textContent = STATE.wishlist.length;
+  const el = $('#wishlist-drawer .list');
+  el.innerHTML = '';
+  STATE.wishlist.forEach(w => {
+    const row = document.createElement('div');
+    row.className = 'wish-row';
+    row.textContent = w.name;
+    el.appendChild(row);
+  });
+  $('#wish-toggle').onclick = () => $('#wishlist-drawer').classList.toggle('open');
+}
 
-  function showCatalogueError() {
-    const c = document.createElement('div');
-    c.className = 'catalogue-error';
-    c.innerHTML = `<p>Error loading catalogue. Please ensure /catalogue.json is present and valid in site root.</p>`;
-    APP.innerHTML = '';
-    APP.appendChild(c);
-  }
-
-  // Filter bad products (client-side safeguard)
-  function productIsAllowed(product) {
-    if (!product || !product.name) return true;
-    // Exact match filter for the problematic product
-    if (product.name.trim().toLowerCase().includes('oil perfume (50ml)')) return false;
-    return true;
-  }
-
-  // Render site skeleton
-  function renderSite() {
-    APP.innerHTML = `
-      <div class="vc-header">
-        <div class="vc-brand"><h1>${escapeHtml(state.catalogue.siteInfo.name || 'Velvet Charms')} <span class="vc-snow">❄️</span></h1>
-        <p class="tagline">${escapeHtml(state.catalogue.siteInfo.tagline || '')}</p></div>
-        <div class="vc-controls">
-          <button class="btn view-wishlist">❤ <span class="wishlist-count">0</span></button>
-          <button class="btn view-cart">🛒 <span class="cart-count">0</span></button>
-        </div>
-      </div>
-      <div class="vc-main">
-        <aside class="vc-sidebar" id="vc-categories"></aside>
-        <main class="vc-content" id="vc-content"></main>
-      </div>
-
-      <!-- modal container -->
-      <div id="vc-modal" class="vc-modal" aria-hidden="true"></div>
-
-      <!-- lightbox / checkout overlay -->
-      <div id="vc-overlay" class="vc-overlay hidden"></div>
-    `;
-
-    updateWishlistCounter();
-    updateCartCounter();
-    renderCategories();
-    // auto-open first category for UX
-    const firstCat = state.catalogue.categories?.[0];
-    if (firstCat) renderCategory(firstCat.id);
-    attachGlobalListeners();
-  }
-
-  // escape (simple)
-  function escapeHtml(s='') {
-    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  }
-
-  // Sidebar categories
-  function renderCategories() {
-    const sidebar = $('#vc-categories');
-    sidebar.innerHTML = '';
-    state.catalogue.categories.forEach(cat => {
-      const catEl = document.createElement('div');
-      catEl.className = 'vc-cat';
-      catEl.innerHTML = `
-        <button class="vc-cat-btn" data-cat="${escapeHtml(cat.id)}">
-          <span class="cat-name">${escapeHtml(cat.name)}</span>
-        </button>
-      `;
-      sidebar.appendChild(catEl);
+/* ---------- Contact form (Formspree) ---------- */
+$('#contact-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const f = new FormData(e.target);
+  const payload = {};
+  for (const [k,v] of f.entries()) payload[k] = v;
+  try {
+    await fetch(STATE.formspreeEndpoint, {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json' },
+      body: JSON.stringify(payload)
     });
-    // category nav click
-    $$('.vc-cat-btn').forEach(b => b.addEventListener('click', e => {
-      const id = e.currentTarget.dataset.cat;
-      renderCategory(id);
-    }));
+    showToast('Message sent. We will reply to your email shortly.');
+    e.target.reset();
+  } catch (err) {
+    console.error(err);
+    showToast('Could not send contact message — check Formspree endpoint.');
   }
+});
 
-  // Render category page
-  function renderCategory(catId) {
-    const content = $('#vc-content');
-    const cat = state.catalogue.categories.find(c => c.id === catId);
-    if (!cat) {
-      content.innerHTML = '<p>Category not found.</p>';
-      return;
-    }
+/* ---------- Helpers & small UI niceties ---------- */
+function escapeHtml(s='') {
+  return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+function escapeFilename(fn='') {
+  if (!fn) return '';
+  // preserve exact filename but encode spaces and parentheses
+  return fn.replace(/ /g, '%20').replace(/\(/g, '%28').replace(/\)/g,'%29');
+}
 
-    // header + banner
-    const banner = cat.banner ? `<img src="${encodeURI(cat.banner)}" alt="${escapeHtml(cat.name)} banner" class="vc-banner">` : '';
-    content.innerHTML = `
-      <section class="vc-cat-header">${banner}<h2>${escapeHtml(cat.name)}</h2>
-      <p class="vc-cat-desc">${escapeHtml(cat.description || '')}</p></section>
-      <section class="vc-subcats" id="vc-subcats"></section>
-    `;
+function initUI() {
+  // toggle mobile nav
+  $('#menu-toggle').addEventListener('click', ()=> document.body.classList.toggle('nav-open'));
+  // close overlays
+  $('#close-welcome').addEventListener('click', ()=> $('#welcome').classList.add('hidden'));
+  // close product modal already set
+  // global toasts
+  const toastWrap = document.createElement('div');
+  toastWrap.id = 'vc-toasts';
+  document.body.appendChild(toastWrap);
+  // cart toggle already bound via renderCartUI
+}
 
-    const sc = $('#vc-subcats');
-    sc.innerHTML = '';
-    const subcats = cat.subcategories || [];
-    if (!subcats.length && (cat.products || []).length) {
-      // Support categories that store products at top level
-      subcats.push({ id: cat.id + '-all', name: 'All', products: cat.products });
-    }
+/* tiny toast */
+function showToast(msg, time=2200) {
+  const t = document.createElement('div');
+  t.className = 'vc-toast';
+  t.textContent = msg;
+  $('#vc-toasts').appendChild(t);
+  setTimeout(()=> t.classList.add('visible'), 20);
+  setTimeout(()=> { t.classList.remove('visible'); setTimeout(()=>t.remove(),300); }, time);
+}
 
-    subcats.forEach(sub => {
-      const subEl = document.createElement('div');
-      subEl.className = 'vc-subcat';
-      subEl.innerHTML = `<h3>${escapeHtml(sub.name)}</h3><div class="vc-grid" data-sub="${escapeHtml(sub.id)}"></div>`;
-      sc.appendChild(subEl);
+/* display minor error message */
+function showError(msg){
+  const e = $('#error-banner');
+  e.textContent = msg;
+  e.classList.remove('hidden');
+}
 
-      const grid = subEl.querySelector('.vc-grid');
-      const products = sub.products || [];
-      products.filter(productIsAllowed).forEach(prod => {
-        const card = document.createElement('article');
-        card.className = 'vc-card';
-        const imgSrc = (prod.images && prod.images[0]) ? prod.images[0] : (cat.categoryImage || '');
-        const pdesc = prod.description ? `<p class="prod-desc">${escapeHtml(prod.description)}</p>` : '';
-        const optionsBadge = prod.options ? `<small class="options-badge">options</small>` : '';
-        card.innerHTML = `
-          <div class="card-media"><img src="${encodeURI(imgSrc)}" alt="${escapeHtml(prod.name)}"></div>
-          <div class="card-body">
-            <h4 class="prod-name">${escapeHtml(prod.name)}</h4>
-            ${pdesc}
-            <div class="card-meta">
-              <span class="price">${formatPrice(prod.price || 0)}</span>
-              ${optionsBadge}
-            </div>
-            <div class="card-actions">
-              <button class="btn details-btn" data-prod='${escapeHtml(prod.id)}'>Details</button>
-              <button class="btn buy-btn" data-prod='${escapeHtml(prod.id)}'>Buy</button>
-              <button class="heart-btn" data-prod='${escapeHtml(prod.id)}' title="Add to favorites">❤</button>
-            </div>
-          </div>
-        `;
-        grid.appendChild(card);
-      });
-    });
-
-    // attach card listeners
-    $$('.details-btn').forEach(b => b.addEventListener('click', onDetails));
-    $$('.buy-btn').forEach(b => b.addEventListener('click', onBuy));
-    $$('.heart-btn').forEach(b => b.addEventListener('click', onHeart));
+/* ---------- Keyboard shortcuts: ESC closes modals ---------- */
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeModal();
+    $('#cart-drawer').classList.remove('open');
+    $('#wishlist-drawer').classList.remove('open');
+    $('#checkout-modal').classList.remove('open');
   }
-
-  // Find product by id across catalogue
-  function findProductById(pid) {
-    for (const cat of (state.catalogue.categories || [])) {
-      const subcats = cat.subcategories || [];
-      for (const sub of subcats) {
-        const prods = sub.products || [];
-        const p = prods.find(x => x.id === pid);
-        if (p) return p;
-      }
-      // top-level products
-      if (cat.products) {
-        const p = cat.products.find(x => x.id === pid);
-        if (p) return p;
-      }
-    }
-    return null;
-  }
-
-  // Details modal
-  function onDetails(e) {
-    const pid = e.currentTarget.dataset.prod;
-    const prod = findProductById(pid);
-    if (!prod) return alert('Product not found');
-    openProductModal(prod);
-  }
-
-  // Build modal html and open
-  function openProductModal(prod) {
-    state.activeProduct = prod;
-    const modal = $('#vc-modal');
-    modal.innerHTML = `
-      <div class="vc-modal-inner" role="dialog" aria-modal="true">
-        <button class="vc-modal-close" aria-label="Close">×</button>
-        <div class="vc-modal-content">
-          <div class="vc-modal-left">
-            <div class="vc-gallery" id="vc-gallery">${(prod.images || []).map(src => `<img src="${encodeURI(src)}" alt="${escapeHtml(prod.name)}">`).join('')}</div>
-          </div>
-          <div class="vc-modal-right">
-            <h2>${escapeHtml(prod.name)}</h2>
-            <p class="vc-price">${formatPrice(prod.price || 0)}</p>
-            <p class="vc-desc">${escapeHtml(prod.description || '')}</p>
-
-            <!-- personalization form -->
-            <form id="vc-personalize-form" class="vc-personalize-form">
-              <label>Personalisation (optional):</label>
-              <textarea name="custom_text" placeholder="Write personalization details (size, color, inscriptions)..."></textarea>
-              <label>Upload reference image(s): <small>(unlimited)</small></label>
-              <input id="vc-upload" name="images" type="file" multiple accept="image/*">
-              <div id="vc-upload-list" class="vc-upload-list"></div>
-              <div class="vc-modal-actions">
-                <button type="button" class="btn add-to-cart">Add to cart</button>
-                <a class="btn buy-now" href="#" role="button">Buy now</a>
-              </div>
-            </form>
-
-            <div class="vc-modal-footnote">
-              <small>Choose scent & intensity (if available) at checkout. Orders shipped from closest studio: Frankfurt 🇩🇪 or Constanța 🇷🇴. Payment required at order time.</small>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    `;
-    modal.classList.add('open');
-    modal.setAttribute('aria-hidden','false');
-    document.getElementById('vc-overlay').classList.remove('hidden');
-
-    // gallery scrolling / clamping
-    const gallery = $('#vc-gallery');
-    gallery && gallery.addEventListener('click', e => {
-      if (e.target.tagName === 'IMG') {
-        // open clicked image in bigger view
-        openLightbox(e.target.src);
-      }
-    });
-
-    // close handlers
-    $('.vc-modal-close', modal).addEventListener('click', closeModal);
-    $('#vc-overlay').addEventListener('click', closeModal);
-    document.addEventListener('keydown', onEscClose);
-
-    // upload preview
-    const uploadInput = $('#vc-upload');
-    uploadInput.addEventListener('change', ev => {
-      const list = $('#vc-upload-list');
-      list.innerHTML = '';
-      Array.from(uploadInput.files).forEach((file, idx) => {
-        const p = document.createElement('div');
-        p.className = 'vc-upload-item';
-        p.innerHTML = `<strong>${escapeHtml(file.name)}</strong> <small>${Math.round(file.size/1024)} KB</small>`;
-        list.appendChild(p);
-      });
-    });
-
-    // add to cart handler
-    $('.add-to-cart', modal).addEventListener('click', () => {
-      const form = $('#vc-personalize-form');
-      const text = form.custom_text.value;
-      const uploadFiles = Array.from(document.getElementById('vc-upload').files || []);
-      // store file names only (client-side). You can later upload server-side.
-      const images = uploadFiles.map(f => f.name);
-      // cart item
-      const cartItem = {
-        id: prod.id,
-        name: prod.name,
-        price: prod.price || 0,
-        qty: 1,
-        custom: { text, images }
-      };
-      state.cart.push(cartItem);
-      saveCart();
-      alert('Added to cart');
-      closeModal();
-    });
-
-    // buy now handler -> opens lightweight checkout modal
-    $('.buy-now', modal).addEventListener('click', (ev) => {
-      ev.preventDefault();
-      openCheckout([{
-        id: prod.id,
-        name: prod.name,
-        price: prod.price || 0,
-        qty: 1,
-        custom: {
-          text: $('#vc-personalize-form').custom_text.value,
-          images: Array.from(document.getElementById('vc-upload').files || []).map(f => f.name)
-        }
-      }]);
-    });
-  }
-
-  function onEscClose(e) {
-    if (e.key === 'Escape') closeModal();
-  }
-
-  function closeModal() {
-    const modal = $('#vc-modal');
-    if (!modal) return;
-    modal.classList.remove('open');
-    modal.setAttribute('aria-hidden','true');
-    modal.innerHTML = '';
-    document.getElementById('vc-overlay').classList.add('hidden');
-    document.removeEventListener('keydown', onEscClose);
-  }
-
-  // Lightbox simple
-  function openLightbox(src) {
-    const overlay = document.getElementById('vc-overlay');
-    overlay.classList.remove('hidden');
-    overlay.innerHTML = `<div class="vc-lightbox"><button class="vc-lightbox-close">×</button><img src="${src}" alt="lightbox"></div>`;
-    $('.vc-lightbox-close', overlay).addEventListener('click', () => { overlay.classList.add('hidden'); overlay.innerHTML=''; });
-  }
-
-  // add to cart via buy button on cards
-  function onBuy(e) {
-    const pid = e.currentTarget.dataset.prod;
-    const prod = findProductById(pid);
-    if (!prod) return alert('Product not found');
-    // open personalization modal to let user add images/options before adding to cart
-    openProductModal(prod);
-  }
-
-  // Hearts
-  function onHeart(e) {
-    const pid = e.currentTarget.dataset.prod;
-    const idx = state.wishlist.indexOf(pid);
-    if (idx === -1) {
-      state.wishlist.push(pid);
-      e.currentTarget.classList.add('hearted');
-    } else {
-      state.wishlist.splice(idx, 1);
-      e.currentTarget.classList.remove('hearted');
-    }
-    saveWishlist();
-  }
-
-  // Wishlist & Cart overlays
-  function attachGlobalListeners() {
-    document.querySelectorAll('.view-wishlist').forEach(b => b.addEventListener('click', showWishlist));
-    document.querySelectorAll('.view-cart').forEach(b => b.addEventListener('click', showCart));
-  }
-
-  function showWishlist() {
-    const items = state.wishlist.map(pid => findProductById(pid)).filter(Boolean);
-    const content = items.length ? items.map(p => `<div class="wish-item"><img src="${encodeURI((p.images && p.images[0])||'')}" alt=""><div><h4>${escapeHtml(p.name)}</h4><p>${formatPrice(p.price||0)}</p><button class="btn add-from-wish" data-prod="${p.id}">Add to cart</button></div></div>`).join('') : '<p>Your wishlist is empty.</p>';
-    openGenericModal('Wishlist', `<div class="vc-wishlist">${content}</div>`);
-    $$('.add-from-wish').forEach(btn => btn.addEventListener('click', ev => {
-      const pid = ev.currentTarget.dataset.prod;
-      const prod = findProductById(pid);
-      if (!prod) return;
-      state.cart.push({ id: prod.id, name: prod.name, price: prod.price || 0, qty:1 });
-      saveCart();
-      alert('Added to cart');
-      closeModal();
-    }));
-  }
-
-  function showCart() {
-    const items = state.cart;
-    if (!items.length) return openGenericModal('Cart', '<p>Your cart is empty.</p>');
-    const rows = items.map((it, idx) => `<div class="cart-row"><div class="cart-left"><strong>${escapeHtml(it.name)}</strong><div class="cart-custom">${escapeHtml(it.custom?.text || '')}</div></div><div class="cart-right"><span>${formatPrice(it.price)}</span><input type="number" min="1" value="${it.qty||1}" data-idx="${idx}" class="cart-qty"><button class="btn remove-item" data-idx="${idx}">Remove</button></div></div>`).join('');
-    const html = `<div class="cart-list">${rows}</div><div class="cart-actions"><button class="btn checkout-btn">Proceed to Checkout</button></div>`;
-    openGenericModal('Cart', html);
-
-    $$('.remove-item').forEach(b => b.addEventListener('click', ev => {
-      const i = Number(ev.currentTarget.dataset.idx);
-      state.cart.splice(i,1);
-      saveCart();
-      showCart();
-    }));
-
-    $$('.cart-qty').forEach(inp => {
-      inp.addEventListener('change', ev => {
-        const i = Number(ev.currentTarget.dataset.idx);
-        const v = parseInt(ev.currentTarget.value) || 1;
-        state.cart[i].qty = v;
-        saveCart();
-        updateCartCounter();
-      });
-    });
-
-    $('.checkout-btn').addEventListener('click', () => {
-      openCheckout(state.cart);
-    });
-  }
-
-  // Generic modal for wishlist/cart
-  function openGenericModal(title, innerHtml) {
-    const modal = $('#vc-modal');
-    modal.innerHTML = `
-      <div class="vc-modal-inner" role="dialog">
-        <button class="vc-modal-close">×</button>
-        <div class="vc-modal-content generic">
-          <h2>${escapeHtml(title)}</h2>
-          <div class="generic-body">${innerHtml}</div>
-        </div>
-      </div>
-    `;
-    modal.classList.add('open');
-    modal.setAttribute('aria-hidden','false');
-    document.getElementById('vc-overlay').classList.remove('hidden');
-    $('.vc-modal-close', modal).addEventListener('click', closeModal);
-  }
-
-  // Checkout modal (simple, client-side; includes Formspree optional hook)
-  function openCheckout(items) {
-    const total = items.reduce((s,i) => s + (i.price ||0) * (i.qty||1), 0);
-    const lines = items.map(i => `<li>${escapeHtml(i.name)} <strong>${formatPrice(i.price)}</strong> x ${i.qty||1}</li>`).join('');
-    const modalHtml = `
-      <div class="checkout-summary">
-        <ul>${lines}</ul>
-        <p class="checkout-total"><strong>Total: ${formatPrice(total)}</strong></p>
-
-        <!-- personalization files are referenced by name only client-side.
-             For real uploads, implement server upload; here we offer Formspree + file inputs (will be sent as attachments if you set up a server endpoint) -->
-        <form id="vc-checkout-form" method="POST" action="https://formspree.io/f/YOUR_FORMSPREE_ID" enctype="multipart/form-data">
-          <input type="hidden" name="order_json" value='${escapeHtml(JSON.stringify(items))}'>
-          <label>Full name</label><input name="name" required>
-          <label>Email</label><input name="email" type="email" required>
-          <label>Shipping address</label><textarea name="address" required></textarea>
-          <label>Attach reference file(s) (optional)</label>
-          <input name="attachments" type="file" multiple>
-          <p><small>Payment is required at time of order. After payment you'll receive a confirmation message; orders are processed within 48 hours.</small></p>
-          <div class="checkout-buttons">
-            <button class="btn submit-order" type="submit">Submit order (Formspree)</button>
-            <button class="btn pay-paypal" type="button">Pay with PayPal</button>
-          </div>
-        </form>
-      </div>
-    `;
-    openGenericModal('Checkout', modalHtml);
-
-    // PayPal quick simulation: open PayPal link for total (you will want to implement per-product PayPal links or a server-side cart handling)
-    $('.pay-paypal').addEventListener('click', () => {
-      // If you have a single PayPal link, or create one per order on the server, redirect accordingly.
-      // For now open the first product's PayPal if available (best effort).
-      const first = items[0];
-      const prod = findProductById(first.id);
-      if (prod && prod.paymentLink) {
-        window.open(prod.paymentLink, '_blank');
-      } else {
-        alert('No PayPal link available for this order. Please use the Form to submit the order details and we will send payment instructions.');
-      }
-    });
-
-    // Formspree: the action should be replaced with your real form endpoint (replace YOUR_FORMSPREE_ID).
-  }
-
-  // Boot
-  loadCatalogue();
-
-})();
+});
