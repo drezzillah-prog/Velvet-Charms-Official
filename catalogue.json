@@ -155,11 +155,8 @@
           ]
         }
       ]
-    }
-  ]
-}
-{
-  "categories": [
+    },
+
     {
       "id": "epoxy_clay",
       "name": "Epoxy & Clay Creations",
@@ -440,6 +437,7 @@
         }
       ]
     },
+
     {
       "id": "hair_accessories",
       "name": "Hair Accessories",
@@ -526,11 +524,8 @@
           ]
         }
       ]
-    }
-  ]
-}
-{
-  "categories": [
+    },
+
     {
       "id": "leather_bags",
       "name": "Leather Bags",
@@ -570,6 +565,7 @@
         }
       ]
     },
+
     {
       "id": "home_decor",
       "name": "Home Decor",
@@ -619,6 +615,7 @@
         }
       ]
     },
+
     {
       "id": "candles",
       "name": "Candles",
@@ -650,6 +647,7 @@
         }
       ]
     },
+
     {
       "id": "body_care",
       "name": "Body Care",
@@ -692,6 +690,7 @@
         }
       ]
     },
+
     {
       "id": "bundles",
       "name": "Bundles",
