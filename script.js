@@ -1,3 +1,4 @@
+console.log("SCRIPT IS RUNNING");
 // Catalogue data will be in catalogue.json
 let catalogue = {}; // will fetch from catalogue.json
 
@@ -212,4 +213,5 @@ function filterBySubcategory(subcatName) {
         if(prod.subcategory !== subcatName) card.style.display = 'none';
     });
 }
+
 
