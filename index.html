@@ -1,114 +1,124 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Velvet Charms</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Velvet Charms — Where Art Meets Emotion</title>
+  <link rel="stylesheet" href="./style.css" />
+  <!-- meta for cache control -->
+  <meta http-equiv="Cache-control" content="no-cache">
+  <style>
+    /* small inline to avoid FOUC for christmas theme */
+    body { opacity: 0; transition: opacity 200ms ease-in; }
+  </style>
 </head>
 <body>
-    <!-- Banner -->
-    <header>
-        <h1>Velvet Charms</h1>
-        <p>Where Art Meets Emotion — Handcrafted with love</p>
-        <p>Orders ship from Frankfurt 🇩🇪 or Constanța 🇷🇴 depending on proximity.</p>
-        <p>© 2025 Velvet Charms — All Rights Reserved</p>
+  <div class="container">
+
+    <!-- header -->
+    <header class="header">
+      <div class="brand">
+        <div class="logo" id="site-icon">VC</div>
+        <div>
+          <h1 id="site-title">Velvet Charms</h1>
+          <p id="site-tagline">Where Art Meets Emotion — Handcrafted with love</p>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <div class="catalogue-wrap">
+          <button id="catalogue-btn" class="icon-btn">Catalogue ▾</button>
+          <ul id="catalogue-dropdown" class="catalogue-dropdown" style="display:none;"></ul>
+        </div>
+        <a href="#" id="home-link">Home</a>
+        <a href="#" onclick="document.querySelector('#about-section').scrollIntoView({behavior:'smooth'});return false;">About Us</a>
+        <button class="icon-btn open-cart" data-open-cart>🛒 <span class="cart-count">0</span></button>
+        <button class="icon-btn">❤ <span class="fav-count">0</span></button>
+      </nav>
     </header>
 
-    <!-- Product Sections -->
-    <main>
-        <!-- Candles -->
-        <section class="category">
-            <h2>Candles</h2>
-            <div class="product-card">
-                <img src="wax_candle_small.png" alt="Wax Candle">
-                <h3>Wax Candle</h3>
-                <form class="custom-form">
-                    <label>Optional: Add text or upload an image for customization.</label>
-                    <input type="file" name="custom_image">
-                    <textarea placeholder="Add extra notes..."></textarea>
-                </form>
-                <p class="price" data-base="20">$20</p>
-                <button class="buy">Buy on PayPal</button>
-            </div>
+    <div id="error-box" style="display:none;background:#ffe7e7;padding:10px;border-radius:8px;margin-bottom:10px;color:#6b0b0b"></div>
 
-            <div class="product-card">
-                <img src="spiritual_candle (2).jpg" alt="Spiritual Candle">
-                <h3>Spiritual Candle</h3>
-                <form class="custom-form">
-                    <label>Optional: Add text or upload an image for customization.</label>
-                    <input type="file" name="custom_image">
-                    <textarea placeholder="Add extra notes..."></textarea>
-                </form>
-                <p class="price" data-base="20">$20</p>
-                <button class="buy">Buy on PayPal</button>
-            </div>
-        </section>
+    <!-- main catalogue root -->
+    <main id="catalogue-root"></main>
 
-        <!-- Soaps -->
-        <section class="category">
-            <h2>Gift Herbal / Exfoliating Soap Set (3 pcs)</h2>
-            <div class="product-card">
-                <img src="Gift Herbal Exfoliating Soap Set (3 pcs).png" alt="Gift Herbal Soap Set">
-                <img src="Gift Herbal Exfoliating Soap Set (3 pcs) 2.png" alt="Gift Herbal Soap Set 2">
-                <img src="Gift Herbal Exfoliating Soap Set (3 pcs) 3.png" alt="Gift Herbal Soap Set 3">
-                <img src="Gift Herbal Exfoliating Soap Set (3 pcs) 4.png" alt="Gift Herbal Soap Set 4">
-                <form class="custom-form">
-                    <label>Optional: Add text or upload an image for customization.</label>
-                    <input type="file" name="custom_image">
-                    <textarea placeholder="Add extra notes..."></textarea>
-                </form>
-                <p class="price" data-base="25">$25</p>
-                <button class="buy">Buy on PayPal</button>
-            </div>
+    <!-- About -->
+    <section id="about-section" class="about-box">
+      <h2>About Us</h2>
+      <p>
+        We are a team of 12 passionate art students dedicated to creating personalized handcrafted items. Every piece is made with patience, care, and a touch of magic — whether you choose a product from our catalogue to inspire your order, or request a fully custom creation built from your photos and ideas. We design, sculpt and finish each object in small batches, with emphasis on thoughtful materials and gentle craft.
+      </p>
+      <p>
+        Orders are prepared with love and dispatched from the studio closest to you: Frankfurt, Germany 🇩🇪 or Constanța, Romania 🇷🇴. Payments are processed online before production; orders are processed within 48 hours after confirmed payment.
+      </p>
+    </section>
 
-            <h2>Gift Fruit / Flower Soap Set (3 pcs)</h2>
-            <div class="product-card">
-                <img src="Gift Fruit shaped Flower shaped Soap Set (3 pcs).png" alt="Gift Fruit Flower Soap Set">
-                <form class="custom-form">
-                    <label>Optional: Add text or upload an image for customization.</label>
-                    <input type="file" name="custom_image">
-                    <textarea placeholder="Add extra notes..."></textarea>
-                </form>
-                <p class="price" data-base="25">$25</p>
-                <button class="buy">Buy on PayPal</button>
-            </div>
-        </section>
+    <!-- Contact -->
+    <section id="contact" style="margin-top:18px">
+      <h3>Contact Us</h3>
+      <form id="contact-form" method="POST" action="" style="display:flex;flex-direction:column;gap:8px;max-width:640px;">
+        <input type="text" name="name" placeholder="Your name" required style="padding:10px;border-radius:8px;border:1px solid #eee">
+        <input type="email" name="email" placeholder="Your email" required style="padding:10px;border-radius:8px;border:1px solid #eee">
+        <textarea name="message" placeholder="Your message" rows="6" required style="padding:10px;border-radius:8px;border:1px solid #eee"></textarea>
+        <button type="submit" class="btn btn-primary">Send Message</button>
+      </form>
+    </section>
 
-        <!-- Matching Winter Set -->
-        <section class="category">
-            <h2>Matching Winter Set — Beanie + Scarf + Mittens</h2>
-            <div class="product-card">
-                <img src="Matching Winter Set — Beanie + Scarf + Mittens.png" alt="Matching Winter Set">
-                <form class="custom-form">
-                    <label>Optional: Add text or upload an image for customization.</label>
-                    <input type="file" name="custom_image">
-                    <textarea placeholder="Add extra notes..."></textarea>
-                </form>
-                <p class="price" data-base="25">$25</p>
-                <button class="buy">Buy on PayPal</button>
-            </div>
-        </section>
+    <footer style="margin-top:28px;padding:12px;text-align:center;color:#6b6b6b">
+      © 2025 Velvet Charms — All Rights Reserved
+    </footer>
+  </div>
 
-        <!-- Relax & Restore Set -->
-        <section class="category">
-            <h2>Relax & Restore Set — Herbal soap + face cream + small wax candle</h2>
-            <div class="product-card">
-                <img src="Gift Herbal Exfoliating Soap Set (3 pcs) 1.png" alt="Relax & Restore Set">
-                <form class="custom-form">
-                    <label>Optional: Add text or upload an image for customization.</label>
-                    <input type="file" name="custom_image">
-                    <textarea placeholder="Add extra notes..."></textarea>
-                </form>
-                <p class="price" data-base="25">$25</p>
-                <button class="buy">Buy on PayPal</button>
-            </div>
-        </section>
-    </main>
+  <!-- modal overlay & product modal -->
+  <div id="modal-overlay" class="">
+    <!-- product modal -->
+    <div id="product-modal" class="modal" role="dialog" aria-modal="true" style="display:none">
+      <div class="modal-main">
+        <img class="modal-main-img" src="" alt="product image" />
+        <div class="modal-gallery"></div>
+      </div>
+      <div class="modal-side">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <h3 class="modal-title">Product</h3>
+          <button class="modal-close btn" onclick="closeModal()">✕</button>
+        </div>
+        <div class="modal-desc"></div>
+        <div class="modal-price" style="font-weight:700"></div>
+        <div class="modal-options"></div>
+        <div style="display:flex;gap:8px;align-items:center;margin-top:8px">
+          <label>Qty</label>
+          <input type="number" class="modal-qty" min="1" value="1" />
+        </div>
+        <div style="display:flex;gap:8px;margin-top:12px">
+          <button class="modal-add btn btn-primary">Add to cart</button>
+          <button class="modal-buy btn btn-accent">Buy now</button>
+        </div>
+      </div>
+    </div>
 
-    <!-- White snowflakes -->
-    <canvas id="snowfall"></canvas>
+    <!-- cart modal -->
+    <div id="cart-modal" class="cart-modal" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h3>Your cart</h3>
+        <button class="modal-close btn" onclick="document.querySelector('#modal-overlay').classList.remove('visible');document.querySelector('#cart-modal').classList.remove('visible')">✕</button>
+      </div>
+      <div class="cart-list"></div>
+    </div>
+  </div>
 
-    <script src="script.js"></script>
+  <script src="./script.js"></script>
+  <script>
+    // small UI hydration to show dropdown toggle and initial page fade-in
+    document.addEventListener('DOMContentLoaded', () => {
+      const ddBtn = document.getElementById('catalogue-btn');
+      const dd = document.getElementById('catalogue-dropdown');
+      ddBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const show = dd.style.display === 'flex' ? 'none' : 'flex';
+        dd.style.display = show;
+      });
+      document.body.style.opacity = 1;
+    });
+  </script>
 </body>
 </html>
