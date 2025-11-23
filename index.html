@@ -1,56 +1,118 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Velvet Charms Catalogue</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <title>Velvet Charms — Where Art Meets Emotion</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>Velvet Charms</h1>
-        <nav>
-            <ul id="menu">
-                <li><a href="#" data-category="paintings">Paintings</a></li>
-                <li><a href="#" data-category="epoxy_clay">Epoxy & Clay Creations</a></li>
-                <li><a href="#" data-category="hair_accessories">Hair Accessories</a></li>
-                <li><a href="#" data-category="leather_bags">Leather Bags</a></li>
-                <li><a href="#" data-category="home_decor">Home Decor</a></li>
-                <li><a href="#" data-category="candles">Candles</a></li>
-                <li><a href="#" data-category="body_care">Body Care</a></li>
-                <li><a href="#" data-category="bundles">Bundles</a></li>
-            </ul>
-        </nav>
-        <input type="text" id="search" placeholder="Search products...">
-        <div id="cart-wishlist">
-            <button id="view-cart">Cart (<span id="cart-count">0</span>)</button>
-            <button id="view-wishlist">Wishlist (<span id="wishlist-count">0</span>)</button>
-        </div>
-    </header>
-    <main id="catalogue-container">
-        <!-- Catalogue content will be injected here -->
-    </main>
-
-    <!-- Product Modal -->
-    <div id="product-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <div class="product-gallery" id="modal-images"></div>
-            <h2 id="modal-name"></h2>
-            <p id="modal-description"></p>
-            <p id="modal-price"></p>
-            <p id="modal-size"></p>
-            <label>Customization:</label>
-            <input type="text" id="modal-customization" placeholder="Enter customization details">
-            <button id="modal-add-cart">Add to Cart</button>
-            <button id="modal-add-wishlist">Add to Wishlist</button>
-            <a id="modal-paypal" target="_blank">Buy Now via PayPal</a>
-        </div>
+  <header>
+    <div id="site-brand">
+      <div id="logo"><img src="top banner picture for candles.png" alt="logo" style="height:42px;border-radius:8px"></div>
+      <div>
+        <div id="site-name">Velvet Charms ❄️</div>
+        <div id="site-tagline">Where Art Meets Emotion — Handcrafted with love</div>
+      </div>
     </div>
+    <div class="header-actions">
+      <button id="btn-favs" class="icon-btn">❤ <span id="fav-count">0</span></button>
+      <button id="btn-cart" class="icon-btn">🛒 <span id="cart-count">0</span></button>
+      <button id="btn-contact" class="icon-btn" onclick="document.getElementById('contact-section').scrollIntoView()">Contact</button>
+    </div>
+  </header>
 
-    <!-- Snowflake Container -->
-    <div id="snowflakes"></div>
+  <main class="container">
+    <section class="hero">
+      <div class="intro">
+        <h1>Handcrafted Treasures Await</h1>
+        <p>Personalized, artisan-made pieces — created with love by our team of 12 art students. Preorder now for holiday gifting. Explore our curated collections below.</p>
+        <div style="margin-top:12px">
+          <button class="btn btn-add" onclick="document.getElementById('catalogue-list').scrollIntoView()">Explore Catalogue</button>
+          <button class="btn" onclick="document.getElementById('about-section').scrollIntoView()">About Us</button>
+        </div>
+      </div>
+      <div style="width:320px">
+        <img src="top banner picture for candles.png" alt="candles" style="width:100%;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.12)">
+      </div>
+    </section>
 
-    <script src="script.js"></script>
+    <section id="catalogue">
+      <h2>Collections</h2>
+      <div id="catalogue-list"></div>
+    </section>
+
+    <section id="about-section" style="margin-top:26px">
+      <h2 id="about-title">About Us</h2>
+      <p id="about-text"></p>
+    </section>
+
+    <section id="contact-section" style="margin-top:26px">
+      <h2>Contact Us</h2>
+      <form id="contact-form" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
+        <label>Your name <input type="text" name="name" required></label><br>
+        <label>Your email <input type="email" name="email" required></label><br>
+        <label>Message <textarea name="message" rows="4" required></textarea></label><br>
+        <input type="hidden" name="_subject" value="Velvet Charms site message">
+        <button type="submit" class="btn btn-add">Send Message</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- Details Modal -->
+  <div id="modal" class="modal" aria-hidden="true">
+    <div class="modal-card">
+      <button id="btn-close-modal" class="icon-btn" style="float:right">Close</button>
+      <h3 id="modal-title"></h3>
+      <div id="modal-gallery"></div>
+      <div id="modal-desc" style="margin:8px 0"></div>
+      <div id="modal-options"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+        <div id="modal-price" style="font-weight:700"></div>
+        <div>
+          <button id="modal-buy" class="btn btn-add">Buy</button>
+          <button class="btn" onclick="document.getElementById('modal').classList.remove('open')">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Personalization drawer -->
+  <aside id="personalize">
+    <button id="btn-close-personalize" class="icon-btn" style="float:right">X</button>
+    <h4 id="personalize-title"></h4>
+    <div id="personalize-price"></div>
+    <div id="personalize-images" style="display:flex;margin:8px 0"></div>
+    <form id="personalize-form"></form>
+  </aside>
+
+  <!-- Cart modal -->
+  <div id="cart-modal" class="modal">
+    <div class="modal-card">
+      <h3>Your Cart</h3>
+      <div id="cart-items"></div>
+      <div style="margin-top:12px">
+        <button id="checkout-btn" class="btn btn-add">Checkout</button>
+        <button class="btn" onclick="document.getElementById('cart-modal').classList.remove('open')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order form modal -->
+  <div id="order-form-modal" class="modal">
+    <div class="modal-card">
+      <h3>Order Summary</h3>
+      <textarea id="order-summary" rows="6" readonly></textarea>
+      <input id="order-email" type="email" placeholder="your@email.com">
+      <textarea id="order-note" rows="3" placeholder="Extra notes for the order"></textarea>
+      <div style="display:flex;gap:10px">
+        <button id="order-send" class="btn btn-add">Send Order</button>
+        <button class="btn" onclick="document.getElementById('order-form-modal').classList.remove('open')">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- mini scripts -->
+  <script src="script.js"></script>
 </body>
 </html>
