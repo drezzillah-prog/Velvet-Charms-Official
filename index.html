@@ -1,149 +1,85 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Velvet Charms — Handcrafted</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
+  <!-- favicon or small logo optional -->
 </head>
 <body>
-  <header class="header">
-    <div class="brand">
-      <div class="logo" aria-hidden="true"></div>
+  <header class="site-header">
+    <div class="header-left">
+      <img src="top banner picture for candles.png" alt="" class="logo-thumb" onerror="this.style.display='none'">
       <div>
-        <h1 id="site-title">Velvet Charms</h1>
-        <p id="site-tagline">Where Art Meets Emotion — Handcrafted with love</p>
+        <h1 class="brand">Velvet Charms <span class="snowflake">❄️</span></h1>
+        <div class="tagline">Where Art Meets Emotion — Handcrafted with love</div>
       </div>
     </div>
-    <nav class="nav-actions">
+
+    <nav class="top-nav">
       <button id="menu-toggle" class="icon-btn">☰</button>
-      <button id="wish-toggle" class="icon-btn">❤ <span id="wish-count">0</span></button>
-      <button id="cart-toggle" class="icon-btn">🛒 <span id="cart-count">0</span></button>
+      <button data-view="home" class="nav-btn">Home</button>
+      <button data-view="catalogue" class="nav-btn">Catalogue</button>
+      <button data-view="about" class="nav-btn">About Us</button>
+      <button data-view="contact" class="nav-btn">Contact</button>
     </nav>
+
+    <div class="header-right">
+      <button id="favBtn" class="icon-btn">❤ <span id="favCount">0</span></button>
+      <button id="cartBtn" class="icon-btn">🛒 <span id="cartCount">0</span></button>
+    </div>
   </header>
 
-  <main class="container">
-    <div id="hero-banner" class="hidden" role="img" aria-label="Banner"></div>
-
-    <section id="catalogue-overview">
-      <ul id="categories-list" class="muted" style="display:flex; gap:8px; padding:0; list-style:none;"></ul>
-      <div id="catalogue-grid"></div>
+  <main id="main">
+    <!-- dynamic content renders here -->
+    <section id="hero" class="hero">
+      <h2 id="page-title">Catalogue</h2>
+      <p id="page-sub"></p>
     </section>
 
-    <section id="catalogue-area" class="hidden">
-      <h2 id="main-title">Catalogue</h2>
-      <ul id="subcategories-list"></ul>
-      <div id="products-cards"></div>
+    <section id="catalogue-grid" class="grid wrap"></section>
+
+    <section id="details-modal" class="modal hidden" aria-hidden="true">
+      <div class="modal-inner">
+        <button class="close-btn" id="modalClose">✕</button>
+        <div id="modal-content"></div>
+      </div>
     </section>
 
-    <section id="about" style="margin-top:26px;">
-      <h3 id="about-title">About Us</h3>
+    <section id="cart-panel" class="panel hidden">
+      <h3>Shopping Cart</h3>
+      <div id="cart-items"></div>
+      <div class="cart-actions">
+        <button id="checkoutBtn" class="btn primary">Checkout (go to PayPal)</button>
+        <button id="clearCartBtn" class="btn">Clear Cart</button>
+      </div>
+    </section>
+
+    <section id="about-panel" class="panel hidden">
+      <h2 id="about-title"></h2>
       <p id="about-text"></p>
     </section>
 
-    <section style="margin-top:22px;">
-      <h3>Contact</h3>
-      <form id="contact-form">
-        <div style="display:flex; gap:8px; flex-wrap:wrap;">
-          <input name="name" placeholder="Name" required style="flex:1; padding:10px; border-radius:8px; border:1px solid #ddd;">
-          <input name="email" placeholder="Email" required style="flex:1; padding:10px; border-radius:8px; border:1px solid #ddd;">
-        </div>
-        <textarea name="message" placeholder="Message" required style="width:100%; margin-top:8px; padding:10px; min-height:120px; border-radius:8px; border:1px solid #ddd;"></textarea>
-        <div style="display:flex; gap:8px; margin-top:8px;">
-          <button class="btn" type="submit">Send Message</button>
-          <small class="muted">Contact will be sent to your Formspree endpoint configured in script.js</small>
-        </div>
+    <section id="contact-panel" class="panel hidden">
+      <h2>Contact</h2>
+      <form id="contactForm" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
+        <label>Name <input name="name" required></label>
+        <label>Email <input name="email" type="email" required></label>
+        <label>Message <textarea name="message" rows="4" required></textarea></label>
+        <button class="btn primary" type="submit">Send</button>
       </form>
     </section>
-
-    <div id="error-banner" class="hidden" style="background:#fee; padding:10px; border-radius:8px; margin-top:12px;"></div>
-
   </main>
 
-  <!-- Product Modal -->
-  <div id="product-modal" class="modal">
-    <div class="modal-backdrop"></div>
-    <div class="modal-panel" role="dialog" aria-modal="true">
-      <div>
-        <h3 class="modal-title"></h3>
-        <div class="modal-images"></div>
-        <p class="modal-desc"></p>
-      </div>
-      <div class="modal-right">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-          <div class="modal-price"></div>
-          <button class="modal-close btn">Close</button>
-        </div>
-        <div class="modal-options" style="margin-top:12px;"></div>
-
-        <form id="personalization-form" style="margin-top:12px;">
-          <label class="small">Personalization note (size, color, details)<br>
-            <textarea name="personal-note" placeholder="Describe customizations..." style="width:100%; min-height:80px; padding:8px; border-radius:8px; border:1px solid #ddd;"></textarea>
-          </label>
-          <label class="small">Upload reference images (optional)<br>
-            <input id="personalization-files" name="files" type="file" multiple accept="image/*">
-          </label>
-          <div id="personalization-preview" style="display:flex; gap:6px; margin-top:8px;"></div>
-        </form>
-
-        <div style="display:flex; gap:8px; margin-top:12px;">
-          <button id="modal-add-to-cart" class="btn">Add to Cart</button>
-          <button id="modal-buy-now" class="btn">Buy Now</button>
-        </div>
-      </div>
+  <footer class="site-footer">
+    <div>
+      <strong>Velvet Charms</strong><br />
+      Where Art Meets Emotion — Handcrafted with love<br />
+      Orders ship from Frankfurt DE or Constanța RO depending on proximity.
     </div>
-  </div>
-
-  <!-- Cart drawer -->
-  <div id="cart-drawer" aria-hidden="true">
-    <h4>Cart <span id="cart-count">0</span></h4>
-    <div class="cart-items"></div>
-    <div style="display:flex; justify-content:space-between; margin-top:8px;">
-      <div class="muted">Total</div>
-      <div id="cart-total">$0.00</div>
-    </div>
-    <div style="margin-top:12px; display:flex; gap:8px;">
-      <button id="cart-checkout" class="btn">Checkout</button>
-      <button id="clear-cart" class="btn" onclick="localStorage.removeItem('vc_cart'); location.reload();">Clear</button>
-    </div>
-  </div>
-
-  <!-- Wishlist drawer -->
-  <div id="wishlist-drawer" aria-hidden="true">
-    <h4>Favorites</h4>
-    <div class="list"></div>
-  </div>
-
-  <!-- Checkout modal -->
-  <div id="checkout-modal">
-    <div class="panel">
-      <button class="close" style="float:right;">✕</button>
-      <h3>Order Summary</h3>
-      <div class="order-list" style="margin-top:8px;"></div>
-      <div style="display:flex; justify-content:space-between; margin-top:12px;">
-        <div class="muted">Total</div>
-        <div class="order-total">$0.00</div>
-      </div>
-      <div style="margin-top:8px;">
-        <textarea id="checkout-note" placeholder="Any final notes for your order..." style="width:100%; min-height:80px; padding:8px; border-radius:8px; border:1px solid #ddd;"></textarea>
-      </div>
-      <div style="display:flex; gap:8px; margin-top:12px;">
-        <button id="checkout-submit-form" class="btn">Save order & send details (Formspree)</button>
-        <a class="btn" href="#" onclick="document.getElementById('checkout-modal').classList.remove('open')">Close</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- small welcome -->
-  <div id="welcome" style="position:fixed; left:18px; bottom:18px; background:#fff; padding:10px; border-radius:8px; box-shadow:0 10px 30px rgba(0,0,0,0.12);">
-    <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
-      <div>
-        <strong>Velvet Charms — ready</strong><br>
-        <small class="muted">Catalogue loaded from /catalogue.json</small>
-      </div>
-      <button id="close-welcome" class="icon-btn">✕</button>
-    </div>
-  </div>
+    <div>© 2025 Velvet Charms — All Rights Reserved</div>
+  </footer>
 
   <script src="script.js" defer></script>
 </body>
