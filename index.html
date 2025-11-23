@@ -15,245 +15,66 @@
       <div class="logo">VC</div>
       <div>
         <h1>Velvet Charms</h1>
-        <p>Where Art Meets Emotion — Handcrafted with love</p>
+        <p>Where Art Meets Emotion</p>
       </div>
     </div>
     <nav class="nav">
-      <div class="catalogue-wrap">
-        <button id="catalogue-btn">Catalogue ▼</button>
-        <ul class="catalogue-dropdown hidden" id="catalogue-dropdown"></ul>
+      <button id="catalogue-btn">Catalogue ▼</button>
+      <div class="controls">
+        <button class="icon-btn" id="cart-btn">🛒 <span class="count" id="cart-count">0</span></button>
       </div>
-      <button id="cart-btn">Cart 🛒 <span class="count" id="cart-count">0</span></button>
     </nav>
   </header>
 
-  <!-- Hero -->
-  <div class="hero">
-    <img src="https://via.placeholder.com/120x100?text=Velvet+Charms" class="hero-img" alt="Velvet Charms">
-    <div class="hero-text">
-      <h1>Cozy Handmade Christmas Gifts</h1>
-      <p>Discover unique handcrafted items for the holidays.</p>
-    </div>
+  <!-- Catalogue dropdown -->
+  <div class="catalogue-wrap hidden" id="catalogue-dropdown">
+    <ul class="catalogue-dropdown" id="categories-list"></ul>
   </div>
 
-  <!-- Categories -->
-  <div id="categories" class="categories-grid"></div>
+  <!-- Hero -->
+  <div class="hero">
+    <img src="https://via.placeholder.com/120x100" alt="Velvet Charms Hero" class="hero-img">
+    <div class="hero-text">
+      <h1>Handcrafted with Love</h1>
+      <p>Explore our curated selection of candles, body care, artwork, and more.</p>
+    </div>
+  </div>
 
   <!-- About -->
   <div class="about-box">
     <h2>About Us</h2>
-    <p>We are a team of 12 passionate art students dedicated to creating personalized handcrafted items. Every piece is made with patience, care, and a touch of magic. Orders are prepared with love and dispatched from Frankfurt 🇩🇪 or Constanța 🇷🇴.</p>
+    <p id="about-text"></p>
   </div>
+
+  <!-- Products -->
+  <div class="products-grid" id="products-grid"></div>
 </div>
 
 <!-- Product Modal -->
-<div id="modal-overlay" class="hidden">
+<div id="modal-overlay">
   <div class="modal">
     <div class="modal-main">
-      <img src="" class="modal-main-img" id="modal-img">
-      <div class="modal-gallery" id="modal-gallery"></div>
+      <img src="" alt="" class="modal-main-img">
+      <div class="modal-gallery"></div>
     </div>
     <div class="modal-side">
-      <h3 class="modal-title" id="modal-title"></h3>
-      <p class="modal-desc" id="modal-desc"></p>
-      <div id="modal-options"></div>
-      <input type="number" id="modal-qty" class="modal-qty" value="1" min="1">
-      <button class="btn btn-primary" id="modal-add">Add to Cart</button>
-      <button class="btn btn-accent" id="modal-close">Close</button>
+      <h3 class="modal-title"></h3>
+      <p class="modal-desc"></p>
+      <div id="options-container"></div>
+      <input type="number" class="modal-qty" value="1" min="1">
+      <button class="btn btn-primary" id="add-to-cart-btn">Add to Cart</button>
     </div>
   </div>
 </div>
 
 <!-- Cart Modal -->
 <div id="cart-modal" class="cart-modal hidden">
-  <h3>Cart</h3>
+  <h3>Shopping Cart</h3>
   <div class="cart-list" id="cart-list"></div>
-  <button class="btn btn-accent" id="cart-close">Close</button>
+  <button class="btn btn-accent" id="checkout-btn">Checkout</button>
 </div>
 
-<script>
-// --------- JSON catalogue embedded to avoid external fetch ---------
-const catalogue = /* INSERT YOUR JSON CATALOGUE HERE */;
-
-// --------- DOM elements ---------
-const categoriesEl = document.getElementById('categories');
-const catalogueBtn = document.getElementById('catalogue-btn');
-const catalogueDropdown = document.getElementById('catalogue-dropdown');
-const modalOverlay = document.getElementById('modal-overlay');
-const modalImg = document.getElementById('modal-img');
-const modalGallery = document.getElementById('modal-gallery');
-const modalTitle = document.getElementById('modal-title');
-const modalDesc = document.getElementById('modal-desc');
-const modalOptions = document.getElementById('modal-options');
-const modalQty = document.getElementById('modal-qty');
-const modalAdd = document.getElementById('modal-add');
-const modalClose = document.getElementById('modal-close');
-const cartBtn = document.getElementById('cart-btn');
-const cartCount = document.getElementById('cart-count');
-const cartModal = document.getElementById('cart-modal');
-const cartList = document.getElementById('cart-list');
-const cartClose = document.getElementById('cart-close');
-
-let cart = [];
-
-// --------- Helpers ---------
-function safeImage(src) {
-  return src || 'https://via.placeholder.com/160x160?text=No+Image';
-}
-
-function createOptionRow(name, values) {
-  const row = document.createElement('div');
-  row.className = 'option-row';
-  const label = document.createElement('label');
-  label.innerText = name;
-  const select = document.createElement('select');
-  select.className = 'option-select';
-  values.forEach(v => {
-    const opt = document.createElement('option');
-    opt.value = v;
-    opt.innerText = v;
-    select.appendChild(opt);
-  });
-  row.appendChild(label);
-  row.appendChild(select);
-  return row;
-}
-
-function renderCart() {
-  cartList.innerHTML = '';
-  cart.forEach((item,i) => {
-    const row = document.createElement('div');
-    row.className = 'cart-row';
-    row.innerHTML = `
-      <img src="${safeImage(item.images[0])}" class="cart-thumb">
-      <div class="cart-info">
-        <strong>${item.name}</strong><br>
-        Qty: ${item.qty} | Price: $${item.price * item.qty}
-      </div>
-      <button class="btn-sm" onclick="removeCartItem(${i})">Remove</button>
-    `;
-    cartList.appendChild(row);
-  });
-  cartCount.innerText = cart.reduce((sum,i)=>sum+i.qty,0);
-}
-
-function removeCartItem(index) {
-  cart.splice(index,1);
-  renderCart();
-}
-
-// --------- Render categories ---------
-function renderCategories() {
-  categoriesEl.innerHTML = '';
-  catalogue.categories.forEach(cat=>{
-    const card = document.createElement('div');
-    card.className = 'cat-card';
-    const thumb = document.createElement('img');
-    thumb.className = 'cat-thumb';
-    thumb.src = safeImage(cat.categoryImage || 'https://via.placeholder.com/220x140?text=No+Image');
-    thumb.alt = cat.name;
-    const name = document.createElement('div');
-    name.className = 'cat-name';
-    name.innerText = cat.name;
-    card.appendChild(thumb);
-    card.appendChild(name);
-    card.addEventListener('click', ()=>renderProducts(cat));
-    categoriesEl.appendChild(card);
-  });
-}
-
-// --------- Render products ---------
-function renderProducts(category) {
-  categoriesEl.innerHTML = '';
-  category.subcategories.forEach(sub=>{
-    if(sub.products.length === 0) return;
-    const header = document.createElement('h3');
-    header.innerText = sub.name;
-    categoriesEl.appendChild(header);
-
-    const grid = document.createElement('div');
-    grid.className = 'products-grid';
-    sub.products.forEach(p=>{
-      const card = document.createElement('div');
-      card.className = 'product-card';
-      const img = document.createElement('img');
-      img.className = 'product-thumb';
-      img.src = safeImage(p.images[0]);
-      const title = document.createElement('div');
-      title.className = 'product-title';
-      title.innerText = p.name;
-      const price = document.createElement('div');
-      price.className = 'product-price';
-      price.innerText = `$${p.price}`;
-      const btn = document.createElement('button');
-      btn.className = 'btn btn-primary btn-sm';
-      btn.innerText = 'View';
-      btn.addEventListener('click', ()=>{
-        openModal(p);
-      });
-      card.appendChild(img);
-      card.appendChild(title);
-      card.appendChild(price);
-      card.appendChild(btn);
-      grid.appendChild(card);
-    });
-    categoriesEl.appendChild(grid);
-  });
-}
-
-// --------- Modal ---------
-function openModal(product) {
-  modalOverlay.classList.remove('hidden');
-  modalImg.src = safeImage(product.images[0]);
-  modalTitle.innerText = product.name;
-  modalDesc.innerText = product.description || '';
-  modalOptions.innerHTML = '';
-  modalQty.value = 1;
-
-  if(product.options){
-    Object.keys(product.options).forEach(k=>{
-      const row = createOptionRow(k, product.options[k]);
-      modalOptions.appendChild(row);
-    });
-  }
-
-  modalAdd.onclick = () => {
-    const qty = parseInt(modalQty.value) || 1;
-    cart.push({name: product.name, price: product.price, qty, images: product.images});
-    renderCart();
-    modalOverlay.classList.add('hidden');
-  }
-}
-
-modalClose.onclick = ()=>modalOverlay.classList.add('hidden');
-
-// --------- Catalogue dropdown ---------
-catalogueBtn.addEventListener('click', ()=>{
-  catalogueDropdown.classList.toggle('hidden');
-});
-catalogue.categories.forEach(cat=>{
-  const li = document.createElement('li');
-  li.className = 'dd-item';
-  const a = document.createElement('a');
-  a.href="#";
-  a.innerText = cat.name;
-  a.addEventListener('click', e=>{
-    e.preventDefault();
-    catalogueDropdown.classList.add('hidden');
-    renderProducts(cat);
-  });
-  li.appendChild(a);
-  catalogueDropdown.appendChild(li);
-});
-
-// --------- Cart modal ---------
-cartBtn.addEventListener('click', ()=>cartModal.classList.toggle('hidden'));
-cartClose.addEventListener('click', ()=>cartModal.classList.add('hidden'));
-
-// --------- Init ---------
-renderCategories();
-renderCart();
-</script>
-
+<script src="catalogue.json" type="application/json" id="catalogue-data"></script>
+<script src="script.js"></script>
 </body>
 </html>
