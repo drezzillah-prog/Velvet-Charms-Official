@@ -1,150 +1,271 @@
-body {
-  font-family: 'Arial', sans-serif;
-  background-color: #fff8f0;
-  color: #222;
-  margin: 0;
-  padding: 0;
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
 }
 
+body {
+    background-color: #f9f9f9;
+    color: #333;
+    position: relative;
+    min-height: 100vh;
+}
+
+/* Header */
 header {
-  background: #b71c1c;
-  color: white;
-  padding: 20px;
+    background: linear-gradient(135deg, #a50f15, #12690e);
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 header h1 {
-  margin: 0 0 10px 0;
+    font-family: 'Georgia', serif;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
 }
 
 nav ul {
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  padding: 0;
-  margin: 0 0 10px 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 0.5rem;
 }
 
 nav ul li {
-  margin-right: 15px;
+    margin: 0.5rem 1rem;
 }
 
 nav ul li a {
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
 }
 
-nav input[type="text"] {
-  padding: 5px;
-  border-radius: 5px;
-  border: none;
+nav ul li a:hover {
+    color: gold;
+}
+
+#search {
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: none;
+    width: 80%;
+    max-width: 400px;
+    margin-bottom: 1rem;
 }
 
 #cart-wishlist {
-  margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
 }
 
 #cart-wishlist button {
-  margin-right: 10px;
-  padding: 5px 10px;
-  background-color: #f9a825;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+    padding: 0.5rem 1rem;
+    background-color: gold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
 }
 
+#cart-wishlist button:hover {
+    background-color: #ffdd57;
+}
+
+/* Catalogue Grid */
 #catalogue-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 20px;
-  padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
 }
 
 .product-card {
-  background: white;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 10px;
-  text-align: center;
-  position: relative;
+    background-color: #fff;
+    border: 2px solid #a50f15;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
 .product-card img {
-  max-width: 100%;
-  border-radius: 10px;
-  cursor: pointer;
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.product-card .product-info {
+    padding: 0.5rem 1rem;
 }
 
 .product-card h3 {
-  margin: 10px 0 5px 0;
-  font-size: 1.1em;
+    margin-bottom: 0.3rem;
+    color: #a50f15;
 }
 
 .product-card p {
-  margin: 5px 0;
+    margin-bottom: 0.3rem;
+    font-size: 0.9rem;
 }
 
 .product-card button {
-  margin-top: 5px;
-  padding: 5px 10px;
-  background-color: #2e7d32;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    background-color: #12690e;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.product-card button:hover {
+    background-color: #0f4f0b;
 }
 
 /* Modal */
 .modal {
-  display: none;
-  position: fixed;
-  z-index: 100;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0,0,0,0.7);
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
 }
 
 .modal-content {
-  background-color: #fff;
-  margin: 50px auto;
-  padding: 20px;
-  border-radius: 10px;
-  width: 90%;
-  max-width: 700px;
-  position: relative;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 1rem;
+    width: 90%;
+    max-width: 700px;
+    position: relative;
 }
 
-.modal-content img {
-  width: 100%;
-  margin-bottom: 10px;
+.modal-content h2 {
+    color: #a50f15;
+    margin-bottom: 0.5rem;
 }
 
-.modal-content .close {
-  position: absolute;
-  top: 10px;
-  right: 20px;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
+.modal-content p {
+    margin-bottom: 0.5rem;
 }
 
-/* Snowflake animation */
-@keyframes snow {
-  0% {transform: translateY(0);}
-  100% {transform: translateY(100vh);}
+.modal-content label {
+    font-weight: bold;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: 0.5rem;
+    margin: 0.3rem 0 0.5rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.modal-content button,
+.modal-content a {
+    padding: 0.5rem 1rem;
+    margin: 0.3rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    color: #fff;
+}
+
+#modal-add-cart {
+    background-color: #12690e;
+}
+
+#modal-add-wishlist {
+    background-color: #a50f15;
+}
+
+#modal-paypal {
+    background-color: gold;
+    color: #000;
+}
+
+/* Close Modal */
+.close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+/* Gallery */
+.product-gallery {
+    display: flex;
+    overflow-x: auto;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.product-gallery img {
+    height: 150px;
+    cursor: pointer;
+    border: 2px solid #a50f15;
+    border-radius: 5px;
+}
+
+/* Snowflakes */
+#snowflakes {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 100;
 }
 
 .snowflake {
-  position: fixed;
-  top: -10px;
-  color: white;
-  font-size: 1em;
-  z-index: 9999;
-  animation-name: snow;
-  animation-duration: 10s;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
+    position: absolute;
+    top: -10px;
+    font-size: 1rem;
+    color: white;
+    user-select: none;
+    animation: fall 10s linear infinite;
+}
+
+@keyframes fall {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(100vh) rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+    }
+    #catalogue-container {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
 }
