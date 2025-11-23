@@ -2,117 +2,149 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Velvet Charms — Where Art Meets Emotion</title>
+  <title>Velvet Charms — Handcrafted</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <div id="site-brand">
-      <div id="logo"><img src="top banner picture for candles.png" alt="logo" style="height:42px;border-radius:8px"></div>
+  <header class="header">
+    <div class="brand">
+      <div class="logo" aria-hidden="true"></div>
       <div>
-        <div id="site-name">Velvet Charms ❄️</div>
-        <div id="site-tagline">Where Art Meets Emotion — Handcrafted with love</div>
+        <h1 id="site-title">Velvet Charms</h1>
+        <p id="site-tagline">Where Art Meets Emotion — Handcrafted with love</p>
       </div>
     </div>
-    <div class="header-actions">
-      <button id="btn-favs" class="icon-btn">❤ <span id="fav-count">0</span></button>
-      <button id="btn-cart" class="icon-btn">🛒 <span id="cart-count">0</span></button>
-      <button id="btn-contact" class="icon-btn" onclick="document.getElementById('contact-section').scrollIntoView()">Contact</button>
-    </div>
+    <nav class="nav-actions">
+      <button id="menu-toggle" class="icon-btn">☰</button>
+      <button id="wish-toggle" class="icon-btn">❤ <span id="wish-count">0</span></button>
+      <button id="cart-toggle" class="icon-btn">🛒 <span id="cart-count">0</span></button>
+    </nav>
   </header>
 
   <main class="container">
-    <section class="hero">
-      <div class="intro">
-        <h1>Handcrafted Treasures Await</h1>
-        <p>Personalized, artisan-made pieces — created with love by our team of 12 art students. Preorder now for holiday gifting. Explore our curated collections below.</p>
-        <div style="margin-top:12px">
-          <button class="btn btn-add" onclick="document.getElementById('catalogue-list').scrollIntoView()">Explore Catalogue</button>
-          <button class="btn" onclick="document.getElementById('about-section').scrollIntoView()">About Us</button>
-        </div>
-      </div>
-      <div style="width:320px">
-        <img src="top banner picture for candles.png" alt="candles" style="width:100%;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.12)">
-      </div>
+    <div id="hero-banner" class="hidden" role="img" aria-label="Banner"></div>
+
+    <section id="catalogue-overview">
+      <ul id="categories-list" class="muted" style="display:flex; gap:8px; padding:0; list-style:none;"></ul>
+      <div id="catalogue-grid"></div>
     </section>
 
-    <section id="catalogue">
-      <h2>Collections</h2>
-      <div id="catalogue-list"></div>
+    <section id="catalogue-area" class="hidden">
+      <h2 id="main-title">Catalogue</h2>
+      <ul id="subcategories-list"></ul>
+      <div id="products-cards"></div>
     </section>
 
-    <section id="about-section" style="margin-top:26px">
-      <h2 id="about-title">About Us</h2>
+    <section id="about" style="margin-top:26px;">
+      <h3 id="about-title">About Us</h3>
       <p id="about-text"></p>
     </section>
 
-    <section id="contact-section" style="margin-top:26px">
-      <h2>Contact Us</h2>
-      <form id="contact-form" action="https://formspree.io/f/YOUR_FORMSPREE_ID" method="POST">
-        <label>Your name <input type="text" name="name" required></label><br>
-        <label>Your email <input type="email" name="email" required></label><br>
-        <label>Message <textarea name="message" rows="4" required></textarea></label><br>
-        <input type="hidden" name="_subject" value="Velvet Charms site message">
-        <button type="submit" class="btn btn-add">Send Message</button>
+    <section style="margin-top:22px;">
+      <h3>Contact</h3>
+      <form id="contact-form">
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <input name="name" placeholder="Name" required style="flex:1; padding:10px; border-radius:8px; border:1px solid #ddd;">
+          <input name="email" placeholder="Email" required style="flex:1; padding:10px; border-radius:8px; border:1px solid #ddd;">
+        </div>
+        <textarea name="message" placeholder="Message" required style="width:100%; margin-top:8px; padding:10px; min-height:120px; border-radius:8px; border:1px solid #ddd;"></textarea>
+        <div style="display:flex; gap:8px; margin-top:8px;">
+          <button class="btn" type="submit">Send Message</button>
+          <small class="muted">Contact will be sent to your Formspree endpoint configured in script.js</small>
+        </div>
       </form>
     </section>
+
+    <div id="error-banner" class="hidden" style="background:#fee; padding:10px; border-radius:8px; margin-top:12px;"></div>
+
   </main>
 
-  <!-- Details Modal -->
-  <div id="modal" class="modal" aria-hidden="true">
-    <div class="modal-card">
-      <button id="btn-close-modal" class="icon-btn" style="float:right">Close</button>
-      <h3 id="modal-title"></h3>
-      <div id="modal-gallery"></div>
-      <div id="modal-desc" style="margin:8px 0"></div>
-      <div id="modal-options"></div>
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
-        <div id="modal-price" style="font-weight:700"></div>
-        <div>
-          <button id="modal-buy" class="btn btn-add">Buy</button>
-          <button class="btn" onclick="document.getElementById('modal').classList.remove('open')">Close</button>
+  <!-- Product Modal -->
+  <div id="product-modal" class="modal">
+    <div class="modal-backdrop"></div>
+    <div class="modal-panel" role="dialog" aria-modal="true">
+      <div>
+        <h3 class="modal-title"></h3>
+        <div class="modal-images"></div>
+        <p class="modal-desc"></p>
+      </div>
+      <div class="modal-right">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div class="modal-price"></div>
+          <button class="modal-close btn">Close</button>
+        </div>
+        <div class="modal-options" style="margin-top:12px;"></div>
+
+        <form id="personalization-form" style="margin-top:12px;">
+          <label class="small">Personalization note (size, color, details)<br>
+            <textarea name="personal-note" placeholder="Describe customizations..." style="width:100%; min-height:80px; padding:8px; border-radius:8px; border:1px solid #ddd;"></textarea>
+          </label>
+          <label class="small">Upload reference images (optional)<br>
+            <input id="personalization-files" name="files" type="file" multiple accept="image/*">
+          </label>
+          <div id="personalization-preview" style="display:flex; gap:6px; margin-top:8px;"></div>
+        </form>
+
+        <div style="display:flex; gap:8px; margin-top:12px;">
+          <button id="modal-add-to-cart" class="btn">Add to Cart</button>
+          <button id="modal-buy-now" class="btn">Buy Now</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Personalization drawer -->
-  <aside id="personalize">
-    <button id="btn-close-personalize" class="icon-btn" style="float:right">X</button>
-    <h4 id="personalize-title"></h4>
-    <div id="personalize-price"></div>
-    <div id="personalize-images" style="display:flex;margin:8px 0"></div>
-    <form id="personalize-form"></form>
-  </aside>
-
-  <!-- Cart modal -->
-  <div id="cart-modal" class="modal">
-    <div class="modal-card">
-      <h3>Your Cart</h3>
-      <div id="cart-items"></div>
-      <div style="margin-top:12px">
-        <button id="checkout-btn" class="btn btn-add">Checkout</button>
-        <button class="btn" onclick="document.getElementById('cart-modal').classList.remove('open')">Close</button>
-      </div>
+  <!-- Cart drawer -->
+  <div id="cart-drawer" aria-hidden="true">
+    <h4>Cart <span id="cart-count">0</span></h4>
+    <div class="cart-items"></div>
+    <div style="display:flex; justify-content:space-between; margin-top:8px;">
+      <div class="muted">Total</div>
+      <div id="cart-total">$0.00</div>
+    </div>
+    <div style="margin-top:12px; display:flex; gap:8px;">
+      <button id="cart-checkout" class="btn">Checkout</button>
+      <button id="clear-cart" class="btn" onclick="localStorage.removeItem('vc_cart'); location.reload();">Clear</button>
     </div>
   </div>
 
-  <!-- Order form modal -->
-  <div id="order-form-modal" class="modal">
-    <div class="modal-card">
+  <!-- Wishlist drawer -->
+  <div id="wishlist-drawer" aria-hidden="true">
+    <h4>Favorites</h4>
+    <div class="list"></div>
+  </div>
+
+  <!-- Checkout modal -->
+  <div id="checkout-modal">
+    <div class="panel">
+      <button class="close" style="float:right;">✕</button>
       <h3>Order Summary</h3>
-      <textarea id="order-summary" rows="6" readonly></textarea>
-      <input id="order-email" type="email" placeholder="your@email.com">
-      <textarea id="order-note" rows="3" placeholder="Extra notes for the order"></textarea>
-      <div style="display:flex;gap:10px">
-        <button id="order-send" class="btn btn-add">Send Order</button>
-        <button class="btn" onclick="document.getElementById('order-form-modal').classList.remove('open')">Cancel</button>
+      <div class="order-list" style="margin-top:8px;"></div>
+      <div style="display:flex; justify-content:space-between; margin-top:12px;">
+        <div class="muted">Total</div>
+        <div class="order-total">$0.00</div>
+      </div>
+      <div style="margin-top:8px;">
+        <textarea id="checkout-note" placeholder="Any final notes for your order..." style="width:100%; min-height:80px; padding:8px; border-radius:8px; border:1px solid #ddd;"></textarea>
+      </div>
+      <div style="display:flex; gap:8px; margin-top:12px;">
+        <button id="checkout-submit-form" class="btn">Save order & send details (Formspree)</button>
+        <a class="btn" href="#" onclick="document.getElementById('checkout-modal').classList.remove('open')">Close</a>
       </div>
     </div>
   </div>
 
-  <!-- mini scripts -->
-  <script src="script.js"></script>
+  <!-- small welcome -->
+  <div id="welcome" style="position:fixed; left:18px; bottom:18px; background:#fff; padding:10px; border-radius:8px; box-shadow:0 10px 30px rgba(0,0,0,0.12);">
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
+      <div>
+        <strong>Velvet Charms — ready</strong><br>
+        <small class="muted">Catalogue loaded from /catalogue.json</small>
+      </div>
+      <button id="close-welcome" class="icon-btn">✕</button>
+    </div>
+  </div>
+
+  <script src="script.js" defer></script>
 </body>
 </html>
