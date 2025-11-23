@@ -1,80 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Velvet Charms</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Velvet Charms Catalogue</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-<body class="theme-christmas">
-
-<div class="container">
-  <!-- Header -->
-  <header class="header">
-    <div class="brand">
-      <div class="logo">VC</div>
-      <div>
-        <h1>Velvet Charms</h1>
-        <p>Where Art Meets Emotion</p>
-      </div>
-    </div>
-    <nav class="nav">
-      <button id="catalogue-btn">Catalogue ▼</button>
-      <div class="controls">
-        <button class="icon-btn" id="cart-btn">🛒 <span class="count" id="cart-count">0</span></button>
-      </div>
+<body>
+  <header>
+    <h1>Velvet Charms Catalogue</h1>
+    <nav>
+      <ul id="menu">
+        <li><a href="#" data-category="paintings">Paintings</a></li>
+        <li><a href="#" data-category="epoxy_clay">Epoxy & Clay Creations</a></li>
+        <li><a href="#" data-category="hair_accessories">Hair Accessories</a></li>
+        <li><a href="#" data-category="leather_bags">Leather Bags</a></li>
+        <li><a href="#" data-category="home_decor">Home Decor</a></li>
+        <li><a href="#" data-category="candles">Candles</a></li>
+        <li><a href="#" data-category="body_care">Body Care</a></li>
+        <li><a href="#" data-category="bundles">Bundles</a></li>
+      </ul>
+      <input type="text" id="search" placeholder="Search products...">
     </nav>
+    <div id="cart-wishlist">
+      <button id="view-cart">Cart (<span id="cart-count">0</span>)</button>
+      <button id="view-wishlist">Wishlist (<span id="wishlist-count">0</span>)</button>
+    </div>
   </header>
 
-  <!-- Catalogue dropdown -->
-  <div class="catalogue-wrap hidden" id="catalogue-dropdown">
-    <ul class="catalogue-dropdown" id="categories-list"></ul>
-  </div>
+  <main id="catalogue-container">
+    <!-- Products will be rendered here -->
+  </main>
 
-  <!-- Hero -->
-  <div class="hero">
-    <img src="https://via.placeholder.com/120x100" alt="Velvet Charms Hero" class="hero-img">
-    <div class="hero-text">
-      <h1>Handcrafted with Love</h1>
-      <p>Explore our curated selection of candles, body care, artwork, and more.</p>
+  <!-- Product modal -->
+  <div id="product-modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div id="modal-images"></div>
+      <h2 id="modal-title"></h2>
+      <p id="modal-description"></p>
+      <p id="modal-price"></p>
+      <p id="modal-size"></p>
+      <button id="add-to-cart">Add to Cart</button>
+      <button id="add-to-wishlist">Add to Wishlist</button>
+      <a id="paypal-link" href="#" target="_blank">Buy Now</a>
     </div>
   </div>
 
-  <!-- About -->
-  <div class="about-box">
-    <h2>About Us</h2>
-    <p id="about-text"></p>
-  </div>
-
-  <!-- Products -->
-  <div class="products-grid" id="products-grid"></div>
-</div>
-
-<!-- Product Modal -->
-<div id="modal-overlay">
-  <div class="modal">
-    <div class="modal-main">
-      <img src="" alt="" class="modal-main-img">
-      <div class="modal-gallery"></div>
-    </div>
-    <div class="modal-side">
-      <h3 class="modal-title"></h3>
-      <p class="modal-desc"></p>
-      <div id="options-container"></div>
-      <input type="number" class="modal-qty" value="1" min="1">
-      <button class="btn btn-primary" id="add-to-cart-btn">Add to Cart</button>
-    </div>
-  </div>
-</div>
-
-<!-- Cart Modal -->
-<div id="cart-modal" class="cart-modal hidden">
-  <h3>Shopping Cart</h3>
-  <div class="cart-list" id="cart-list"></div>
-  <button class="btn btn-accent" id="checkout-btn">Checkout</button>
-</div>
-
-<script src="catalogue.json" type="application/json" id="catalogue-data"></script>
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
