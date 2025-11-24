@@ -10,7 +10,6 @@
     "currency": "USD",
     "postPurchaseMessage": "Thank you — your payment was received. Your order will be processed within 48 hours. You will receive a confirmation email shortly."
   },
-
   "categories": [
     {
       "id": "candles",
@@ -31,7 +30,8 @@
               "options": {
                 "scent": ["Myrrh","Sage","Frankincense","Sandalwood","Unscented"],
                 "intensity": ["Soft","Medium","Strong"]
-              }
+              },
+              "removeDetailsIndex": [1]
             },
             {
               "id": "spirit_half_200",
@@ -78,12 +78,35 @@
                 "scent": ["Orange","Lemon","Lavender","Vanilla","Jasmine","Lemongrass","Coconut","Cinnamon","Pine","Sandalwood","Coffee","Sweet Almond","Unscented"],
                 "intensity": ["Soft","Medium","Strong"]
               }
+            },
+            {
+              "id": "wax_medium",
+              "name": "Wax Candle — Medium (250ml)",
+              "price": 25,
+              "paymentLink": "https://www.paypal.com/ncp/payment/DJVW5LQCPL6A6",
+              "description": "Medium wax candle.",
+              "images": ["wax_candle_medium.jpg"],
+              "options": {
+                "scent": ["Orange","Lemon","Lavender","Vanilla","Jasmine","Lemongrass","Coconut","Cinnamon","Pine","Sandalwood","Coffee","Sweet Almond","Unscented"],
+                "intensity": ["Soft","Medium","Strong"]
+              }
+            },
+            {
+              "id": "wax_large",
+              "name": "Wax Candle — Large (400ml)",
+              "price": 33,
+              "paymentLink": "https://www.paypal.com/ncp/payment/XFL9ZGYBJEHXW",
+              "description": "Large wax candle — aroma & intensity options added.",
+              "images": ["wax_candle_large.png"],
+              "options": {
+                "scent": ["Orange","Lemon","Lavender","Vanilla","Jasmine","Lemongrass","Coconut","Cinnamon","Pine","Sandalwood","Coffee","Sweet Almond","Unscented"],
+                "intensity": ["Soft","Medium","Strong"]
+              }
             }
           ]
         }
       ]
     },
-
     {
       "id": "bodycare",
       "name": "Body Care",
@@ -127,7 +150,6 @@
             }
           ]
         },
-
         {
           "id": "soaps",
           "name": "Soaps",
@@ -173,11 +195,9 @@
         }
       ]
     },
-
     {
       "id": "soaps_more",
       "name": "Soaps — shapes & gift sets",
-      "categoryImage": "Gift Soap Set (3 pcs)1.png",
       "products": [
         {
           "id": "soap_flower",
@@ -233,7 +253,9 @@
           "price": 54,
           "paymentLink": "https://www.paypal.com/ncp/payment/6QVGP97CQRGN2",
           "description": "Select any three fruit- or flower-shaped soaps.",
-          "images": ["Gift Fruit shaped Flower shaped Soap Set (3 pcs).png"]
+          "images": [
+            "Gift Fruit shaped Flower shaped Soap Set (3 pcs).png"
+          ]
         },
         {
           "id": "soap_gift_set_new",
@@ -249,7 +271,6 @@
         }
       ]
     },
-
     {
       "id": "perfumes",
       "name": "Perfumes",
@@ -279,7 +300,6 @@
         }
       ]
     },
-
     {
       "id": "knitted_braided",
       "name": "Knitted & Braided Wool Creations",
@@ -371,7 +391,6 @@
         }
       ]
     },
-
     {
       "id": "artworks",
       "name": "Paintings & Portraits",
@@ -425,7 +444,6 @@
         }
       ]
     },
-
     {
       "id": "epoxy_clay",
       "name": "Epoxy & Clay Creations",
@@ -459,7 +477,8 @@
               "name": "Epoxy & Clay Candle Holders — Assorted (A–D)",
               "price": 45,
               "paymentLink": "https://www.paypal.com/ncp/payment/N6VJ7EN5RE4H2",
-              "images": ["candle_holder_24.png","candle_holder_25.png","candle_holder_28.png","candle_holder_27.png"]
+              "images": ["candle_holder_24.png","candle_holder_25.png","candle_holder_28.png","candle_holder_27.png"],
+              "description": "Assorted epoxy & clay candle holders — choose finish."
             }
           ]
         },
@@ -498,11 +517,9 @@
         }
       ]
     },
-
     {
       "id": "phone_cases",
       "name": "Phone Cases",
-      "categoryImage": "PersonalizedCase (1).png",
       "products": [
         {
           "id": "personalized_case",
@@ -516,7 +533,6 @@
         }
       ]
     },
-
     {
       "id": "hair_accessories",
       "name": "Hair Accessories",
@@ -580,7 +596,6 @@
         }
       ]
     },
-
     {
       "id": "home_decor",
       "name": "Home Decor",
@@ -653,11 +668,9 @@
         }
       ]
     },
-
     {
       "id": "bundles",
       "name": "Bundles",
-      "categoryImage": "Herbal soap + face cream + small wax candle.png",
       "subcategories": [
         {
           "id": "relax_restore",
@@ -702,6 +715,5 @@
         }
       ]
     }
-
   ]
 }
