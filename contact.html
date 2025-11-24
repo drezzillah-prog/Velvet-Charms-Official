@@ -1,55 +1,80 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Contact — Velvet Charms</title>
-  <link rel="stylesheet" href="style.css"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact • Velvet Charms</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="script.js"></script>
 </head>
 <body>
-  <header class="site-header christmas">
-    <div class="brand">
-      <h1>Velvet Charms</h1>
-      <p class="tagline">Where Art Meets Emotion — Handcrafted with love</p>
-    </div>
-    <nav class="main-nav">
-      <a href="index.html">Home</a>
-      <a href="catalogue.html">Catalogue</a>
-      <a href="about.html">About</a>
-      <a href="contact.html" class="active">Contact</a>
-    </nav>
-  </header>
 
-  <main class="contact-page">
-    <h2>Contact</h2>
-    <p>Please use the contact form below and we will reply as soon as possible.</p>
+<header class="site-header">
+  <div class="logo">Velvet Charms</div>
+  <nav class="nav">
+    <a href="index.html">Home</a>
+    <a href="catalogue.html">Catalogue</a>
+    <a href="about.html">About</a>
+    <a href="contact.html" class="active">Contact</a>
+  </nav>
 
-    <form id="contactForm" method="POST" action="https://formspree.io/f/xyzykwde">
-      <label>
-        Your name
-        <input type="text" name="name" required>
-      </label>
-      <label>
-        Your email
-        <input type="email" name="email" required>
-      </label>
-      <label>
-        Message
-        <textarea name="message" rows="6" required></textarea>
-      </label>
-      <button type="submit" class="btn primary">Send message</button>
-    </form>
-  </main>
+  <div class="icons">
+    <button id="favoritesBtn4" class="icon-btn">♡ <span id="favCount4">0</span></button>
+    <button id="cartBtn4" class="icon-btn">🛒 <span id="cartCount4">0</span></button>
+  </div>
+</header>
 
-  <footer>
-    <p>© Velvet Charms</p>
-  </footer>
+<section class="page-banner contact-banner">
+  <h1>Contact Us</h1>
+  <p>We’re here to help with orders, commissions, or special requests.</p>
+</section>
 
-  <script src="script.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-      await window.appInit && window.appInit();
-    });
-  </script>
+<section class="contact-section">
+  <form action="https://formspree.io/f/xyzykwde" method="POST" class="contact-form">
+    
+    <label>
+      Your Name
+      <input type="text" name="name" required>
+    </label>
+
+    <label>
+      Your Email
+      <input type="email" name="email" required>
+    </label>
+
+    <label>
+      Your Message
+      <textarea name="message" rows="6" required></textarea>
+    </label>
+
+    <button class="btn primary" type="submit">Send Message</button>
+
+  </form>
+</section>
+
+<footer class="site-footer">
+  <p>© Velvet Charms</p>
+</footer>
+
+<!-- CART PANEL -->
+<div id="cartPanel" class="side-panel hidden" aria-hidden="true">
+  <h2>Your Cart</h2>
+  <div id="cartItems"></div>
+  <div class="cart-total">Total: <span id="cartTotal">USD 0.00</span></div>
+  <button id="checkoutBtn" class="btn primary">Checkout</button>
+  <button id="continueShopping" class="btn secondary">Continue</button>
+</div>
+
+<!-- MODAL -->
+<div id="modal" class="modal hidden" aria-hidden="true">
+  <div class="modal-backdrop"></div>
+  <div class="modal-card" id="modalContent"></div>
+  <button class="modal-close" id="modalClose2">×</button>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", appInit);
+</script>
+
 </body>
 </html>
