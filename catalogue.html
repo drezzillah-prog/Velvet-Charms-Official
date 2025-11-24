@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Catalogue — Velvet Charms</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="brand">
+        <div class="logo">VC</div>
+        <div>
+          <div class="site-title">Velvet Charms</div>
+          <div class="site-tag">Where Art Meets Emotion — Handcrafted with love</div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="catalogue.html">Catalogue</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+
+      <div class="controls">
+        <div class="icon-btn" id="favorites-btn-2">❤ <span class="counter" id="fav-count-2">0</span></div>
+        <div class="icon-btn" id="cart-btn-2">🛒 <span class="counter" id="cart-count-2">0</span></div>
+      </div>
+    </header>
+
+    <main>
+      <section style="display:flex; gap:20px; align-items:center;">
+        <h2>Catalogue</h2>
+        <div style="margin-left:auto;">
+          <input id="catalogue-search" placeholder="Search products..." style="padding:8px 10px; border-radius:8px; border:1px solid rgba(0,0,0,0.08);">
+        </div>
+      </section>
+
+      <section style="margin-top:12px;">
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <button class="btn secondary" id="filter-all">All</button>
+          <div id="category-filters" style="display:flex; gap:8px; flex-wrap:wrap;"></div>
+        </div>
+
+        <div id="catalogue-grid" class="products-grid" style="margin-top:14px;"></div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal for details -->
+  <div id="modal-root" class="hide"></div>
+
+  <!-- Cart / Favorites Drawer -->
+  <div id="drawer-root" class="hide"></div>
+
+  <script src="script.js"></script>
+  <script>
+    // CATALOGUE: initialize page-specific UI
+    document.addEventListener('DOMContentLoaded', function () {
+      window.APP && APP.initCatalogue && APP.initCatalogue();
+    });
+  </script>
+</body>
+</html>
