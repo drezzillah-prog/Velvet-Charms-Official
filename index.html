@@ -1,63 +1,113 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Velvet Charms — Home</title>
-  <link rel="stylesheet" href="style.css"/>
+
+  <!-- Christmas Fonts + Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-  <header class="site-header christmas">
-    <div class="brand">
-      <h1>Velvet Charms</h1>
-      <p class="tagline">Where Art Meets Emotion — Handcrafted with love</p>
-    </div>
-    <nav class="main-nav">
-      <a href="index.html" class="active">Home</a>
+
+<body class="christmas-bg">
+
+  <!-- Snowflakes -->
+  <div class="snowflakes" aria-hidden="true">
+    <div class="snowflake">❄</div>
+    <div class="snowflake">✻</div>
+    <div class="snowflake">❅</div>
+    <div class="snowflake">❆</div>
+    <div class="snowflake">❄</div>
+    <div class="snowflake">✻</div>
+    <div class="snowflake">❅</div>
+    <div class="snowflake">❆</div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="main-header">
+    <div class="logo">Velvet Charms</div>
+
+    <nav class="nav">
+      <a href="index.html">Home</a>
       <a href="catalogue.html">Catalogue</a>
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
-      <button id="favoritesBtn" class="icon-btn">❤ <span id="favCount">0</span></button>
-      <button id="cartBtn" class="icon-btn">🛒 <span id="cartCount">0</span></button>
     </nav>
+
+    <div class="icons">
+      <button id="favoritesBtn">❤ <span id="favCount">0</span></button>
+      <button id="cartBtn">🛒 <span id="cartCount">0</span></button>
+    </div>
   </header>
 
-  <main class="home">
-    <section class="hero">
-      <img src="top banner picture for candles.png" alt="Velvet Charms" onerror="this.src='seasonal candle.png'"/>
-      <div class="hero-text">
-        <h2>Handmade with love — ready for the season</h2>
-        <p>Personalized gifts, handcrafted home decor & small-batch bodycare. Orders ship from Frankfurt or Constanța.</p>
-        <p><a class="btn" href="catalogue.html">Browse catalogue</a></p>
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <img src="top banner picture for candles.png" alt="Holiday Banner" class="hero-img" />
+    <div class="hero-text">
+      <h1>Where Art Meets Emotion</h1>
+      <p>Handcrafted treasures made with love</p>
+      <a href="catalogue.html" class="btn-large gold">Explore Catalogue</a>
+    </div>
+  </section>
+
+  <!-- FEATURED -->
+  <section class="featured">
+    <h2>Holiday Favorites</h2>
+
+    <div class="featured-grid">
+      <div class="feat-card">
+        <img src="seasonal candle.png" alt="Candles" />
+        <h3>Candles</h3>
+        <p>Warmth • Light • Magic</p>
       </div>
-    </section>
 
-    <section class="highlights">
-      <article>
-        <h3>Fast custom work</h3>
-        <p>We craft unique pieces on request — upload your photo for commissions.</p>
-      </article>
-      <article>
-        <h3>Prepaid orders</h3>
-        <p>All orders are processed after online prepayment.</p>
-      </article>
-      <article>
-        <h3>Support handmade</h3>
-        <p>Small studio team of 12 art students — every purchase supports a craft studio.</p>
-      </article>
-    </section>
-  </main>
+      <div class="feat-card">
+        <img src="Fruit Soap.png" alt="Soaps" />
+        <h3>Artisan Soaps</h3>
+        <p>Natural • Fragrant • Beautiful</p>
+      </div>
 
-  <footer>
-    <p>© Velvet Charms</p>
+      <div class="feat-card">
+        <img src="Matching Winter Set — Beanie + Scarf + Mittens.png" alt="Wool Items" />
+        <h3>Winter Wool Sets</h3>
+        <p>Soft • Cozy • Handmade</p>
+      </div>
+
+      <div class="feat-card">
+        <img src="Epoxy Lamp (1).png" alt="Epoxy Art" />
+        <h3>Epoxy Creations</h3>
+        <p>Unique • Elegant • Custom</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+      © Velvet Charms — All Rights Reserved
   </footer>
 
+  <!-- CART PANEL + MODAL -->
+  <div id="cartPanel" class="cart-panel hidden" aria-hidden="true">
+    <h2>Your Cart</h2>
+    <div id="cartItems"></div>
+    <div class="cart-total">
+      <strong>Total:</strong> <span id="cartTotal">USD 0.00</span>
+    </div>
+    <button id="checkoutBtn" class="btn-large green">Checkout (PayPal)</button>
+    <button id="continueShopping" class="btn-large secondary">Continue Shopping</button>
+  </div>
+
+  <div id="modal" class="modal hidden" aria-hidden="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-card">
+      <button id="modalClose2" class="modal-close">×</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
   <script src="script.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-      await window.appInit && window.appInit();
-      // home doesn't need catalogue render, but keep counts synced
-    });
-  </script>
 </body>
 </html>
