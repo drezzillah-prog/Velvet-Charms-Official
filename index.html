@@ -3,97 +3,64 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Velvet Charms — Where Art Meets Emotion</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Velvet Charms — Home</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
-    <header class="header">
-      <div class="brand">
-        <div class="logo">VC</div>
-        <div>
-          <div class="site-title">Velvet Charms ❄️</div>
-          <div class="site-tag">Where Art Meets Emotion — Handcrafted with love</div>
-        </div>
+  <header class="site-header">
+    <div class="brand">
+      <img src="top banner picture for candles.png" alt="Velvet Charms logo" class="brand-img">
+      <div>
+        <h1 id="site-name">Velvet Charms</h1>
+        <p id="site-tagline">Where Art Meets Emotion — Handcrafted with love</p>
       </div>
+    </div>
 
-      <nav class="nav">
-        <a href="index.html">Home</a>
-        <a href="catalogue.html">Catalogue</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-      </nav>
-
-      <div class="controls">
-        <div class="icon-btn" id="favorites-btn">❤ <span class="counter" id="fav-count">0</span></div>
-        <div class="icon-btn" id="cart-btn">🛒 <span class="counter" id="cart-count">0</span></div>
+    <nav class="top-nav">
+      <a href="index.html">Home</a>
+      <a href="catalogue.html">Catalogue</a>
+      <a href="about.html">About Us</a>
+      <a href="contact.html">Contact</a>
+      <div class="icons">
+        <button id="favorites-btn" title="Wishlist">❤ <span id="fav-count">0</span></button>
+        <button id="cart-btn" title="Cart">🛒 <span id="cart-count">0</span></button>
       </div>
-    </header>
+    </nav>
+  </header>
 
-    <main>
-      <section class="hero">
-        <div class="hero-left">
-          <h1>Handmade gifts you’ll treasure</h1>
-          <p>Velvet Charms is a small student-run studio crafting personalized, handcrafted items — from epoxy lamps to clay mugs and cozy knitted sets. Each piece is made to order with care. Browse the catalogue below and personalize before checkout.</p>
-          <p style="margin-top:12px;"><a class="btn" href="catalogue.html">Explore Catalogue</a></p>
-        </div>
-        <div class="hero-right">
-          <!-- Use one of the uploaded images as hero visual -->
-          <img src="top banner picture for candles.png" alt="Velvet Charms hero">
-        </div>
-      </section>
+  <main class="container">
+    <section class="hero">
+      <h2>Welcome to Velvet Charms</h2>
+      <p class="lead">Handcrafted gifts, candles, soaps, art and more — made with love. Browse the catalogue or visit specific pages.</p>
+      <div class="hero-actions">
+        <a class="btn" href="catalogue.html">Browse Catalogue</a>
+        <a class="btn ghost" href="about.html">Learn About Us</a>
+      </div>
+    </section>
 
-      <section>
-        <h2 style="margin-top:18px; margin-bottom:10px;">Top Categories</h2>
-        <div id="home-categories" class="grid"></div>
-      </section>
+    <section id="categories-grid" class="grid categories-grid" aria-live="polite">
+      <!-- categories loaded by script.js -->
+    </section>
 
-      <section style="margin-top:20px;">
-        <h2>About</h2>
-        <div style="display:flex; gap:16px; align-items:flex-start; margin-top:10px;">
-          <div style="flex:1;">
-            <h3>We are Velvet Charms</h3>
-            <p>We are a team of 12 passionate art students dedicated to creating personalized handcrafted items. Every piece is carefully produced on request and requires online prepayment. Orders are dispatched from the studio closest to you: Frankfurt, Germany or Constanța, Romania.</p>
-          </div>
-          <div style="width:260px;">
-            <img src="Herbal soap + face cream + small wax candle.png" alt="Relax & Restore" style="width:100%; border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,0.06);">
-          </div>
-        </div>
-      </section>
+    <section class="info-strip">
+      <div>
+        <h3>Orders & Processing</h3>
+        <p>Orders ship from the studio closest to you (Frankfurt, DE or Constanța, RO). All items are made-to-order and require online prepayment.</p>
+      </div>
+    </section>
+  </main>
 
-      <footer class="footer">
-        <div>© Velvet Charms — handmade with ♥</div>
-        <div><small>Payments are processed online only; items are made on request.</small></div>
-      </footer>
-    </main>
-  </div>
+  <footer class="site-footer">
+    <p>© 2025 Velvet Charms — All Rights Reserved</p>
+  </footer>
 
   <script src="script.js"></script>
   <script>
-    // INDEX: quick render of top categories (first 6)
+    // initialize basic UI on index
     document.addEventListener('DOMContentLoaded', function () {
-      fetch('catalogue.json').then(r=>r.json()).then(data=>{
-        const cats = data.categories || [];
-        const cont = document.getElementById('home-categories');
-        cats.slice(0,8).forEach(cat=>{
-          const el = document.createElement('a');
-          el.href = 'catalogue.html#' + encodeURIComponent(cat.id);
-          el.className = 'card';
-          const imgFile = (cat.categoryImage || cat.banner || (cat.subcategories && cat.subcategories[0] && cat.subcategories[0].products && cat.subcategories[0].products[0] && cat.subcategories[0].products[0].images && cat.subcategories[0].products[0].images[0])) || '';
-          const img = document.createElement('img');
-          img.src = imgFile ? encodeURI(imgFile) : 'epoxy_decorative_tray_1.png';
-          img.onerror = function(){ this.src='epoxy_decorative_tray_1.png'; };
-          el.appendChild(img);
-          const title = document.createElement('h3'); title.textContent = cat.name;
-          el.appendChild(title);
-          const small = document.createElement('small'); small.textContent = (cat.subcategories ? (cat.subcategories.length + ' sections') : (cat.products ? cat.products.length + ' products' : ''));
-          el.appendChild(small);
-          cont.appendChild(el);
-        });
-      }).catch(e=>{
-        console.error('Error loading catalogue.json',e);
-        document.getElementById('home-categories').innerHTML = '<div style="padding:18px;color:#a00">Error loading catalogue. Please ensure catalogue.json is present.</div>';
-      });
+      if (window.initSiteUI) initSiteUI();
+      // index-specific: render top categories
+      if (window.loadCatalogueAndRenderCategories) loadCatalogueAndRenderCategories('#categories-grid', true);
     });
   </script>
 </body>
