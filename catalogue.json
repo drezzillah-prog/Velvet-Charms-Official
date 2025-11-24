@@ -127,6 +127,7 @@
             }
           ]
         },
+
         {
           "id": "soaps",
           "name": "Soaps",
@@ -176,6 +177,7 @@
     {
       "id": "soaps_more",
       "name": "Soaps — shapes & gift sets",
+      "categoryImage": "Gift Soap Set (3 pcs)1.png",
       "products": [
         {
           "id": "soap_flower",
@@ -500,6 +502,7 @@
     {
       "id": "phone_cases",
       "name": "Phone Cases",
+      "categoryImage": "PersonalizedCase (1).png",
       "products": [
         {
           "id": "personalized_case",
@@ -654,6 +657,7 @@
     {
       "id": "bundles",
       "name": "Bundles",
+      "categoryImage": "Herbal soap + face cream + small wax candle.png",
       "subcategories": [
         {
           "id": "relax_restore",
@@ -698,5 +702,6 @@
         }
       ]
     }
+
   ]
 }
