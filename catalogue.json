@@ -10,6 +10,7 @@
     "currency": "USD",
     "postPurchaseMessage": "Thank you — your payment was received. Your order will be processed within 48 hours. You will receive a confirmation email shortly."
   },
+
   "categories": [
     {
       "id": "candles",
@@ -71,6 +72,7 @@
             }
           ]
         },
+
         {
           "id": "divination",
           "name": "Divination Candles",
@@ -99,6 +101,7 @@
             }
           ]
         },
+
         {
           "id": "classic",
           "name": "Classic & Decorative Candles",
@@ -165,6 +168,7 @@
         }
       ]
     },
+
     {
       "id": "bodycare",
       "name": "Body Care",
@@ -208,6 +212,7 @@
             }
           ]
         },
+
         {
           "id": "soaps",
           "name": "Soaps",
@@ -332,6 +337,7 @@
         }
       ]
     },
+
     {
       "id": "perfumes",
       "name": "Perfumes",
@@ -372,6 +378,7 @@
         }
       ]
     },
+
     {
       "id": "knitted_braided",
       "name": "Knitted & Braided Wool Creations",
@@ -470,6 +477,7 @@
         }
       ]
     },
+
     {
       "id": "artworks",
       "name": "Paintings & Portraits",
@@ -537,6 +545,7 @@
         }
       ]
     },
+
     {
       "id": "epoxy_clay",
       "name": "Epoxy & Clay Creations",
@@ -582,6 +591,7 @@
             }
           ]
         },
+
         {
           "id": "candle_holders",
           "name": "Epoxy & Clay Candle Holders",
@@ -596,6 +606,7 @@
             }
           ]
         },
+
         {
           "id": "keychains",
           "name": "Epoxy & Clay Keychains",
@@ -617,6 +628,7 @@
             }
           ]
         },
+
         {
           "id": "jewelry_boxes",
           "name": "Epoxy & Wood Jewelry Boxes",
@@ -630,6 +642,7 @@
             }
           ]
         },
+
         {
           "id": "lamps",
           "name": "Epoxy Lamps",
@@ -648,6 +661,7 @@
         }
       ]
     },
+
     {
       "id": "phone_cases",
       "name": "Phone Cases",
@@ -664,6 +678,7 @@
         }
       ]
     },
+
     {
       "id": "hair_accessories",
       "name": "Hair Accessories",
@@ -731,6 +746,7 @@
         }
       ]
     },
+
     {
       "id": "home_decor",
       "name": "Home Decor",
@@ -791,6 +807,7 @@
         }
       ]
     },
+
     {
       "id": "bundles",
       "name": "Bundles",
@@ -837,5 +854,6 @@
         }
       ]
     }
+
   ]
 }
