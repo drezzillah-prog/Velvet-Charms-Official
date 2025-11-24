@@ -1,436 +1,518 @@
-// script.js - full catalogue handling, modal, cart, wishlist, checkout total
-// NOTE: if you want PayPal payments to go to a different PayPal email, change PAYPAL_BUSINESS_EMAIL below.
+/* script.js - full */
 
-const PAYPAL_BUSINESS_EMAIL = 'rosalinda.mauve@gmail.com'; // <--- Replace if needed
+(async function () {
+  // simple utility
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
-window.appState = {
-  catalogue: null,
-  cart: [],
-  wishlist: []
-};
+  // state
+  window.CATALOG = null;
+  window.cart = {}; // {productId: {product, qty, unitPrice, name}}
+  window.wishlist = {}; // {productId: product}
 
-// helper: format price
-function formatPrice(v){
-  return `USD ${Number(v).toFixed(2)}`;
-}
-
-// load catalogue.json
-async function loadCatalogue(){
-  try{
-    const res = await fetch('catalogue.json', {cache: "no-cache"});
-    if(!res.ok) throw new Error('catalogue.json not found');
-    const j = await res.json();
-    window.appState.catalogue = j;
-    return j;
-  }catch(err){
-    console.error('Error loading catalogue:', err);
-    window.appState.catalogue = null;
-    return null;
-  }
-}
-
-// persist cart + wishlist
-function saveCartAndWishlist(){
-  localStorage.setItem('vc_cart', JSON.stringify(window.appState.cart || []));
-  localStorage.setItem('vc_wish', JSON.stringify(window.appState.wishlist || []));
-}
-function restoreCartAndWishlist(){
-  try{
-    const c = JSON.parse(localStorage.getItem('vc_cart')||'[]');
-    const w = JSON.parse(localStorage.getItem('vc_wish')||'[]');
-    window.appState.cart = Array.isArray(c)?c:[];
-    window.appState.wishlist = Array.isArray(w)?w:[];
-  }catch(e){
-    window.appState.cart = [];
-    window.appState.wishlist = [];
-  }
-}
-
-// render helpers
-function findProductById(id){
-  const cat = window.appState.catalogue && window.appState.catalogue.categories;
-  if(!cat) return null;
-  for(const c of cat){
-    // top-level products
-    if(c.products){
-      for(const p of c.products) if(p.id===id) return p;
-    }
-    // subcategories
-    if(c.subcategories){
-      for(const sc of c.subcategories){
-        if(sc.products){
-          for(const p of sc.products) if(p.id===id) return p;
-        }
-      }
-    }
-  }
-  return null;
-}
-
-function renderFeaturedTiles(){
-  const dest = document.getElementById('featuredTiles');
-  if(!dest) return;
-  dest.innerHTML = '';
-  const cats = window.appState.catalogue.categories.slice(0,6);
-  for(const c of cats){
-    const tile = document.createElement('div');
-    tile.className='card';
-    const imgSrc = c.categoryImage || c.banner || (c.subcategories && c.subcategories[0] && c.subcategories[0].products && c.subcategories[0].products[0] && c.subcategories[0].products[0].images && c.subcategories[0].products[0].images[0]) || '';
-    tile.innerHTML = `
-      <img src="${encodeURI(imgSrc)}" alt="${c.name}">
-      <h4>${c.name}</h4>
-      <p class="muted">${c.subcategories?c.subcategories.length+' subcategories':''}</p>
-      <div style="margin-top:8px"><button class="btn primary" data-cat="${c.id}">Open</button></div>
-    `;
-    dest.appendChild(tile);
-  }
-  dest.querySelectorAll('button[data-cat]').forEach(btn=>{
-    btn.addEventListener('click', (e)=>{
-      const id = e.currentTarget.dataset.cat;
-      if(window.renderCataloguePage) window.renderCataloguePage(id);
-      location.href = 'catalogue.html';
-    });
-  });
-}
-
-function renderCataloguePage(filterCategoryId){
-  const categoriesEl = document.getElementById('categoriesList');
-  const grid = document.getElementById('catalogueGrid');
-  if(!categoriesEl || !grid) return;
-  categoriesEl.innerHTML = '';
-  grid.innerHTML = '';
-
-  const catList = window.appState.catalogue.categories;
-  // categories sidebar
-  for(const c of catList){
-    const el = document.createElement('div');
-    el.innerHTML = `<h4>${c.name}</h4>`;
-    // list subcategories or link
-    const ul = document.createElement('ul');
-    if(c.subcategories){
-      for(const sc of c.subcategories){
-        const li = document.createElement('li');
-        li.innerHTML = `<button class="link-btn" data-sc="${sc.id}">${sc.name}</button>`;
-        ul.appendChild(li);
-      }
-    } else if(c.products){
-      const li = document.createElement('li');
-      li.innerHTML = `<button class="link-btn" data-cat="${c.id}">View products</button>`;
-      ul.appendChild(li);
-    }
-    el.appendChild(ul);
-    categoriesEl.appendChild(el);
-  }
-
-  // render all products (or a category)
-  function pushProductCard(p, parentCategoryName){
-    const card = document.createElement('div');
-    card.className = 'card';
-    const img = p.images && p.images[0] ? p.images[0] : '';
-    card.innerHTML = `
-      <img src="${encodeURI(img)}" alt="${p.name}">
-      <h4>${p.name}</h4>
-      <div class="muted">${p.description?p.description:''}</div>
-      <div style="margin-top:8px"><span class="price">${formatPrice(p.price || 0)}</span></div>
-      <div class="actions">
-        <button class="btn ghost" data-details="${p.id}">Details</button>
-        <button class="btn primary" data-add="${p.id}">Buy</button>
-        <button class="btn" data-love="${p.id}">♡</button>
-      </div>
-    `;
-    grid.appendChild(card);
-  }
-
-  for(const c of catList){
-    // top-level products
-    if(!filterCategoryId || filterCategoryId === c.id){
-      if(c.products) for(const p of c.products) pushProductCard(p, c.name);
-      if(c.subcategories){
-        for(const sc of c.subcategories){
-          if(!filterCategoryId || filterCategoryId === sc.id || filterCategoryId === c.id){
-            if(sc.products) for(const p of sc.products) pushProductCard(p, sc.name || c.name);
-          }
-        }
-      }
+  // load catalogue.json
+  async function loadCatalogJson() {
+    try {
+      const resp = await fetch('catalogue.json', {cache: "no-store"});
+      if (!resp.ok) throw new Error('catalogue.json fetch failed: ' + resp.status);
+      const j = await resp.json();
+      window.CATALOG = j;
+      return j;
+    } catch (err) {
+      console.error('Failed to load catalogue.json', err);
+      // show minimal error UI
+      const cg = document.getElementById('catalogueGrid');
+      if (cg) cg.innerHTML = '<p class="error">Catalogue failed to load. Check catalogue.json path.</p>';
+      throw err;
     }
   }
 
-  // attach events
-  grid.querySelectorAll('[data-details]').forEach(btn=>{
-    btn.addEventListener('click', e=>{
-      const id = e.currentTarget.getAttribute('data-details');
-      openDetailsModal(id);
-    });
-  });
-  grid.querySelectorAll('[data-add]').forEach(btn=>{
-    btn.addEventListener('click', e=>{
-      const id = e.currentTarget.getAttribute('data-add');
-      addToCart(id,1);
-    });
-  });
-  grid.querySelectorAll('[data-love]').forEach(btn=>{
-    btn.addEventListener('click', e=>{
-      const id = e.currentTarget.getAttribute('data-love');
-      toggleWishlist(id);
-    });
-  });
-
-  // sidebar interactions
-  document.querySelectorAll('.link-btn').forEach(b=>{
-    b.addEventListener('click', (ev)=>{
-      const sc = ev.currentTarget.dataset.sc;
-      const cat = ev.currentTarget.dataset.cat;
-      // re-render filtering by subcategory id (simple implementation)
-      if(sc){
-        // clear grid and push only that subcategory's products
-        grid.innerHTML='';
-        for(const c of catList){
-          if(c.subcategories){
-            for(const sub of c.subcategories){
-              if(sub.id === sc){
-                for(const p of sub.products) pushProductCard(p, sub.name);
-              }
-            }
-          }
-        }
-      } else if(cat){
-        grid.innerHTML='';
-        for(const c of catList){
-          if(c.id === cat && c.products){
-            for(const p of c.products) pushProductCard(p, c.name);
-          }
-        }
-      }
-    });
-  });
-}
-
-// modal and details
-function openDetailsModal(productId){
-  const p = findProductById(productId);
-  if(!p) return;
-  const modal = document.getElementById('modal');
-  const content = document.getElementById('modalContent');
-  content.innerHTML = '';
-  const gallery = document.createElement('div');
-  gallery.className='product-gallery';
-  for(const img of (p.images||[])){
-    const im = document.createElement('img');
-    im.src = encodeURI(img);
-    im.style.maxWidth='180px';
-    im.style.objectFit='cover';
-    im.style.margin='6px';
-    gallery.appendChild(im);
+  // safe image element with fallback
+  function createImg(src, alt = '', cls = '') {
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = alt;
+    if (cls) img.className = cls;
+    img.onerror = () => {
+      img.src = 'seasonal candle.png'; // small local fallback (exists in repo)
+    };
+    return img;
   }
 
-  const html = `
-    <div style="display:flex;gap:18px;flex-wrap:wrap">
-      <div style="flex:1;min-width:220px">${gallery.outerHTML}</div>
-      <div style="flex:1;min-width:220px">
-        <h3>${p.name}</h3>
-        <p>${p.description || ''}</p>
-        <p><strong>Price: </strong>${formatPrice(p.price||0)}</p>
-        ${p.options? `<div><strong>Options:</strong><div>${Object.keys(p.options).map(k=>`<div>${k}: ${p.options[k].join(', ')}</div>`).join('')}</div></div>` : ''}
-        <div style="margin-top:10px">
-          <label>Quantity <input id="modalQty" type="number" min="1" value="1" style="width:60px"/></label>
-        </div>
-        <div style="margin-top:10px">
-          <button id="modalAdd" class="btn primary">Add to cart</button>
-        </div>
-      </div>
-    </div>
-  `;
-  content.innerHTML = html;
+  // format price
+  const fmt = (n) => `USD ${Number(n).toFixed(2)}`;
 
-  // open modal
-  modal.classList.remove('hidden');
-  modal.setAttribute('aria-hidden','false');
+  // app init
+  async function appInit() {
+    if (!window.CATALOG) {
+      await loadCatalogJson();
+    }
+    // render header counts if exist
+    syncCountsToUI();
+    // restore cart/wishlist from storage
+    restoreCartAndWishlist();
+    // attach UI events (global)
+    attachGlobalUI();
+    console.log('appInit done');
+  }
 
-  // close handlers
-  const close = () => {
+  // attach global UI buttons
+  function attachGlobalUI() {
+    const cartBtn = document.getElementById('cartBtn') || document.getElementById('cartBtn2') || document.getElementById('cartBtn3') || document.getElementById('cartBtn4');
+    const favBtn = document.getElementById('favoritesBtn') || document.getElementById('favoritesBtn2') || document.getElementById('favoritesBtn3') || document.getElementById('favoritesBtn4');
+
+    if (cartBtn) cartBtn.addEventListener('click', () => toggleCartPanel(true));
+    if (favBtn) favBtn.addEventListener('click', () => openWishlist());
+
+    // modal close buttons
+    const modalClose = document.getElementById('modalClose2');
+    if (modalClose) modalClose.addEventListener('click', closeModal);
+    const modal = document.getElementById('modal');
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target.classList.contains('modal-backdrop')) closeModal();
+      });
+    }
+
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    if (checkoutBtn) checkoutBtn.addEventListener('click', handleCheckout);
+
+    const continueBtn = document.getElementById('continueShopping');
+    if (continueBtn) continueBtn.addEventListener('click', () => toggleCartPanel(false));
+  }
+
+  function syncCountsToUI() {
+    const cCount = Object.values(window.cart).reduce((s, x) => s + (x.qty || 0), 0);
+    const fCount = Object.keys(window.wishlist || {}).length;
+    const setText = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+    setText('cartCount', cCount);
+    setText('cartCount2', cCount);
+    setText('cartCount3', cCount);
+    setText('cartCount4', cCount);
+    setText('favCount', fCount);
+    setText('favCount2', fCount);
+    setText('favCount3', fCount);
+    setText('favCount4', fCount);
+  }
+
+  function restoreCartAndWishlist() {
+    try {
+      const c = JSON.parse(localStorage.getItem('vc_cart') || '{}');
+      const w = JSON.parse(localStorage.getItem('vc_wishlist') || '{}');
+      window.cart = c || {};
+      window.wishlist = w || {};
+    } catch (e) {
+      window.cart = {};
+      window.wishlist = {};
+    }
+    renderCartUI();
+    syncCountsToUI();
+  }
+
+  function persistCart() {
+    localStorage.setItem('vc_cart', JSON.stringify(window.cart));
+    renderCartUI();
+    syncCountsToUI();
+  }
+
+  function persistWishlist() {
+    localStorage.setItem('vc_wishlist', JSON.stringify(window.wishlist));
+    syncCountsToUI();
+  }
+
+  // render catalogue page
+  function renderCataloguePage() {
+    const categoriesList = document.getElementById('categoriesList');
+    const grid = document.getElementById('catalogueGrid');
+    if (!window.CATALOG || !categoriesList || !grid) return;
+
+    // categories sidebar
+    categoriesList.innerHTML = '';
+    window.CATALOG.categories.forEach(cat => {
+      const btn = document.createElement('button');
+      btn.className = 'category-btn';
+      btn.textContent = cat.name;
+      btn.addEventListener('click', () => renderCategory(cat.id));
+      categoriesList.appendChild(btn);
+    });
+
+    // initial grid: show top-level categories as cards
+    grid.innerHTML = '';
+    window.CATALOG.categories.forEach(cat => {
+      const card = document.createElement('article');
+      card.className = 'cat-card';
+
+      const imgWrap = document.createElement('div');
+      imgWrap.className = 'cat-img';
+      const imgSrc = cat.categoryImage || cat.banner || (cat.subcategories && cat.subcategories[0] && (cat.subcategories[0].products && cat.subcategories[0].products[0] && cat.subcategories[0].products[0].images && cat.subcategories[0].products[0].images[0])) || 'seasonal candle.png';
+      imgWrap.appendChild(createImg(imgSrc, cat.name));
+
+      const body = document.createElement('div');
+      body.className = 'cat-body';
+      const h = document.createElement('h3'); h.textContent = cat.name;
+      const p = document.createElement('p');
+      // count logic
+      let count = 0;
+      if (cat.subcategories) count = cat.subcategories.reduce((s, sc) => s + ((sc.products && sc.products.length) || 0), 0);
+      else if (cat.products) count = cat.products.length;
+      p.textContent = count + (cat.subcategories ? ' sections' : ' products');
+
+      const open = document.createElement('button');
+      open.className = 'btn small';
+      open.textContent = 'Open';
+      open.addEventListener('click', () => renderCategory(cat.id));
+
+      body.appendChild(h);
+      body.appendChild(p);
+      body.appendChild(open);
+
+      card.appendChild(imgWrap);
+      card.appendChild(body);
+      grid.appendChild(card);
+    });
+  }
+
+  // find category by id
+  function findCategory(id) {
+    return window.CATALOG.categories.find(c => c.id === id);
+  }
+
+  // render a specific category (list products/subcategories)
+  function renderCategory(catId) {
+    const cat = findCategory(catId);
+    const grid = document.getElementById('catalogueGrid');
+    if (!cat || !grid) return;
+    grid.innerHTML = '';
+
+    // show breadcrumb + back button
+    const headerCard = document.createElement('div');
+    headerCard.className = 'category-header';
+    const backBtn = document.createElement('button');
+    backBtn.className = 'btn small';
+    backBtn.textContent = 'Back';
+    backBtn.addEventListener('click', renderCataloguePage);
+    const title = document.createElement('h2');
+    title.textContent = cat.name;
+    headerCard.appendChild(backBtn);
+    headerCard.appendChild(title);
+    grid.appendChild(headerCard);
+
+    // if subcategories: render each subcategory title and products
+    if (cat.subcategories && cat.subcategories.length) {
+      cat.subcategories.forEach(sub => {
+        const subWrap = document.createElement('section');
+        subWrap.className = 'subcategory';
+        const subTitle = document.createElement('h3');
+        subTitle.textContent = sub.name;
+        subWrap.appendChild(subTitle);
+
+        const productRow = document.createElement('div');
+        productRow.className = 'product-row';
+        (sub.products || []).forEach(p => {
+          productRow.appendChild(renderProductCard(p, cat.id, sub.id));
+        });
+        subWrap.appendChild(productRow);
+        grid.appendChild(subWrap);
+      });
+    }
+
+    // if direct products
+    if (cat.products && cat.products.length) {
+      const productRow = document.createElement('div');
+      productRow.className = 'product-row';
+      cat.products.forEach(p => productRow.appendChild(renderProductCard(p, cat.id)));
+      grid.appendChild(productRow);
+    }
+  }
+
+  // create product card element
+  function renderProductCard(product, categoryId, subcategoryId) {
+    const card = document.createElement('article');
+    card.className = 'product-card';
+
+    const imgWrap = document.createElement('div');
+    imgWrap.className = 'product-img';
+    const mainImg = (product.images && product.images[0]) || 'seasonal candle.png';
+    imgWrap.appendChild(createImg(mainImg, product.name));
+    card.appendChild(imgWrap);
+
+    const body = document.createElement('div');
+    body.className = 'product-body';
+    const title = document.createElement('h4'); title.textContent = product.name;
+    const desc = document.createElement('p'); desc.className = 'desc'; desc.textContent = product.description || '';
+    const price = document.createElement('div'); price.className = 'price'; price.textContent = fmt(product.price);
+
+    const controls = document.createElement('div'); controls.className = 'product-controls';
+    const detailsBtn = document.createElement('button');
+    detailsBtn.className = 'btn';
+    detailsBtn.textContent = 'Details';
+    detailsBtn.addEventListener('click', () => openProductDetails(product, categoryId, subcategoryId));
+
+    const buyBtn = document.createElement('button');
+    buyBtn.className = 'btn primary';
+    buyBtn.textContent = 'Buy';
+    buyBtn.addEventListener('click', () => addToCart(product, 1));
+
+    const wishBtn = document.createElement('button');
+    wishBtn.className = 'icon-btn small';
+    wishBtn.innerHTML = '♡';
+    wishBtn.addEventListener('click', () => {
+      toggleWishlist(product);
+    });
+
+    controls.appendChild(detailsBtn);
+    controls.appendChild(buyBtn);
+    controls.appendChild(wishBtn);
+
+    body.appendChild(title);
+    body.appendChild(desc);
+    body.appendChild(price);
+    body.appendChild(controls);
+
+    card.appendChild(body);
+    return card;
+  }
+
+  // product details modal
+  function openProductDetails(product, categoryId, subcategoryId) {
+    const modal = document.getElementById('modal');
+    const content = document.getElementById('modalContent');
+    if (!modal || !content) return;
+    content.innerHTML = '';
+
+    const h = document.createElement('h2'); h.textContent = product.name;
+    const imgWrap = document.createElement('div'); imgWrap.className = 'detail-images';
+    (product.images || []).forEach(fn => imgWrap.appendChild(createImg(fn, product.name, 'detail-img')));
+    const desc = document.createElement('p'); desc.textContent = product.description || '';
+    const price = document.createElement('div'); price.className = 'price large'; price.textContent = fmt(product.price);
+
+    // options (if any)
+    const optForm = document.createElement('form');
+    optForm.className = 'options';
+    if (product.options) {
+      Object.keys(product.options).forEach(optName => {
+        const label = document.createElement('label');
+        label.textContent = optName;
+        const select = document.createElement('select');
+        select.name = optName;
+        (product.options[optName] || []).forEach(val => {
+          const o = document.createElement('option'); o.value = val; o.textContent = val;
+          select.appendChild(o);
+        });
+        label.appendChild(select);
+        optForm.appendChild(label);
+      });
+    }
+
+    const qtyLabel = document.createElement('label');
+    qtyLabel.textContent = 'Quantity';
+    const qtyInput = document.createElement('input');
+    qtyInput.type = 'number';
+    qtyInput.min = 1;
+    qtyInput.value = 1;
+    qtyInput.style.width = '70px';
+    qtyLabel.appendChild(qtyInput);
+    optForm.appendChild(qtyLabel);
+
+    const addBtn = document.createElement('button');
+    addBtn.type = 'button';
+    addBtn.className = 'btn primary';
+    addBtn.textContent = 'Add to cart';
+    addBtn.addEventListener('click', () => {
+      const q = parseInt(qtyInput.value || '1', 10);
+      addToCart(product, q);
+      closeModal();
+      toggleCartPanel(true);
+    });
+
+    const closeBtn = document.createElement('button');
+    closeBtn.type = 'button';
+    closeBtn.className = 'btn secondary';
+    closeBtn.textContent = 'Close';
+    closeBtn.addEventListener('click', closeModal);
+
+    content.appendChild(h);
+    content.appendChild(imgWrap);
+    content.appendChild(desc);
+    content.appendChild(price);
+    content.appendChild(optForm);
+    content.appendChild(addBtn);
+    content.appendChild(closeBtn);
+
+    // show modal
+    modal.classList.remove('hidden');
+    modal.setAttribute('aria-hidden', 'false');
+
+    // ensure modal fits: limit height
+    const card = modal.querySelector('.modal-card');
+    if (card) {
+      card.style.maxHeight = '80vh';
+      card.style.overflow = 'auto';
+    }
+  }
+
+  function closeModal() {
+    const modal = document.getElementById('modal');
+    if (!modal) return;
     modal.classList.add('hidden');
-    modal.setAttribute('aria-hidden','true');
-  };
-  document.getElementById('modalClose') && document.getElementById('modalClose').addEventListener('click', close);
-  document.getElementById('modalClose2') && document.getElementById('modalClose2').addEventListener('click', close);
-  document.querySelectorAll('.modal-backdrop').forEach(b => b.addEventListener('click', close));
-  document.addEventListener('keydown', function escHandler(e){
-    if(e.key === 'Escape'){ close(); document.removeEventListener('keydown', escHandler); }
-  });
-
-  document.getElementById('modalAdd').addEventListener('click', ()=>{
-    const q = Number(document.getElementById('modalQty').value || 1);
-    addToCart(p.id, q);
-    close();
-  });
-}
-
-// cart functions
-function addToCart(productId, qty=1){
-  const p = findProductById(productId);
-  if(!p) return;
-  const existing = window.appState.cart.find(i=>i.id===productId);
-  if(existing){
-    existing.qty += qty;
-  }else{
-    window.appState.cart.push({id:productId, qty: qty});
+    modal.setAttribute('aria-hidden', 'true');
   }
-  saveCartAndWishlist();
-  renderCartUI();
-  alert('Added to cart');
-}
-function removeFromCart(productId){
-  window.appState.cart = window.appState.cart.filter(i=>i.id!==productId);
-  saveCartAndWishlist();
-  renderCartUI();
-}
-function setCartQty(productId, qty){
-  const it = window.appState.cart.find(i=>i.id===productId);
-  if(it) it.qty = qty;
-  saveCartAndWishlist();
-  renderCartUI();
-}
-function toggleWishlist(productId){
-  const idx = window.appState.wishlist.indexOf(productId);
-  if(idx===-1) window.appState.wishlist.push(productId);
-  else window.appState.wishlist.splice(idx,1);
-  saveCartAndWishlist();
-  renderWishlistUI();
-}
 
-// render cart UI
-function renderCartUI(){
-  // update counts
-  const cartCount = window.appState.cart.reduce((s,i)=>s+i.qty,0);
-  document.querySelectorAll('#cartCount, #cartCount2, #cartCount').forEach(el=>{
-    if(el) el.textContent = cartCount;
-  });
-  document.querySelectorAll('#favCount, #favCount2').forEach(el=>{
-    if(el) el.textContent = window.appState.wishlist.length;
-  });
-
-  const cartPanel = document.getElementById('cartPanel');
-  if(!cartPanel) return;
-
-  const itemsEl = document.getElementById('cartItems');
-  itemsEl.innerHTML = '';
-  let total = 0;
-  for(const item of window.appState.cart){
-    const p = findProductById(item.id);
-    if(!p) continue;
-    const row = document.createElement('div');
-    row.className = 'cart-row';
-    const subtotal = (p.price||0) * item.qty;
-    total += subtotal;
-    row.innerHTML = `
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div style="flex:1">
-          <div><strong>${p.name}</strong></div>
-          <div style="font-size:13px">${formatPrice(p.price)} x ${item.qty}</div>
-        </div>
-        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
-          <input type="number" min="1" value="${item.qty}" data-qty="${item.id}" style="width:64px"/>
-          <button data-remove="${item.id}" class="btn">Remove</button>
-        </div>
-      </div>
-    `;
-    itemsEl.appendChild(row);
+  // cart functions
+  function addToCart(product, quantity = 1) {
+    const id = product.id;
+    if (!id) return;
+    const existing = window.cart[id];
+    if (existing) {
+      existing.qty = existing.qty + quantity;
+    } else {
+      window.cart[id] = {
+        productId: id,
+        name: product.name,
+        unitPrice: Number(product.price),
+        qty: quantity,
+        paymentLink: product.paymentLink || null
+      };
+    }
+    persistCart();
   }
-  document.getElementById('cartTotal').textContent = formatPrice(total);
 
-  // attach listeners for qty & remove
-  itemsEl.querySelectorAll('input[data-qty]').forEach(input=>{
-    input.addEventListener('change', e=>{
-      const id = e.currentTarget.getAttribute('data-qty');
-      const val = Number(e.currentTarget.value || 1);
-      setCartQty(id, val);
-    });
-  });
-  itemsEl.querySelectorAll('button[data-remove]').forEach(b=>{
-    b.addEventListener('click', e=>{
-      const id = e.currentTarget.getAttribute('data-remove');
-      removeFromCart(id);
-    });
-  });
-}
-
-// wishlist UI
-function renderWishlistUI(){
-  document.querySelectorAll('#favCount, #favCount2').forEach(el=>{
-    if(el) el.textContent = window.appState.wishlist.length;
-  });
-}
-
-// checkout: create PayPal single payment for total amount
-function createPayPalCheckout(){
-  const total = window.appState.cart.reduce((s,i)=>{
-    const p = findProductById(i.id);
-    return s + ((p && p.price) ? p.price * i.qty : 0);
-  }, 0);
-  const rounded = Number(total.toFixed(2));
-  if(rounded <= 0){
-    alert('Cart is empty');
-    return;
+  function removeFromCart(productId) {
+    delete window.cart[productId];
+    persistCart();
   }
-  // Build PayPal standard payment link (Buy Now with amount).
-  // This will open PayPal and pre-fill amount — business email below must be set to your PayPal email.
-  const business = encodeURIComponent(PAYPAL_BUSINESS_EMAIL);
-  const amount = encodeURIComponent(String(rounded));
-  const currency = 'USD';
-  // Use PayPal payment button endpoint for a single amount:
-  const url = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=${business}&amount=${amount}&currency_code=${currency}&item_name=${encodeURIComponent('Velvet Charms Order')}`;
-  window.open(url, '_blank');
-}
 
-// UI wiring and init
-function attachUI(){
-  // cart show/hide
-  const cartBtn = document.getElementById('cartBtn') || document.getElementById('cartBtn2');
-  const cartBtn2 = document.getElementById('cartBtn2');
-  if(document.getElementById('cartBtn')) document.getElementById('cartBtn').addEventListener('click', ()=>{
+  function changeQty(productId, qty) {
+    if (!window.cart[productId]) return;
+    window.cart[productId].qty = qty;
+    if (qty <= 0) removeFromCart(productId);
+    persistCart();
+  }
+
+  function renderCartUI() {
     const panel = document.getElementById('cartPanel');
-    panel.classList.toggle('hidden');
-    renderCartUI();
-  });
-  if(document.getElementById('cartBtn2')) document.getElementById('cartBtn2').addEventListener('click', ()=>{
+    const itemsWrap = document.getElementById('cartItems');
+    if (!itemsWrap) return;
+    itemsWrap.innerHTML = '';
+    const items = Object.values(window.cart || {});
+    if (items.length === 0) {
+      itemsWrap.innerHTML = '<p>Your cart is empty.</p>';
+    } else {
+      items.forEach(it => {
+        const row = document.createElement('div');
+        row.className = 'cart-row';
+        const name = document.createElement('div'); name.className = 'cart-name'; name.textContent = it.name;
+        const qty = document.createElement('input'); qty.type = 'number'; qty.min = 1; qty.value = it.qty; qty.addEventListener('change', () => changeQty(it.productId, parseInt(qty.value || '1', 10)));
+        const price = document.createElement('div'); price.className = 'cart-price'; price.textContent = fmt(it.unitPrice);
+        const remove = document.createElement('button'); remove.className = 'btn small'; remove.textContent = 'Remove'; remove.addEventListener('click', () => removeFromCart(it.productId));
+        row.appendChild(name);
+        row.appendChild(qty);
+        row.appendChild(price);
+        row.appendChild(remove);
+        itemsWrap.appendChild(row);
+      });
+    }
+    const totalEl = document.getElementById('cartTotal');
+    totalEl.textContent = fmt(computeCartTotal());
+    syncCountsToUI();
+  }
+
+  function computeCartTotal() {
+    return Object.values(window.cart || {}).reduce((s, it) => s + (Number(it.unitPrice || 0) * Number(it.qty || 0)), 0);
+  }
+
+  function toggleCartPanel(show) {
     const panel = document.getElementById('cartPanel');
-    panel.classList.toggle('hidden');
+    if (!panel) return;
+    if (show) panel.classList.remove('hidden');
+    else panel.classList.add('hidden');
+    panel.setAttribute('aria-hidden', !show);
     renderCartUI();
-  });
+  }
 
-  // checkout
-  const checkoutBtn = document.getElementById('checkoutBtn');
-  if(checkoutBtn) checkoutBtn.addEventListener('click', createPayPalCheckout);
+  // wishlist toggle
+  function toggleWishlist(product) {
+    if (!product || !product.id) return;
+    if (window.wishlist[product.id]) {
+      delete window.wishlist[product.id];
+    } else {
+      window.wishlist[product.id] = product;
+    }
+    persistWishlist();
+  }
 
-  // favorites toggles
-  document.querySelectorAll('[data-love]').forEach(b=>{
-    b.addEventListener('click', e=>{
-      toggleWishlist(e.currentTarget.getAttribute('data-love'));
+  function openWishlist() {
+    // simple: show modal listing wishlist
+    const modal = document.getElementById('modal');
+    const content = document.getElementById('modalContent');
+    if (!modal || !content) return;
+    content.innerHTML = '<h2>Wishlist</h2>';
+    const list = document.createElement('div');
+    Object.values(window.wishlist || {}).forEach(p => {
+      const el = document.createElement('div');
+      el.className = 'wish-item';
+      el.innerHTML = `<strong>${p.name}</strong> - ${fmt(p.price || 0)} <button class="btn small">Add to cart</button>`;
+      const btn = el.querySelector('button');
+      btn.addEventListener('click', () => { addToCart(p, 1); delete window.wishlist[p.id]; persistWishlist(); closeModal(); });
+      list.appendChild(el);
     });
-  });
+    if (!list.children.length) list.innerHTML = '<p>No items in your wishlist.</p>';
+    content.appendChild(list);
+    modal.classList.remove('hidden');
+    modal.setAttribute('aria-hidden', 'false');
+  }
 
-  // modal close global
-  document.querySelectorAll('.modal-close').forEach(b=>{
-    b.addEventListener('click', ()=>{
-      document.getElementById('modal').classList.add('hidden');
+  // Checkout handling
+  // Build PayPal cart upload URL (uses standard PayPal webcart). NOTE: you MUST replace BUSINESS_EMAIL placeholder with your PayPal business email or merchant ID for it to work.
+  function handleCheckout() {
+    const items = Object.values(window.cart || {});
+    if (!items.length) {
+      alert('Your cart is empty.');
+      return;
+    }
+
+    // Build PayPal cart upload query
+    // Replace the placeholder with your PayPal business email or merchant ID.
+    const BUSINESS = encodeURIComponent('rosalinda.mauve@gmail.com'); // <-- REPLACE THIS string with your PayPal business email or merchant ID (ex: seller@yourdomain.com)
+    const base = `https://www.paypal.com/cgi-bin/webscr?cmd=_cart&upload=1&business=${BUSINESS}&currency_code=USD`;
+
+    // Build item parameters (item_name_1, amount_1, quantity_1 ...)
+    const params = [];
+    items.forEach((it, idx) => {
+      const i = idx + 1;
+      params.push(`item_name_${i}=${encodeURIComponent(it.name)}`);
+      // amount must be unit price
+      params.push(`amount_${i}=${encodeURIComponent(Number(it.unitPrice || 0).toFixed(2))}`);
+      params.push(`quantity_${i}=${encodeURIComponent(Number(it.qty || 0))}`);
     });
-  });
 
-  // continue shopping
-  const cont = document.getElementById('continueShopping');
-  if(cont) cont.addEventListener('click', ()=> document.getElementById('cartPanel').classList.add('hidden'));
-}
+    const url = base + '&' + params.join('&');
 
-// initialize app
-window.appInit = async function(){
-  if(window.appState.catalogue) return;
-  await loadCatalogue();
-  restoreCartAndWishlist();
-  attachUI();
-  renderCartUI();
-  renderWishlistUI();
-};
+    // Open PayPal cart
+    window.open(url, '_blank');
+  }
 
-// small helper fallback so index.js can call rendering
-window.renderFeaturedTiles = renderFeaturedTiles;
-window.renderCataloguePage = renderCataloguePage;
+  // small helper: render home (optional)
+  function renderHome() {
+    // nothing heavy — homepage is static
+  }
+
+  // expose to global
+  window.appInit = appInit;
+  window.renderCataloguePage = renderCataloguePage;
+  window.renderAbout = () => {}; // placeholder
+  window.openProductDetails = openProductDetails;
+  window.addToCart = addToCart;
+
+  // watch localStorage and render when changes happen elsewhere
+  window.addEventListener('storage', () => restoreCartAndWishlist());
+
+  // keep renderCart UI updated whenever cart changes by setting a small interval (safe)
+  setInterval(() => { renderCartUI(); }, 1500);
+
+  // start automatically if script loaded in body
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    // do not auto-init here; pages call appInit inside DOMContentLoaded
+  }
+
+})();
