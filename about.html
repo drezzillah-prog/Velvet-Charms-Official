@@ -1,42 +1,86 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>About — Velvet Charms</title>
-  <link rel="stylesheet" href="style.css"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About • Velvet Charms</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="script.js"></script>
 </head>
 <body>
-  <header class="site-header christmas">
-    <div class="brand">
-      <h1>Velvet Charms</h1>
-      <p class="tagline">Where Art Meets Emotion — Handcrafted with love</p>
-    </div>
-    <nav class="main-nav">
-      <a href="index.html">Home</a>
-      <a href="catalogue.html">Catalogue</a>
-      <a href="about.html" class="active">About</a>
-      <a href="contact.html">Contact</a>
-    </nav>
-  </header>
 
-  <main class="about-page">
-    <h2>About Us</h2>
-    <p>We are a team of 12 passionate art students dedicated to creating personalized handcrafted items. Every piece is made with patience, care, and a touch of magic — whether you choose a product from our catalogue as inspiration or request a fully custom creation built from your photos and details. Orders are produced on request and require online prepayment. We dispatch from the studio closest to you: Frankfurt, Germany or Constanța, Romania. Thank you for supporting handmade artistry.</p>
+<header class="site-header">
+  <div class="logo">Velvet Charms</div>
+  <nav class="nav">
+    <a href="index.html">Home</a>
+    <a href="catalogue.html">Catalogue</a>
+    <a href="about.html" class="active">About</a>
+    <a href="contact.html">Contact</a>
+  </nav>
 
-    <!-- removed "If you need bulk or collaboration requests, please use the contact form on the Contact page" per your instruction -->
-  </main>
+  <div class="icons">
+    <button id="favoritesBtn3" class="icon-btn">♡ <span id="favCount3">0</span></button>
+    <button id="cartBtn3" class="icon-btn">🛒 <span id="cartCount3">0</span></button>
+  </div>
+</header>
 
-  <footer>
-    <p>© Velvet Charms</p>
-  </footer>
+<section class="page-banner about-banner">
+  <h1>About Velvet Charms</h1>
+  <p>Where art becomes emotion — handcrafted with devotion, purpose, and soul.</p>
+</section>
 
-  <script src="script.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-      await window.appInit && window.appInit();
-      if (window.renderAbout) window.renderAbout();
-    });
-  </script>
+<section class="about-content">
+  <h2>Our Story</h2>
+  <p>
+    Velvet Charms was born from a love of creating meaningful, handcrafted pieces that capture memories,
+    emotions, and the beauty of nature. What began as a small passion project quickly grew into a
+    full collection of art pieces, cozy wool creations, spiritual candles, delicate soaps,
+    resin jewelry, and custom paintings.
+  </p>
+
+  <h2>Craftsmanship & Vision</h2>
+  <p>
+    Every item is handmade with precision and intention. Whether it’s a festive candle,
+    a winter wool set, a miniature 3D clay painting, or a custom portrait — each creation is
+    designed to carry warmth, story, and personal touch.
+  </p>
+
+  <h2>Uniqueness in Every Detail</h2>
+  <p>
+    No two pieces are identical. Every swirl of resin, each brush stroke, and every sculpted detail
+    is part of a one-of-a-kind work of art made just for you.
+  </p>
+
+  <h2>Thank You</h2>
+  <p>
+    Thank you for supporting handmade artistry and for allowing these creations to become part
+    of your home, celebrations, and memories.
+  </p>
+</section>
+
+<footer class="site-footer">
+  <p>© Velvet Charms</p>
+</footer>
+
+<!-- CART PANEL -->
+<div id="cartPanel" class="side-panel hidden" aria-hidden="true">
+  <h2>Your Cart</h2>
+  <div id="cartItems"></div>
+  <div class="cart-total">Total: <span id="cartTotal">USD 0.00</span></div>
+  <button id="checkoutBtn" class="btn primary">Checkout</button>
+  <button id="continueShopping" class="btn secondary">Continue</button>
+</div>
+
+<!-- MODAL -->
+<div id="modal" class="modal hidden" aria-hidden="true">
+  <div class="modal-backdrop"></div>
+  <div class="modal-card" id="modalContent"></div>
+  <button class="modal-close" id="modalClose2">×</button>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", appInit);
+</script>
+
 </body>
 </html>
