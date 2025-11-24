@@ -55,7 +55,7 @@
               "name": "Divination Candle — Painted Symbols (200ml)",
               "price": 50,
               "paymentLink": "https://www.paypal.com/ncp/payment/VK7WLERJM3R88",
-              "description": "Hand-painted altar candle with runes, moons, or sacred icons.",
+              "description": "Hand-painted altar candle with runes, moons, or sacred icons. Unscented or light myrrh recommended.",
               "images": ["divination candle.jpg"],
               "options": {
                 "scent": ["Myrrh","Sage","Frankincense","Sandalwood","Unscented"]
@@ -77,29 +77,6 @@
               "options": {
                 "scent": ["Orange","Lemon","Lavender","Vanilla","Jasmine","Lemongrass","Coconut","Cinnamon","Pine","Sandalwood","Coffee","Sweet Almond","Unscented"],
                 "intensity": ["Soft","Medium","Strong"]
-              }
-            },
-            {
-              "id": "wax_medium",
-              "name": "Wax Candle — Medium (250ml)",
-              "price": 25,
-              "paymentLink": "https://www.paypal.com/ncp/payment/DJVW5LQCPL6A6",
-              "description": "Medium wax candle.",
-              "images": ["wax_candle_medium.jpg"],
-              "options": {
-                "scent": ["Orange","Lemon","Lavender","Vanilla","Jasmine","Lemongrass","Coconut","Cinnamon","Pine","Sandalwood","Coffee","Sweet Almond","Unscented"],
-                "intensity": ["Soft","Medium","Strong"]
-              }
-            },
-            {
-              "id": "jelly_medium",
-              "name": "Jelly Candle — Medium (200ml)",
-              "price": 32,
-              "paymentLink": "https://www.paypal.com/ncp/payment/EMNC7ACUHJKQN",
-              "description": "Translucent decorative jelly candle.",
-              "images": ["jelly candles small.jpg"],
-              "options": {
-                "scent": ["Orange","Lemon","Lavender","Vanilla","Jasmine","Lemongrass","Coconut","Cinnamon","Pine","Sandalwood","Coffee","Sweet Almond","Unscented"]
               }
             }
           ]
@@ -246,8 +223,7 @@
             "Gift Herbal Exfoliating Soap Set (3 pcs) 3.png",
             "Gift Herbal Exfoliating Soap Set (3 pcs) 4.png",
             "Gift Herbal Exfoliating Soap Set (3 pcs).png"
-          ],
-          "note": "Customer may choose which 3 soaps to include."
+          ]
         },
         {
           "id": "gift_flower_fruit",
@@ -255,10 +231,7 @@
           "price": 54,
           "paymentLink": "https://www.paypal.com/ncp/payment/6QVGP97CQRGN2",
           "description": "Select any three fruit- or flower-shaped soaps.",
-          "images": ["Gift Fruit shaped Flower shaped Soap Set (3 pcs).png"],
-          "options": {
-            "note": "Customer can choose any 3 or request a different fruit/flower."
-          }
+          "images": ["Gift Fruit shaped Flower shaped Soap Set (3 pcs).png"]
         },
         {
           "id": "soap_gift_set_new",
@@ -391,13 +364,6 @@
               "price": 50,
               "paymentLink": "https://www.paypal.com/ncp/payment/RT3Y5Z86NTA2J",
               "images": ["Felted Animal (Medium).png"]
-            },
-            {
-              "id": "felt_family",
-              "name": "Felted Animal Family Set (4 pcs)",
-              "price": 120,
-              "paymentLink": "https://www.paypal.com/ncp/payment/TW7Q43A8X5ZKG",
-              "images": ["Felted Animal Family Set 4.png"]
             }
           ]
         }
@@ -445,6 +411,13 @@
               "price": 180,
               "paymentLink": "https://www.paypal.com/ncp/payment/HTSJN3TULVWTN",
               "images": ["clay_3d_painting_1.png","clay_3d_painting_2.png","clay_3d_painting_3.png"]
+            },
+            {
+              "id": "portrait_family",
+              "name": "Couple or Family Portrait — 40×50 cm",
+              "price": 220,
+              "paymentLink": "https://www.paypal.com/ncp/payment/NSCQQSNB7CS3W",
+              "images": ["Couple or Family Portrait.png"]
             }
           ]
         }
@@ -503,8 +476,7 @@
                 "clay_christmas_necklace_1.png",
                 "clay_christmas_keychain_3.png",
                 "clay_christmas_keychain_2.png",
-                "clay_christmas_keychain_1.png",
-                "clay_christmas_necklace_4.png"
+                "clay_christmas_keychain_1.png"
               ]
             }
           ]
@@ -559,12 +531,47 @@
               "images": [
                 "freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__81983.png",
                 "hair_clip_8.png",
-                "hair_clip_1.png",
-                "freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__90289.png",
-                "freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__90286.png",
-                "freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__90291.png",
-                "freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__90293.png"
+                "hair_clip_1.png"
               ]
+            }
+          ]
+        },
+        {
+          "id": "hairpins",
+          "name": "Hair Pins",
+          "products": [
+            {
+              "id": "hair_pin_1",
+              "name": "Decorative Hair Pin",
+              "price": 22,
+              "paymentLink": "https://www.paypal.com/ncp/payment/X5YVRQYLU2MW6",
+              "images": ["hair_pin_3.png","hair_pin_1.png","freepik__glass-hair-pins-with-long-pins-to-hold-the-hair-ch__81988.png"]
+            }
+          ]
+        },
+        {
+          "id": "decorative_combs",
+          "name": "Decorative Combs",
+          "products": [
+            {
+              "id": "decorative_comb",
+              "name": "Decorative Comb",
+              "price": 25,
+              "paymentLink": "https://www.paypal.com/ncp/payment/LVNL7VJRTEKDQ",
+              "images": ["hair_comb_1.png","hair_comb_2.png","hair_comb_2 (1).png"]
+            }
+          ]
+        },
+        {
+          "id": "custom_hair_set",
+          "name": "Custom Hair Sets",
+          "products": [
+            {
+              "id": "custom_hair_set",
+              "name": "Custom Hair Set — 3 matching pieces",
+              "price": 50,
+              "paymentLink": "https://www.paypal.com/ncp/payment/N4HZS34XPX3ZS",
+              "images": ["Custom Hair Set.png","Custom Hair Set.jpeg"]
             }
           ]
         }
@@ -581,11 +588,11 @@
           "products": [
             {
               "id": "clay_mug_series",
-              "name": "Clay Mug — assorted",
+              "name": "Clay Mug — assorted (350–400 ml)",
               "price": 40,
               "paymentLink": "https://www.paypal.com/ncp/payment/VENPN7AHXJFE4",
               "images": ["Clay Mugs (1).png","Clay Mugs (2).png","Clay Mugs (3).png","Clay Mugs (4).png","Clay Mugs (5).png","Clay Mugs (6).png","Clay Mugs (7).png","Clay Mugs (8).png","Clay Mugs (9).png","Clay Mugs (10).png"],
-              "description": "Handmade, glazed, food-safe. Choose finish or request custom design."
+              "description": "Handmade, glazed, food-safe. Volume: 350–400 ml. Choose finish or request custom design."
             }
           ]
         },
@@ -598,7 +605,16 @@
               "name": "Wall Clock — 25 cm",
               "price": 70,
               "paymentLink": "https://www.paypal.com/ncp/payment/RRDQ39ZGFQJSE",
-              "images": ["Wall Clocks.png","Wall Clocks (2).png","Wall Clocks (3).png"]
+              "images": ["Wall Clocks.png","Wall Clocks (2).png"],
+              "description": "25 cm clock. Material: wood & epoxy."
+            },
+            {
+              "id": "wall_clock_30",
+              "name": "Wall Clock — 30 cm",
+              "price": 85,
+              "paymentLink": "https://www.paypal.com/ncp/payment/REPLACE_WITH_REAL_LINK_IF_NEEDED",
+              "images": ["Wall Clocks (3).png"],
+              "description": "30 cm clock. Material: wood & epoxy."
             }
           ]
         },
@@ -611,7 +627,24 @@
               "name": "Leather Bag — Small",
               "price": 85,
               "paymentLink": "https://www.paypal.com/ncp/payment/2UZ3FBG9E9MZS",
-              "images": ["Leather Bag Small.png"]
+              "images": ["Leather Bag Small.png"],
+              "description": "Small — 20×15×6 cm (7.9×5.9×2.4 inches)."
+            },
+            {
+              "id": "leather_medium",
+              "name": "Leather Bag — Medium",
+              "price": 120,
+              "paymentLink": "https://www.paypal.com/ncp/payment/WQ9X4MDC9HZW4",
+              "images": ["Leather Bag Medium.png"],
+              "description": "Medium — 28×20×8 cm (11×7.9×3.1 inches)."
+            },
+            {
+              "id": "leather_large",
+              "name": "Leather Bag — Large",
+              "price": 160,
+              "paymentLink": "https://www.paypal.com/ncp/payment/YQEM8SHX43S3E",
+              "images": ["Leather Bag Large.png"],
+              "description": "Large — 35×25×10 cm (13.8×9.8×3.9 inches)."
             }
           ]
         }
@@ -632,7 +665,7 @@
               "price": 65,
               "paymentLink": "https://www.paypal.com/ncp/payment/X7EA4LJC8VQ3A",
               "images": ["Gift Herbal Exfoliating Soap Set (3 pcs) 1.png"],
-              "description": "A soothing self-care trio — herbal soap, face cream, and a small wax candle. Choose soap aroma & candle scent in the personalization form."
+              "description": "A soothing self-care trio — choose soap aroma & candle scent in personalization form."
             }
           ]
         },
@@ -659,7 +692,7 @@
               "price": 100,
               "paymentLink": "https://www.paypal.com/ncp/payment/9T3C2WRAXJJYN",
               "images": ["Gift Herbal Exfoliating Soap Set (3 pcs) 3.png"],
-              "description": "Bundle - Epoxy decor tray + seasonal soap + small wax candle. Ideal as a curated home gift box."
+              "description": "Bundle - Home Harmony Box - Epoxy decor + wax candle + seasonal soap."
             }
           ]
         }
