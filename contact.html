@@ -4,56 +4,61 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Contact — Velvet Charms</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
-    <header class="header">
-      <div class="brand">
-        <div class="logo">VC</div>
-        <div>
-          <div class="site-title">Velvet Charms</div>
-          <div class="site-tag">Where Art Meets Emotion — Handcrafted with love</div>
-        </div>
+  <header class="site-header">
+    <div class="brand">
+      <img src="top banner picture for candles.png" alt="Velvet Charms logo" class="brand-img">
+      <div>
+        <h1>Velvet Charms</h1>
+        <p>Where Art Meets Emotion — Handcrafted with love</p>
       </div>
+    </div>
 
-      <nav class="nav">
-        <a href="index.html">Home</a>
-        <a href="catalogue.html">Catalogue</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-      </nav>
+    <nav class="top-nav">
+      <a href="index.html">Home</a>
+      <a href="catalogue.html">Catalogue</a>
+      <a href="about.html">About Us</a>
+      <a href="contact.html" class="active">Contact</a>
+    </nav>
+  </header>
 
-      <div class="controls">
-        <div class="icon-btn">❤</div>
-        <div class="icon-btn">🛒</div>
-      </div>
-    </header>
+  <main class="container">
+    <h2>Contact</h2>
+    <section>
+      <p>Use this form to send us a message or a custom order request. Please include photos if you want a custom piece.</p>
 
-    <main>
-      <section style="padding:18px 0;">
-        <h1>Contact</h1>
-        <p style="margin-top:8px;">Have a question, custom order or bulk inquiry? Write us below. We reply within 48 hours.</p>
+      <!-- Formspree contact form (replace form ID if needed) -->
+      <form id="contact-form" action="https://formspree.io/f/xyzykwde" method="POST">
+        <label for="name">Name</label>
+        <input id="name" name="name" required>
 
-        <!-- Formspree: replace FORM_ID with your actual Formspree ID (you mentioned you provided it earlier).
-             Example action: https://formspree.io/f/mnqlreyz  -->
-        <form id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" enctype="multipart/form-data" style="margin-top:12px; display:grid; gap:10px; max-width:720px;">
-          <input type="text" name="name" placeholder="Your name" required style="padding:10px; border-radius:8px; border:1px solid #e6e6e6;">
-          <input type="email" name="email" placeholder="Your email" required style="padding:10px; border-radius:8px; border:1px solid #e6e6e6;">
-          <input type="text" name="_subject" placeholder="Subject" style="padding:10px; border-radius:8px; border:1px solid #e6e6e6;">
-          <textarea name="message" placeholder="Message" rows="6" style="padding:10px; border-radius:8px; border:1px solid #e6e6e6;" required></textarea>
-          <label style="font-size:13px;">Attach up to 10 images (optional)</label>
-          <input type="file" name="attachments" accept="image/*" multiple>
-          <!-- Optional hidden field to direct email recipient if using a custom webhook -->
-          <input type="hidden" name="_replyto" value="rosalinda.mauve@gmail.com">
-          <button class="btn" type="submit">Send</button>
-        </form>
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required>
 
-        <p style="margin-top:10px; font-size:13px; color:#6b6b6b;">Note: Replace the form action with your Formspree form ID. You told us earlier you have a Formspree ID — paste it into the action attribute (no other code change needed).</p>
-      </section>
-    </main>
-  </div>
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="6" required></textarea>
+
+        <label for="attachments">Attach images (optional)</label>
+        <input id="attachments" name="attachments" type="file" accept="image/*" multiple>
+
+        <button class="btn" type="submit">Send message</button>
+      </form>
+    </section>
+
+    <section class="contact-info">
+      <h3>Studio</h3>
+      <p>Email: rosalinda.mauve@gmail.com</p>
+      <p>Orders ship from Frankfurt DE or Constanța RO depending on proximity.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2025 Velvet Charms — All Rights Reserved</p>
+  </footer>
 
   <script src="script.js"></script>
+  <script>document.addEventListener('DOMContentLoaded', function(){ if (window.initSiteUI) initSiteUI(); });</script>
 </body>
 </html>
