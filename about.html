@@ -4,61 +4,45 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>About — Velvet Charms</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
-    <header class="header">
-      <div class="brand">
-        <div class="logo">VC</div>
-        <div>
-          <div class="site-title">Velvet Charms</div>
-          <div class="site-tag">Where Art Meets Emotion — Handcrafted with love</div>
-        </div>
+  <header class="site-header">
+    <div class="brand">
+      <img src="top banner picture for candles.png" alt="Velvet Charms logo" class="brand-img">
+      <div>
+        <h1>Velvet Charms</h1>
+        <p>Where Art Meets Emotion — Handcrafted with love</p>
       </div>
+    </div>
 
-      <nav class="nav">
-        <a href="index.html">Home</a>
-        <a href="catalogue.html">Catalogue</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-      </nav>
+    <nav class="top-nav">
+      <a href="index.html">Home</a>
+      <a href="catalogue.html">Catalogue</a>
+      <a href="about.html" class="active">About Us</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
 
-      <div class="controls">
-        <div class="icon-btn" id="fav-top">❤</div>
-        <div class="icon-btn" id="cart-top">🛒</div>
-      </div>
-    </header>
+  <main class="container">
+    <h2>About Us</h2>
+    <section class="about-text">
+      <h3>Who we are</h3>
+      <p>We are a team of 12 passionate art students dedicated to creating personalized handcrafted items. Every piece is made with patience, care, and a touch of magic — whether you choose a product from our catalogue as inspiration or request a fully custom creation built from your photos and details.</p>
 
-    <main>
-      <section style="padding:18px 0;">
-        <h1>About Us</h1>
-        <p style="margin-top:10px; font-size:16px; line-height:1.6;">
-          We are a team of 12 passionate art students dedicated to creating personalized handcrafted items. Every piece is made with patience, care, and a touch of magic — whether you choose a product from our catalogue as inspiration or request a fully custom creation built from your photos and details. Orders are produced on request and require online prepayment. We dispatch from the studio closest to you: Frankfurt, Germany or Constanța, Romania. Thank you for supporting handmade artistry.
-        </p>
+      <h3>Ordering & personalization</h3>
+      <p>All items are produced on request and require online prepayment. When customizing, use the personalization form included for each product to upload reference images and notes — this ensures the best result.</p>
 
-        <hr style="margin:18px 0; border:none; height:1px; background:linear-gradient(90deg,#eee,#fff7f7);">
+      <h3>Where we ship from</h3>
+      <p>We dispatch from the studio closest to you: Frankfurt, Germany or Constanța, Romania.</p>
+    </section>
+  </main>
 
-        <h2>How personalization works</h2>
-        <ol style="margin-top:10px; padding-left:18px;">
-          <li>Open the product details and click "Customize" — add notes and upload images (unlimited uploads supported).</li>
-          <li>Add the personalized item to your cart. You can repeat for multiple products.</li>
-          <li>At checkout you may confirm each product. Payments are taken online per product via PayPal links — this ensures the correct variant & artist instructions are recorded.</li>
-        </ol>
-
-        <p style="margin-top:12px;">
-          If you need bulk or collaboration requests, please use the contact form on the Contact page (we removed the old "collaboration" text from the header to avoid confusion).
-        </p>
-      </section>
-    </main>
-  </div>
+  <footer class="site-footer">
+    <p>© 2025 Velvet Charms — All Rights Reserved</p>
+  </footer>
 
   <script src="script.js"></script>
-  <script>
-    // About-specific init if needed
-    document.addEventListener('DOMContentLoaded', function () {
-      // nothing heavy here, script.js manages shared UI
-    });
-  </script>
+  <script>document.addEventListener('DOMContentLoaded', function(){ if (window.initSiteUI) initSiteUI(); });</script>
 </body>
 </html>
