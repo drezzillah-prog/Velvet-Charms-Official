@@ -3,64 +3,63 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Velvet Charms — Home</title>
+  <title>Velvet Charms — Handcrafted</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="site-header">
+  <header class="site-header christmas">
     <div class="brand">
-      <img src="top banner picture for candles.png" alt="Velvet Charms logo" class="brand-img">
-      <div>
-        <h1 id="site-name">Velvet Charms</h1>
-        <p id="site-tagline">Where Art Meets Emotion — Handcrafted with love</p>
-      </div>
+      <h1>Velvet Charms ❄️</h1>
+      <p class="tagline">Where Art Meets Emotion — Handcrafted with love</p>
     </div>
-
-    <nav class="top-nav">
+    <nav class="main-nav">
       <a href="index.html">Home</a>
       <a href="catalogue.html">Catalogue</a>
-      <a href="about.html">About Us</a>
+      <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
-      <div class="icons">
-        <button id="favorites-btn" title="Wishlist">❤ <span id="fav-count">0</span></button>
-        <button id="cart-btn" title="Cart">🛒 <span id="cart-count">0</span></button>
-      </div>
+      <button id="favoritesBtn" class="icon-btn">❤ <span id="favCount">0</span></button>
+      <button id="cartBtn" class="icon-btn">🛒 <span id="cartCount">0</span></button>
     </nav>
   </header>
 
-  <main class="container">
+  <main id="main">
     <section class="hero">
-      <h2>Welcome to Velvet Charms</h2>
-      <p class="lead">Handcrafted gifts, candles, soaps, art and more — made with love. Browse the catalogue or visit specific pages.</p>
-      <div class="hero-actions">
-        <a class="btn" href="catalogue.html">Browse Catalogue</a>
-        <a class="btn ghost" href="about.html">Learn About Us</a>
+      <img src="top banner picture for candles.png" alt="Velvet Charms banner" />
+      <div class="hero-text">
+        <h2>Handmade gifts & custom commissions</h2>
+        <p>Explore our catalogue or request a personalised piece — all made on order. Payment is required online before production.</p>
+        <a class="cta" href="catalogue.html">Explore Catalogue</a>
       </div>
     </section>
 
-    <section id="categories-grid" class="grid categories-grid" aria-live="polite">
-      <!-- categories loaded by script.js -->
-    </section>
-
-    <section class="info-strip">
-      <div>
-        <h3>Orders & Processing</h3>
-        <p>Orders ship from the studio closest to you (Frankfurt, DE or Constanța, RO). All items are made-to-order and require online prepayment.</p>
+    <section class="featured">
+      <h3>Featured categories</h3>
+      <div class="tiles" id="featuredTiles">
+        <!-- rendered by script: featured tiles extracted from catalogue.json -->
       </div>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <p>© 2025 Velvet Charms — All Rights Reserved</p>
+  <footer>
+    <p>© Velvet Charms — handcrafted with love</p>
+    <p>Email: rosalinda.mauve@gmail.com</p>
   </footer>
+
+  <div id="modal" class="modal hidden" role="dialog" aria-hidden="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-card">
+      <button class="modal-close" id="modalClose">✕</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
 
   <script src="script.js"></script>
   <script>
-    // initialize basic UI on index
-    document.addEventListener('DOMContentLoaded', function () {
-      if (window.initSiteUI) initSiteUI();
-      // index-specific: render top categories
-      if (window.loadCatalogueAndRenderCategories) loadCatalogueAndRenderCategories('#categories-grid', true);
+    // Immediately load catalogue and render home featured categories
+    document.addEventListener('DOMContentLoaded', async () => {
+      await window.appInit && window.appInit();
+      // render featured tiles (top-level categories)
+      if (window.renderFeaturedTiles) window.renderFeaturedTiles();
     });
   </script>
 </body>
