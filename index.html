@@ -24,39 +24,39 @@
 
   <main class="home">
     <section class="hero">
-      <img src="top banner picture for candles.png" alt="Velvet Charms banner" class="hero-img"/>
+      <img src="top banner picture for candles.png" alt="Velvet Charms" onerror="this.src='seasonal candle.png'"/>
       <div class="hero-text">
-        <h2>Handmade gifts & decor</h2>
-        <p>Personalized handcrafted items — candles, soaps, epoxy & clay decor, knitwear, and more. Orders are produced on request. Prepayment required.</p>
-        <a href="catalogue.html" class="btn primary">Browse Catalogue</a>
+        <h2>Handmade with love — ready for the season</h2>
+        <p>Personalized gifts, handcrafted home decor & small-batch bodycare. Orders ship from Frankfurt or Constanța.</p>
+        <p><a class="btn" href="catalogue.html">Browse catalogue</a></p>
       </div>
     </section>
 
     <section class="highlights">
       <article>
-        <h3>Fast local shipping</h3>
-        <p>We dispatch from the studio closest to you: Frankfurt, Germany or Constanța, Romania.</p>
+        <h3>Fast custom work</h3>
+        <p>We craft unique pieces on request — upload your photo for commissions.</p>
       </article>
       <article>
-        <h3>Custom orders welcome</h3>
-        <p>Send images and notes at checkout to request custom designs.</p>
+        <h3>Prepaid orders</h3>
+        <p>All orders are processed after online prepayment.</p>
       </article>
       <article>
-        <h3>Sustainably sourced</h3>
-        <p>We use eco-friendly packaging whenever possible.</p>
+        <h3>Support handmade</h3>
+        <p>Small studio team of 12 art students — every purchase supports a craft studio.</p>
       </article>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <p>© 2025 Velvet Charms — All Rights Reserved</p>
+  <footer>
+    <p>© Velvet Charms</p>
   </footer>
 
   <script src="script.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
       await window.appInit && window.appInit();
-      if (window.renderHome) window.renderHome();
+      // home doesn't need catalogue render, but keep counts synced
     });
   </script>
 </body>
