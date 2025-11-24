@@ -1,509 +1,457 @@
-/* ---------- Velvet Charms - script.js ---------- */
-/* Multi-page shared script: catalogue rendering, modal/details, cart, wishlist, personalization uploads
-   Assumptions:
-   - catalogue.json is in the site root (same folder)
-   - image filenames in catalogue.json are exactly the files you uploaded to GitHub / site root
-   - PayPal links are per-product as provided in catalogue.json
+/* script.js — Catalogue-driven multi-page site for Velvet Charms
+   Features:
+   - Loads catalogue.json
+   - Renders categories on index and catalogue pages
+   - Full product modal with personalization (image uploads allowed)
+   - Cart and wishlist localStorage persistence
+   - Defensive checks to avoid 'siteInfo is null' errors
 */
 
-/* APP namespace to avoid polluting global scope */
-window.APP = (function () {
-  const state = {
-    catalogue: null,
-    cart: [],         // {productId, qty, personalization:{text, files (data urls)}} - multiple entries allowed
-    wishlist: [],     // productId[]
-  };
+(() => {
+  // Public functions used by HTML
+  window.initSiteUI = initSiteUI;
+  window.loadCatalogueAndRenderCategories = loadCatalogueAndRenderCategories;
+  window.initCataloguePage = initCataloguePage;
 
-  /* --- Utilities --- */
-  function $(sel){ return document.querySelector(sel); }
-  function $all(sel){ return Array.from(document.querySelectorAll(sel)); }
-  function safeEncodeURI(name){ try { return encodeURI(name); } catch(e){ return name; } }
-  function getImagePath(filename){
-    if(!filename) return 'epoxy_decorative_tray_1.png';
-    return safeEncodeURI(filename);
+  const CATALOGUE_PATH = './catalogue.json';
+
+  // App state
+  let CATALOG = null;
+  let CART = { items: [] };
+  let WISHLIST = [];
+
+  // Utilities
+  function q(sel, root = document) { return root.querySelector(sel); }
+  function qAll(sel, root = document) { return Array.from(root.querySelectorAll(sel)); }
+  function formatPrice(n) { return `USD ${Number(n).toFixed(2)}`; }
+  function encodeFilename(fn) { return './' + encodeURIComponent(fn).replace(/%2F/g, '/'); }
+
+  // Local storage helpers
+  function saveCart() { localStorage.setItem('vc_cart_v1', JSON.stringify(CART)); renderCartUI(); }
+  function saveWishlist(){ localStorage.setItem('vc_wishlist_v1', JSON.stringify(WISHLIST)); updateWishlistCounts(); }
+  function loadCart() { try { const raw = localStorage.getItem('vc_cart_v1'); CART = raw ? JSON.parse(raw) : { items: [] }; } catch(e){ CART={items:[]}; } }
+  function loadWishlist(){ try { const raw = localStorage.getItem('vc_wishlist_v1'); WISHLIST = raw ? JSON.parse(raw) : []; } catch(e){ WISHLIST=[]; } }
+
+  // initSiteUI - common UI wiring
+  function initSiteUI(){
+    loadCart(); loadWishlist();
+    renderCartUI();
+    updateWishlistCounts();
+
+    // nav buttons
+    const cartBtns = qAll('#cart-btn, #cart-btn-2');
+    cartBtns.forEach(b => b.addEventListener('click', toggleCartDrawer));
+    const favBtns = qAll('#favorites-btn, #favorites-btn-2');
+    favBtns.forEach(b => b.addEventListener('click', () => {
+      alert(`Wishlist: ${WISHLIST.length} item(s).`);
+    }));
   }
 
-  /* --- Storage (localStorage) --- */
-  function loadStorage(){
-    try{
-      const savedCart = JSON.parse(localStorage.getItem('vc_cart')||'[]');
-      const savedWishlist = JSON.parse(localStorage.getItem('vc_wishlist')||'[]');
-      state.cart = Array.isArray(savedCart)? savedCart : [];
-      state.wishlist = Array.isArray(savedWishlist)? savedWishlist : [];
-    }catch(e){
-      state.cart = [];
-      state.wishlist = [];
+  // Fetch catalogue.json
+  async function fetchCatalogue(){
+    if (CATALOG) return CATALOG;
+    try {
+      const res = await fetch(CATALOGUE_PATH + '?_=' + Date.now());
+      if (!res.ok) throw new Error('Failed to load catalogue.json');
+      const json = await res.json();
+      // defensive: ensure siteInfo present
+      if (!json || !json.siteInfo) {
+        console.error('catalogue.json missing siteInfo');
+        json.siteInfo = { name: 'Velvet Charms', tagline: '', currency: 'USD' };
+      }
+      CATALOG = json;
+      return CATALOG;
+    } catch(err) {
+      console.error('Error loading catalogue:', err);
+      // graceful fallback: minimal structure
+      CATALOG = { siteInfo: { name: 'Velvet Charms', tagline: '', currency: 'USD'}, categories: [] };
+      return CATALOG;
     }
   }
-  function saveStorage(){
-    localStorage.setItem('vc_cart', JSON.stringify(state.cart));
-    localStorage.setItem('vc_wishlist', JSON.stringify(state.wishlist));
-    updateCounters();
-  }
 
-  /* --- Counters --- */
-  function updateCounters(){
-    const cartCount = state.cart.reduce((s,it)=> s + (it.qty||1), 0);
-    const favCount = state.wishlist.length;
-    document.getElementById('cart-count') && (document.getElementById('cart-count').textContent = cartCount);
-    document.getElementById('fav-count') && (document.getElementById('fav-count').textContent = favCount);
-    document.getElementById('cart-count-2') && (document.getElementById('cart-count-2').textContent = cartCount);
-    document.getElementById('fav-count-2') && (document.getElementById('fav-count-2').textContent = favCount);
-  }
+  // Render categories grid for index page
+  async function loadCatalogueAndRenderCategories(containerSelector = '#categories-grid', topCategoriesOnly = false) {
+    const container = document.querySelector(containerSelector);
+    if (!container) return;
+    container.innerHTML = '<div class="loading">Loading catalogue…</div>';
+    const data = await fetchCatalogue();
+    const categories = data.categories || [];
 
-  /* --- Load catalogue.json --- */
-  function loadCatalogue(){
-    return fetch('catalogue.json').then(r=>{
-      if(!r.ok) throw new Error('catalogue.json missing or not reachable');
-      return r.json();
-    }).then(json=>{
-      state.catalogue = json;
-      return json;
+    // fill category select (if present)
+    const catSelect = document.getElementById('category-select');
+    if (catSelect) {
+      catSelect.innerHTML = '<option value="">— All categories —</option>';
+      categories.forEach(cat => {
+        const opt = document.createElement('option');
+        opt.value = cat.id; opt.textContent = cat.name;
+        catSelect.appendChild(opt);
+      });
+    }
+
+    container.innerHTML = '';
+    categories.forEach(cat => {
+      // show only top X categories on home if requested
+      const el = document.createElement('article');
+      el.className = 'card';
+      const imgFile = cat.categoryImage || cat.banner || (cat.subcategories && cat.subcategories[0] && cat.subcategories[0].products && cat.subcategories[0].products[0] && cat.subcategories[0].products[0].images && cat.subcategories[0].products[0].images[0]) || '';
+      const media = document.createElement('div'); media.className='media';
+      if (imgFile) {
+        const img = document.createElement('img');
+        img.src = encodeFilename(imgFile);
+        img.alt = cat.name;
+        img.onerror = () => { img.style.display='none'; media.style.background='#f2e9e8'; };
+        media.appendChild(img);
+      }
+      const body = document.createElement('div'); body.className='card-body';
+      const h = document.createElement('h3'); h.textContent = cat.name;
+      const meta = document.createElement('p'); meta.textContent = (cat.subcategories ? (cat.subcategories.length + ' sections') : 'Category');
+      const open = document.createElement('a'); open.href = `catalogue.html?category=${encodeURIComponent(cat.id)}`; open.className='btn-outline'; open.textContent='Open';
+      body.appendChild(h); body.appendChild(meta); body.appendChild(open);
+      el.appendChild(media); el.appendChild(body);
+      container.appendChild(el);
     });
   }
 
-  /* --- Helpers to find a product by id --- */
-  function findProductById(pid){
-    if(!state.catalogue) return null;
-    for(const cat of state.catalogue.categories || []){
-      if(cat.products){
-        const p = (cat.products || []).find(x=>x.id === pid);
-        if(p) return p;
+  // Catalogue page: render content, handle search, category filter
+  async function initCataloguePage(){
+    const data = await fetchCatalogue();
+    const content = document.getElementById('catalogue-content');
+    const select = document.getElementById('category-select');
+    const search = document.getElementById('search-input');
+    if (!content) return;
+
+    // helper: flatten products with path info (category, subcategory)
+    function allProducts() {
+      const items = [];
+      (data.categories || []).forEach(cat => {
+        if (cat.subcategories) {
+          cat.subcategories.forEach(sub => {
+            if (sub.products) sub.products.forEach(prod => items.push({ cat, sub, prod }));
+          });
+        } else if (cat.products) {
+          cat.products.forEach(prod => items.push({ cat, sub: null, prod }));
+        }
+      });
+      return items;
+    }
+
+    function renderList(filterCatId = '', filterText = '') {
+      content.innerHTML = '';
+      const items = allProducts().filter(entry => {
+        if (filterCatId && entry.cat.id !== filterCatId) return false;
+        if (!filterText) return true;
+        const q = filterText.toLowerCase();
+        return (entry.prod.name && entry.prod.name.toLowerCase().includes(q)) ||
+               (entry.cat.name && entry.cat.name.toLowerCase().includes(q)) ||
+               (entry.sub && entry.sub.name && entry.sub.name.toLowerCase().includes(q));
+      });
+
+      if (items.length === 0) {
+        content.innerHTML = '<p>No products found.</p>';
+        return;
       }
-      if(cat.subcategories){
-        for(const sub of cat.subcategories){
-          if(sub.products){
-            const p = (sub.products || []).find(x=>x.id === pid);
-            if(p) return p;
+
+      items.forEach(({cat, sub, prod}) => {
+        const card = document.createElement('article');
+        card.className = 'card product-card';
+        const media = document.createElement('div'); media.className='media';
+        const firstImg = (prod.images && prod.images[0]) || (cat.categoryImage || '');
+        if (firstImg) {
+          const img = document.createElement('img');
+          img.src = encodeFilename(firstImg);
+          img.alt = prod.name;
+          img.onerror = () => { img.style.display='none'; media.style.background='#f2e9e8'; };
+          media.appendChild(img);
+        }
+        const body = document.createElement('div'); body.className='card-body';
+        const title = document.createElement('h4'); title.textContent = prod.name;
+        const desc = document.createElement('p'); desc.textContent = prod.description || '';
+        const price = document.createElement('div'); price.className='price'; price.textContent = formatPrice(prod.price || 0);
+        const controls = document.createElement('div'); controls.className='actions';
+
+        const detailsBtn = document.createElement('button'); detailsBtn.className='btn-outline'; detailsBtn.textContent='Details';
+        detailsBtn.addEventListener('click', () => openProductModal(prod, cat, sub));
+
+        const buyBtn = document.createElement('button'); buyBtn.className='btn'; buyBtn.textContent='Buy';
+        buyBtn.addEventListener('click', () => openProductModal(prod, cat, sub, { autoOpenToBuy:true }));
+
+        const heart = document.createElement('span'); heart.className='icon-heart'; heart.title='Add to wishlist';
+        heart.innerHTML = WISHLIST.includes(prod.id) ? '❤' : '♡';
+        heart.addEventListener('click', () => {
+          toggleWishlist(prod.id);
+          heart.innerHTML = WISHLIST.includes(prod.id) ? '❤' : '♡';
+        });
+
+        controls.appendChild(detailsBtn);
+        controls.appendChild(buyBtn);
+        controls.appendChild(heart);
+
+        body.appendChild(title);
+        body.appendChild(desc);
+        body.appendChild(price);
+        body.appendChild(controls);
+
+        card.appendChild(media);
+        card.appendChild(body);
+        content.appendChild(card);
+      });
+    }
+
+    // populate select options
+    const categories = (data.categories || []);
+    if (select) {
+      select.innerHTML = '<option value="">— All categories —</option>';
+      categories.forEach(c => {
+        const opt = document.createElement('option'); opt.value = c.id; opt.textContent = c.name;
+        select.appendChild(opt);
+      });
+      select.addEventListener('change', () => renderList(select.value, search.value.trim()));
+    }
+    if (search) {
+      search.addEventListener('input', () => renderList(select ? select.value : '', search.value.trim()));
+    }
+
+    // check URL param category
+    const urlParams = new URLSearchParams(location.search);
+    const categoryParam = urlParams.get('category') || '';
+    if (categoryParam && select) select.value = categoryParam;
+
+    // initial render
+    renderList(categoryParam, '');
+
+    // wire modal close and cart UI
+    const modalClose = document.getElementById('modal-close');
+    if (modalClose) modalClose.addEventListener('click', closeProductModal);
+    document.addEventListener('keydown', (ev) => { if(ev.key==='Escape') closeProductModal(); });
+
+    // checkout button
+    const checkoutBtn = document.getElementById('checkout-btn');
+    if (checkoutBtn) checkoutBtn.addEventListener('click', handleCheckout);
+  }
+
+  // PRODUCT MODAL
+  function openProductModal(prod, cat, sub, opts={}) {
+    const modal = document.getElementById('product-modal');
+    const container = document.getElementById('product-detail');
+    if (!modal || !container) return;
+    container.innerHTML = '';
+    // header
+    const title = document.createElement('h3'); title.textContent = prod.name;
+    const imagesWrap = document.createElement('div'); imagesWrap.className='modal-images';
+    // show all images as gallery
+    (prod.images || []).forEach(fn=>{
+      const img = document.createElement('img');
+      img.src = encodeFilename(fn);
+      img.alt = prod.name;
+      img.style.maxWidth='180px'; img.style.margin='6px'; img.style.borderRadius='8px';
+      img.onerror = () => { img.style.display='none'; };
+      imagesWrap.appendChild(img);
+    });
+
+    const desc = document.createElement('p'); desc.textContent = prod.description || '';
+    const price = document.createElement('div'); price.className='price'; price.textContent = formatPrice(prod.price || 0);
+
+    // personalization form
+    const form = document.createElement('form');
+    form.id = 'personalization-form';
+    form.innerHTML = `
+      <label for="pc-quantity">Quantity</label>
+      <input id="pc-quantity" name="quantity" type="number" min="1" value="1" />
+
+      <label for="pc-note">Custom note / details</label>
+      <textarea id="pc-note" name="note" rows="4" placeholder="Add names, colors, sizes, or attach reference images..."></textarea>
+
+      <label for="pc-files">Upload reference images (optional)</label>
+      <input id="pc-files" name="files" type="file" accept="image/*" multiple />
+      <div id="pc-files-list" style="margin-top:8px"></div>
+
+      <div style="margin-top:12px">
+        <button type="button" id="pc-add-to-cart" class="btn">Add to cart</button>
+        <button type="button" id="pc-buy-now" class="btn ghost">Buy now</button>
+      </div>
+    `;
+
+    // file preview
+    const filesInput = form.querySelector('#pc-files');
+    const filesList = form.querySelector('#pc-files-list');
+    filesInput.addEventListener('change', () => {
+      filesList.innerHTML = '';
+      Array.from(filesInput.files).forEach(file=>{
+        const p = document.createElement('div');
+        p.textContent = file.name;
+        filesList.appendChild(p);
+      });
+    });
+
+    container.appendChild(title);
+    container.appendChild(imagesWrap);
+    container.appendChild(desc);
+    container.appendChild(price);
+    container.appendChild(form);
+
+    // add-to-cart handler
+    const addBtn = form.querySelector('#pc-add-to-cart');
+    addBtn.addEventListener('click', () => {
+      const qty = Number(form.querySelector('#pc-quantity').value) || 1;
+      const note = form.querySelector('#pc-note').value || '';
+      // capture file names (we don't upload them to server here)
+      const uploaded = Array.from(filesInput.files).map(f=>f.name);
+      addToCart(prod, qty, note, uploaded);
+      closeProductModal();
+    });
+
+    const buyNow = form.querySelector('#pc-buy-now');
+    buyNow.addEventListener('click', () => {
+      const qty = Number(form.querySelector('#pc-quantity').value) || 1;
+      const note = form.querySelector('#pc-note').value || '';
+      const uploaded = Array.from(filesInput.files).map(f=>f.name);
+      addToCart(prod, qty, note, uploaded);
+      // immediately open checkout
+      toggleCartDrawer(true);
+      closeProductModal();
+    });
+
+    // show modal
+    modal.classList.remove('hidden');
+    modal.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeProductModal(){
+    const modal = document.getElementById('product-modal');
+    if (!modal) return;
+    modal.classList.add('hidden');
+    modal.setAttribute('aria-hidden', 'true');
+  }
+
+  // CART functions
+  function addToCart(prod, quantity=1, note='', uploadedFiles=[]){
+    const existing = CART.items.find(i => i.id === prod.id && i.note === note && JSON.stringify(i.uploaded || []) === JSON.stringify(uploadedFiles));
+    if (existing) {
+      existing.quantity += quantity;
+    } else {
+      CART.items.push({
+        id: prod.id,
+        name: prod.name,
+        price: prod.price || 0,
+        quantity,
+        note,
+        uploaded: uploadedFiles
+      });
+    }
+    saveCart();
+    toggleCartDrawer(true);
+  }
+
+  function toggleCartDrawer(show){
+    const drawer = document.getElementById('cart-drawer');
+    if (!drawer) return;
+    if (typeof show === 'boolean' ? show : drawer.classList.contains('hidden')) {
+      drawer.classList.remove('hidden');
+      drawer.setAttribute('aria-hidden', 'false');
+    } else {
+      drawer.classList.add('hidden');
+      drawer.setAttribute('aria-hidden', 'true');
+    }
+    renderCartUI();
+  }
+
+  function renderCartUI(){
+    const drawer = document.getElementById('cart-drawer');
+    const itemsWrap = document.getElementById('cart-items');
+    const totalEl = document.getElementById('cart-total');
+    const cartCountEls = qAll('#cart-count, #cart-count-2, #cart-count'); // extra selectors
+    const cnt = CART.items.reduce((s,i)=>s+i.quantity, 0);
+    cartCountEls.forEach(el => { if (el) el.textContent = cnt; });
+
+    if (!itemsWrap) return;
+    itemsWrap.innerHTML = '';
+    if (!CART.items || CART.items.length === 0) {
+      itemsWrap.innerHTML = '<p>Your cart is empty.</p>';
+      if (totalEl) totalEl.textContent = 'Total: USD 0.00';
+      return;
+    }
+
+    let total = 0;
+    CART.items.forEach((it, idx) => {
+      const el = document.createElement('div'); el.className='cart-row';
+      el.style.marginBottom='10px';
+      el.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div><strong>${it.name}</strong><div style="font-size:13px;color:#555">${it.note ? it.note : ''}</div></div>
+          <div style="text-align:right">${formatPrice(it.price)}<div style="font-size:13px;color:#777">x ${it.quantity}</div></div>
+        </div>
+      `;
+      const controls = document.createElement('div'); controls.style.marginTop='6px';
+      const rem = document.createElement('button'); rem.className='btn-outline'; rem.textContent='Remove';
+      rem.addEventListener('click', () => {
+        CART.items.splice(idx,1); saveCart();
+      });
+      controls.appendChild(rem);
+      el.appendChild(controls);
+      itemsWrap.appendChild(el);
+      total += (it.price || 0) * (it.quantity || 1);
+    });
+    if (totalEl) totalEl.textContent = `Total: ${formatPrice(total)}`;
+  }
+
+  function handleCheckout(){
+    // Build a PayPal form redirect (client-side). For demo use, we will open PayPal checkout link per item
+    if (!CART.items || CART.items.length === 0) { alert('Your cart is empty.'); return; }
+    // For simplicity: if there's exactly one item and it has a paymentLink in catalogue, open it; else open generic PayPal homepage
+    (async () => {
+      const data = await fetchCatalogue();
+      const firstItem = CART.items[0];
+      // try to find product paymentLink
+      function findPaymentLink(id) {
+        const all = [];
+        (data.categories || []).forEach(cat => {
+          if (cat.subcategories) {
+            cat.subcategories.forEach(sub => {
+              if (sub.products) sub.products.forEach(p => all.push(p));
+            });
           }
-        }
-      }
-    }
-    return null;
-  }
-
-  /* --- Render catalogue and filters --- */
-  function renderCategoryFilters(){
-    const wrap = document.getElementById('category-filters');
-    if(!wrap || !state.catalogue) return;
-    wrap.innerHTML = '';
-    state.catalogue.categories.forEach(cat=>{
-      const btn = document.createElement('button');
-      btn.className = 'btn secondary';
-      btn.textContent = cat.name;
-      btn.onclick = ()=> {
-        renderCatalogue({ filterCategoryId: cat.id });
-        // scroll to product grid
-        setTimeout(()=>{ document.getElementById('catalogue-grid') && document.getElementById('catalogue-grid').scrollIntoView({behavior:'smooth'}); },50);
-      };
-      wrap.appendChild(btn);
-    });
-
-    document.getElementById('filter-all') && (document.getElementById('filter-all').onclick = ()=> renderCatalogue());
-  }
-
-  function buildProductCard(product, catName, subName){
-    const el = document.createElement('div');
-    el.className = 'product';
-    const img = document.createElement('img');
-    img.alt = product.name;
-    img.src = product.images && product.images[0] ? getImagePath(product.images[0]) : 'epoxy_decorative_tray_1.png';
-    img.onerror = function(){ this.src = 'epoxy_decorative_tray_1.png'; };
-    el.appendChild(img);
-
-    const title = document.createElement('h4'); title.textContent = product.name;
-    el.appendChild(title);
-
-    const desc = document.createElement('div'); desc.style.fontSize='13px'; desc.style.color='#666'; desc.textContent = product.description || (catName || '') + (subName ? ' — ' + subName : '');
-    el.appendChild(desc);
-
-    const price = document.createElement('div'); price.className='price'; price.textContent = formatPrice(product.price);
-    el.appendChild(price);
-
-    const controls = document.createElement('div'); controls.style.display='flex'; controls.style.gap='8px'; controls.style.marginTop='auto';
-    const detailsBtn = document.createElement('button'); detailsBtn.className='btn secondary'; detailsBtn.textContent='Details';
-    detailsBtn.onclick = ()=> openProductModal(product);
-    controls.appendChild(detailsBtn);
-
-    const buyBtn = document.createElement('button'); buyBtn.className='btn'; buyBtn.textContent='Buy';
-    buyBtn.onclick = ()=> {
-      openProductModal(product, { focusOnBuy:true });
-    };
-    controls.appendChild(buyBtn);
-
-    const heartBtn = document.createElement('button'); heartBtn.className='heart'; heartBtn.innerHTML = '❤';
-    heartBtn.onclick = ()=>{
-      toggleWishlist(product.id);
-      heartBtn.style.opacity = state.wishlist.includes(product.id) ? '1' : '0.4';
-    };
-    controls.appendChild(heartBtn);
-
-    el.appendChild(controls);
-
-    return el;
-  }
-
-  function formatPrice(v){
-    const cur = (state.catalogue && state.catalogue.siteInfo && state.catalogue.siteInfo.currency) || 'USD';
-    return (v != null) ? (cur + ' ' + Number(v).toFixed(2)) : '';
-  }
-
-  function renderCatalogue(opts){
-    opts = opts || {};
-    const grid = document.getElementById('catalogue-grid');
-    if(!grid) return;
-    grid.innerHTML = '';
-    if(!state.catalogue){
-      grid.innerHTML = '<div style="padding:18px;color:#a00">Catalogue not loaded.</div>';
-      return;
-    }
-
-    const q = (document.getElementById('catalogue-search') && document.getElementById('catalogue-search').value || '').toLowerCase();
-
-    const targetCatId = opts.filterCategoryId || null;
-    // Flatten products with category info
-    const items = [];
-    state.catalogue.categories.forEach(cat=>{
-      if(cat.products){
-        cat.products.forEach(p=> items.push({product:p, catName:cat.name, subName:null, catId:cat.id}));
-      }
-      if(cat.subcategories){
-        cat.subcategories.forEach(sub=>{
-          (sub.products || []).forEach(p=> items.push({product:p, catName:cat.name, subName:sub.name, catId:cat.id}));
+          if (cat.products) cat.products.forEach(p => all.push(p));
         });
+        const p = all.find(x => x.id === id);
+        return p ? p.paymentLink : null;
       }
-    });
-
-    let filtered = items;
-    if(targetCatId){
-      filtered = filtered.filter(it=> it.catId === targetCatId);
-    }
-    if(q){
-      filtered = filtered.filter(it=>{
-        const t = (it.product.name || '') + ' ' + (it.product.description || '') + ' ' + (it.catName || '') + ' ' + (it.subName || '');
-        return t.toLowerCase().includes(q);
-      });
-    }
-
-    if(filtered.length === 0){
-      grid.innerHTML = '<div style="padding:18px;color:#666">No products found.</div>';
-      return;
-    }
-
-    filtered.forEach(item=>{
-      const card = buildProductCard(item.product, item.catName, item.subName);
-      grid.appendChild(card);
-    });
-
-    // open category if hash present
-    if(location.hash){
-      const catId = decodeURIComponent(location.hash.slice(1));
-      if(catId){
-        // scroll to first product of that category (simple approach: re-render with filter)
-        // Note: developers wanted linking to categories; we already handle filterCategoryId
-      }
-    }
-  }
-
-  /* --- Product Modal (details + personalization form) --- */
-  function openProductModal(product, opts){
-    opts = opts || {};
-    // create modal DOM
-    const root = document.getElementById('modal-root');
-    root.innerHTML = '';
-    root.classList.remove('hide');
-
-    const backdrop = document.createElement('div'); backdrop.className = 'modal-backdrop';
-    const modal = document.createElement('div'); modal.className = 'modal';
-
-    // left: gallery
-    const left = document.createElement('div'); left.className = 'gallery';
-    const mainImg = document.createElement('img'); mainImg.src = product.images && product.images[0] ? getImagePath(product.images[0]) : 'epoxy_decorative_tray_1.png';
-    mainImg.onerror = function(){ this.src='epoxy_decorative_tray_1.png'; };
-    left.appendChild(mainImg);
-
-    const thumbs = document.createElement('div'); thumbs.style.display='flex'; thumbs.style.gap='8px'; thumbs.style.marginTop='8px'; thumbs.style.flexWrap='wrap';
-    (product.images || []).forEach(fn=>{
-      const t = document.createElement('img');
-      t.src = getImagePath(fn);
-      t.style.width = '64px'; t.style.height='64px'; t.style.objectFit='cover'; t.style.borderRadius='8px'; t.style.cursor='pointer';
-      t.onerror = function(){ this.src='epoxy_decorative_tray_1.png'; };
-      t.onclick = ()=> mainImg.src = getImagePath(fn);
-      thumbs.appendChild(t);
-    });
-    left.appendChild(thumbs);
-
-    // right: details + personalization form
-    const right = document.createElement('div');
-
-    const title = document.createElement('h3'); title.textContent = product.name;
-    right.appendChild(title);
-    const price = document.createElement('div'); price.className='price'; price.textContent = formatPrice(product.price);
-    right.appendChild(price);
-
-    if(product.description){
-      const desc = document.createElement('p'); desc.style.marginTop='8px'; desc.style.color='#666'; desc.textContent = product.description;
-      right.appendChild(desc);
-    }
-
-    // Options (if any)
-    if(product.options){
-      Object.keys(product.options).forEach(optKey=>{
-        const optWrap = document.createElement('div'); optWrap.className='option';
-        const label = document.createElement('label'); label.textContent = optKey + ':';
-        const select = document.createElement('select'); select.name = 'option_' + optKey;
-        product.options[optKey].forEach(v=>{
-          const o = document.createElement('option'); o.value = v; o.textContent = v;
-          select.appendChild(o);
-        });
-        optWrap.appendChild(label);
-        optWrap.appendChild(select);
-        right.appendChild(optWrap);
-      });
-    }
-
-    // Personalization form
-    const form = document.createElement('form'); form.id = 'personalize-form';
-    form.style.display = 'grid'; form.style.gap = '8px'; form.style.marginTop = '10px';
-
-    const noteLabel = document.createElement('label'); noteLabel.textContent = 'Personalization notes';
-    const notes = document.createElement('textarea'); notes.name = 'personal_notes'; notes.placeholder = 'Tell us what to change, add references, sizes, colors...'; notes.rows = 4; notes.style.padding='8px';
-    form.appendChild(noteLabel); form.appendChild(notes);
-
-    const uploadLabel = document.createElement('label'); uploadLabel.textContent = 'Upload reference images (multiple allowed)';
-    const upload = document.createElement('input'); upload.type = 'file'; upload.accept = 'image/*'; upload.multiple = true; upload.name = 'personal_images';
-    upload.style.padding='6px';
-    form.appendChild(uploadLabel); form.appendChild(upload);
-
-    // Add to cart button (saves personalization) and quick Pay button
-    const btns = document.createElement('div'); btns.style.display='flex'; btns.style.gap='8px'; btns.style.marginTop='8px';
-    const addToCartBtn = document.createElement('button'); addToCartBtn.type='button'; addToCartBtn.className='btn'; addToCartBtn.textContent='Add to cart';
-    const payNowBtn = document.createElement('button'); payNowBtn.type='button'; payNowBtn.className='btn secondary'; payNowBtn.textContent='Pay now';
-
-    btns.appendChild(addToCartBtn);
-    btns.appendChild(payNowBtn);
-    form.appendChild(btns);
-
-    // Close button
-    const closeBtn = document.createElement('button'); closeBtn.type='button'; closeBtn.className='btn secondary'; closeBtn.textContent='Close';
-    closeBtn.style.marginTop='8px';
-    form.appendChild(closeBtn);
-
-    right.appendChild(form);
-
-    modal.appendChild(left);
-    modal.appendChild(right);
-    backdrop.appendChild(modal);
-    root.appendChild(backdrop);
-
-    // Handlers
-    closeBtn.onclick = ()=> { root.classList.add('hide'); root.innerHTML=''; };
-    backdrop.onclick = (e)=> { if(e.target === backdrop) { root.classList.add('hide'); root.innerHTML=''; } };
-
-    function readFilesAsDataUrls(files){
-      return Promise.all(Array.from(files || []).map(f=>{
-        return new Promise((res,rej)=>{
-          const fr = new FileReader();
-          fr.onload = ()=> res({name:f.name, data: fr.result});
-          fr.onerror = ()=> rej();
-          fr.readAsDataURL(f);
-        });
-      }));
-    }
-
-    addToCartBtn.onclick = async ()=>{
-      addToCartBtn.disabled = true;
-      const uploaded = upload.files && upload.files.length ? await readFilesAsDataUrls(upload.files) : [];
-      // Generate cart entry
-      const cartItem = {
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        qty: 1,
-        paymentLink: product.paymentLink || '',
-        personalization: {
-          notes: notes.value || '',
-          images: uploaded
-        }
-      };
-      state.cart.push(cartItem);
-      saveStorage();
-      addToCartBtn.disabled = false;
-      alert('Added to cart. Open the cart (🛒) top-right to review and pay.');
-      root.classList.add('hide'); root.innerHTML='';
-      renderCartDrawer(); // refresh
-    };
-
-    payNowBtn.onclick = async ()=>{
-      // If they included personalization, save first then open paypal
-      payNowBtn.disabled = true;
-      const uploaded = upload.files && upload.files.length ? await readFilesAsDataUrls(upload.files) : [];
-      // Save as single entry temporarily to local storage so artists have the info
-      const tmpItem = {
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        qty: 1,
-        paymentLink: product.paymentLink || '',
-        personalization: { notes: notes.value || '', images: uploaded }
-      };
-      state.cart.push(tmpItem);
-      saveStorage();
-      renderCartDrawer();
-      // open paymentLink in new tab
-      if(product.paymentLink){
-        window.open(product.paymentLink, '_blank');
-        alert((state.catalogue && state.catalogue.siteInfo && state.catalogue.siteInfo.postPurchaseMessage) || 'Payment opened. Thank you.');
+      const link = findPaymentLink(firstItem.id);
+      if (link) {
+        // open payment for first item (user can adjust on PayPal)
+        window.open(link, '_blank');
       } else {
-        alert('No payment link set for this product.');
+        // fallback
+        window.open('https://www.paypal.com/checkoutnow', '_blank');
       }
-      root.classList.add('hide'); root.innerHTML='';
-      payNowBtn.disabled = false;
-    };
+    })();
   }
 
-  /* --- Wishlist toggle --- */
-  function toggleWishlist(pid){
-    const idx = state.wishlist.indexOf(pid);
-    if(idx === -1) state.wishlist.push(pid);
-    else state.wishlist.splice(idx,1);
-    saveStorage();
+  // Wishlist
+  function toggleWishlist(prodId){
+    const idx = WISHLIST.indexOf(prodId);
+    if (idx === -1) { WISHLIST.push(prodId); } else { WISHLIST.splice(idx,1); }
+    saveWishlist();
+  }
+  function updateWishlistCounts(){
+    const favEls = document.querySelectorAll('#fav-count, #fav-count-2');
+    favEls.forEach(el => { if (el) el.textContent = WISHLIST.length; });
   }
 
-  /* --- Cart Drawer (render) --- */
-  function renderCartDrawer(){
-    const root = document.getElementById('drawer-root');
-    root.classList.remove('hide');
-    root.innerHTML = '';
-    const wrapper = document.createElement('div');
-    wrapper.className = 'drawer';
-
-    const title = document.createElement('h3'); title.textContent = 'Your Cart';
-    wrapper.appendChild(title);
-
-    if(state.cart.length === 0){
-      const p = document.createElement('div'); p.style.padding='8px 0'; p.textContent = 'Cart is empty';
-      wrapper.appendChild(p);
-      const close = document.createElement('button'); close.className='btn secondary'; close.textContent='Close';
-      close.onclick = ()=> { root.classList.add('hide'); root.innerHTML=''; };
-      wrapper.appendChild(close);
-      root.appendChild(wrapper);
-      return;
-    }
-
-    state.cart.forEach((it, idx)=>{
-      const item = document.createElement('div'); item.style.borderBottom='1px solid #f1f1f1'; item.style.padding='10px 0';
-      const h = document.createElement('div'); h.style.display='flex'; h.style.justifyContent='space-between';
-      const name = document.createElement('div'); name.textContent = it.name;
-      const price = document.createElement('div'); price.textContent = formatPrice(it.price);
-      h.appendChild(name); h.appendChild(price);
-      item.appendChild(h);
-
-      if(it.personalization && (it.personalization.notes || (it.personalization.images && it.personalization.images.length))){
-        const pers = document.createElement('div'); pers.style.fontSize='13px'; pers.style.color='#666';
-        pers.textContent = 'Personalization: ' + (it.personalization.notes ? it.personalization.notes.slice(0,80) : '') + (it.personalization.images && it.personalization.images.length ? ' (images attached)' : '');
-        item.appendChild(pers);
-      }
-
-      const actions = document.createElement('div'); actions.style.display='flex'; actions.style.gap='8px'; actions.style.marginTop='8px';
-      const payBtn = document.createElement('button'); payBtn.className='btn'; payBtn.textContent='Pay';
-      payBtn.onclick = ()=>{
-        if(it.paymentLink) window.open(it.paymentLink, '_blank');
-        else alert('No payment link for this item.');
-      };
-      const removeBtn = document.createElement('button'); removeBtn.className='btn secondary'; removeBtn.textContent='Remove';
-      removeBtn.onclick = ()=>{
-        state.cart.splice(idx,1); saveStorage(); renderCartDrawer();
-      };
-      actions.appendChild(payBtn); actions.appendChild(removeBtn);
-      item.appendChild(actions);
-
-      wrapper.appendChild(item);
+  // product modal open helper (used from catalogue page)
+  function openProductModalById(prodId) {
+    const data = CATALOG || {};
+    const all = [];
+    (data.categories || []).forEach(cat => {
+      if (cat.subcategories) cat.subcategories.forEach(sub => { if (sub.products) sub.products.forEach(p => all.push({cat, sub, p})); });
+      if (cat.products) cat.products.forEach(p => all.push({cat, sub: null, p}));
     });
-
-    const notes = document.createElement('div'); notes.style.marginTop='12px'; notes.style.fontSize='13px'; notes.style.color='#666';
-    notes.textContent = 'Tip: You can add items with personalization to the cart; pay each item to complete the order. Our email will receive personalization details so we can craft your order.';
-    wrapper.appendChild(notes);
-
-    const clearAll = document.createElement('button'); clearAll.className='btn secondary'; clearAll.textContent='Clear cart';
-    clearAll.style.marginTop='12px';
-    clearAll.onclick = ()=> { if(confirm('Clear cart?')) { state.cart = []; saveStorage(); renderCartDrawer(); } };
-    wrapper.appendChild(clearAll);
-
-    const close = document.createElement('button'); close.className='btn'; close.textContent='Close';
-    close.style.marginTop='12px'; close.onclick = ()=> { root.classList.add('hide'); root.innerHTML=''; };
-    wrapper.appendChild(close);
-
-    root.appendChild(wrapper);
+    const found = all.find(entry => entry.p.id === prodId);
+    if (found) openProductModal(found.p, found.cat, found.sub);
   }
 
-  /* --- Init / restore --- */
-  function restoreCartAndWishlist(){
-    loadStorage();
-    updateCounters();
-  }
+  // Expose some helpers for HTML to call
+  window.addToCart = addToCart;
+  window.toggleCartDrawer = toggleCartDrawer;
+  window.openProductModalById = openProductModalById;
 
-  /* --- Init catalogue page (catalogue.html) --- */
-  function initCatalogue(){
-    loadCatalogue().then(()=>{
-      renderCategoryFilters();
-      renderCatalogue();
-      // search
-      const search = document.getElementById('catalogue-search');
-      if(search){ search.addEventListener('input', ()=> renderCatalogue()); }
-      // set up top buttons
-      const favButtons = document.querySelectorAll('#favorites-btn, #favorites-btn-2, #fav-top');
-      favButtons.forEach(b=> b && (b.onclick = ()=> {
-        // show wishlist
-        const root = document.getElementById('drawer-root'); root.classList.remove('hide'); root.innerHTML='';
-        const wrapper = document.createElement('div'); wrapper.className='drawer';
-        wrapper.appendChild(Object.assign(document.createElement('h3'), { textContent: 'Wishlist' }));
-        if(state.wishlist.length === 0) wrapper.appendChild(Object.assign(document.createElement('div'), { textContent: 'No favorites yet.' }));
-        state.wishlist.forEach(pid=>{
-          const p = findProductById(pid);
-          const row = document.createElement('div'); row.style.display='flex'; row.style.gap='8px'; row.style.alignItems='center'; row.style.marginTop='8px';
-          const img = document.createElement('img'); img.src = p && p.images && p.images[0] ? getImagePath(p.images[0]) : 'epoxy_decorative_tray_1.png';
-          img.style.width='56px'; img.style.height='56px'; img.style.objectFit='cover'; img.style.borderRadius='8px';
-          const txt = document.createElement('div'); txt.style.flex='1'; txt.innerHTML = '<strong>' + (p ? p.name : pid) + '</strong><br>' + (p ? formatPrice(p.price) : '');
-          const add = document.createElement('button'); add.className='btn'; add.textContent='Add to cart';
-          add.onclick = ()=> { if(p){ state.cart.push({ id:p.id, name:p.name, price:p.price, qty:1, paymentLink:p.paymentLink||'', personalization:{notes:'', images:[]} }); saveStorage(); renderCartDrawer(); } };
-          const rm = document.createElement('button'); rm.className='btn secondary'; rm.textContent='Remove';
-          rm.onclick = ()=> { const idx = state.wishlist.indexOf(pid); if(idx>-1) state.wishlist.splice(idx,1); saveStorage(); initCatalogue(); };
-          row.appendChild(img); row.appendChild(txt); row.appendChild(add); row.appendChild(rm);
-          wrapper.appendChild(row);
-        });
-        const close = document.createElement('button'); close.className='btn'; close.textContent='Close'; close.style.marginTop='10px'; close.onclick = ()=> root.classList.add('hide');
-        wrapper.appendChild(close);
-        root.appendChild(wrapper);
-      }) );
-
-      const cartBtns = document.querySelectorAll('#cart-btn, #cart-btn-2, #cart-top');
-      cartBtns.forEach(b=> b && (b.onclick = ()=> renderCartDrawer()));
-
-    }).catch(err=>{
-      console.error('Failed to load catalogue:', err);
-      document.getElementById('catalogue-grid') && (document.getElementById('catalogue-grid').innerHTML = '<div style="padding:18px;color:#a00">Error loading catalogue. Please ensure /catalogue.json exists and is valid in site root.</div>');
-    });
-
-    restoreCartAndWishlist();
-  }
-
-  /* --- Public API --- */
-  return {
-    initCatalogue: initCatalogue,
-    openProductModal: openProductModal,
-    renderCartDrawer: renderCartDrawer,
-    restoreCartAndWishlist: restoreCartAndWishlist,
-    state: state,
-    loadCatalogue: loadCatalogue
-  };
 })();
-
-/* --- Auto-run for pages that just need restore and catalogue loaded --- */
-document.addEventListener('DOMContentLoaded', function () {
-  // restore counters across pages
-  if(window.APP && APP.restoreCartAndWishlist) APP.restoreCartAndWishlist();
-
-  // If this is a catalogue page, APP.initCatalogue will be called by page-specific inline script.
-  // If index.html, we already had a small script that calls fetch; but we can also prepare shared behavior here.
-});
