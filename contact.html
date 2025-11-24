@@ -17,41 +17,32 @@
       <a href="catalogue.html">Catalogue</a>
       <a href="about.html">About</a>
       <a href="contact.html" class="active">Contact</a>
-      <button id="favoritesBtn4" class="icon-btn">❤ <span id="favCount4">0</span></button>
-      <button id="cartBtn4" class="icon-btn">🛒 <span id="cartCount4">0</span></button>
     </nav>
   </header>
 
   <main class="contact-page">
-    <section>
-      <h2>Contact us</h2>
-      <p>Please use the form below for orders, bulk requests, or questions. We will reply within 48 hours.</p>
+    <h2>Contact</h2>
+    <p>Please use the contact form below and we will reply as soon as possible.</p>
 
-      <!-- Formspree form: form action uses your Formspree ID -->
-      <form id="contactForm" action="https://formspree.io/f/xyzykwde" method="POST">
-        <label>
-          Your name
-          <input type="text" name="name" required/>
-        </label>
-        <label>
-          Your email
-          <input type="email" name="email" required/>
-        </label>
-        <label>
-          Message
-          <textarea name="message" rows="6" required></textarea>
-        </label>
-        <label>
-          Attach images (optional)
-          <input type="file" name="attachments" accept="image/*" multiple />
-        </label>
-        <button type="submit" class="btn primary">Send message</button>
-      </form>
-    </section>
+    <form id="contactForm" method="POST" action="https://formspree.io/f/xyzykwde">
+      <label>
+        Your name
+        <input type="text" name="name" required>
+      </label>
+      <label>
+        Your email
+        <input type="email" name="email" required>
+      </label>
+      <label>
+        Message
+        <textarea name="message" rows="6" required></textarea>
+      </label>
+      <button type="submit" class="btn primary">Send message</button>
+    </form>
   </main>
 
-  <footer class="site-footer">
-    <p>© 2025 Velvet Charms — All Rights Reserved</p>
+  <footer>
+    <p>© Velvet Charms</p>
   </footer>
 
   <script src="script.js"></script>
