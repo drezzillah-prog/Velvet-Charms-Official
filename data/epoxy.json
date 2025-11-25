@@ -1,14 +1,123 @@
 {
   "category": "Epoxy Art & Accessories",
   "items": [
-    { "id":"epoxy_jewelry_box_1","name":"Epoxy + Wood Jewelry Box","price":60,"images":["Epoxy + Wood Jewelry Box (1).png","Epoxy + Wood Jewelry Box (2).png","Epoxy + Wood Jewelry Box (3).png"] },
-    { "id":"epoxy_lamp","name":"Epoxy Lamp","price":85,"images":["Epoxy Lamp (1).png","Epoxy Lamp (2).png","Epoxy Lamp (3).png"] },
-    { "id":"epoxy_decorative_tray","name":"Epoxy Decorative Tray","price":45,"images":["epoxy_decorative_tray_1.png","epoxy_decorative_tray_2.png"] },
-    { "id":"epoxy_decorative_coaster","name":"Epoxy Coasters","price":28,"images":["epoxy_decorative_coaster_5.png","epoxy_decorative_coaster_6.png"] },
-    { "id":"epoxy_pendants","name":"Epoxy Pendant","price":20,"images":["epoxy_pendant.png","epoxy_pendant_1.png"] },
-    { "id":"epoxy_keychains","name":"Epoxy Keychains","price":12,"images":["epoxy_keychain_1.png","epoxy_keychain_2.png"] },
-    { "id":"epoxy_rings","name":"Epoxy Rings","price":18,"images":["epoxy_ring_1.png","epoxy_ring_2.png"] },
-    { "id":"epoxy_earrings","name":"Epoxy Earrings","price":22,"images":["epoxy_earings_1.png","epoxy_earings_2.png"] },
-    { "id":"epoxy_brooches","name":"Epoxy Brooch","price":20,"images":["epoxy_brooch.png","epoxy_brooch1.png"] }
+    {
+      "id": "epoxy_jewelry_box_1",
+      "name": "Epoxy + Wood Jewelry Box",
+      "price": 60,
+      "description": "Handcrafted epoxy and wood jewelry box with a glossy artistic finish.",
+      "images": [
+        "data/Epoxy + Wood Jewelry Box (1).png",
+        "data/Epoxy + Wood Jewelry Box (2).png",
+        "data/Epoxy + Wood Jewelry Box (3).png",
+        "data/Epoxy + Wood Jewelry Box (4).png",
+        "data/Epoxy + Wood Jewelry Box (5).png",
+        "data/Epoxy + Wood Jewelry Box (6).png",
+        "data/Epoxy + Wood Jewelry Box (7).png",
+        "data/Epoxy + Wood Jewelry Box (8).png"
+      ]
+    },
+    {
+      "id": "epoxy_lamp",
+      "name": "Epoxy Lamp",
+      "price": 85,
+      "description": "Elegant epoxy resin lamp with embedded natural elements.",
+      "images": [
+        "data/Epoxy Lamp (1).png",
+        "data/Epoxy Lamp (2).png",
+        "data/Epoxy Lamp (3).png",
+        "data/Epoxy Lamp (4).png",
+        "data/Epoxy Lamp (5).png",
+        "data/Epoxy Lamp (6).png",
+        "data/Epoxy Lamp (7).png",
+        "data/Epoxy Lamp (8).png",
+        "data/Epoxy Lamp (9).png"
+      ]
+    },
+    {
+      "id": "epoxy_decorative_tray",
+      "name": "Epoxy Decorative Tray",
+      "price": 45,
+      "description": "Artistic epoxy tray, ideal for jewelry, candles or décor.",
+      "images": [
+        "data/epoxy_decorative_tray_1.png",
+        "data/epoxy_decorative_tray_2.png",
+        "data/epoxy_decorative_tray_3.png",
+        "data/epoxy_decorative_tray_4.png"
+      ]
+    },
+    {
+      "id": "epoxy_decorative_coaster",
+      "name": "Epoxy Coasters",
+      "price": 28,
+      "description": "Handcrafted epoxy coasters with shimmering pigments.",
+      "images": [
+        "data/epoxy_decorative_coaster_5.png",
+        "data/epoxy_decorative_coaster_6.png",
+        "data/epoxy_decorative_coaster_7.png",
+        "data/epoxy_decorative_coaster_8.png"
+      ]
+    },
+    {
+      "id": "epoxy_pendants",
+      "name": "Epoxy Pendant",
+      "price": 20,
+      "description": "Crystal-clear epoxy pendants embedded with natural or metallic accents.",
+      "images": [
+        "data/epoxy_pendant.png",
+        "data/epoxy_pendant_1.png",
+        "data/epoxy_pendant_2.png",
+        "data/epoxy_pendant_3.png"
+      ]
+    },
+    {
+      "id": "epoxy_keychains",
+      "name": "Epoxy Keychains",
+      "price": 12,
+      "description": "Handmade epoxy resin keychains with unique color blends.",
+      "images": [
+        "data/epoxy_keychain_1.png",
+        "data/epoxy_keychain_2.png",
+        "data/epoxy_keychain_3.png"
+      ]
+    },
+    {
+      "id": "epoxy_rings",
+      "name": "Epoxy Rings",
+      "price": 18,
+      "description": "Glossy epoxy resin rings with color-shift accents.",
+      "images": [
+        "data/epoxy_ring_1.png",
+        "data/epoxy_ring_2.png",
+        "data/epoxy_ring_3.png",
+        "data/epoxy_ring_4.png",
+        "data/epoxy_ring_5.png"
+      ]
+    },
+    {
+      "id": "epoxy_earrings",
+      "name": "Epoxy Earrings",
+      "price": 22,
+      "description": "Lightweight epoxy earrings crafted with elegant color gradients.",
+      "images": [
+        "data/epoxy_earings_1.png",
+        "data/epoxy_earings_2.png",
+        "data/epoxy_earings_3.png",
+        "data/epoxy_earings_4.png",
+        "data/epoxy_earings_5.png",
+        "data/epoxy_earings_6.png"
+      ]
+    },
+    {
+      "id": "epoxy_brooches",
+      "name": "Epoxy Brooch",
+      "price": 20,
+      "description": "Unique handcrafted epoxy brooch with glossy finish.",
+      "images": [
+        "data/epoxy_brooch.png",
+        "data/epoxy_brooch1.png",
+        "data/epoxy_brooch2.png"
+      ]
+    }
   ]
 }
