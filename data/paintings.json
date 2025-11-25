@@ -1,12 +1,101 @@
 {
-  "category": "Paintings",
+  "category": "Paintings & Portraits",
   "items": [
-    { "id":"painting_portrait_2d","name":"Portrait Painting (2D)","price":120,"images":["painting_portrait_1.jpg","painting_portrait_3.jpg","painting_portrait_4.jpg"] },
-    { "id":"painting_christmas","name":"Holiday-Themed Portrait (2D)","price":140,"images":["painting_christmas_1.jpg","painting_christmas_3.jpg"] },
-    { "id":"painting_landscape_small","name":"Small Landscape Painting — 30×40 cm","price":80,"images":["painting_LANDSCAPE_SMALL.jpg","painting_LANDSCAPE_SMALL1.jpg"] },
-    { "id":"painting_landscape_medium","name":"Medium Landscape Painting — 40×60 cm","price":110,"images":["painting_LANDSCAPE_MEDIUM.jpg","painting_LANDSCAPE_MEDIUM2.jpg","painting_LANDSCAPE_MEDIUM3.jpg"] },
-    { "id":"painting_landscape_large","name":"Large Landscape Painting — 50×70 cm","price":150,"images":["Large Landscape Painting.jpg","Large Landscape Painting1.jpg","Large Landscape Painting2.jpg"] },
-    { "id":"painting_3d_reliefo","name":"3D Festive Portrait Relief","price":160,"images":["3D Festive Portrait Relief.png"] },
-    { "id":"painting_3d_clay","name":"3D Clay Painting","price":180,"images":["clay_3d_painting_1.png","clay_3d_painting_10.png","clay_3d_painting_11.png","clay_3d_painting_12.png"] }
+    {
+      "id": "painting_portrait_2d",
+      "name": "2D Portrait — 30×40 cm",
+      "price": 120,
+      "description": "Hand-painted portrait in your chosen style. Made to order.",
+      "images": [
+        "data/painting_portrait_1.jpg",
+        "data/painting_portrait_3.jpg",
+        "data/painting_portrait_4.jpg"
+      ]
+    },
+    {
+      "id": "painting_christmas",
+      "name": "Holiday-Themed Portrait (2D)",
+      "price": 140,
+      "description": "Festive holiday illustration in a warm and cozy Christmas style.",
+      "images": [
+        "data/painting_christmas_1.jpg",
+        "data/painting_christmas_3.jpg"
+      ]
+    },
+    {
+      "id": "painting_landscape_small",
+      "name": "Small Landscape Painting — 30×40 cm",
+      "price": 80,
+      "description": "Small scenic landscape painting on canvas. Hand-painted with acrylics.",
+      "images": [
+        "data/painting_LANDSCAPE_SMALL.jpg",
+        "data/painting_LANDSCAPE_SMALL1.jpg"
+      ]
+    },
+    {
+      "id": "painting_landscape_medium",
+      "name": "Medium Landscape Painting — 40×60 cm",
+      "price": 110,
+      "description": "Medium-sized landscape painting with rich detail and depth.",
+      "images": [
+        "data/painting_LANDSCAPE_MEDIUM.jpg",
+        "data/painting_LANDSCAPE_MEDIUM2.jpg",
+        "data/painting_LANDSCAPE_MEDIUM3.jpg"
+      ]
+    },
+    {
+      "id": "painting_landscape_large",
+      "name": "Large Landscape Painting — 50×70 cm",
+      "price": 150,
+      "description": "Large and immersive landscape canvas. Made to order.",
+      "images": [
+        "data/Large Landscape Painting.jpg",
+        "data/Large Landscape Painting1.jpg",
+        "data/Large Landscape Painting2.jpg"
+      ]
+    },
+    {
+      "id": "painting_3d_reliefo",
+      "name": "3D Festive Portrait Relief",
+      "price": 160,
+      "description": "Hand-crafted 3D relief portrait for festive and seasonal decor.",
+      "images": [
+        "data/3D Festive Portrait Relief.png"
+      ]
+    },
+    {
+      "id": "painting_3d_clay",
+      "name": "3D Clay Painting",
+      "price": 180,
+      "description": "Highly detailed 3D clay painting — sculpted and painted by hand.",
+      "images": [
+        "data/clay_3d_painting_1.png",
+        "data/clay_3d_painting_4.png",
+        "data/clay_3d_painting_7.png",
+        "data/clay_3d_painting_10.png",
+        "data/clay_3d_painting_14.png",
+        "data/clay_3d_painting_17.png",
+        "data/clay_3d_painting_23.png",
+        "data/clay_3d_painting_31.png"
+      ]
+    },
+    {
+      "id": "painting_couple_family",
+      "name": "Couple or Family Portrait — 40×50 cm",
+      "price": 220,
+      "description": "Custom couple or family portrait — sculpted or painted to order.",
+      "images": [
+        "data/Couple or Family Portrait.png"
+      ]
+    },
+    {
+      "id": "painting_custom_landscape",
+      "name": "Custom Landscape Commission",
+      "price": 0,
+      "description": "Custom landscape commission — price varies, contact for quote.",
+      "images": [
+        "data/Custom Landscape Commission.jpg"
+      ]
+    }
   ]
 }
