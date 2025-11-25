@@ -1,1 +1,86 @@
+{
+  "category": "Hair Accessories",
+  "items": [
 
+    {
+      "id": "hair_clips",
+      "name": "Handmade Hair Clips",
+      "price": 12,
+      "description": "Handcrafted decorative hair clips in various colors and shapes.",
+      "images": [
+        "hair_clip_1.png",
+        "hair_clip_2.png",
+        "hair_clip_3.png",
+        "hair_clip_4.png",
+        "hair_clip_5.png",
+        "hair_clip_6.png",
+        "hair_clip_7.png",
+        "hair_clip_8.png",
+        "hair_clip_9.png",
+        "hair_clip_10.png",
+        "hair_clip_10 (1).png",
+        "hair_clip_10 (2).png",
+        "hair_clip_10 (3).png",
+        "hair_clip_10 (4).png",
+        "hair_clip_10 (5).png",
+        "hair_clip_10 (6).png",
+        "hair_clip_10 (7).png",
+        "hair_clip_10 (8).png",
+        "hair_clip_10 (9).png",
+        "hair_clip_10 (10).png",
+        "hair_clip_10 (11).png",
+        "hair_clip_10 (12).png",
+        "hair_clip_10 (13).png",
+        "hair_clip_10 (14).png",
+        "hair_clip_10 (15).png",
+        "hair_clip_10 (16).png",
+        "hair_clip_10 (17).png"
+      ]
+    },
+
+    {
+      "id": "hair_combs",
+      "name": "Handmade Hair Combs",
+      "price": 18,
+      "description": "Decorative resin and floral hair combs.",
+      "images": [
+        "hair_comb_1.png",
+        "hair_comb_2.png",
+        "hair_comb_2 (1).png",
+        "hair_comb_2 (2).png",
+        "hair_comb_2 (3).png"
+      ]
+    },
+
+    {
+      "id": "hair_pins",
+      "name": "Handmade Hair Pins",
+      "price": 10,
+      "description": "Delicate handcrafted hair pins for elegant styling.",
+      "images": [
+        "hair_pin_1.png",
+        "hair_pin_2.png",
+        "hair_pin_3.png",
+        "hair_pin_4.png",
+        "hair_pin_4 (1).png",
+        "hair_pin_4 (2).png",
+        "hair_pin_4 (3).png",
+        "hair_pin_4 (4).png",
+        "hair_pin_7.png",
+        "hair_pin_10.png"
+      ]
+    },
+
+    {
+      "id": "hair_custom_set",
+      "name": "Custom Hair Set",
+      "price": 40,
+      "description": "Customized hair clip, comb, and pin set in matching theme.",
+      "images": [
+        "Custom Hair Set.jpeg",
+        "Custom Hair Set.png"
+      ]
+    }
+
+  ]
+}
