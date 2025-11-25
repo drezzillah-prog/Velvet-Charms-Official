@@ -30,8 +30,7 @@
               "options": {
                 "scent": ["Myrrh","Sage","Frankincense","Sandalwood","Unscented"],
                 "intensity": ["Soft","Medium","Strong"]
-              },
-              "removeDetailsIndex": [1]
+              }
             },
             {
               "id": "spirit_half_200",
@@ -51,15 +50,20 @@
           "name": "Divination Candles",
           "products": [
             {
-              "id": "div_200",
-              "name": "Divination Candle — Painted Symbols (200ml)",
-              "price": 50,
+              "id": "div_200_small",
+              "name": "Divination Candle — Small",
+              "price": 22,
               "paymentLink": "https://www.paypal.com/ncp/payment/VK7WLERJM3R88",
-              "description": "Hand-painted altar candle with runes, moons, or sacred icons. Unscented or light myrrh recommended.",
-              "images": ["divination candle.jpg"],
-              "options": {
-                "scent": ["Myrrh","Sage","Frankincense","Sandalwood","Unscented"]
-              }
+              "description": "Small painted ritual candle.",
+              "images": ["divination candle.jpg"]
+            },
+            {
+              "id": "div_200_large",
+              "name": "Divination Candle — Large",
+              "price": 32,
+              "paymentLink": "https://www.paypal.com/ncp/payment/VK7WLERJM3R88",
+              "description": "Large painted ritual candle.",
+              "images": ["divination candle.jpg"]
             }
           ]
         },
@@ -85,28 +89,43 @@
               "price": 25,
               "paymentLink": "https://www.paypal.com/ncp/payment/DJVW5LQCPL6A6",
               "description": "Medium wax candle.",
-              "images": ["wax_candle_medium.jpg"],
-              "options": {
-                "scent": ["Orange","Lemon","Lavender","Vanilla","Jasmine","Lemongrass","Coconut","Cinnamon","Pine","Sandalwood","Coffee","Sweet Almond","Unscented"],
-                "intensity": ["Soft","Medium","Strong"]
-              }
+              "images": ["wax_candle_medium.jpg"]
             },
             {
               "id": "wax_large",
               "name": "Wax Candle — Large (400ml)",
               "price": 33,
               "paymentLink": "https://www.paypal.com/ncp/payment/XFL9ZGYBJEHXW",
-              "description": "Large wax candle — aroma & intensity options added.",
-              "images": ["wax_candle_large.png"],
-              "options": {
-                "scent": ["Orange","Lemon","Lavender","Vanilla","Jasmine","Lemongrass","Coconut","Cinnamon","Pine","Sandalwood","Coffee","Sweet Almond","Unscented"],
-                "intensity": ["Soft","Medium","Strong"]
-              }
+              "description": "Large wax candle.",
+              "images": ["wax_candle_large.png"]
+            }
+          ]
+        },
+        {
+          "id": "jelly",
+          "name": "Jelly Candles",
+          "products": [
+            {
+              "id": "jelly_small",
+              "name": "Jelly Candle (Small)",
+              "price": 14,
+              "paymentLink": "https://www.paypal.com/ncp/payment/REPLACE_IF_NEEDED",
+              "description": "Transparent jelly candle with elegant suspended details.",
+              "images": ["jelly candles small.jpg"]
+            },
+            {
+              "id": "jelly_large",
+              "name": "Jelly Candle (Large)",
+              "price": 22,
+              "paymentLink": "https://www.paypal.com/ncp/payment/REPLACE_IF_NEEDED",
+              "description": "Large decorative jelly candle.",
+              "images": ["Jelly_candle large.jpg"]
             }
           ]
         }
       ]
     },
+
     {
       "id": "bodycare",
       "name": "Body Care",
@@ -121,10 +140,7 @@
               "price": 28,
               "paymentLink": "https://www.paypal.com/ncp/payment/T9M3LBJ75FAVN",
               "description": "Shea butter & almond oil face cream.",
-              "images": ["Natural Face Cream.png"],
-              "options": {
-                "scent": ["Lavender","Vanilla","Citrus","Jasmine","Coconut","Rose","Sandalwood","Unscented"]
-              }
+              "images": ["Natural Face Cream.png"]
             },
             {
               "id": "body_butter",
@@ -132,21 +148,7 @@
               "price": 35,
               "paymentLink": "https://www.paypal.com/ncp/payment/Y2AVDHZN9JCCQ",
               "description": "Rich body butter — scent option added.",
-              "images": ["Body Butter.png"],
-              "options": {
-                "scent": ["Lavender","Vanilla","Citrus","Jasmine","Coconut","Rose","Sandalwood","Unscented"]
-              }
-            },
-            {
-              "id": "hand_foot",
-              "name": "Hand & Foot Cream (50ml)",
-              "price": 22,
-              "paymentLink": "https://www.paypal.com/ncp/payment/XVQW4M785U6A4",
-              "description": "Non-greasy hand & foot cream — scent option added.",
-              "images": ["Hand & Foot Cream.png"],
-              "options": {
-                "scent": ["Lavender","Vanilla","Citrus","Jasmine","Coconut","Rose","Sandalwood","Unscented"]
-              }
+              "images": ["Body Butter.png"]
             }
           ]
         },
@@ -167,10 +169,7 @@
                 "Exfoliating Soap 4.png",
                 "Exfoliating Soap 5.png",
                 "Exfoliating Soap 6.png"
-              ],
-              "options": {
-                "aroma": ["Coffee","Oatmeal","Citrus","Lavender","Vanilla"]
-              }
+              ]
             },
             {
               "id": "soap_herbal",
@@ -186,15 +185,13 @@
                 "Natural Herbal Soap4.png",
                 "Natural Herbal Soap5.png",
                 "Natural Herbal Soap6.png"
-              ],
-              "options": {
-                "aroma": ["Chamomile","Calendula","Mint","Lavender","Vanilla"]
-              }
+              ]
             }
           ]
         }
       ]
     },
+
     {
       "id": "soaps_more",
       "name": "Soaps — shapes & gift sets",
@@ -211,10 +208,7 @@
             "Flower soaps (3).png",
             "Flower soaps (4).png",
             "Flower soaps (5).png"
-          ],
-          "options": {
-            "aroma": ["Rose","Lavender","Vanilla","Jasmine","Citrus"]
-          }
+          ]
         },
         {
           "id": "soap_fruit",
@@ -228,10 +222,7 @@
             "Fruit Soap3.png",
             "Fruit Soap4.png",
             "Fruit Soap5.png"
-          ],
-          "options": {
-            "aroma": ["Lemon","Orange","Apple","Peach","Vanilla"]
-          }
+          ]
         },
         {
           "id": "gift_herbal_exfoliating",
@@ -271,6 +262,7 @@
         }
       ]
     },
+
     {
       "id": "perfumes",
       "name": "Perfumes",
@@ -282,10 +274,7 @@
           "price": 28,
           "paymentLink": "https://www.paypal.com/ncp/payment/BXDY354K5949A",
           "description": "Alcohol-free solid perfume with natural fixatives.",
-          "images": ["Solid Perfume.png"],
-          "options": {
-            "scent": ["Vanilla Orchid","Amber Wood","Sandalwood Rose","White Musk"]
-          }
+          "images": ["Solid Perfume.png"]
         },
         {
           "id": "oil_rollon_10",
@@ -293,13 +282,11 @@
           "price": 22,
           "paymentLink": "https://www.paypal.com/ncp/payment/9SGLCBQ76USZL",
           "description": "Small roll-on essential oil perfume (10ml).",
-          "images": ["Oil Perfume Roll-On.jpg"],
-          "options": {
-            "scent": ["Citrus Bloom","Lavender Mist","Cedar & Amber","Floral Spice"]
-          }
+          "images": ["Oil Perfume Roll-On.jpg"]
         }
       ]
     },
+
     {
       "id": "knitted_braided",
       "name": "Knitted & Braided Wool Creations",
@@ -322,6 +309,20 @@
               "price": 38,
               "paymentLink": "https://www.paypal.com/ncp/payment/Q944A2C9DTQJW",
               "images": ["Hand-Knitted Beanie - Medium.png"]
+            },
+            {
+              "id": "beanie_large",
+              "name": "Hand-Knitted Beanie — Large",
+              "price": 40,
+              "paymentLink": "https://www.paypal.com/ncp/payment/REPLACE_IF_NEEDED",
+              "images": ["Hand-Knitted Beanie - Large.png"]
+            },
+            {
+              "id": "beanie_xl",
+              "name": "Hand-Knitted Beanie — Extra-Large",
+              "price": 42,
+              "paymentLink": "https://www.paypal.com/ncp/payment/REPLACE_IF_NEEDED",
+              "images": ["Hand-Knitted Beanie - Extra-Large.png"]
             }
           ]
         },
@@ -332,12 +333,9 @@
             {
               "id": "winter_set",
               "name": "Matching Winter Set — Beanie + Scarf + Mittens",
-              "price": 110,
+              "price": 120,
               "paymentLink": "https://www.paypal.com/ncp/payment/VWTNNVT586JBN",
-              "images": [
-                "Matching Winter Set - Beanie + Scarf + Mittens.png",
-                "Matching Winter Set — Beanie + Scarf + Mittens.png"
-              ],
+              "images": ["Matching Winter Set - Beanie + Scarf + Mittens.png"],
               "description": "Bundle discount (~15%) — color choices available."
             }
           ]
@@ -391,6 +389,7 @@
         }
       ]
     },
+
     {
       "id": "artworks",
       "name": "Paintings & Portraits",
@@ -401,17 +400,24 @@
           "products": [
             {
               "id": "landscape_small",
-              "name": "Small Landscape Painting — 20×20 cm",
-              "price": 45,
-              "paymentLink": "https://www.paypal.com/ncp/payment/4XGNXNN38XE36",
+              "name": "Small Landscape Painting — 30×40 cm",
+              "price": 80,
+              "paymentLink": "https://www.paypal.com/ncp/payment/7EWPCAS2W98N6",
               "images": ["painting_LANDSCAPE_SMALL.jpg","painting_LANDSCAPE_SMALL1.jpg"]
             },
             {
               "id": "landscape_medium",
-              "name": "Medium Landscape Painting — 30×40 cm",
-              "price": 80,
-              "paymentLink": "https://www.paypal.com/ncp/payment/7EWPCAS2W98N6",
+              "name": "Medium Landscape Painting — 40×60 cm",
+              "price": 110,
+              "paymentLink": "https://www.paypal.com/ncp/payment/REPLACE_IF_NEEDED",
               "images": ["painting_LANDSCAPE_MEDIUM.jpg","painting_LANDSCAPE_MEDIUM2.jpg","painting_LANDSCAPE_MEDIUM3.jpg"]
+            },
+            {
+              "id": "landscape_large",
+              "name": "Large Landscape Painting — 50×70 cm",
+              "price": 150,
+              "paymentLink": "https://www.paypal.com/ncp/payment/REPLACE_IF_NEEDED",
+              "images": ["Large Landscape Painting.jpg","Large Landscape Painting1.jpg","Large Landscape Painting2.jpg"]
             }
           ]
         },
@@ -444,6 +450,7 @@
         }
       ]
     },
+
     {
       "id": "epoxy_clay",
       "name": "Epoxy & Clay Creations",
@@ -517,6 +524,7 @@
         }
       ]
     },
+
     {
       "id": "phone_cases",
       "name": "Phone Cases",
@@ -533,6 +541,7 @@
         }
       ]
     },
+
     {
       "id": "hair_accessories",
       "name": "Hair Accessories",
@@ -596,6 +605,7 @@
         }
       ]
     },
+
     {
       "id": "home_decor",
       "name": "Home Decor",
@@ -668,6 +678,7 @@
         }
       ]
     },
+
     {
       "id": "bundles",
       "name": "Bundles",
@@ -681,7 +692,7 @@
               "name": "Relax & Restore Set — Herbal soap + face cream + small wax candle",
               "price": 65,
               "paymentLink": "https://www.paypal.com/ncp/payment/X7EA4LJC8VQ3A",
-              "images": ["Gift Herbal Exfoliating Soap Set (3 pcs) 1.png"],
+              "images": ["Relax & Restore Set Relax & Restore Set Herbal soap + face cream + small wax candle.png"],
               "description": "A soothing self-care trio — choose soap aroma & candle scent in personalization form."
             }
           ]
@@ -693,9 +704,9 @@
             {
               "id": "cozy_winter_set",
               "name": "Cozy Winter Set — Beanie + Scarf + Mittens + small candle",
-              "price": 140,
+              "price": 120,
               "paymentLink": "https://www.paypal.com/ncp/payment/8A3AKAZR6QVEL",
-              "images": ["Cozy Winter Set.png"]
+              "images": ["Matching Winter Set — Beanie + Scarf + Mittens.png"]
             }
           ]
         },
@@ -706,9 +717,9 @@
             {
               "id": "home_harmony_box",
               "name": "Home Harmony Box",
-              "price": 100,
+              "price": 95,
               "paymentLink": "https://www.paypal.com/ncp/payment/9T3C2WRAXJJYN",
-              "images": ["Gift Herbal Exfoliating Soap Set (3 pcs) 3.png"],
+              "images": ["Relax & Restore Set Relax & Restore Set Herbal soap + face cream + small wax candle 1.png"],
               "description": "Bundle - Home Harmony Box - Epoxy decor + wax candle + seasonal soap."
             }
           ]
