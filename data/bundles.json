@@ -1,34 +1,8 @@
 {
   "category": "Bundles",
   "items": [
-    {
-      "id": "bundle_relax_restore",
-      "name": "Relax & Restore Set",
-      "price": 65,
-      "description": "Herbal soap + natural face cream + a small wax candle.",
-      "images": [
-        "Relax & Restore Set Relax & Restore Set Herbal soap + face cream + small wax candle.png"
-      ]
-    },
-
-    {
-      "id": "bundle_cozy_winter",
-      "name": "Cozy Winter Set",
-      "price": 120,
-      "description": "Hand-knitted beanie, scarf, mittens and a small seasonal candle.",
-      "images": [
-        "Matching Winter Set — Beanie + Scarf + Mittens.png"
-      ]
-    },
-
-    {
-      "id": "bundle_home_harmony",
-      "name": "Home Harmony Box",
-      "price": 95,
-      "description": "Epoxy décor piece + aromatic candle + seasonal soap.",
-      "images": [
-        "Relax & Restore Set Relax & Restore Set Herbal soap + face cream + small wax candle 1.png"
-      ]
-    }
+    { "id":"bundle_relax_restore","name":"Relax & Restore Set","price":65,"images":["Relax & Restore Set Relax & Restore Set Herbal soap + face cream + small wax candle.png"] },
+    { "id":"bundle_cozy_winter","name":"Cozy Winter Set","price":120,"images":["Matching Winter Set — Beanie + Scarf + Mittens.png"] },
+    { "id":"bundle_home_harmony","name":"Home Harmony Box","price":95,"images":["Relax & Restore Set Relax & Restore Set Herbal soap + face cream + small wax candle 1.png"] }
   ]
 }
