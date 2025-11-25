@@ -1,1 +1,108 @@
+{
+  "category": "Wool & Winter Wear",
+  "items": [
+    {
+      "id": "beanie_small",
+      "name": "Hand-Knitted Beanie — Small",
+      "price": 25,
+      "description": "Cozy handmade beanie. Perfect fit for a snug, warm feel.",
+      "images": ["Hand-Knitted Beanie - Small.png"]
+    },
+    {
+      "id": "beanie_medium",
+      "name": "Hand-Knitted Beanie — Medium",
+      "price": 25,
+      "description": "Medium-sized knitted beanie offering warmth and comfort.",
+      "images": ["Hand-Knitted Beanie - Medium.png"]
+    },
+    {
+      "id": "beanie_large",
+      "name": "Hand-Knitted Beanie — Large",
+      "price": 25,
+      "description": "Large cozy beanie with a soft, stretchy fit.",
+      "images": ["Hand-Knitted Beanie - Large.png"]
+    },
+    {
+      "id": "beanie_xl",
+      "name": "Hand-Knitted Beanie — Extra-Large",
+      "price": 25,
+      "description": "Extra-large handmade beanie, warm and breathable.",
+      "images": ["Hand-Knitted Beanie - Extra-Large.png"]
+    },
 
+    {
+      "id": "scarf_one_size",
+      "name": "Hand-Knitted Scarf — One Size (150×25 cm)",
+      "price": 35,
+      "description": "Soft hand-knitted scarf for cold winter days. Size: 150×25 cm.",
+      "images": ["Hand-Knitted Scarf - One size (150x25 cm avg.).png"]
+    },
+
+    {
+      "id": "mittens_small",
+      "name": "Hand-Knitted Mittens — Small",
+      "price": 22,
+      "description": "Warm and comfortable handmade mittens (Small).",
+      "images": ["Hand-Knitted Mittens - Small.png"]
+    },
+    {
+      "id": "mittens_medium",
+      "name": "Hand-Knitted Mittens — Medium",
+      "price": 22,
+      "description": "Handmade wool mittens (Medium). Soft & cozy.",
+      "images": ["Hand-Knitted Mittens - Medium.png"]
+    },
+    {
+      "id": "mittens_large",
+      "name": "Hand-Knitted Mittens — Large",
+      "price": 22,
+      "description": "Hand-knitted mittens in Large size. Warm & snug.",
+      "images": ["Hand-Knitted Mittens - Large.png"]
+    },
+    {
+      "id": "mittens_xl",
+      "name": "Hand-Knitted Mittens — Extra-Large",
+      "price": 22,
+      "description": "Extra-large handmade mittens for ultimate warmth.",
+      "images": ["Hand-Knitted Mittens - Extra Large.png"]
+    },
+
+    {
+      "id": "winter_set",
+      "name": "Matching Winter Set — Beanie + Scarf + Mittens",
+      "price": 110,
+      "description": "Coordinated handmade winter set including beanie, scarf, and mittens.",
+      "images": ["Matching Winter Set - Beanie + Scarf + Mittens.png"]
+    },
+
+    {
+      "id": "braided_blanket_small",
+      "name": "Braided Blanket — Small",
+      "price": 65,
+      "description": "Soft hand-braided blanket. Size: Small.",
+      "images": ["Braided Blanket (Small).png"]
+    },
+    {
+      "id": "braided_blanket_medium",
+      "name": "Braided Blanket — Medium",
+      "price": 90,
+      "description": "Medium-sized braided wool blanket.",
+      "images": ["Braided Blanket (Medium).png"]
+    },
+    {
+      "id": "braided_blanket_large",
+      "name": "Braided Blanket — Large",
+      "price": 130,
+      "description": "Large hand-braided oversized blanket.",
+      "images": ["Braided Blanket (Large).png"]
+    },
+
+    {
+      "id": "pet_beanie_small",
+      "name": "Pet Beanie — Small",
+      "price": 15,
+      "description": "Small pet beanie, ideal for cats and small-to-medium dogs.",
+      "images": ["Pet Beanie - shirt small.png"]
+    }
+  ]
+}
