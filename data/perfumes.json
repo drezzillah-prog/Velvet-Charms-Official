@@ -1,26 +1,7 @@
 {
   "category": "Perfumes",
   "items": [
-
-    {
-      "id": "perfume_solid",
-      "name": "Solid Perfume",
-      "price": 22,
-      "description": "Long-lasting concentrated solid perfume made with natural waxes and oils.",
-      "images": [
-        "Solid Perfume.png"
-      ]
-    },
-
-    {
-      "id": "perfume_rollon",
-      "name": "Oil Perfume Roll-On",
-      "price": 26,
-      "description": "Premium roll-on oil perfume with a smooth, elegant scent blend.",
-      "images": [
-        "Oil Perfume Roll-On.jpg"
-      ]
-    }
-
+    { "id":"perfume_solid","name":"Solid Perfume","price":22,"images":["Solid Perfume.png"] },
+    { "id":"perfume_rollon","name":"Oil Perfume Roll-On","price":26,"images":["Oil Perfume Roll-On.jpg"] }
   ]
 }
