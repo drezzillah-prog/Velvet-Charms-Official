@@ -21,7 +21,6 @@
         }
       ]
     },
-
     {
       "name": "Exfoliating Soaps",
       "items": [
@@ -42,7 +41,6 @@
         }
       ]
     },
-
     {
       "name": "Fruit-Shaped Soaps",
       "items": [
@@ -61,7 +59,6 @@
         }
       ]
     },
-
     {
       "name": "Flower-Shaped Soaps",
       "items": [
@@ -80,7 +77,6 @@
         }
       ]
     },
-
     {
       "name": "Gift Sets (3 pcs)",
       "items": [
@@ -97,7 +93,6 @@
             "Gift Herbal Exfoliating Soap Set (3 pcs) 4.png"
           ]
         },
-
         {
           "id": "soap_gift_fruit_flower_set",
           "name": "Gift Fruit / Flower Soap Set (3 pcs)",
