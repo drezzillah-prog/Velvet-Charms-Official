@@ -1,111 +1,108 @@
 {
   "category": "Candles",
-  "items": [
+  "subcategories": [
     {
-      "id": "candle_wax_small",
-      "name": "Wax Candle (Small)",
-      "price": 10,
-      "description": "Small handmade wax candle, perfect for cozy spaces.",
-      "images": [
-        "wax_candle_small.png"
+      "name": "Wax Candles",
+      "items": [
+        {
+          "id": "candle_wax_small",
+          "name": "Wax Candle (Small)",
+          "price": 10,
+          "description": "Small handmade wax candle.",
+          "images": ["wax_candle_small.png"]
+        },
+        {
+          "id": "candle_wax_medium",
+          "name": "Wax Candle (Medium)",
+          "price": 14,
+          "description": "Medium-sized wax candle.",
+          "images": ["wax_candle_medium.jpg"]
+        },
+        {
+          "id": "candle_wax_large",
+          "name": "Wax Candle (Large)",
+          "price": 18,
+          "description": "Large handmade candle.",
+          "images": ["wax_candle_large.png"]
+        }
       ]
     },
     {
-      "id": "candle_wax_medium",
-      "name": "Wax Candle (Medium)",
-      "price": 14,
-      "description": "Medium-sized wax candle with a clean burn.",
-      "images": [
-        "wax_candle_medium.jpg"
+      "name": "Sand Candles",
+      "items": [
+        {
+          "id": "candle_sand_small",
+          "name": "Sand Candle (Small)",
+          "price": 12,
+          "description": "Small rustic sand candle.",
+          "images": ["sand_candles_small.png"]
+        },
+        {
+          "id": "candle_sand_medium",
+          "name": "Sand Candle (Medium)",
+          "price": 16,
+          "description": "Medium sand candle with natural texture.",
+          "images": ["sand_candles_medium.png"]
+        },
+        {
+          "id": "candle_sand_large",
+          "name": "Sand Candle (Large)",
+          "price": 20,
+          "description": "Large handmade sand candle.",
+          "images": ["sand candles large.jpg"]
+        }
       ]
     },
     {
-      "id": "candle_wax_large",
-      "name": "Wax Candle (Large)",
-      "price": 18,
-      "description": "Large handmade candle, long-lasting and fragrant.",
-      "images": [
-        "wax_candle_large.png"
-      ]
-    },
-
-    {
-      "id": "candle_sand_small",
-      "name": "Sand Candle (Small)",
-      "price": 12,
-      "description": "Unique sand candle with a textured finish.",
-      "images": [
-        "sand_candles_small.png"
-      ]
-    },
-    {
-      "id": "candle_sand_medium",
-      "name": "Sand Candle (Medium)",
-      "price": 16,
-      "description": "Handcrafted sand candle with natural grains.",
-      "images": [
-        "sand_candles_medium.png"
-      ]
-    },
-    {
-      "id": "candle_sand_large",
-      "name": "Sand Candle (Large)",
-      "price": 20,
-      "description": "Large sand candle, rustic and elegant.",
-      "images": [
-        "sand candles large.jpg"
-      ]
-    },
-
-    {
-      "id": "candle_divination",
-      "name": "Divination Candle",
-      "price": 25,
-      "description": "Mystical candle crafted for spiritual and ritual use.",
-      "images": [
-        "divination candle.jpg"
+      "name": "Spiritual & Divination",
+      "items": [
+        {
+          "id": "candle_divination_small",
+          "name": "Divination Candle (Small)",
+          "price": 22,
+          "description": "Mystical small divination candle used for rituals.",
+          "images": ["divination candle.jpg"]
+        },
+        {
+          "id": "candle_divination_large",
+          "name": "Divination Candle (Large)",
+          "price": 32,
+          "description": "Large ritual divination candle.",
+          "images": ["divination candle.jpg"]
+        },
+        {
+          "id": "candle_spiritual_small",
+          "name": "Spiritual Candle (Small)",
+          "price": 22,
+          "description": "Calming spiritual candle made to cleanse energy.",
+          "images": ["spiritual candle (2).jpg"]
+        },
+        {
+          "id": "candle_spiritual_large",
+          "name": "Spiritual Candle (Large)",
+          "price": 32,
+          "description": "Large spiritual candle infused with intention.",
+          "images": ["spiritual candle (2).jpg"]
+        }
       ]
     },
     {
-      "id": "candle_spiritual",
-      "name": "Spiritual Candle",
-      "price": 25,
-      "description": "A candle designed to bring clarity and calm.",
-      "images": [
-        "spiritual candle (2).jpg"
-      ]
-    },
-
-    {
-      "id": "candle_ethereal",
-      "name": "Ethereal Candle",
-      "price": 28,
-      "description": "Dreamy pastel candle with a soft spiritual glow.",
-      "images": [
-        "ethereal_candle_4.jpg",
-        "ethereal_candle_6.jpg",
-        "ethereal_candle_7.jpg"
-      ]
-    },
-
-    {
-      "id": "candle_jelly_small",
-      "name": "Jelly Candle (Small)",
-      "price": 14,
-      "description": "Transparent jelly candle with elegant suspended details.",
-      "images": [
-        "jelly candles small.jpg"
-      ]
-    },
-
-    {
-      "id": "candle_seasonal",
-      "name": "Seasonal Holiday Candle",
-      "price": 22,
-      "description": "Christmas-themed candle inspired by winter warmth.",
-      "images": [
-        "seasonal candle.png",
-        "top banner picture for candles.png"
+      "name": "Jelly Candles",
+      "items": [
+        {
+          "id": "candle_jelly_small",
+          "name": "Jelly Candle (Small)",
+          "price": 14,
+          "description": "Transparent jelly candle with suspended elements.",
+          "images": ["jelly candles small.jpg"]
+        },
+        {
+          "id": "candle_jelly_large",
+          "name": "Jelly Candle (Large)",
+          "price": 22,
+          "description": "Large jelly candle with decorative inclusions.",
+          "images": ["Jelly_candle large.jpg"]
+        }
       ]
     }
   ]
