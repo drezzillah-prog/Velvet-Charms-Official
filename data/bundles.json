@@ -1,1 +1,82 @@
+{
+  "category": "Bundles",
+  "items": [
 
+    {
+      "id": "bundle_cozy_winter",
+      "name": "Cozy Winter Set",
+      "price": 85,
+      "description": "A warm and comforting winter trio: beanie, scarf, and mittens — fully hand-knitted.",
+      "images": [
+        "Cozy Winter Set.png",
+        "Matching Winter Set - Beanie + Scarf + Mittens.png"
+      ]
+    },
+
+    {
+      "id": "bundle_skincare",
+      "name": "Herbal Skincare Bundle",
+      "price": 40,
+      "description": "Natural herbal soap + nourishing face cream + small wax candle.",
+      "images": [
+        "Herbal soap + face cream + small wax candle.png",
+        "Natural Face Cream.png",
+        "Natural Herbal Soap.png"
+      ]
+    },
+
+    {
+      "id": "bundle_candle_seasonal",
+      "name": "Seasonal Candle Bundle",
+      "price": 48,
+      "description": "A themed selection of wax, sand, or jelly candles tailored for the season.",
+      "images": [
+        "seasonal candle.png",
+        "sand_candles_medium.png",
+        "sand_candles_small.png",
+        "jelly candles small.jpg"
+      ]
+    },
+
+    {
+      "id": "bundle_clay_gift",
+      "name": "Clay Gift Mix",
+      "price": 65,
+      "description": "A curated selection of clay ornaments, figurines, or 3D mini pieces.",
+      "images": [
+        "clay_christmas_necklace_1.png",
+        "clay_christmas_necklace_2.png",
+        "clay_christmas_necklace_3.png",
+        "clay_christmas_necklace_4.png",
+        "clay_3d_painting_1.png"
+      ]
+    },
+
+    {
+      "id": "bundle_epoxy_jewelry",
+      "name": "Epoxy Jewelry Set",
+      "price": 55,
+      "description": "A beautiful handcrafted epoxy resin jewelry trio — ring, pendant, and earrings.",
+      "images": [
+        "epoxy_ring_1.png",
+        "epoxy_pendant.png",
+        "epoxy_earings_1.png"
+      ]
+    },
+
+    {
+      "id": "bundle_fruit_flower_soap",
+      "name": "Soap Artistique Bundle",
+      "price": 54,
+      "description": "A luxurious set of fruit-shaped or flower-shaped soaps.",
+      "images": [
+        "Fruit Soap.png",
+        "Fruit Soap2.png",
+        "Flower soaps (1).png",
+        "Flower soaps (2).png",
+        "Gift Fruit shaped Flower shaped Soap Set (3 pcs).png"
+      ]
+    }
+
+  ]
+}
