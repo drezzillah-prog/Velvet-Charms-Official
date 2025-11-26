@@ -1,138 +1,103 @@
 {
   "category": "Candles",
-  "items": [
+  "subcategories": [
     {
-      "id": "wax_small",
-      "name": "Wax Candle (Small)",
-      "price": 12,
-      "description": "Hand-poured small wax candle in seasonal colors.",
-      "images": [
-        "wax_candle_small.png"
+      "name": "Wax Candles",
+      "items": [
+        {
+          "id": "candle_wax_small",
+          "name": "Wax Candle (Small) - 150 ml",
+          "price": 20,
+          "description": "Small handmade wax candle.",
+          "images": ["wax_candle_small.png"]
+        },
+        {
+          "id": "candle_wax_medium",
+          "name": "Wax Candle (Medium) - 250 ml",
+          "price": 25,
+          "description": "Medium-sized wax candle.",
+          "images": ["wax_candle_medium.jpg"]
+        },
+        {
+          "id": "candle_wax_large",
+          "name": "Wax Candle (Large) - 400 ml",
+          "price": 33,
+          "description": "Large handmade candle.",
+          "images": ["wax_candle_large.png"]
+        }
       ]
     },
     {
-      "id": "wax_medium",
-      "name": "Wax Candle (Medium)",
-      "price": 18,
-      "description": "Medium-sized wax candle with soft natural scent.",
-      "images": [
-        "wax_candle_medium.jpg"
+      "name": "Sand Candles",
+      "items": [
+        {
+          "id": "candle_sand_small",
+          "name": "Sand Candle (Small) - 150 ml",
+          "price": 20,
+          "images": ["sand_candles_small.png"]
+        },
+        {
+          "id": "candle_sand_medium",
+          "name": "Sand Candle (Medium) - 250 ml",
+          "price": 25,
+          "images": ["sand_candles_medium.png"]
+        },
+        {
+          "id": "candle_sand_large",
+          "name": "Sand Candle (Large) - 400 ml",
+          "price": 33,
+          "images": ["sand candles large.jpg"]
+        }
       ]
     },
     {
-      "id": "wax_large",
-      "name": "Wax Candle (Large)",
-      "price": 26,
-      "description": "Large elegant wax candle ideal for décor or gifting.",
-      "images": [
-        "wax_candle_large.png"
-      ]
-    },
-
-    {
-      "id": "jelly_small",
-      "name": "Jelly Candle (Small)",
-      "price": 14,
-      "description": "Transparent gel candle with suspended decorative details.",
-      "images": [
-        "jelly candles small.jpg"
-      ]
-    },
-    {
-      "id": "jelly_large",
-      "name": "Jelly Candle (Large)",
-      "price": 24,
-      "description": "Large jelly candle with layered translucent design.",
-      "images": [
-        "Jelly_candle large.jpg"
-      ]
-    },
-
-    {
-      "id": "sand_small",
-      "name": "Sand Candle (Small)",
-      "price": 10,
-      "description": "Layered sand candle in a compact design.",
-      "images": [
-        "sand_candles_small.png"
+      "name": "Spiritual & Divination",
+      "items": [
+        {
+          "id": "candle_divination_small",
+          "name": "Divination Candle (Small) - 200 ml",
+          "price": 50,
+          "description": "Mystical small divination candle used for rituals.",
+          "images": ["divination candle.jpg"]
+        },
+        {
+          "id": "candle_divination_large",
+          "name": "Divination Candle (Large) - 400 ml",
+          "price": 80,
+          "description": "Large ritual divination candle.",
+          "images": ["divination candle.jpg"]
+        },
+        {
+          "id": "candle_spiritual_small",
+          "name": "Spiritual Candle (Small) - 200 ml",
+          "price": 75,
+          "description": "Calming spiritual candle (half-relief / full options available).",
+          "images": ["spiritual candle (2).jpg"]
+        },
+        {
+          "id": "candle_spiritual_large",
+          "name": "Spiritual Candle (Large) - 400 ml",
+          "price": 110,
+          "description": "Large spiritual candle infused with intention.",
+          "images": ["spiritual candle (2).jpg"]
+        }
       ]
     },
     {
-      "id": "sand_medium",
-      "name": "Sand Candle (Medium)",
-      "price": 16,
-      "description": "Decorative medium sand candle with textured layers.",
-      "images": [
-        "sand_candles_medium.png"
-      ]
-    },
-    {
-      "id": "sand_large",
-      "name": "Sand Candle (Large)",
-      "price": 22,
-      "description": "Large sand-layer candle creating a natural gradient effect.",
-      "images": [
-        "sand candles large.jpg"
-      ]
-    },
-
-    {
-      "id": "divination_small",
-      "name": "Divination Candle (Small)",
-      "price": 18,
-      "description": "Mystical divination candle infused with symbolic elements.",
-      "images": [
-        "divination candle.jpg"
-      ]
-    },
-    {
-      "id": "divination_large",
-      "name": "Divination Candle (Large)",
-      "price": 28,
-      "description": "Large spiritual divination candle with ritual design.",
-      "images": [
-        "divination candle.jpg"
-      ]
-    },
-
-    {
-      "id": "spiritual_small",
-      "name": "Spiritual Candle (Small)",
-      "price": 17,
-      "description": "Softly glowing spiritual candle designed for relaxation.",
-      "images": [
-        "spiritual candle (2).jpg"
-      ]
-    },
-    {
-      "id": "spiritual_large",
-      "name": "Spiritual Candle (Large)",
-      "price": 27,
-      "description": "Large spiritual candle, perfect for rituals or meditation.",
-      "images": [
-        "spiritual candle (2).jpg"
-      ]
-    },
-
-    {
-      "id": "ethereal",
-      "name": "Ethereal Candle",
-      "price": 28,
-      "description": "Dreamy pastel candle with a soft spiritual glow.",
-      "images": [
-        "ethereal_candle_4.jpg",
-        "ethereal_candle_6.jpg",
-        "ethereal_candle_7.jpg"
-      ]
-    },
-
-    {
-      "id": "seasonal",
-      "name": "Seasonal Candle",
-      "price": 16,
-      "description": "Themed candle available during holidays or special seasons.",
-      "images": [
-        "seasonal candle.png"
+      "name": "Jelly Candles",
+      "items": [
+        {
+          "id": "candle_jelly_small",
+          "name": "Jelly Candle (Medium) - 200 ml",
+          "price": 32,
+          "images": ["jelly candles small.jpg"]
+        },
+        {
+          "id": "candle_jelly_large",
+          "name": "Jelly Candle (Large) - 350 ml",
+          "price": 40,
+          "images": ["Jelly_candle large.jpg"]
+        }
       ]
     }
   ]
