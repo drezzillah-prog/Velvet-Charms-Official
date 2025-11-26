@@ -1,128 +1,87 @@
 {
   "category": "Soaps",
-  "subcategories": [
+  "items": [
     {
-      "name": "Herbal Soaps",
-      "items": [
-        {
-          "id": "soap_herbal_100g",
-          "name": "Natural Herbal Soap (100g)",
-          "price": 12,
-          "description": "Handmade herbal soap crafted with plant-based oils.",
-          "images": [
-            "data/Natural Herbal Soap.png",
-            "data/Natural Herbal Soap1.png",
-            "data/Natural Herbal Soap2.png",
-            "data/Natural Herbal Soap3.png",
-            "data/Natural Herbal Soap4.png",
-            "data/Natural Herbal Soap5.png",
-            "data/Natural Herbal Soap6.png"
-          ]
-        }
+      "id": "soap_exfoliating",
+      "name": "Exfoliating Soap (100g)",
+      "price": 12,
+      "description": "Handmade exfoliating soap with natural scrub particles.",
+      "images": [
+        "Exfoliating Soap.png",
+        "Exfoliating Soap 1.png",
+        "Exfoliating Soap 2.png"
       ]
     },
+
     {
-      "name": "Exfoliating Soaps",
-      "items": [
-        {
-          "id": "soap_exfoliating_100g",
-          "name": "Exfoliating Soap (100g)",
-          "price": 12,
-          "description": "Natural exfoliating soap with gentle scrub particles.",
-          "images": [
-            "data/Exfoliating Soap.png",
-            "data/Exfoliating Soap 1.png",
-            "data/Exfoliating Soap 2.png",
-            "data/Exfoliating Soap 3.png",
-            "data/Exfoliating Soap 4.png",
-            "data/Exfoliating Soap 5.png",
-            "data/Exfoliating Soap 6.png"
-          ]
-        }
+      "id": "soap_herbal",
+      "name": "Natural Herbal Soap (100g)",
+      "price": 12,
+      "description": "Gentle handmade herbal soap infused with plant-based oils.",
+      "images": [
+        "Natural Herbal Soap.png",
+        "Natural Herbal Soap1.png",
+        "Natural Herbal Soap2.png"
       ]
     },
+
     {
-      "name": "Fruit-Shaped Soaps",
-      "items": [
-        {
-          "id": "soap_fruit_single",
-          "name": "Fruit-Shaped Scented Soap (100g)",
-          "price": 20,
-          "description": "Handcrafted fruit-shaped soap with premium fragrance.",
-          "images": [
-            "data/Fruit Soap.png",
-            "data/Fruit Soap2.png",
-            "data/Fruit Soap3.png",
-            "data/Fruit Soap4.png",
-            "data/Fruit Soap5.png"
-          ]
-        }
+      "id": "soap_fruit",
+      "name": "Fruit-Shaped Soap",
+      "price": 18,
+      "description": "Handcrafted fruit-shaped soap with realistic scent.",
+      "images": [
+        "Fruit Soap.png",
+        "Fruit Soap2.png",
+        "Fruit Soap3.png"
       ]
     },
+
     {
-      "name": "Flower-Shaped Soaps",
-      "items": [
-        {
-          "id": "soap_flower_single",
-          "name": "Flower-Shaped Scented Soap (100g)",
-          "price": 20,
-          "description": "Beautifully sculpted flower-shaped scented soap.",
-          "images": [
-            "data/Flower soaps (1).png",
-            "data/Flower soaps (2).png",
-            "data/Flower soaps (3).png",
-            "data/Flower soaps (4).png",
-            "data/Flower soaps (5).png"
-          ]
-        }
+      "id": "soap_flower",
+      "name": "Flower-Shaped Soap",
+      "price": 18,
+      "description": "Delicate handcrafted flower-shaped scented soap.",
+      "images": [
+        "Flower soaps (1).png",
+        "Flower soaps (2).png",
+        "Flower soaps (3).png"
       ]
     },
+
     {
-      "name": "Gift Sets (3 pcs)",
-      "items": [
-        {
-          "id": "soap_gift_herbal_set",
-          "name": "Gift Herbal / Exfoliating Soap Set (3 pcs)",
-          "price": 30,
-          "description": "Choose any combination of 3 herbal or exfoliating soaps.",
-          "images": [
-            "data/Gift Herbal Exfoliating Soap Set (3 pcs).png",
-            "data/Gift Herbal Exfoliating Soap Set (3 pcs) 1.png",
-            "data/Gift Herbal Exfoliating Soap Set (3 pcs) 2.png",
-            "data/Gift Herbal Exfoliating Soap Set (3 pcs) 3.png",
-            "data/Gift Herbal Exfoliating Soap Set (3 pcs) 4.png"
-          ]
-        },
-        {
-          "id": "soap_gift_fruit_flower_set",
-          "name": "Gift Fruit / Flower Soap Set (3 pcs)",
-          "price": 54,
-          "description": "Select any three fruit- or flower-shaped scented soaps.",
-          "images": [
-            "data/Gift Fruit shaped Flower shaped Soap Set (3 pcs).png",
-            "data/Fruit Soap.png",
-            "data/Fruit Soap2.png",
-            "data/Fruit Soap3.png",
-            "data/Fruit Soap4.png",
-            "data/Fruit Soap5.png",
-            "data/Flower soaps (1).png",
-            "data/Flower soaps (2).png",
-            "data/Flower soaps (3).png",
-            "data/Flower soaps (4).png",
-            "data/Flower soaps (5).png"
-          ]
-        },
-        {
-          "id": "soap_gift_standard_set",
-          "name": "Gift Soap Set (3 pcs)",
-          "price": 30,
-          "description": "A curated box of three natural soaps.",
-          "images": [
-            "data/Gift Soap Set (3 pcs)1.png",
-            "data/Gift Soap Set (3 pcs)2.png",
-            "data/Gift Soap Set (3 pcs)3.png"
-          ]
-        }
+      "id": "soap_gift_herbal_set",
+      "name": "Herbal / Exfoliating Gift Set (3 pcs)",
+      "price": 30,
+      "description": "Create your own set of 3 herbal and exfoliating soaps.",
+      "images": [
+        "Gift Herbal Exfoliating Soap Set (3 pcs).png",
+        "Gift Herbal Exfoliating Soap Set (3 pcs) 1.png",
+        "Gift Herbal Exfoliating Soap Set (3 pcs) 2.png"
+      ]
+    },
+
+    {
+      "id": "soap_gift_fruit_flower",
+      "name": "Fruit / Flower Gift Set (3 pcs)",
+      "price": 54,
+      "description": "Choose any 3 fruit- or flower-shaped scented soaps.",
+      "images": [
+        "Gift Fruit shaped Flower shaped Soap Set (3 pcs).png",
+        "Fruit Soap.png",
+        "Flower soaps (1).png"
+      ]
+    },
+
+    {
+      "id": "soap_gift_standard",
+      "name": "Natural Soap Gift Set (3 pcs)",
+      "price": 30,
+      "description": "A curated selection of 3 premium handmade soaps.",
+      "images": [
+        "Gift Soap Set (3 pcs)1.png",
+        "Gift Soap Set (3 pcs)2.png",
+        "Gift Soap Set (3 pcs)3.png"
       ]
     }
   ]
