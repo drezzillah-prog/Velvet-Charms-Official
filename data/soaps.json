@@ -1,145 +1,86 @@
 {
   "category": "Soaps",
-  "description": "Herbal, exfoliating, fruit & flower-shaped soaps + curated gift sets.",
   "subcategories": [
     {
-      "id": "herbal",
       "name": "Herbal Soaps",
       "items": [
         {
           "id": "soap_herbal_100g",
-          "name": "Natural Herbal Soap (100g)",
+          "name": "Natural Herbal Soap (100 g)",
           "price": 12,
-          "paymentLink": "https://www.paypal.com/ncp/payment/SYA68V9BU9TRN",
-          "description": "Chamomile, calendula or mint herbal soap — gentle, plant-based oils.",
           "images": [
             "Natural Herbal Soap.png",
             "Natural Herbal Soap1.png",
             "Natural Herbal Soap2.png",
-            "Natural Herbal Soap3.png",
-            "Natural Herbal Soap4.png",
-            "Natural Herbal Soap5.png",
-            "Natural Herbal Soap6.png"
-          ],
-          "options": {
-            "weight_g": [100],
-            "aroma": ["Chamomile","Calendula","Mint","Lavender","Vanilla"]
-          }
+            "Natural Herbal Soap3.png"
+          ]
         }
       ]
     },
     {
-      "id": "exfoliating",
       "name": "Exfoliating Soaps",
       "items": [
         {
           "id": "soap_exfoliating_100g",
-          "name": "Exfoliating Soap (100g)",
+          "name": "Exfoliating Soap (100 g)",
           "price": 12,
-          "paymentLink": "https://www.paypal.com/ncp/payment/AZQZXG8AJ8VZL",
-          "description": "Coffee or oatmeal exfoliating soap bar — natural gentle scrub particles.",
           "images": [
             "Exfoliating Soap.png",
             "Exfoliating Soap 1.png",
             "Exfoliating Soap 2.png",
-            "Exfoliating Soap 3.png",
-            "Exfoliating Soap 4.png",
-            "Exfoliating Soap 5.png",
-            "Exfoliating Soap 6.png"
-          ],
-          "options": {
-            "weight_g": [100],
-            "type": ["Coffee","Oatmeal","Citrus","Lavender"]
-          }
+            "Exfoliating Soap 3.png"
+          ]
         }
       ]
     },
     {
-      "id": "fruit",
-      "name": "Fruit-shaped Soaps",
+      "name": "Fruit-Shaped Soaps",
       "items": [
         {
-          "id": "soap_fruit_100g",
-          "name": "Fruit-Shaped Scented Soap (100g)",
+          "id": "soap_fruit_single",
+          "name": "Fruit-Shaped Scented Soap (100 g)",
           "price": 20,
-          "paymentLink": "https://www.paypal.com/ncp/payment/C5ME744UZX58U",
-          "description": "Realistic fruit-shaped soaps with premium fragrance.",
           "images": [
             "Fruit Soap.png",
             "Fruit Soap2.png",
-            "Fruit Soap3.png",
-            "Fruit Soap4.png",
-            "Fruit Soap5.png"
-          ],
-          "options": {
-            "weight_g": [100],
-            "aroma": ["Lemon","Orange","Apple","Peach","Vanilla"]
-          }
+            "Fruit Soap3.png"
+          ]
         }
       ]
     },
     {
-      "id": "flower",
-      "name": "Flower-shaped Soaps",
+      "name": "Flower-Shaped Soaps",
       "items": [
         {
-          "id": "soap_flower_100g",
-          "name": "Flower-Shaped Scented Soap (100g)",
+          "id": "soap_flower_single",
+          "name": "Flower-Shaped Scented Soap (100 g)",
           "price": 20,
-          "paymentLink": "https://www.paypal.com/ncp/payment/2KNEUT86VGQYS",
-          "description": "Hand-sculpted floral soaps with essential oils.",
           "images": [
             "Flower soaps (1).png",
             "Flower soaps (2).png",
-            "Flower soaps (3).png",
-            "Flower soaps (4).png",
-            "Flower soaps (5).png"
-          ],
-          "options": {
-            "weight_g": [100],
-            "aroma": ["Rose","Lavender","Vanilla","Jasmine","Citrus"]
-          }
+            "Flower soaps (3).png"
+          ]
         }
       ]
     },
     {
-      "id": "gifts",
       "name": "Gift Sets (3 pcs)",
       "items": [
         {
-          "id": "gift_herbal_exfoliating",
+          "id": "soap_gift_herbal_set",
           "name": "Gift Herbal / Exfoliating Soap Set (3 pcs)",
           "price": 30,
-          "paymentLink": "https://www.paypal.com/ncp/payment/ZQ6X8AZMVY4XL",
-          "description": "Mix & match any 3 herbal or exfoliating soaps — custom selection at checkout.",
           "images": [
             "Gift Herbal Exfoliating Soap Set (3 pcs).png",
-            "Gift Herbal Exfoliating Soap Set (3 pcs) 1.png",
-            "Gift Herbal Exfoliating Soap Set (3 pcs) 2.png",
-            "Gift Herbal Exfoliating Soap Set (3 pcs) 3.png",
-            "Gift Herbal Exfoliating Soap Set (3 pcs) 4.png"
+            "Gift Herbal Exfoliating Soap Set (3 pcs) 1.png"
           ]
         },
         {
-          "id": "gift_fruit_flower",
+          "id": "soap_gift_fruit_flower_set",
           "name": "Gift Fruit / Flower Soap Set (3 pcs)",
           "price": 54,
-          "paymentLink": "https://www.paypal.com/ncp/payment/6QVGP97CQRGN2",
-          "description": "Select any three fruit- or flower-shaped scented soaps (3-piece gift box).",
           "images": [
             "Gift Fruit shaped Flower shaped Soap Set (3 pcs).png"
-          ]
-        },
-        {
-          "id": "gift_standard_3",
-          "name": "Gift Soap Set (3 pcs) — Curated",
-          "price": 30,
-          "paymentLink": "https://www.paypal.com/ncp/payment/ZQ6X8AZMVY4XL",
-          "description": "A curated trio of handmade soaps — boxed and gift-ready.",
-          "images": [
-            "Gift Soap Set (3 pcs)1.png",
-            "Gift Soap Set (3 pcs)2.png",
-            "Gift Soap Set (3 pcs)3.png"
           ]
         }
       ]
