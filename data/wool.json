@@ -1,76 +1,139 @@
 {
-  "category": "Wool Accessories",
+  "category": "Wool & Winter Wear",
+  "description": "Hand-knitted beanies, scarves, mittens, blankets, pet beanies and matching sets.",
   "items": [
     {
-      "id": "wool_beanie",
-      "name": "Hand-Knitted Beanie",
-      "price": 25,
-      "description": "Soft handcrafted beanie available in multiple sizes.",
-      "sizes": ["Small", "Medium", "Large", "Extra-Large"],
-      "images": [
-        "Hand-Knitted Beanie - Small.png",
-        "Hand-Knitted Beanie - Medium.png",
-        "Hand-Knitted Beanie - Large.png"
-      ]
+      "id": "beanie_small",
+      "name": "Hand-Knitted Beanie — Small",
+      "price": 35,
+      "paymentLink": "https://www.paypal.com/ncp/payment/S4KAZSV8WN5MG",
+      "description": "Small hand-knitted beanie. Size: Small. Cozy and stretchy.",
+      "images": ["Hand-Knitted Beanie - Small.png"],
+      "sizes": ["Small"]
     },
-
     {
-      "id": "wool_scarf",
-      "name": "Hand-Knitted Scarf",
-      "price": 30,
-      "description": "Warm handcrafted wool scarf.",
-      "sizes": ["One Size — 150×25 cm"],
-      "images": [
-        "Hand-Knitted Scarf - One size (150x25 cm avg.).png"
-      ]
+      "id": "beanie_medium",
+      "name": "Hand-Knitted Beanie — Medium",
+      "price": 38,
+      "paymentLink": "https://www.paypal.com/ncp/payment/Q944A2C9DTQJW",
+      "description": "Medium hand-knitted beanie.",
+      "images": ["Hand-Knitted Beanie - Medium.png"],
+      "sizes": ["Medium"]
     },
-
     {
-      "id": "wool_mittens",
-      "name": "Hand-Knitted Mittens",
-      "price": 20,
-      "description": "Cozy wool mittens handmade with care.",
-      "sizes": ["Small", "Medium", "Large", "Extra-Large"],
-      "images": [
-        "Hand-Knitted Mittens - Small.png",
-        "Hand-Knitted Mittens - Medium.png",
-        "Hand-Knitted Mittens - Large.png"
-      ]
+      "id": "beanie_large",
+      "name": "Hand-Knitted Beanie — Large",
+      "price": 42,
+      "paymentLink": "https://www.paypal.com/ncp/payment/REPLACE_IF_DIFFERENT",
+      "description": "Large beanie — roomy fit.",
+      "images": ["Hand-Knitted Beanie - Large.png"],
+      "sizes": ["Large"]
     },
-
     {
-      "id": "wool_winter_set",
+      "id": "beanie_xl",
+      "name": "Hand-Knitted Beanie — Extra-Large",
+      "price": 45,
+      "paymentLink": "https://www.paypal.com/ncp/payment/REPLACE_IF_DIFFERENT",
+      "description": "Extra-large beanie for oversized, relaxed fit.",
+      "images": ["Hand-Knitted Beanie - Extra-Large.png"],
+      "sizes": ["Extra-Large"]
+    },
+    {
+      "id": "scarf_one",
+      "name": "Hand-Knitted Scarf — One size (150×25 cm)",
+      "price": 55,
+      "paymentLink": "https://www.paypal.com/ncp/payment/REPLACE_IF_DIFFERENT",
+      "description": "Hand-knitted scarf, approximately 150×25 cm.",
+      "images": ["Hand-Knitted Scarf - One size (150x25 cm avg.).png"],
+      "dimensions_cm": {"length":150,"width":25}
+    },
+    {
+      "id": "mittens_small",
+      "name": "Hand-Knitted Mittens — Small",
+      "price": 28,
+      "paymentLink": "https://www.paypal.com/ncp/payment/REPLACE_IF_DIFFERENT",
+      "description": "Small mittens — soft wool.",
+      "images": ["Hand-Knitted Mittens - Small.png"],
+      "sizes": ["Small"]
+    },
+    {
+      "id": "mittens_medium",
+      "name": "Hand-Knitted Mittens — Medium",
+      "price": 32,
+      "paymentLink": "https://www.paypal.com/ncp/payment/REPLACE_IF_DIFFERENT",
+      "description": "Medium mittens.",
+      "images": ["Hand-Knitted Mittens - Medium.png"],
+      "sizes": ["Medium"]
+    },
+    {
+      "id": "mittens_large",
+      "name": "Hand-Knitted Mittens — Large",
+      "price": 35,
+      "paymentLink": "https://www.paypal.com/ncp/payment/REPLACE_IF_DIFFERENT",
+      "description": "Large mittens.",
+      "images": ["Hand-Knitted Mittens - Large.png"],
+      "sizes": ["Large"]
+    },
+    {
+      "id": "mittens_xl",
+      "name": "Hand-Knitted Mittens — Extra-Large",
+      "price": 40,
+      "paymentLink": "https://www.paypal.com/ncp/payment/REPLACE_IF_DIFFERENT",
+      "description": "Extra-large mittens for very cold weather.",
+      "images": ["Hand-Knitted Mittens - Extra Large.png"],
+      "sizes": ["Extra-Large"]
+    },
+    {
+      "id": "matching_winter_set",
       "name": "Matching Winter Set — Beanie + Scarf + Mittens",
       "price": 110,
-      "description": "Complete winter warmth set: beanie, scarf, and mittens.",
+      "paymentLink": "https://www.paypal.com/ncp/payment/VWTNNVT586JBN",
+      "description": "Complete matching winter set (beanie + scarf + mittens).",
       "images": [
-        "Matching Winter Set - Beanie + Scarf + Mittens.png"
-      ]
+        "Matching Winter Set - Beanie + Scarf + Mittens.png",
+        "Matching Winter Set — Beanie + Scarf + Mittens.png"
+      ],
+      "notes": "Bundle discount applied."
     },
-
     {
-      "id": "wool_braided_blanket",
-      "name": "Braided Wool Blanket",
+      "id": "braided_blanket_small",
+      "name": "Braided Blanket — Small (80×100 cm)",
       "price": 85,
-      "description": "Thick, hand-braided cozy wool blanket.",
-      "sizes": ["Small", "Medium", "Large"],
-      "images": [
-        "Braided Blanket (Small).png",
-        "Braided Blanket (Medium).png",
-        "Braided Blanket (Large).png"
-      ]
+      "paymentLink": "https://www.paypal.com/ncp/payment/3TB59Q7RG2SLE",
+      "description": "Small braided blanket — 80×100 cm.",
+      "images": ["Braided Blanket (Small).png"],
+      "dimensions_cm": {"length":80,"width":100}
     },
-
     {
-      "id": "wool_pet_beanie",
-      "name": "Pet Beanie",
+      "id": "braided_blanket_medium",
+      "name": "Braided Blanket — Medium (120×150 cm)",
+      "price": 130,
+      "paymentLink": "https://www.paypal.com/ncp/payment/B82QPFVQVDUQL",
+      "description": "Medium braided blanket — 120×150 cm.",
+      "images": ["Braided Blanket (Medium).png"],
+      "dimensions_cm": {"length":120,"width":150}
+    },
+    {
+      "id": "braided_blanket_large",
+      "name": "Braided Blanket — Large (150×200 cm)",
+      "price": 180,
+      "paymentLink": "https://www.paypal.com/ncp/payment/DXBW4QFN7T96J",
+      "description": "Large braided blanket — 150×200 cm.",
+      "images": ["Braided Blanket (Large).png"],
+      "dimensions_cm": {"length":150,"width":200}
+    },
+    {
+      "id": "pet_beanie",
+      "name": "Pet Beanie — Small (fits small/medium pets)",
       "price": 18,
-      "description": "Adorable beanie for cats and small/medium dogs.",
-      "sizes": ["Small"],
+      "paymentLink": "https://www.paypal.com/ncp/payment/7CFTKTXGLVZZY",
+      "description": "Adorable beanie sized for cats and small/medium dogs. (Option: small only).",
       "images": [
         "Pet Beanie - shirt small.png",
-        "Pet Beanie - shirt small 2.png"
-      ]
+        "Pet Beanie - shirt small 2.png",
+        "Pet Beanie - shirt small2.png"
+      ],
+      "sizes": ["Small"]
     }
   ]
 }
