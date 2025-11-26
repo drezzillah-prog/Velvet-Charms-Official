@@ -3,21 +3,15 @@
   "items": [
     {
       "id": "perfume_solid",
-      "name": "Solid Perfume (50ml)",
+      "name": "Solid Perfume (50 ml)",
       "price": 28,
-      "description": "Alcohol-free solid perfume with natural fixatives.",
-      "images": [
-        "data/Solid Perfume.png"
-      ]
+      "images": ["Solid Perfume.png"]
     },
     {
       "id": "perfume_rollon",
-      "name": "Oil Perfume Roll-On (10ml)",
+      "name": "Oil Perfume Roll-On (10 ml)",
       "price": 22,
-      "description": "Premium roll-on oil perfume with a smooth, elegant scent blend.",
-      "images": [
-        "data/Oil Perfume Roll-On.jpg"
-      ]
+      "images": ["Oil Perfume Roll-On.jpg"]
     }
   ]
 }
