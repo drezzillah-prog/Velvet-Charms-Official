@@ -3,16 +3,17 @@ document.addEventListener("DOMContentLoaded", function () {
     const menuToggle = document.querySelector(".menu-toggle");
     const menu = document.querySelector(".site-header nav");
     const scrollTopButton = document.querySelector("#scrollTop");
-    const cartIcon = document.querySelector(".cart-icon");
-    const cartDropdown = document.querySelector(".cart-dropdown");
+    const cartIcon = document.querySelector("#cartBtn3, #cartBtn4, #favoritesBtn2, #favoritesBtn3");
+    const cartDropdown = document.querySelector(".cart-panel");
 
-    // Only attach event listeners if elements exist
+    // Menu toggle for small screens
     if (menuToggle && menu) {
         menuToggle.addEventListener("click", () => {
             menu.classList.toggle("active");
         });
     }
 
+    // Scroll to top functionality
     if (scrollTopButton) {
         window.addEventListener("scroll", () => {
             if (window.scrollY > 200) {
@@ -27,6 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    // Shopping cart icon toggle
     if (cartIcon && cartDropdown) {
         cartIcon.addEventListener("click", () => {
             cartDropdown.classList.toggle("visible");
