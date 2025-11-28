@@ -1,82 +1,62 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Velvet Charms — Home</title>
-  <link rel="stylesheet" href="style.css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Velvet Charms</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="christmas-default">
-  <header class="site-header christmas">
-    <div class="brand">
-      <h1>Velvet Charms</h1>
-      <p class="tagline">Where Art Meets Emotion — Handcrafted with love</p>
-    </div>
-    <nav class="main-nav">
-      <a href="index.html" class="active">Home</a>
-      <a href="catalogue.html">Catalogue</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-      <button id="favoritesBtn" class="icon-btn">❤ <span id="favCount">0</span></button>
-      <button id="cartBtn" class="icon-btn">🛒 <span id="cartCount">0</span></button>
-    </nav>
-  </header>
+<body>
 
-  <main class="home-page">
-    <section class="hero">
-      <img src="data/top banner picture for candles.png" alt="Velvet Charms banner" class="hero-img"/>
-      <div class="hero-text">
+<header class="site-header">
+    <div class="logo-area">
+        <h1 id="siteName">Velvet Charms</h1>
+        <p id="siteTagline">Where Art Meets Emotion — Handcrafted with love</p>
+    </div>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="catalogue.html">Catalogue</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <img src="data/Velvet Charms banner.png" alt="Velvet Charms banner" class="hero-img">
+    <div class="hero-text">
         <h2>Handmade gifts & decor — made with love</h2>
         <p>Cozy artisan pieces for festive and everyday moments.</p>
-        <a class="btn primary" href="catalogue.html">Browse Catalogue</a>
-      </div>
-    </section>
-
-    <section class="highlights">
-      <article>
-        <h3>Featured — Winter Set</h3>
-        <img src="data/Matching Winter Set — Beanie + Scarf + Mittens.png" alt="Winter set"/>
-        <p>Matching beanie, scarf & mittens — perfect gift.</p>
-      </article>
-      <article>
-        <h3>Handmade Soaps</h3>
-        <img src="data/Flower soaps (1).png" alt="Soaps"/>
-        <p>Choose herbal, exfoliating, fruit or flower-shaped soap.</p>
-      </article>
-      <article>
-        <h3>Paintings & Portraits</h3>
-        <img src="data/painting_LANDSCAPE_MEDIUM.jpg" alt="Paintings"/>
-        <p>Custom portraits and scenic paintings — made to order.</p>
-      </article>
-    </section>
-  </main>
-
-  <footer>
-    <p>© Velvet Charms</p>
-  </footer>
-
-  <!-- Cart & modal shared UI -->
-  <div id="modal" class="modal hidden" role="dialog" aria-hidden="true">
-    <div class="modal-backdrop"></div>
-    <div class="modal-card">
-      <button class="modal-close" id="modalClose">✕</button>
-      <div id="modalContent"></div>
+        <a href="catalogue.html" class="btn">Browse Catalogue</a>
     </div>
-  </div>
+</section>
 
-  <div id="cartPanel" class="cart-panel hidden" aria-hidden="true">
-    <h3>Your cart</h3>
-    <div id="cartItems"></div>
-    <div class="cart-total">Total: <span id="cartTotal">USD 0.00</span></div>
-    <button id="checkoutBtn" class="checkout">Checkout (PayPal)</button>
-    <button id="continueShopping" class="secondary">Continue shopping</button>
-  </div>
+<section class="featured">
+    <h2>Featured</h2>
+    <div class="featured-grid">
+        <div class="featured-item">
+            <img src="data/Matching Winter Set - Beanie + Scarf + Mittens.png" alt="">
+            <h3>Winter Set</h3>
+            <p>Perfect cozy bundle for the season.</p>
+        </div>
 
-  <script src="script.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-      await window.appInit && window.appInit();
-    });
-  </script>
+        <div class="featured-item">
+            <img src="data/Natural Herbal Soap.png" alt="">
+            <h3>Handmade Soaps</h3>
+            <p>Herbal, exfoliating, fruit or flower-shaped.</p>
+        </div>
+
+        <div class="featured-item">
+            <img src="data/painting_LANDSCAPE_MEDIUM.jpg" alt="">
+            <h3>Paintings & Portraits</h3>
+            <p>2D & 3D artworks created with love.</p>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>© Velvet Charms</p>
+</footer>
+
+<script src="script.js"></script>
 </body>
 </html>
