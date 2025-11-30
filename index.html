@@ -1,51 +1,189 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Velvet Charms — Where Art Meets Emotion</title>
-  <link rel="stylesheet" href="style.css"/>
-  <meta name="theme-color" content="#8b0000"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Velvet Charms — Home</title>
+
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Meta -->
+  <meta name="description" content="Velvet Charms — handcrafted gifts, candles, soaps, paintings & cozy winter wear. Hand made with love.">
+
+  <!-- Favicons (if you add any, put them in root and reference here) -->
+  <!-- <link rel="icon" href="favicon.ico"> -->
+
+  <style>
+    /* small page-level styles to ensure hero height doesn't flicker while CSS loads */
+    .hero { min-height: 320px; display:flex; align-items:center; justify-content:center; }
+  </style>
 </head>
 <body class="christmas-default">
-  <header class="site-header">
-    <div class="brand">
-      <h1>Velvet Charms</h1>
-      <p class="tagline">Where Art Meets Emotion — Handcrafted with love</p>
+
+  <!-- Decorative snow layer -->
+  <div class="snow-layer" aria-hidden="true"></div>
+
+  <!-- Floating gifts & candy-cane ornaments -->
+  <div class="floating-gifts" aria-hidden="true">
+    <img src="Cozy Winter Set.png" alt="" class="gift gift-1">
+    <img src="Matching Winter Set — Beanie + Scarf + Mittens.png" alt="" class="gift gift-2">
+    <img src="Cozy Winter Set.png" alt="" class="gift gift-3">
+  </div>
+
+  <!-- Header -->
+  <header class="site-header christmas">
+    <div class="logo-area">
+      <h1 id="siteName">Velvet Charms</h1>
+      <p id="siteTagline" class="tagline">Where Art Meets Emotion — Handcrafted with love</p>
     </div>
-    <nav class="main-nav">
+
+    <nav class="main-nav" role="navigation" aria-label="Main navigation">
       <a href="index.html" class="active">Home</a>
       <a href="catalogue.html">Catalogue</a>
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
-      <button class="menu-toggle">☰</button>
-      <div class="nav-actions">
-        <button id="wishlistBtn" class="icon-btn">❤ <span id="wishCount">0</span></button>
-        <button id="cartBtn" class="icon-btn">🛒 <span id="cartCount">0</span></button>
+      <button class="menu-toggle" aria-expanded="false" aria-controls="navList">☰</button>
+      <div class="nav-icons">
+        <button id="favoritesBtn" title="Wishlist" aria-label="Wishlist">❤ <span id="favCount">0</span></button>
+        <button id="cartBtn" title="Cart" aria-label="Cart">🛒 <span id="cartCount">0</span></button>
       </div>
     </nav>
   </header>
 
-  <section class="hero">
-    <img src="data/Velvet Charms banner.png" alt="Velvet Charms banner" class="hero-img" />
-    <div class="hero-text">
-      <h2>Handmade gifts & decor — made with love</h2>
-      <p>Cozy artisan pieces for festive and everyday moments.</p>
-      <a href="catalogue.html" class="btn">Browse Catalogue</a>
+  <!-- Hero -->
+  <section class="hero" role="banner" aria-label="Featured">
+    <img src="top banner picture for candles.png" alt="Velvet Charms banner" class="hero-img">
+    <div class="hero-overlay">
+      <h2>Handmade gifts & cozy decor — made with love</h2>
+      <p class="lead">Festive, warm and unique pieces for every season. Free shipping on orders over <strong>USD 300</strong>.</p>
+      <div class="hero-actions">
+        <a href="catalogue.html" class="btn primary">Browse Catalogue</a>
+        <a href="#featured" class="btn outline">See Featured</a>
+      </div>
     </div>
   </section>
 
-  <section class="featured" id="featuredSection">
-    <h2>Featured</h2>
-    <div id="featuredCarousel" class="carousel"></div>
+  <!-- Featured carousel / quick picks -->
+  <section id="featured" class="featured">
+    <h2>Featured this season</h2>
+    <div class="featured-carousel" id="featuredCarousel">
+      <!-- JS will load a few featured items from catalogue.json -->
+      <div class="loader-inline">Loading featured…</div>
+    </div>
   </section>
 
-  <div id="cartPanel" class="cart-panel hidden" aria-hidden="true"></div>
-  <div id="modal" class="modal hidden" role="dialog" aria-hidden="true">
-    <div class="modal-backdrop"></div>
-    <div class="modal-card"><button class="modal-close">✕</button><div id="modalContent"></div></div>
+  <!-- Quick search -->
+  <section class="search-area">
+    <div class="container">
+      <input id="searchInput" type="search" placeholder="Search products, e.g. 'beanie' or 'wax candle'">
+      <select id="catFilter">
+        <option value="all">All categories</option>
+      </select>
+      <button id="searchBtn" class="btn small">Search</button>
+    </div>
+  </section>
+
+  <!-- Mini promo row -->
+  <section class="promo-row">
+    <div class="promo">
+      <strong>🎁 Free shipping</strong> for orders over USD 300
+    </div>
+    <div class="promo">
+      <strong>⏱️ Delivery</strong> ~5 days to most EU destinations
+    </div>
+    <div class="promo">
+      <strong>✔️ Secure checkout</strong> — PayPal multi-currency
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="foot-inner">
+      <div class="brand-credits">
+        <h3>Velvet Charms</h3>
+        <p>Where art meets emotion — handcrafted with love.</p>
+      </div>
+      <div class="links">
+        <a href="catalogue.html">Catalogue</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="social">
+        <p>Subscribe for seasonal drops</p>
+        <form id="newsletterForm" action="https://formspree.io/f/xyzykwde" method="POST">
+          <input type="email" name="email" placeholder="you@example.com" aria-label="Email for newsletter" required>
+          <button class="btn small" type="submit">Subscribe</button>
+        </form>
+      </div>
+    </div>
+    <div class="copyright">© Velvet Charms — handcrafted • All rights reserved</div>
+  </footer>
+
+  <!-- Cart panel -->
+  <div id="cartPanel" class="cart-panel hidden" aria-hidden="true" role="dialog" aria-label="Shopping cart">
+    <button id="cartClose" class="close">✕</button>
+    <h3>Your cart</h3>
+    <div id="cartItems" class="cart-items"></div>
+    <div class="cart-summary">
+      <div>Subtotal: <span id="cartSubtotal">USD 0.00</span></div>
+      <div id="shippingRow">Shipping: <span id="cartShipping">USD 0.00</span></div>
+      <div class="total">Total: <strong id="cartTotal">USD 0.00</strong></div>
+    </div>
+    <div class="cart-actions">
+      <button id="continueShopping" class="btn outline">Continue shopping</button>
+      <button id="checkoutBtn" class="btn primary">Checkout (PayPal)</button>
+    </div>
   </div>
 
-  <script src="script.js" type="module"></script>
+  <!-- Modal popup for order success (we selected modal option) -->
+  <div id="orderModal" class="modal hidden" role="dialog" aria-hidden="true" aria-labelledby="orderModalTitle" aria-describedby="orderModalDesc">
+    <div class="modal-backdrop"></div>
+    <div class="modal-card">
+      <button id="orderModalClose" class="modal-close" aria-label="Close">✕</button>
+      <header>
+        <h2 id="orderModalTitle">Thank you — order received!</h2>
+      </header>
+      <main id="orderModalDesc">
+        <p id="orderSummaryText">We are processing your payment. Once confirmed you’ll see the details here.</p>
+        <div id="orderDetails"></div>
+        <p class="muted">A confirmation email will be sent to you after successful payment.</p>
+      </main>
+      <footer>
+        <button id="orderModalDone" class="btn primary">Done</button>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Offscreen product template for quick product cards (used by JS) -->
+  <template id="productCardTemplate">
+    <article class="product-card">
+      <img class="product-thumb" src="" alt="">
+      <div class="product-info">
+        <h4 class="product-name"></h4>
+        <div class="product-price"></div>
+        <p class="product-desc"></p>
+        <div class="product-actions">
+          <button class="btn add-to-cart">Add to cart</button>
+          <a class="btn outline view-details" href="#">Details</a>
+        </div>
+      </div>
+    </article>
+  </template>
+
+  <!-- Core scripts -->
+  <script src="translations.js" defer></script>
+  <script src="script.js" defer></script>
+
+  <!-- Inline: small init so UI loads quickly -->
+  <script>
+    (function(){
+      // minimal UI hook while script.js loads
+      window.appInit = window.appInit || function(){ 
+        // avoid errors if full script not yet ready
+        console.log('appInit placeholder — full script will replace this');
+      };
+    })();
+  </script>
 </body>
 </html>
