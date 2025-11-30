@@ -1,49 +1,72 @@
-// api/paypal/capture_order.js
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+// /api/capture-order.js
+import fetch from "node-fetch";
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
+
+  const { orderID } = req.body || {};
+
+  if (!orderID) {
+    return res.status(400).json({ error: "Missing orderID" });
+  }
+
+  const CLIENT_ID = process.env.PAYPAL_CLIENT_ID;
+  const SECRET = process.env.PAYPAL_CLIENT_SECRET;
+  const ENV = process.env.PAYPAL_ENV || "sandbox";
+
+  const BASE = ENV === "live"
+    ? "https://api-m.paypal.com"
+    : "https://api-m.sandbox.paypal.com";
+
   try {
-    const PAYPAL_CLIENT = process.env.PAYPAL_CLIENT_ID;
-    const PAYPAL_SECRET = process.env.PAYPAL_CLIENT_SECRET;
-    const PAYPAL_ENV = (process.env.PAYPAL_ENV === 'live') ? 'https://api-m.paypal.com' : 'https://api-m.sandbox.paypal.com';
+    // 1. Get OAuth token
+    const auth = Buffer.from(`${CLIENT_ID}:${SECRET}`).toString("base64");
 
-    if (!PAYPAL_CLIENT || !PAYPAL_SECRET) return res.status(500).json({ error: 'PayPal creds not set' });
+    const tokenRes = await fetch(`${BASE}/v1/oauth2/token`, {
+      method: "POST",
+      headers: {
+        "Authorization": `Basic ${auth}`,
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: "grant_type=client_credentials"
+    });
 
-    // PayPal returns ?token=ORDERID on return_url
-    const orderId = req.query.token || req.body.orderID || req.query.orderId;
-    if (!orderId) {
-      // If this is a direct API call, orderId might be in body
-      return res.status(400).json({ error: 'Order id missing (token)' });
+    const tokenData = await tokenRes.json();
+    if (!tokenData.access_token) {
+      return res.status(500).json({ error: "Unable to authenticate with PayPal", details: tokenData });
     }
 
-    // get access token
-    const tokenRes = await fetch(`${PAYPAL_ENV}/v1/oauth2/token`, {
-      method: 'POST',
-      headers: {
-        'Authorization': 'Basic ' + Buffer.from(`${PAYPAL_CLIENT}:${PAYPAL_SECRET}`).toString('base64'),
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: 'grant_type=client_credentials'
-    });
-    const tokenData = await tokenRes.json();
     const accessToken = tokenData.access_token;
 
-    // capture order
-    const capRes = await fetch(`${PAYPAL_ENV}/v2/checkout/orders/${orderId}/capture`, {
-      method: 'POST',
+    // 2. Capture order
+    const captureRes = await fetch(`${BASE}/v2/checkout/orders/${orderID}/capture`, {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${accessToken}`
+        "Authorization": `Bearer ${accessToken}`,
+        "Content-Type": "application/json"
       }
     });
-    const capJson = await capRes.json();
 
-    // TODO: You may send email notification or record order in DB here.
-    // For now we return capture detail and a simple HTML confirmation.
-    res.setHeader('Content-Type', 'text/html');
-    res.end(`<html><body><h2>Payment Received</h2><pre>${JSON.stringify(capJson, null, 2)}</pre><p><a href="/index.html">Return to shop</a></p></body></html>`);
-  } catch (err) {
-    console.error('capture error', err);
-    res.status(500).json({ error: 'capture failed', details: String(err) });
+    const captureData = await captureRes.json();
+
+    if (!captureData || captureData.error) {
+      return res.status(400).json({
+        status: "ERROR",
+        message: captureData?.error_description || "Could not capture order",
+        details: captureData
+      });
+    }
+
+    // success!
+    return res.status(200).json({
+      status: captureData.status || "COMPLETED",
+      id: captureData.id,
+      details: captureData
+    });
+
+  } catch (error) {
+    return res.status(500).json({ error: "Capture error", details: error.toString() });
   }
-};
+}
