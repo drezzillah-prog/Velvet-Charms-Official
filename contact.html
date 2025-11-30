@@ -4,40 +4,136 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Contact — Velvet Charms</title>
+  <meta name="description" content="Contact Velvet Charms for custom orders, questions, and assistance.">
   <link rel="stylesheet" href="style.css"/>
 </head>
+
 <body class="christmas-default">
-  <header class="site-header">
-    <div class="brand"><h1>Velvet Charms</h1><p class="tagline">Where Art Meets Emotion — Handcrafted with love</p></div>
+
+  <!-- Snow + floating gifts -->
+  <div class="snow-layer" aria-hidden="true"></div>
+  <div class="floating-gifts" aria-hidden="true">
+    <img src="Cozy Winter Set.png" alt="" class="gift gift-1">
+    <img src="Matching Winter Set — Beanie + Scarf + Mittens.png" alt="" class="gift gift-2">
+  </div>
+
+  <header class="site-header christmas">
+    <div class="brand">
+      <h1>Velvet Charms</h1>
+      <p class="tagline">Where Art Meets Emotion — Handcrafted with love</p>
+    </div>
+
     <nav class="main-nav">
       <a href="index.html">Home</a>
       <a href="catalogue.html">Catalogue</a>
       <a href="about.html">About</a>
       <a href="contact.html" class="active">Contact</a>
       <button class="menu-toggle">☰</button>
+
+      <div class="nav-icons">
+        <button id="favoritesBtnTop">❤ <span id="favCountTop">0</span></button>
+        <button id="cartBtnTop">🛒 <span id="cartCountTop">0</span></button>
+      </div>
     </nav>
   </header>
 
-  <main class="contact-page">
-    <section class="contact-block">
-      <h2>Contact Us</h2>
-      <p>Please use the form below — this is our preferred contact method.</p>
-      <form id="contactForm" action="https://formspree.io/f/xyzykwde" method="POST">
-        <label>Your name<input type="text" name="name" required></label>
-        <label>Your email<input type="email" name="email" required></label>
-        <label>Message<textarea name="message" rows="6" required></textarea></label>
-        <button type="submit" class="btn primary">Send</button>
-      </form>
+  <main class="contact-page container">
 
-      <h3>Newsletter</h3>
-      <form id="newsletterForm" action="https://formspree.io/f/xyzykwde" method="POST">
-        <label>Email<input type="email" name="email" required></label>
-        <button type="submit" class="btn">Sign up</button>
+    <section class="contact-card">
+      <h2 class="contact-title">Contact Us</h2>
+      <div class="about-divider"></div>
+
+      <p class="contact-text">
+        Have questions, custom order requests, or need assistance?
+        We’d love to help — simply fill out the form below.
+      </p>
+
+      <!-- CONTACT FORM -->
+      <form id="contactForm" action="https://formspree.io/f/xyzykwde" method="POST" class="contact-form">
+        
+        <label>
+          Full Name
+          <input type="text" name="name" required>
+        </label>
+
+        <label>
+          Email Address
+          <input type="email" name="email" required>
+        </label>
+
+        <label>
+          Message
+          <textarea name="message" rows="6" required></textarea>
+        </label>
+
+        <button type="submit" class="btn">Send Message</button>
+
+        <p id="contactStatus" class="form-status hidden"></p>
+
       </form>
     </section>
+
   </main>
 
-  <footer><p>© Velvet Charms</p></footer>
-  <script src="script.js" type="module"></script>
+  <footer>
+    <p>© Velvet Charms</p>
+  </footer>
+
+  <!-- Modal -->
+  <div id="modal" class="modal hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-card">
+      <button class="modal-close" id="modalClose">✕</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <!-- Cart panel -->
+  <div id="cartPanel" class="cart-panel hidden">
+    <h3>Your cart</h3>
+    <div id="cartItems"></div>
+    <div class="cart-total">Total: <span id="cartTotal">USD 0.00</span></div>
+    <button id="checkoutBtnLocal" class="checkout">Checkout (PayPal)</button>
+    <button id="continueShoppingLocal" class="secondary">Continue shopping</button>
+  </div>
+
+  <script src="translations.js" defer></script>
+  <script src="script.js" defer></script>
+
+  <script>
+    // Contact form success handling (instant feedback, no redirect)
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("contactForm");
+      const status = document.getElementById("contactStatus");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        status.classList.remove("hidden");
+        status.textContent = "Sending…";
+
+        try {
+          const result = await fetch(form.action, {
+            method: "POST",
+            body: new FormData(form),
+            headers: { 'Accept': 'application/json' }
+          });
+
+          if (result.ok) {
+            status.textContent = "✨ Message sent! We will reply shortly.";
+            status.classList.add("success");
+            form.reset();
+          } else {
+            status.textContent = "⚠ Something went wrong. Please try again.";
+            status.classList.add("error");
+          }
+
+        } catch (err) {
+          status.textContent = "⚠ Network error. Please try again.";
+          status.classList.add("error");
+        }
+      });
+    });
+  </script>
+
 </body>
 </html>
