@@ -1,63 +1,51 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Velvet Charms</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Velvet Charms — Where Art Meets Emotion</title>
+  <link rel="stylesheet" href="style.css"/>
+  <meta name="theme-color" content="#8b0000"/>
 </head>
-<body>
-
-<header class="site-header">
-    <div class="logo-area">
-        <h1 id="siteName">Velvet Charms</h1>
-        <p id="siteTagline">Where Art Meets Emotion — Handcrafted with love</p>
+<body class="christmas-default">
+  <header class="site-header">
+    <div class="brand">
+      <h1>Velvet Charms</h1>
+      <p class="tagline">Where Art Meets Emotion — Handcrafted with love</p>
     </div>
-    <nav class="main-nav"> <!-- Updated to main-nav -->
-        <a href="index.html">Home</a>
-        <a href="catalogue.html">Catalogue</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-        <button class="menu-toggle">☰</button> <!-- Added menu toggle button -->
+    <nav class="main-nav">
+      <a href="index.html" class="active">Home</a>
+      <a href="catalogue.html">Catalogue</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <button class="menu-toggle">☰</button>
+      <div class="nav-actions">
+        <button id="wishlistBtn" class="icon-btn">❤ <span id="wishCount">0</span></button>
+        <button id="cartBtn" class="icon-btn">🛒 <span id="cartCount">0</span></button>
+      </div>
     </nav>
-</header>
+  </header>
 
-<section class="hero">
-    <img src="data/Velvet Charms banner.png" alt="Velvet Charms banner" class="hero-img">
+  <section class="hero">
+    <img src="data/Velvet Charms banner.png" alt="Velvet Charms banner" class="hero-img" />
     <div class="hero-text">
-        <h2>Handmade gifts & decor — made with love</h2>
-        <p>Cozy artisan pieces for festive and everyday moments.</p>
-        <a href="catalogue.html" class="btn">Browse Catalogue</a>
+      <h2>Handmade gifts & decor — made with love</h2>
+      <p>Cozy artisan pieces for festive and everyday moments.</p>
+      <a href="catalogue.html" class="btn">Browse Catalogue</a>
     </div>
-</section>
+  </section>
 
-<section class="featured">
+  <section class="featured" id="featuredSection">
     <h2>Featured</h2>
-    <div class="featured-grid">
-        <div class="featured-item">
-            <img src="data/Matching Winter Set - Beanie + Scarf + Mittens.png" alt="">
-            <h3>Winter Set</h3>
-            <p>Perfect cozy bundle for the season.</p>
-        </div>
+    <div id="featuredCarousel" class="carousel"></div>
+  </section>
 
-        <div class="featured-item">
-            <img src="data/Natural Herbal Soap.png" alt="">
-            <h3>Handmade Soaps</h3>
-            <p>Herbal, exfoliating, fruit or flower-shaped.</p>
-        </div>
+  <div id="cartPanel" class="cart-panel hidden" aria-hidden="true"></div>
+  <div id="modal" class="modal hidden" role="dialog" aria-hidden="true">
+    <div class="modal-backdrop"></div>
+    <div class="modal-card"><button class="modal-close">✕</button><div id="modalContent"></div></div>
+  </div>
 
-        <div class="featured-item">
-            <img src="data/painting_LANDSCAPE_MEDIUM.jpg" alt="">
-            <h3>Paintings & Portraits</h3>
-            <p>2D & 3D artworks created with love.</p>
-        </div>
-    </div>
-</section>
-
-<footer>
-    <p>© Velvet Charms</p>
-</footer>
-
-<script src="script.js"></script>
+  <script src="script.js" type="module"></script>
 </body>
 </html>
