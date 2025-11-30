@@ -7,59 +7,34 @@
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body class="christmas-default">
-  <header class="site-header christmas">
+  <header class="site-header">
     <div class="brand">
       <h1>Velvet Charms</h1>
       <p class="tagline">Where Art Meets Emotion — Handcrafted with love</p>
     </div>
-    <nav class="main-nav"> <!-- Updated to main-nav -->
+    <nav class="main-nav">
       <a href="index.html">Home</a>
       <a href="catalogue.html">Catalogue</a>
       <a href="about.html" class="active">About</a>
       <a href="contact.html">Contact</a>
-      <button class="menu-toggle">☰</button> <!-- Added menu toggle button -->
-      <button id="favoritesBtn3" class="icon-btn">❤ <span id="favCount3">0</span></button>
-      <button id="cartBtn3" class="icon-btn">🛒 <span id="cartCount3">0</span></button>
+      <button class="menu-toggle">☰</button>
     </nav>
   </header>
 
   <main class="about-page">
-    <section class="about-block">
+    <section class="about-block decorated">
       <h2>About Us</h2>
-      <p>We are a team of 12 passionate art students dedicated to creating personalized handcrafted items. Every piece is made with patience, care, and a touch of magic — whether you choose a product from our catalogue as inspiration or request a fully custom creation built from your photos and details. Orders are produced on request and require online prepayment. We dispatch from the studio closest to you: Frankfurt, Germany or Constanța, Romania. Thank you for supporting handmade artistry.</p>
+      <p>We are a team of 12 passionate art students dedicated to creating personalized handcrafted items. Every piece is made with patience, care, and a touch of magic — whether you choose an existing product or request a fully custom creation built from your photos and ideas.</p>
+      <p>We proudly ship worldwide, with orders dispatched from the location closest to you: Frankfurt, Germany or Constanța, Romania. Your order means the world to us — thank you for supporting handmade artistry.</p>
     </section>
 
-    <section class="mission-block">
+    <section class="mission-block decorated">
       <h3>Our Mission</h3>
-      <p>Craftsmanship, sustainability, and delight — we make every piece with care.</p>
+      <p>Craftsmanship, sustainability, and delight — we make every piece with care. We aim to bring warmth into your home and thoughtful gifts to those you love.</p>
     </section>
   </main>
 
-  <footer>
-    <p>© Velvet Charms</p>
-  </footer>
-
-  <div id="modal" class="modal hidden" role="dialog" aria-hidden="true">
-    <div class="modal-backdrop"></div>
-    <div class="modal-card">
-      <button class="modal-close" id="modalClose3">✕</button>
-      <div id="modalContent"></div>
-    </div>
-  </div>
-
-  <div id="cartPanel" class="cart-panel hidden" aria-hidden="true">
-    <h3>Your cart</h3>
-    <div id="cartItems"></div>
-    <div class="cart-total">Total: <span id="cartTotal">USD 0.00</span></div>
-    <button id="checkoutBtn" class="checkout">Checkout (PayPal)</button>
-    <button id="continueShopping" class="secondary">Continue shopping</button>
-  </div>
-
-  <script src="script.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-      await window.appInit && window.appInit();
-    });
-  </script>
+  <footer><p>© Velvet Charms</p></footer>
+  <script src="script.js" type="module"></script>
 </body>
 </html>
