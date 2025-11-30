@@ -7,19 +7,14 @@
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body class="christmas-default">
-  <header class="site-header christmas">
-    <div class="brand">
-      <h1>Velvet Charms</h1>
-      <p class="tagline">Where Art Meets Emotion — Handcrafted with love</p>
-    </div>
-    <nav class="main-nav"> <!-- Updated to main-nav -->
+  <header class="site-header">
+    <div class="brand"><h1>Velvet Charms</h1><p class="tagline">Where Art Meets Emotion — Handcrafted with love</p></div>
+    <nav class="main-nav">
       <a href="index.html">Home</a>
       <a href="catalogue.html">Catalogue</a>
       <a href="about.html">About</a>
       <a href="contact.html" class="active">Contact</a>
-      <button class="menu-toggle">☰</button> <!-- Added menu toggle button -->
-      <button id="favoritesBtn4" class="icon-btn">❤ <span id="favCount4">0</span></button>
-      <button id="cartBtn4" class="icon-btn">🛒 <span id="cartCount4">0</span></button>
+      <button class="menu-toggle">☰</button>
     </nav>
   </header>
 
@@ -27,53 +22,22 @@
     <section class="contact-block">
       <h2>Contact Us</h2>
       <p>Please use the form below — this is our preferred contact method.</p>
-
-      <!-- Formspree: replace YOUR_FORM_ID with the exact ID; I've used the one you gave -->
       <form id="contactForm" action="https://formspree.io/f/xyzykwde" method="POST">
-        <label>
-          Your name
-          <input type="text" name="name" required />
-        </label>
-        <label>
-          Your email
-          <input type="email" name="email" required />
-        </label>
-        <label>
-          Message
-          <textarea name="message" rows="6" required></textarea>
-        </label>
+        <label>Your name<input type="text" name="name" required></label>
+        <label>Your email<input type="email" name="email" required></label>
+        <label>Message<textarea name="message" rows="6" required></textarea></label>
         <button type="submit" class="btn primary">Send</button>
       </form>
 
-      <p class="muted">We will reply to messages submitted through the form. For now we do not show an email address publicly.</p>
+      <h3>Newsletter</h3>
+      <form id="newsletterForm" action="https://formspree.io/f/xyzykwde" method="POST">
+        <label>Email<input type="email" name="email" required></label>
+        <button type="submit" class="btn">Sign up</button>
+      </form>
     </section>
   </main>
 
-  <footer>
-    <p>© Velvet Charms</p>
-  </footer>
-
-  <div id="modal" class="modal hidden" role="dialog" aria-hidden="true">
-    <div class="modal-backdrop"></div>
-    <div class="modal-card">
-      <button class="modal-close" id="modalClose4">✕</button>
-      <div id="modalContent"></div>
-    </div>
-  </div>
-
-  <div id="cartPanel" class="cart-panel hidden" aria-hidden="true">
-    <h3>Your cart</h3>
-    <div id="cartItems"></div>
-    <div class="cart-total">Total: <span id="cartTotal">USD 0.00</span></div>
-    <button id="checkoutBtn" class="checkout">Checkout (PayPal)</button>
-    <button id="continueShopping" class="secondary">Continue shopping</button>
-  </div>
-
-  <script src="script.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-      await window.appInit && window.appInit();
-    });
-  </script>
+  <footer><p>© Velvet Charms</p></footer>
+  <script src="script.js" type="module"></script>
 </body>
 </html>
