@@ -1,113 +1,79 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Catalogue — Velvet Charms</title>
-  <meta name="description" content="Browse Velvet Charms catalogue — candles, soaps, paintings, wool, epoxy & gifts.">
-  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    body { background:linear-gradient(0deg,#fffdfa,#fbf8f4); }
+    .layout { max-width:1100px;margin:20px auto;padding:0 12px; }
+    #categoryTree { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:12px; }
+    .cat { background: #fff; padding:8px; border-radius:8px; box-shadow:0 6px 14px rgba(0,0,0,.04); min-width:160px; }
+    #catalogueResults { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:12px; }
+    .filters { display:flex; gap:8px; align-items:center; margin-bottom:12px; flex-wrap:wrap; }
+    .hidden { display:none !important; }
+    #noResults { color:#8b6b6b; }
+  </style>
 </head>
 <body>
-
-  <!-- Snow + decor -->
-  <div id="snow"></div>
-  <div class="snow-glow"></div>
-  <div class="floating-decor d1" aria-hidden="true"></div>
-  <div class="floating-decor d2" aria-hidden="true"></div>
-
-  <header class="site-header">
-    <div class="brand container">
-      <div>
-        <h1>Velvet Charms</h1>
-        <p class="tagline">Where Art Meets Emotion — Handcrafted with love</p>
-      </div>
-
-      <nav class="main-nav" aria-label="Main nav">
-        <a href="index.html">Home</a>
-        <a href="catalogue.html" class="active">Catalogue</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-        <button class="menu-toggle">☰</button>
-
-        <div class="top-controls">
-          <select id="langSelect" aria-label="Choose language">
-            <option value="en">EN</option>
-            <option value="fr">FR</option>
-            <option value="it">IT</option>
-            <option value="ro">RO</option>
-          </select>
-          <button id="themeToggle" class="icon-btn">🌙</button>
-          <button id="favoritesBtn" class="icon-btn">❤ <span id="favCount">0</span></button>
-          <button id="cartBtn" class="icon-btn">🛒 <span id="cartCount">0</span></button>
-        </div>
-      </nav>
+  <header style="padding:12px 18px;display:flex;justify-content:space-between;align-items:center">
+    <a href="/index.html" style="font-weight:700;color:#6b2b2b">← Back to home</a>
+    <div style="display:flex;gap:8px">
+      <button id="cartBtn" class="btn">🛒 <span id="cartCount">0</span></button>
+      <button id="favoritesBtn" class="btn outline">♡ <span id="favCount">0</span></button>
     </div>
   </header>
 
-  <main class="catalogue-page container">
-    <aside class="categories" id="categoriesList">
-      <p class="muted">Categories</p>
-      <div id="categoryTree"></div>
-      <hr>
-      <div class="filters">
-        <h4>Filters</h4>
-        <label> Price
-          <select id="priceFilter">
-            <option value="all">All</option>
-            <option value="0-25">Under $25</option>
-            <option value="25-75">$25 — $75</option>
-            <option value="75-150">$75 — $150</option>
-            <option value="150-100000">$150+</option>
-          </select>
-        </label>
+  <main class="layout">
+    <h2 style="color:#5b2b2b">Catalogue</h2>
 
-        <label> Scent / Option
-          <select id="optionFilter"><option value="all">Any</option></select>
-        </label>
+    <div class="filters" aria-label="filters">
+      <input id="catalogueSearch" placeholder="Search products..." style="padding:8px;border-radius:8px;border:1px solid #ddd">
+      <button id="catalogueSearchBtn" class="btn">Search</button>
 
-        <label> Sort
-          <select id="sortSelect">
-            <option value="default">Default</option>
-            <option value="price_asc">Price — low to high</option>
-            <option value="price_desc">Price — high to low</option>
-            <option value="name_asc">Name A → Z</option>
-          </select>
-        </label>
+      <select id="priceFilter" style="padding:8px;border-radius:8px;border:1px solid #ddd">
+        <option value="all">Any price</option>
+        <option value="0-30">Under USD 30</option>
+        <option value="30-80">USD 30 — 80</option>
+        <option value="80-9999">USD 80+</option>
+      </select>
 
-        <button id="resetFilters" class="btn small outline">Reset</button>
-      </div>
-    </aside>
+      <select id="optionFilter" style="padding:8px;border-radius:8px;border:1px solid #ddd">
+        <option value="all">Any option</option>
+      </select>
 
-    <section class="catalogue" id="catalogueGrid">
-      <div class="catalogue-header">
-        <h2 id="catalogueTitle">All products</h2>
-        <div class="catalogue-controls">
-          <input id="catalogueSearch" type="search" placeholder="Search products or SKU">
-          <button id="catalogueSearchBtn" class="btn small">Search</button>
-        </div>
-      </div>
+      <select id="sortSelect" style="padding:8px;border-radius:8px;border:1px solid #ddd">
+        <option value="default">Sort</option>
+        <option value="price_asc">Price ↑</option>
+        <option value="price_desc">Price ↓</option>
+        <option value="name_asc">Name A→Z</option>
+      </select>
 
-      <div id="catalogueResults" class="grid">
-        <div class="loader-inline">Loading products…</div>
-      </div>
+      <button id="resetFilters" class="btn outline">Reset</button>
+    </div>
 
-      <div id="noResults" class="muted hidden">No products match your filters.</div>
-    </section>
+    <div style="display:flex;gap:18px">
+      <aside style="width:260px;">
+        <h4 style="margin-top:0;color:#5b2b2b">Categories</h4>
+        <div id="categoryTree"></div>
+      </aside>
+
+      <section style="flex:1">
+        <div id="catalogueResults" aria-live="polite"></div>
+        <div id="noResults" class="hidden">No products found.</div>
+      </section>
+    </div>
   </main>
 
-  <footer class="site-footer">
-    <div class="container">© Velvet Charms</div>
-  </footer>
+  <div id="cartPanel" class="hidden" style="position:fixed;right:18px;top:90px;width:360px;background:#fff;border-radius:10px;box-shadow:0 12px 40px rgba(0,0,0,.12);z-index:999;padding:12px"></div>
 
-  <div id="cartPanel" class="cart-panel hidden" aria-hidden="true"></div>
-  <div id="orderModal" class="modal hidden" aria-hidden="true"></div>
-
-  <script src="translations.js"></script>
-  <script src="script.js"></script>
+  <script src="/translations.js"></script>
+  <script src="/script.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-      if (window.appInit) await window.appInit();
-      if (window.renderCataloguePage) window.renderCataloguePage();
+    // call catalogue renderer explicitly when page loaded
+    document.addEventListener('DOMContentLoaded', ()=> {
+      if(window.renderCataloguePage) window.renderCataloguePage();
     });
   </script>
 </body>
