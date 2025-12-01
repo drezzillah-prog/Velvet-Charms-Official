@@ -7,101 +7,56 @@
   <meta name="description" content="About Velvet Charms — handcrafted art, candles, soaps, portraits, wool and epoxy creations.">
   <link rel="stylesheet" href="style.css"/>
 </head>
-<body class="christmas-default">
+<body>
 
-  <!-- Snow + floating gifts -->
-  <div class="snow-layer" aria-hidden="true"></div>
-  <div class="floating-gifts" aria-hidden="true">
-    <img src="Cozy Winter Set.png" alt="" class="gift gift-1">
-    <img src="Matching Winter Set — Beanie + Scarf + Mittens.png" alt="" class="gift gift-2">
-  </div>
+  <div id="snow"></div>
+  <div class="snow-glow"></div>
+  <div class="floating-decor d1" aria-hidden="true"></div>
 
-  <header class="site-header christmas">
-    <div class="brand">
-      <h1>Velvet Charms</h1>
-      <p class="tagline">Where Art Meets Emotion — Handcrafted with love</p>
-    </div>
-
-    <nav class="main-nav">
-      <a href="index.html">Home</a>
-      <a href="catalogue.html">Catalogue</a>
-      <a href="about.html" class="active">About</a>
-      <a href="contact.html">Contact</a>
-      <button class="menu-toggle">☰</button>
-
-      <div class="nav-icons">
-        <button id="favoritesBtnTop">❤ <span id="favCountTop">0</span></button>
-        <button id="cartBtnTop">🛒 <span id="cartCountTop">0</span></button>
+  <header class="site-header">
+    <div class="brand container">
+      <div>
+        <h1>Velvet Charms</h1>
+        <p class="tagline">Where Art Meets Emotion — Handcrafted with love</p>
       </div>
-    </nav>
+      <nav class="main-nav">
+        <a href="index.html">Home</a>
+        <a href="catalogue.html">Catalogue</a>
+        <a href="about.html" class="active">About</a>
+        <a href="contact.html">Contact</a>
+        <button class="menu-toggle">☰</button>
+
+        <div class="top-controls">
+          <select id="langSelect">
+            <option value="en">EN</option><option value="fr">FR</option><option value="it">IT</option><option value="ro">RO</option>
+          </select>
+          <button id="themeToggle" class="icon-btn">🌙</button>
+          <button id="favoritesBtn" class="icon-btn">❤ <span id="favCount">0</span></button>
+          <button id="cartBtn" class="icon-btn">🛒 <span id="cartCount">0</span></button>
+        </div>
+      </nav>
+    </div>
   </header>
 
   <main class="about-page container">
-
     <section class="about-card">
-
-      <h2 class="about-title">About Us</h2>
-
-      <div class="about-divider"></div>
-
-      <p class="about-text">
-        We are a collective of twelve passionate art students devoted to transforming imagination into handcrafted reality.
-        Every candle, soap, painting, wool creation, and epoxy piece is made with patience, intention, and a touch of magic.
-      </p>
-
-      <p class="about-text">
-        Whether you choose a piece from our catalogue or request a fully custom creation inspired by your photos and ideas, we craft everything with care and emotional depth.
-      </p>
-
-      <p class="about-text">
-        We proudly ship worldwide, dispatching from the studio closest to you — Frankfurt, Germany or Constanța, Romania — ensuring smooth delivery and warm service.
-      </p>
-
-      <p class="about-text strong">
-        Thank you for supporting handmade artistry. Your order means the world to us.
-      </p>
-
-      <div class="about-divider"></div>
-
-      <h3 class="about-subtitle">Our Mission</h3>
-      <p class="about-text">
-        Craftsmanship, sustainability, and delight — we create each piece to bring beauty, warmth, and emotion to your home and your heart.
-      </p>
-
+      <h2>About Us</h2>
+      <p>We are a collective of twelve passionate art students devoted to transforming imagination into handcrafted reality. Every candle, soap, painting, wool creation, and epoxy piece is made with patience, intention, and a touch of magic.</p>
+      <p>Whether you choose a piece from our catalogue or request a fully custom creation inspired by your photos and ideas, we craft everything with care and emotional depth.</p>
+      <p>We proudly ship worldwide, dispatching from the studio closest to you — Frankfurt, Germany or Constanța, Romania.</p>
+      <p class="strong">Thank you for supporting handmade artistry. Your order means the world to us.</p>
     </section>
-
   </main>
 
-  <footer>
-    <p>© Velvet Charms</p>
+  <footer class="site-footer">
+    <div class="container">© Velvet Charms</div>
   </footer>
 
-  <!-- Shared modal -->
-  <div id="modal" class="modal hidden" role="dialog" aria-hidden="true">
-    <div class="modal-backdrop"></div>
-    <div class="modal-card">
-      <button class="modal-close" id="modalClose">✕</button>
-      <div id="modalContent"></div>
-    </div>
-  </div>
-
-  <!-- Cart panel -->
-  <div id="cartPanel" class="cart-panel hidden" aria-hidden="true">
-    <h3>Your cart</h3>
-    <div id="cartItems"></div>
-    <div class="cart-total">Total: <span id="cartTotal">USD 0.00</span></div>
-    <button id="checkoutBtnLocal" class="checkout">Checkout (PayPal)</button>
-    <button id="continueShoppingLocal" class="secondary">Continue shopping</button>
-  </div>
+  <div id="cartPanel" class="cart-panel hidden"></div>
+  <div id="orderModal" class="modal hidden"></div>
 
   <script src="translations.js" defer></script>
   <script src="script.js" defer></script>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", async () => {
-      if (window.appInit) await window.appInit();
-    });
-  </script>
-
+  <script> document.addEventListener('DOMContentLoaded', async () => { if (window.appInit) await window.appInit(); }); </script>
 </body>
 </html>
