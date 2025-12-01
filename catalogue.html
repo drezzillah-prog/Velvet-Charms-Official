@@ -7,46 +7,53 @@
   <meta name="description" content="Browse Velvet Charms catalogue — candles, soaps, paintings, wool, epoxy & gifts.">
   <link rel="stylesheet" href="style.css"/>
 </head>
-<body class="christmas-default">
+<body>
 
-  <!-- Snow layer + floating gifts to keep consistent theme -->
-  <div class="snow-layer" aria-hidden="true"></div>
-  <div class="floating-gifts" aria-hidden="true">
-    <img src="Cozy Winter Set.png" alt="" class="gift gift-1">
-    <img src="Matching Winter Set — Beanie + Scarf + Mittens.png" alt="" class="gift gift-2">
-  </div>
+  <!-- Snow + decor -->
+  <div id="snow"></div>
+  <div class="snow-glow"></div>
+  <div class="floating-decor d1" aria-hidden="true"></div>
+  <div class="floating-decor d2" aria-hidden="true"></div>
 
-  <header class="site-header christmas">
-    <div class="brand">
-      <h1>Velvet Charms</h1>
-      <p class="tagline">Where Art Meets Emotion — Handcrafted with love</p>
-    </div>
-    <nav class="main-nav" aria-label="Main navigation">
-      <a href="index.html">Home</a>
-      <a href="catalogue.html" class="active">Catalogue</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-      <button class="menu-toggle" aria-expanded="false">☰</button>
-      <div class="nav-icons">
-        <button id="favoritesBtnTop" title="Wishlist">❤ <span id="favCountTop">0</span></button>
-        <button id="cartBtnTop" title="Cart">🛒 <span id="cartCountTop">0</span></button>
+  <header class="site-header">
+    <div class="brand container">
+      <div>
+        <h1>Velvet Charms</h1>
+        <p class="tagline">Where Art Meets Emotion — Handcrafted with love</p>
       </div>
-    </nav>
+
+      <nav class="main-nav" aria-label="Main nav">
+        <a href="index.html">Home</a>
+        <a href="catalogue.html" class="active">Catalogue</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <button class="menu-toggle">☰</button>
+
+        <div class="top-controls">
+          <select id="langSelect">
+            <option value="en">EN</option>
+            <option value="fr">FR</option>
+            <option value="it">IT</option>
+            <option value="ro">RO</option>
+          </select>
+          <button id="themeToggle" class="icon-btn">🌙</button>
+          <button id="favoritesBtn" class="icon-btn">❤ <span id="favCount">0</span></button>
+          <button id="cartBtn" class="icon-btn">🛒 <span id="cartCount">0</span></button>
+        </div>
+      </nav>
+    </div>
   </header>
 
   <main class="catalogue-page container">
-    <aside class="categories" id="categoriesList" aria-label="Categories">
+    <aside class="categories" id="categoriesList">
       <p class="muted">Categories</p>
-      <div id="categoryBanners"></div>
-      <div id="categoriesLoading">Loading catalogue…</div>
       <div id="categoryTree"></div>
       <hr>
       <div class="filters">
         <h4>Filters</h4>
-        <label>
-          Price
+        <label> Price
           <select id="priceFilter">
-            <option value="all">All prices</option>
+            <option value="all">All</option>
             <option value="0-25">Under $25</option>
             <option value="25-75">$25 — $75</option>
             <option value="75-150">$75 — $150</option>
@@ -54,15 +61,11 @@
           </select>
         </label>
 
-        <label>
-          Scent / Option
-          <select id="optionFilter">
-            <option value="all">Any</option>
-          </select>
+        <label> Scent / Option
+          <select id="optionFilter"><option value="all">Any</option></select>
         </label>
 
-        <label>
-          Sort
+        <label> Sort
           <select id="sortSelect">
             <option value="default">Default</option>
             <option value="price_asc">Price — low to high</option>
@@ -75,7 +78,7 @@
       </div>
     </aside>
 
-    <section class="catalogue" id="catalogueGrid" aria-live="polite">
+    <section class="catalogue" id="catalogueGrid">
       <div class="catalogue-header">
         <h2 id="catalogueTitle">All products</h2>
         <div class="catalogue-controls">
@@ -85,7 +88,6 @@
       </div>
 
       <div id="catalogueResults" class="grid">
-        <!-- product cards will be injected here -->
         <div class="loader-inline">Loading products…</div>
       </div>
 
@@ -93,60 +95,16 @@
     </section>
   </main>
 
-  <footer>
-    <p>© Velvet Charms</p>
+  <footer class="site-footer">
+    <div class="container">© Velvet Charms</div>
   </footer>
 
-  <!-- Modal (shared) -->
-  <div id="modal" class="modal hidden" role="dialog" aria-hidden="true">
-    <div class="modal-backdrop"></div>
-    <div class="modal-card">
-      <button class="modal-close" id="modalClose">✕</button>
-      <div id="modalContent"></div>
-    </div>
-  </div>
-
-  <!-- Cart panel (shared with index.html) -->
-  <div id="cartPanel" class="cart-panel hidden" aria-hidden="true">
-    <h3>Your cart</h3>
-    <div id="cartItems"></div>
-    <div class="cart-total">Total: <span id="cartTotal">USD 0.00</span></div>
-    <button id="checkoutBtnLocal" class="checkout">Checkout (PayPal)</button>
-    <button id="continueShoppingLocal" class="secondary">Continue shopping</button>
-  </div>
-
-  <!-- product card template -->
-  <template id="catalogueCardTpl">
-    <article class="product-card">
-      <img class="product-thumb" src="" alt="">
-      <div class="product-info">
-        <h4 class="product-name"></h4>
-        <div class="product-meta">
-          <span class="product-price"></span>
-          <span class="product-cat"></span>
-        </div>
-        <p class="product-desc"></p>
-        <div class="product-actions">
-          <label class="qty">
-            Qty <input type="number" min="1" value="1" class="qty-input" />
-          </label>
-          <select class="option-select hidden"></select>
-          <button class="btn add-to-cart">Add to cart</button>
-          <button class="btn outline view-details">Details</button>
-        </div>
-      </div>
-    </article>
-  </template>
+  <!-- Cart & modal (shared) -->
+  <div id="cartPanel" class="cart-panel hidden" aria-hidden="true"></div>
+  <div id="orderModal" class="modal hidden" aria-hidden="true"></div>
 
   <script src="translations.js" defer></script>
   <script src="script.js" defer></script>
-
-  <script>
-    // small hook: when script.js loads, it will expose renderCataloguePage()
-    document.addEventListener('DOMContentLoaded', async () => {
-      if (window.appInit) await window.appInit();
-      if (window.renderCataloguePage) window.renderCataloguePage();
-    });
-  </script>
+  <script> document.addEventListener('DOMContentLoaded', async () => { if (window.appInit) await window.appInit(); if (window.renderCataloguePage) window.renderCataloguePage(); }); </script>
 </body>
 </html>
