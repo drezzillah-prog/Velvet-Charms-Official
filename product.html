@@ -4,107 +4,61 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Product — Velvet Charms</title>
-  <meta name="description" content="Product details — Velvet Charms handcrafted items.">
   <link rel="stylesheet" href="style.css"/>
 </head>
-<body class="christmas-default">
+<body>
+  <div id="snow"></div>
+  <div class="snow-glow"></div>
+  <div class="floating-decor d2" aria-hidden="true"></div>
 
-  <!-- Snow + floating gifts -->
-  <div class="snow-layer" aria-hidden="true"></div>
-  <div class="floating-gifts" aria-hidden="true">
-    <img src="Cozy Winter Set.png" alt="" class="gift gift-1">
-    <img src="Matching Winter Set — Beanie + Scarf + Mittens.png" alt="" class="gift gift-2">
-  </div>
-
-  <header class="site-header christmas">
-    <div class="brand">
+  <header class="site-header">
+    <div class="brand container">
       <h1>Velvet Charms</h1>
-      <p class="tagline">Where Art Meets Emotion — Handcrafted with love</p>
+      <nav class="main-nav">
+        <a href="index.html">Home</a>
+        <a href="catalogue.html">Catalogue</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </nav>
     </div>
-    <nav class="main-nav">
-      <a href="index.html">Home</a>
-      <a href="catalogue.html">Catalogue</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-      <button class="menu-toggle">☰</button>
-      <div class="nav-icons">
-        <button id="favoritesBtnTop" title="Wishlist">❤ <span id="favCountTop">0</span></button>
-        <button id="cartBtnTop" title="Cart">🛒 <span id="cartCountTop">0</span></button>
-      </div>
-    </nav>
   </header>
 
-  <main class="product-page container">
-    <div id="productLoading" class="loader-inline center">Loading product…</div>
-    <section id="productContent" class="hidden">
-
+  <main class="container product-page">
+    <div id="productLoading">Loading product…</div>
+    <div id="productContent" class="hidden">
       <div class="product-gallery">
         <div id="imageCarousel" class="carousel"></div>
         <div id="imageThumbs" class="thumbs"></div>
       </div>
-
-      <div class="product-details">
+      <div class="product-meta">
         <h2 id="prodName"></h2>
-        <p id="prodCategory" class="muted small"></p>
-
-        <div class="price-box">
-          <p class="price" id="prodPrice"></p>
-          <p class="shipping small">Delivery in ~5 days ⭐ Free shipping on orders over $300</p>
-        </div>
-
+        <div id="prodPrice" class="product-price"></div>
         <p id="prodDescription"></p>
 
-        <div class="product-options" id="optionSection" class="hidden">
-          <label>
-            Options
+        <div id="optionSection" class="hidden">
+          <label> Options
             <select id="prodOptions"></select>
           </label>
         </div>
 
-        <label class="qty">
-          Quantity
-          <input id="prodQty" type="number" min="1" value="1">
-        </label>
-
-        <div class="actions">
-          <button id="addToCartBtn" class="btn">Add to Cart</button>
-          <button id="buyNowBtn" class="btn outline">Buy Now</button>
+        <label> Qty: <input id="prodQty" type="number" value="1" min="1"></label>
+        <div style="display:flex;gap:8px;margin-top:10px">
+          <button id="addToCartBtn" class="btn primary">Add to cart</button>
+          <button id="buyNowBtn" class="btn outline">Buy now</button>
         </div>
       </div>
-    </section>
+    </div>
   </main>
 
-  <footer>
-    <p>© Velvet Charms</p>
-  </footer>
+  <footer class="site-footer"><div class="container">© Velvet Charms</div></footer>
 
-  <!-- Shared modal -->
-  <div id="modal" class="modal hidden" role="dialog" aria-hidden="true">
-    <div class="modal-backdrop"></div>
-    <div class="modal-card">
-      <button class="modal-close" id="modalClose">✕</button>
-      <div id="modalContent"></div>
-    </div>
-  </div>
-
-  <!-- Cart panel -->
-  <div id="cartPanel" class="cart-panel hidden" aria-hidden="true">
-    <h3>Your cart</h3>
-    <div id="cartItems"></div>
-    <div class="cart-total">Total: <span id="cartTotal">USD 0.00</span></div>
-    <button id="checkoutBtnLocal" class="checkout">Checkout (PayPal)</button>
-    <button id="continueShoppingLocal" class="secondary">Continue shopping</button>
-  </div>
-
-  <script src="translations.js" defer></script>
-  <script src="script.js" defer></script>
-
+  <script src="translations.js"></script>
+  <script src="script.js"></script>
   <script>
-    document.addEventListener("DOMContentLoaded", async () => {
-      if (window.appInit) await window.appInit();
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.appInit) window.appInit();
       if (window.renderProductPage) window.renderProductPage();
     });
   </script>
-
 </body>
 </html>
