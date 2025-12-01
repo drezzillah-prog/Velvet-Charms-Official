@@ -1,14 +1,17 @@
 {
   "version": 2,
   "builds": [
-    { "src": "api/*.js", "use": "@vercel/node" },
-    { "src": "*.html", "use": "@vercel/static" },
-    { "src": "style.css", "use": "@vercel/static" },
+    { "src": "index.html", "use": "@vercel/static" },
+    { "src": "catalogue.html", "use": "@vercel/static" },
+    { "src": "product.html", "use": "@vercel/static" },
+    { "src": "about.html", "use": "@vercel/static" },
+    { "src": "contact.html", "use": "@vercel/static" },
+    { "src": "success.html", "use": "@vercel/static" },
     { "src": "script.js", "use": "@vercel/static" },
-    { "src": "translations.js", "use": "@vercel/static" },
+    { "src": "style.css", "use": "@vercel/static" },
     { "src": "catalogue.json", "use": "@vercel/static" }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "/$1" }
+    { "src": "/api/(.*)", "dest": "/api/$1" }
   ]
 }
