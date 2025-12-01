@@ -1,27 +1,26 @@
-/* script.js — Velvet Charms final (optimized)
-   Handles: catalogue.json load, rendering, product page, cart, checkout (PayPal via /api/create-order & /api/capture-order),
-   wishlist, filters, translations, theme, snow & decor generation.
+/* script.js — Velvet Charms final (robust & path-safe)
+   IMPORTANT: keep this file at root and load as /script.js (we referenced it that way in HTML).
 */
 
 'use strict';
 
 const APP = (function(){
-  const CATALOG_URL = './catalogue.json';
+  const CATALOG_URL = '/catalogue.json'; // ABSOLUTE path to root to avoid relative path issues
   const STORAGE_KEY = 'vc_cart_v1';
   const WISHLIST_KEY = 'vc_wishlist_v1';
   const LANG_KEY = 'vc_lang_v1';
   const THEME_KEY = 'vc_theme_v1';
   const FREE_SHIPPING_THRESHOLD = 300; // USD
-  const SHIPPING_DEFAULT = 16; // default shipping for small demo
+  const SHIPPING_DEFAULT = 16; // demo
   let catalogue = null;
   let cart = { items: [] };
   let wishlist = [];
-  let ACTIVE_LANG = localStorage.getItem(LANG_KEY) || detectLang();
+  let ACTIVE_LANG = localStorage.getItem(LANG_KEY) || (navigator.language || 'en').slice(0,2);
 
   /* ---------- Helpers ---------- */
   function $(s, ctx=document){ return ctx.querySelector(s); }
   function $all(s, ctx=document){ return Array.from(ctx.querySelectorAll(s)); }
-  function formatCurrency(v){ return `USD ${Number(v).toFixed(2)}`; }
+  function formatCurrency(v){ return `USD ${Number(v||0).toFixed(2)}`; }
   function saveCart(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(cart)); renderCartCount(); }
   function loadCart(){ try { const r=localStorage.getItem(STORAGE_KEY); if(r) cart=JSON.parse(r); } catch(e){ cart={items:[]}; } }
   function saveWishlist(){ localStorage.setItem(WISHLIST_KEY, JSON.stringify(wishlist)); renderWishlistCount(); }
@@ -34,9 +33,7 @@ const APP = (function(){
     try{
       const res = await fetch(CATALOG_URL, { cache: 'no-cache' });
       if(!res.ok) throw new Error('catalogue fetch failed ' + res.status);
-      // parse progressively (usually JSON.parse is fine)
       catalogue = await res.json();
-      // Normalize: flatten products array if nested structure exists
       if(!Array.isArray(catalogue.products)){
         const prods = [];
         (catalogue.categories||[]).forEach(cat=>{
@@ -47,7 +44,6 @@ const APP = (function(){
         if(prods.length) catalogue.products = prods;
         else catalogue.products = catalogue.products || [];
       }
-      // ensure image arrays exist
       catalogue.products.forEach(p => {
         if(!p.images || !Array.isArray(p.images)){
           if(p.image) p.images = [p.image];
@@ -57,7 +53,6 @@ const APP = (function(){
       return catalogue;
     } catch(err){
       console.error('Failed to load catalogue.json', err);
-      // graceful fallback: provide empty structure so UI doesn't hang
       catalogue = { products: [], categories: [] };
       return catalogue;
     }
@@ -70,22 +65,20 @@ const APP = (function(){
 
   /* ---------- UI Counters ---------- */
   function renderCartCount(){
-    const c = cart.items.reduce((s,i)=>s+i.qty,0);
+    const c = cart.items.reduce((s,i)=>s+(i.qty||0),0);
     $all('#cartCount, #cartCountTop').forEach(el=>{ if(el) el.textContent = c; });
-    const top = document.getElementById('cartCount');
-    if(top) top.textContent = c;
   }
   function renderWishlistCount(){
     const c = wishlist.length;
     $all('#favCount, #favCountTop').forEach(el=>{ if(el) el.textContent = c; });
-    const top = document.getElementById('favCount');
-    if(top) top.textContent = c;
   }
 
   /* ---------- Product card builder ---------- */
   function safeImage(src){
     if(!src) return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300"><rect fill="%23f3ede6" width="100%" height="100%"/><text fill="%238b0000" x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="18">Image unavailable</text></svg>';
-    return src;
+    // if src is an absolute path or a filename, keep it
+    if(src.startsWith('http') || src.startsWith('/')) return src;
+    return '/' + src;
   }
 
   function createProductCard(product){
@@ -144,7 +137,6 @@ const APP = (function(){
   /* ---------- Catalogue page rendering ---------- */
   async function renderCataloguePage(){
     await loadCatalogue();
-    // categories list
     const catTree = $('#categoryTree');
     if(catTree && catalogue.categories && catalogue.categories.length){
       catTree.innerHTML = '';
@@ -162,7 +154,6 @@ const APP = (function(){
       catTree.innerHTML = '<div class="muted">No categories defined.</div>';
     }
 
-    // populate filters
     const optFilter = $('#optionFilter');
     if(optFilter){
       optFilter.innerHTML = '<option value="all">Any</option>';
@@ -176,7 +167,6 @@ const APP = (function(){
     const results = $('#catalogueResults');
     if(!results) return;
     results.innerHTML='';
-    // progressive render: chunk items so page doesn't lock with very large arrays
     const products = catalogue.products || [];
     if(products.length===0){ results.innerHTML = '<div class="muted">No products found.</div>'; return; }
     const chunkSize = 40;
@@ -189,15 +179,12 @@ const APP = (function(){
     }
     renderChunk();
 
-    // wiring filters
     $('#catalogueSearchBtn')?.addEventListener('click', applyCatalogueFilters);
     $('#catalogueSearch')?.addEventListener('keyup', (e)=>{ if(e.key==='Enter') applyCatalogueFilters(); });
     $('#priceFilter')?.addEventListener('change', applyCatalogueFilters);
     $('#optionFilter')?.addEventListener('change', applyCatalogueFilters);
     $('#sortSelect')?.addEventListener('change', applyCatalogueFilters);
-    $('#resetFilters')?.addEventListener('click', ()=>{
-      $('#catalogueSearch').value=''; $('#priceFilter').value='all'; $('#optionFilter').value='all'; $('#sortSelect').value='default'; applyCatalogueFilters();
-    });
+    $('#resetFilters')?.addEventListener('click', ()=>{ $('#catalogueSearch').value=''; $('#priceFilter').value='all'; $('#optionFilter').value='all'; $('#sortSelect').value='default'; applyCatalogueFilters(); });
   }
 
   function applyCatalogueFilters(){
@@ -218,6 +205,7 @@ const APP = (function(){
     await loadCatalogue();
     const params = new URLSearchParams(window.location.search);
     const pid = params.get('id');
+    if(!pid){ $('#productLoading') && ($('#productLoading').textContent='No product specified'); return; }
     const product = findProduct(pid);
     if(!product){ $('#productLoading') && ($('#productLoading').textContent='Product not found'); return; }
     $('#productLoading')?.classList.add('hidden');
@@ -234,7 +222,6 @@ const APP = (function(){
       const t = document.createElement('img'); t.src=safeImage(src); t.className='thumb'; t.addEventListener('click', ()=>{ $all('.carousel-img',carousel).forEach(im=>im.classList.remove('active')); carousel.querySelectorAll('.carousel-img')[i].classList.add('active'); });
       thumbs.appendChild(t);
     });
-    // options
     if(product.options){
       $('#optionSection')?.classList.remove('hidden'); const optSel = $('#prodOptions'); optSel.innerHTML=''; const k=Object.keys(product.options)[0]; (product.options[k]||[]).forEach(v=>{ const o=document.createElement('option'); o.value=v; o.textContent=v; optSel.appendChild(o); });
     } else { $('#optionSection')?.classList.add('hidden'); }
@@ -261,7 +248,7 @@ const APP = (function(){
     cart.items.forEach((it, idx) => {
       const p = findProduct(it.id) || { name: it.name, images: [] };
       const row = document.createElement('div'); row.className='cart-row';
-      row.innerHTML = `<div class="cart-thumb"><img src="${safeImage((p.images && p.images[0])||'')}" alt=""></div><div class="cart-info"><div class="cart-name">${p.name}${it.option? ' — ' + it.option : ''}</div><div class="cart-price">${formatCurrency(p.price || it.price || 0)} × ${it.qty}</div></div><div class="cart-actions"><input type="number" min="1" value="${it.qty}" class="cart-qty" data-idx="${idx}"><button class="btn small remove" data-idx="${idx}">Remove</button></div>`;
+      row.innerHTML = `<div class="cart-thumb"><img src="${safeImage((p.images && p.images[0])||'')}" alt="" style="width:64px;height:64px;object-fit:cover;border-radius:6px"></div><div class="cart-info"><div class="cart-name">${p.name}${it.option? ' — ' + it.option : ''}</div><div class="cart-price">${formatCurrency(p.price || it.price || 0)} × ${it.qty}</div></div><div class="cart-actions"><input type="number" min="1" value="${it.qty}" class="cart-qty" data-idx="${idx}" style="width:64px;padding:6px;border-radius:6px;border:1px solid #ddd"><button class="btn small remove" data-idx="${idx}">Remove</button></div>`;
       itemsEl.appendChild(row);
     });
     $all('.cart-qty').forEach(i=> i.addEventListener('change', (e)=> updateCartItem(Number(e.target.dataset.idx), Number(e.target.value))));
@@ -363,17 +350,17 @@ const APP = (function(){
   /* ---------- Snow & floating decor ---------- */
   function createSnow(){
     const container = document.getElementById('snow'); if(!container) return;
-    for(let i=0;i<48;i++){
+    for(let i=0;i<36;i++){
       const f = document.createElement('div'); f.className='flake';
-      const size = 4 + Math.random()*6;
+      const size = 3 + Math.random()*8;
       f.style.position='absolute';
       f.style.left = (Math.random()*100) + '%';
       f.style.top = (-10 - Math.random()*30) + 'px';
       f.style.width = size + 'px'; f.style.height = size + 'px';
-      f.style.background = 'white'; f.style.opacity = (0.35 + Math.random()*0.6).toString();
+      f.style.background = 'white'; f.style.opacity = (0.25 + Math.random()*0.6).toString();
       f.style.borderRadius = '50%';
       f.style.pointerEvents = 'none';
-      f.style.animation = `fall ${8 + Math.random()*10}s linear infinite`;
+      f.style.animation = `fall ${8 + Math.random()*12}s linear infinite`;
       container.appendChild(f);
     }
     const style = document.createElement('style'); style.innerHTML = `@keyframes fall { to { transform: translateY(120vh); } }`; document.head.appendChild(style);
@@ -386,8 +373,7 @@ const APP = (function(){
     renderCartCount(); renderWishlistCount();
     renderFeatured();
     applySavedTheme();
-    applyLanguage(localStorage.getItem(LANG_KEY) || ACTIVE_LANG);
-    // UI wiring
+    applyLanguage(localStorage.getItem(LANG_KEY) || detectLang());
     $all('.menu-toggle').forEach(b=> b.addEventListener('click', ()=> document.querySelector('.main-nav')?.classList.toggle('active')));
     $('#themeToggle')?.addEventListener('click', toggleTheme);
     const langSel = $('#langSelect');
@@ -397,11 +383,8 @@ const APP = (function(){
     const news = document.getElementById('newsletterForm'); if(news) news.addEventListener('submit', ()=> showMiniToast('Subscribed — thank you!'));
     createSnow();
     renderCartPanel();
-    // attach search on home
     $('#searchBtn')?.addEventListener('click', ()=> { const q = $('#searchInput')?.value || ''; window.location.href = `catalogue.html?search=${encodeURIComponent(q)}`; });
   }
-
-  function detectLang(){ const saved = localStorage.getItem(LANG_KEY); if(saved) return saved; const nav=(window.navigator.languages && window.navigator.languages[0])||window.navigator.language||'en'; const short = nav.slice(0,2); if(['en','fr','it','ro'].includes(short)) return short; return 'en'; }
 
   /* ---------- export ---------- */
   window.appInit = appInit;
