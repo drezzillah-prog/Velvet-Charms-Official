@@ -241,6 +241,7 @@
       "options":{"scent":["Orange","Lemon","Lavender","Vanilla","Jasmine","Lemongrass","Coconut","Cinnamon","Pine","Sandalwood","Coffee","Sweet Almond","Unscented"], "intensity":["Soft","Medium","Strong"]},
       "weightCategory":"large"
     },
+
     {
       "id":"face_cream",
       "category":"bodycare",
@@ -280,6 +281,7 @@
       "options":{"scent":["Lavender","Vanilla","Citrus","Jasmine","Coconut","Rose","Sandalwood","Unscented"]},
       "weightCategory":"small"
     },
+
     {
       "id":"soap_exfoliating_variants",
       "category":"soaps",
@@ -340,7 +342,7 @@
       "price":30,
       "currency":"USD",
       "description":"A special selection of three herbal or exfoliating soaps.",
-      "images":["Gift Herbal Exfoliating Soap Set (3 pcs) 1.png","Gift Herbal Exfoliating Soap Set (3 pcs) 2.png","Gift Herbal Exfoliating Soap Set (3 pcs) 3.png","Gift Herbal Exfoliating Soap Set (3 pcs) 4.png"],
+      "images":["Gift Herbal Exfoliating Soap Set (3 pcs) 1.png","Gift Herbal Exfoliating Soap Set (3 pcs) 2.png","Gift Herbal Exfoliating Soap Set (3 pcs) 3.png","Gift Herbal Exfoliating Soap Set (3 pcs) 4.png","Gift Herbal Exfoliating Soap Set (3 pcs).png"],
       "paypalLink":"https://www.paypal.com/ncp/payment/ZQ6X8AZMVY4XL",
       "weightCategory":"small"
     },
@@ -394,6 +396,7 @@
       "options":{"scent":["Citrus Bloom","Lavender Mist","Cedar & Amber","Floral Spice"]},
       "weightCategory":"small"
     },
+
     {
       "id":"beanie_small",
       "category":"knit",
@@ -510,7 +513,7 @@
       "price":110,
       "currency":"USD",
       "description":"Warm handcrafted winter set — 15% bundle discount.",
-      "images":["Matching Winter Set — Beanie + Scarf + Mittens.png"],
+      "images":["Matching Winter Set - Beanie + Scarf + Mittens.png"],
       "paypalLink":"https://www.paypal.com/ncp/payment/VWTNNVT586JBN",
       "weightCategory":"large"
     },
@@ -598,6 +601,7 @@
       "paypalLink":"https://www.paypal.com/ncp/payment/7CFTKTXGLVZZY",
       "weightCategory":"small"
     },
+
     {
       "id":"landscape_small",
       "category":"artworks",
@@ -730,6 +734,7 @@
       "paypalLink":"https://www.paypal.com/ncp/payment/WCED85EUGSVZS",
       "weightCategory":"medium"
     },
+
     {
       "id":"hair_clip",
       "category":"hair",
@@ -778,6 +783,7 @@
       "paypalLink":"https://www.paypal.com/ncp/payment/N4HZS34XPX3ZS",
       "weightCategory":"small"
     },
+
     {
       "id":"coasters_set",
       "category":"epoxy",
@@ -934,6 +940,7 @@
       "paypalLink":"https://www.paypal.com/ncp/payment/795JLUEF6R5SC",
       "weightCategory":"small"
     },
+
     {
       "id":"leather_small",
       "category":"leather",
@@ -970,6 +977,7 @@
       "paypalLink":"https://www.paypal.com/ncp/payment/AXRQFZ2QJ6Z5N",
       "weightCategory":"large"
     },
+
     {
       "id":"wall_clock_1",
       "category":"wall_clocks",
@@ -982,6 +990,7 @@
       "paypalLink":"https://www.paypal.com/ncp/payment/MHMAH79G78N8Y",
       "weightCategory":"large"
     },
+
     {
       "id":"relax_restore",
       "category":"bundles",
