@@ -31,7 +31,7 @@
         <button class="menu-toggle" aria-expanded="false">☰</button>
 
         <div class="top-controls">
-          <select id="langSelect">
+          <select id="langSelect" aria-label="Choose language">
             <option value="en">EN</option>
             <option value="fr">FR</option>
             <option value="it">IT</option>
@@ -49,17 +49,17 @@
     <section class="hero" role="banner">
       <img src="top banner picture for candles.png" alt="Velvet Charms banner" class="hero-img">
       <div class="hero-overlay">
-        <h2>Handmade gifts & cozy decor — made with love</h2>
-        <p class="lead">Festive, warm and unique pieces for every season. Free shipping on orders over <strong>USD 300</strong>.</p>
+        <h2 data-i18n="hero_title">Handmade gifts & cozy decor — made with love</h2>
+        <p class="lead" data-i18n="hero_sub">Festive, warm and unique pieces for every season. Free shipping on orders over <strong>USD 300</strong>.</p>
         <div class="hero-actions">
-          <a href="catalogue.html" class="btn primary">Browse Catalogue</a>
-          <a href="catalogue.html#featured" class="btn outline">See Featured</a>
+          <a href="catalogue.html" class="btn primary" data-i18n="browse_btn">Browse Catalogue</a>
+          <a href="catalogue.html#featured" class="btn outline" data-i18n="see_featured">See Featured</a>
         </div>
       </div>
     </section>
 
     <section id="featured" class="featured container">
-      <h2>Featured</h2>
+      <h2 data-i18n="featured">Featured</h2>
       <div id="featuredCarousel" class="featured-carousel">
         <div class="loader-inline">Loading featured…</div>
       </div>
@@ -128,8 +128,9 @@
     </div>
   </div>
 
-  <script src="translations.js" defer></script>
-  <script src="script.js" defer></script>
+  <!-- Load translations first, then app script -->
+  <script src="translations.js"></script>
+  <script src="script.js"></script>
 
 </body>
 </html>
