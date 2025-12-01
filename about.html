@@ -1,62 +1,24 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>About — Velvet Charms</title>
-  <meta name="description" content="About Velvet Charms — handcrafted art, candles, soaps, portraits, wool and epoxy creations.">
-  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="./style.css">
+  <script defer src="./script.js"></script>
 </head>
-<body>
-
-  <div id="snow"></div>
-  <div class="snow-glow"></div>
-  <div class="floating-decor d1" aria-hidden="true"></div>
-
-  <header class="site-header">
-    <div class="brand container">
-      <div>
-        <h1>Velvet Charms</h1>
-        <p class="tagline">Where Art Meets Emotion — Handcrafted with love</p>
-      </div>
-      <nav class="main-nav">
-        <a href="index.html">Home</a>
-        <a href="catalogue.html">Catalogue</a>
-        <a href="about.html" class="active">About</a>
-        <a href="contact.html">Contact</a>
-        <button class="menu-toggle">☰</button>
-
-        <div class="top-controls">
-          <select id="langSelect">
-            <option value="en">EN</option><option value="fr">FR</option><option value="it">IT</option><option value="ro">RO</option>
-          </select>
-          <button id="themeToggle" class="icon-btn">🌙</button>
-          <button id="favoritesBtn" class="icon-btn">❤ <span id="favCount">0</span></button>
-          <button id="cartBtn" class="icon-btn">🛒 <span id="cartCount">0</span></button>
-        </div>
-      </nav>
-    </div>
+<body class="soft-christmas about-page">
+  <header class="site-header small">
+    <div class="brand"><h1><a href="index.html">Velvet Charms</a></h1></div>
+    <nav class="main-nav"><a href="index.html">Home</a><a href="catalogue.html">Catalogue</a><a href="contact.html">Contact</a></nav>
   </header>
 
-  <main class="about-page container">
-    <section class="about-card">
-      <h2>About Us</h2>
-      <p>We are a collective of twelve passionate art students devoted to transforming imagination into handcrafted reality. Every candle, soap, painting, wool creation, and epoxy piece is made with patience, intention, and a touch of magic.</p>
-      <p>Whether you choose a piece from our catalogue or request a fully custom creation inspired by your photos and ideas, we craft everything with care and emotional depth.</p>
-      <p>We proudly ship worldwide, dispatching from the studio closest to you — Frankfurt, Germany or Constanța, Romania.</p>
-      <p class="strong">Thank you for supporting handmade artistry. Your order means the world to us.</p>
-    </section>
+  <main class="content">
+    <h2>Our Story</h2>
+    <p>Velvet Charms makes cozy handcrafted gifts with a soft Christmas touch. We use premium materials and gift-wrap every order with care.</p>
+    <img src="./top banner picture for candles.png" alt="Candles banner" class="about-banner">
   </main>
 
-  <footer class="site-footer">
-    <div class="container">© Velvet Charms</div>
-  </footer>
-
-  <div id="cartPanel" class="cart-panel hidden"></div>
-  <div id="orderModal" class="modal hidden"></div>
-
-  <script src="translations.js" defer></script>
-  <script src="script.js" defer></script>
-  <script> document.addEventListener('DOMContentLoaded', async () => { if (window.appInit) await window.appInit(); }); </script>
+  <footer class="site-footer"><div>Velvet Charms © <span id="year4"></span></div></footer>
 </body>
 </html>
