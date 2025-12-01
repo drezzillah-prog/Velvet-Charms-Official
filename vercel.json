@@ -1,15 +1,17 @@
 {
   "version": 2,
+  "public": true,
   "builds": [
     { "src": "*.html", "use": "@vercel/static" },
-    { "src": "*.css", "use": "@vercel/static" },
-    { "src": "*.js", "use": "@vercel/static" },
-    { "src": "*.json", "use": "@vercel/static" },
-    { "src": "api/*.js", "use": "@vercel/node" }
+    { "src": "style.css", "use": "@vercel/static" },
+    { "src": "script.js", "use": "@vercel/static" },
+    { "src": "translations.js", "use": "@vercel/static" },
+    { "src": "catalogue.json", "use": "@vercel/static" },
+    { "src": "lang/**", "use": "@vercel/static" },
+    { "src": "api/**", "use": "@vercel/node" }
   ],
   "routes": [
-    { "src": "/api/create-order", "dest": "/api/create-order.js" },
-    { "src": "/api/capture-order", "dest": "/api/capture-order.js" },
+    { "src": "/api/(.*)", "dest": "/api/$1" },
     { "src": "/(.*)", "dest": "/$1" }
   ]
 }
