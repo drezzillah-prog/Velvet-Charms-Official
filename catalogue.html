@@ -30,7 +30,7 @@
         <button class="menu-toggle">☰</button>
 
         <div class="top-controls">
-          <select id="langSelect">
+          <select id="langSelect" aria-label="Choose language">
             <option value="en">EN</option>
             <option value="fr">FR</option>
             <option value="it">IT</option>
@@ -99,12 +99,16 @@
     <div class="container">© Velvet Charms</div>
   </footer>
 
-  <!-- Cart & modal (shared) -->
   <div id="cartPanel" class="cart-panel hidden" aria-hidden="true"></div>
   <div id="orderModal" class="modal hidden" aria-hidden="true"></div>
 
-  <script src="translations.js" defer></script>
-  <script src="script.js" defer></script>
-  <script> document.addEventListener('DOMContentLoaded', async () => { if (window.appInit) await window.appInit(); if (window.renderCataloguePage) window.renderCataloguePage(); }); </script>
+  <script src="translations.js"></script>
+  <script src="script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (window.appInit) await window.appInit();
+      if (window.renderCataloguePage) window.renderCataloguePage();
+    });
+  </script>
 </body>
 </html>
