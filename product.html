@@ -4,63 +4,54 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Product — Velvet Charms</title>
-  <link rel="stylesheet" href="/style.css">
-  <style>
-    .product-wrap { max-width:1050px;margin:18px auto;padding:0 12px; display:grid; grid-template-columns: 420px 1fr; gap:18px; align-items:start; }
-    .carousel-img { width:100%; height:360px; object-fit:cover; border-radius:8px; display:block; }
-    .thumb { width:64px; height:64px; object-fit:cover; border-radius:6px; cursor:pointer; margin-right:6px; }
-    .thumbs { display:flex; gap:6px; margin-top:8px; }
-    .hidden { display:none; }
-    #productContent { background:#fff; padding:12px; border-radius:10px; box-shadow: 0 8px 24px rgba(0,0,0,.06); }
-  </style>
+  <link rel="stylesheet" href="./style.css">
+  <script defer src="./translations.js"></script>
+  <script defer src="./script.js"></script>
 </head>
-<body>
-  <header style="padding:12px 18px;display:flex;justify-content:space-between;align-items:center">
-    <a href="/catalogue.html" style="font-weight:700;color:#6b2b2b">← Back to catalogue</a>
-    <div style="display:flex;gap:8px">
-      <button id="cartBtn" class="btn">🛒 <span id="cartCount">0</span></button>
-      <button id="favoritesBtn" class="btn outline">♡ <span id="favCount">0</span></button>
+<body class="soft-christmas product-page">
+  <header class="site-header small">
+    <div class="brand"><h1><a href="index.html">Velvet Charms</a></h1></div>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="catalogue.html">Catalogue</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <button id="favoritesBtnTop" class="icon-btn">♡ <span id="favCountTop">0</span></button>
+      <button id="cartBtnTop" class="icon-btn">🛒 <span id="cartCountTop">0</span></button>
     </div>
   </header>
 
-  <main class="product-wrap">
-    <div id="productColumn">
-      <div id="productLoading">Loading product…</div>
-      <div id="productContent" class="hidden">
-        <div id="imageCarousel"></div>
-        <div id="imageThumbs" class="thumbs" style="margin-top:8px"></div>
+  <main>
+    <section id="productLoading">Loading product…</section>
+    <section id="productContent" class="product-content hidden">
+      <div class="gallery">
+        <div id="imageCarousel" class="carousel"></div>
+        <div id="imageThumbs" class="thumbs"></div>
       </div>
-    </div>
+      <div class="product-info-area">
+        <h2 id="prodName"></h2>
+        <div id="prodPrice" class="price"></div>
+        <p id="prodDescription"></p>
 
-    <aside>
-      <div style="background:#fff;padding:14px;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.06)">
-        <h2 id="prodName">Product name</h2>
-        <div id="prodPrice" style="font-weight:700;color:#6b2b2b;margin-bottom:8px">USD 0.00</div>
-        <p id="prodDescription" style="color:#6b6b6b"></p>
-
-        <div id="optionSection" class="hidden" style="margin-top:8px">
-          <label>Options:
-            <select id="prodOptions" style="padding:8px;border-radius:8px;border:1px solid #ddd"></select>
-          </label>
+        <div id="optionSection" class="option-section hidden">
+          <label>Options</label>
+          <select id="prodOptions"></select>
         </div>
 
-        <div style="display:flex;gap:8px;align-items:center;margin-top:12px">
-          <input id="prodQty" type="number" min="1" value="1" style="width:72px;padding:8px;border-radius:8px;border:1px solid #ddd">
-          <button id="addToCartBtn" class="btn">Add to cart</button>
+        <div class="qty-row">
+          <label>Qty <input id="prodQty" type="number" min="1" value="1"></label>
+        </div>
+
+        <div class="product-actions">
+          <button id="addToCartBtn" class="btn primary">Add to cart</button>
           <button id="buyNowBtn" class="btn outline">Buy now</button>
         </div>
       </div>
-    </aside>
+    </section>
   </main>
 
-  <div id="cartPanel" class="hidden" style="position:fixed;right:18px;top:90px;width:360px;background:#fff;border-radius:10px;box-shadow:0 12px 40px rgba(0,0,0,.12);z-index:999;padding:12px"></div>
-
-  <script src="/translations.js"></script>
-  <script src="/script.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', ()=> {
-      if(window.renderProductPage) window.renderProductPage();
-    });
-  </script>
+  <footer class="site-footer"><div>Velvet Charms © <span id="year3"></span></div></footer>
 </body>
 </html>
