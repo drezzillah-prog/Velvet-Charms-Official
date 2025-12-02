@@ -3,66 +3,37 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Velvet Charms — Handmade • Cozy • Festive</title>
-  <link rel="stylesheet" href="./style.css">
-  <script defer src="./translations.js"></script>
-  <script defer src="./script.js"></script>
+  <title>Velvet Charms — Home</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body class="soft-christmas">
-  <div id="pageWrap">
-    <header class="site-header">
-      <div class="brand">
-        <img src="./christmaselements.png" alt="" class="brand-decor">
-        <div>
-          <h1>Velvet Charms</h1>
-          <p class="tagline">Handmade • Cozy • Festive</p>
-        </div>
-      </div>
-      <nav class="main-nav">
-        <a href="index.html">Home</a>
-        <a href="catalogue.html">Catalogue</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-      </nav>
-      <div class="header-actions">
-        <button id="favoritesBtnTop" class="icon-btn" title="Wishlist">♡ <span id="favCountTop">0</span></button>
-        <button id="cartBtnTop" class="icon-btn" title="Cart">🛒 <span id="cartCountTop">0</span></button>
-        <button id="themeToggle" class="icon-btn" title="Theme">🌓</button>
-      </div>
-    </header>
+<body>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <h1 class="logo">Velvet Charms</h1>
+      <nav id="main-nav"></nav>
+    </div>
+  </header>
 
-    <main>
-      <section class="hero">
-        <div class="hero-inner">
-          <h2>Soft Cosy Christmas</h2>
-          <p>Subtle floating gifts, candy canes, warm gold accents — find a charming handmade gift.</p>
-          <div class="hero-cta">
-            <a class="btn primary" href="catalogue.html">Browse Catalogue</a>
-            <a class="btn outline" href="about.html">Our Story</a>
-          </div>
-        </div>
-        <div id="snow" class="snow-layer"></div>
-        <div class="floating-decor" aria-hidden="true">
-          <img src="./christmaselements.png" alt="" />
-        </div>
-      </section>
+  <main class="wrap main-content">
+    <section id="hero">
+      <img src="top banner picture for candles.png" alt="Banner" class="hero-img">
+      <h2 class="hero-text">Handmade gifts, cozy & festive</h2>
+    </section>
 
-      <section class="featured" id="featuredCarousel">
-        <!-- populated by script -->
-      </section>
+    <section id="categories" class="grid"></section>
 
-      <section class="home-info">
-        <h3>Velvet Charms — handcrafted with care</h3>
-        <p>Follow us on socials • Shipping worldwide</p>
-      </section>
-    </main>
+    <section id="featured" class="products-grid">
+      <h2>All products</h2>
+      <div id="product-list" class="grid"></div>
+    </section>
+  </main>
 
-    <footer class="site-footer">
-      <div>Velvet Charms © <span id="year"></span></div>
-      <div><a href="catalogue.html">Full catalogue</a> • <a href="contact.html">Contact</a></div>
-    </footer>
-  </div>
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>© Velvet Charms — handcrafted gifts</p>
+    </div>
+  </footer>
 
-  <div id="cartPanel" class="modal-panel hidden" aria-hidden="true"></div>
+  <script src="script.js"></script>
 </body>
 </html>
