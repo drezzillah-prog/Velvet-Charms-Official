@@ -1,17 +1,7 @@
 {
   "version": 2,
-  "builds": [
-    { "src": "index.html", "use": "@vercel/static" },
-    { "src": "catalogue.html", "use": "@vercel/static" },
-    { "src": "product.html", "use": "@vercel/static" },
-    { "src": "about.html", "use": "@vercel/static" },
-    { "src": "contact.html", "use": "@vercel/static" },
-    { "src": "success.html", "use": "@vercel/static" },
-    { "src": "script.js", "use": "@vercel/static" },
-    { "src": "style.css", "use": "@vercel/static" },
-    { "src": "catalogue.json", "use": "@vercel/static" }
-  ],
+  "name": "velvet-charms",
   "routes": [
-    { "src": "/api/(.*)", "dest": "/api/$1" }
+    { "src": "/(.*)", "headers": { "Cache-Control": "no-store" }, "dest": "/$1" }
   ]
 }
