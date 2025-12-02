@@ -2,28 +2,61 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>About — Velvet Charms</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="site-header">
-    <div class="wrap header-inner">
-      <h1 class="logo">Velvet Charms</h1>
-      <nav id="main-nav"></nav>
-    </div>
+  <header class="header">
+    <h1>Velvet Charms</h1>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="catalogue.html">Catalogue</a>
+      <a href="contact.html">Contact</a>
+    </nav>
   </header>
 
-  <main class="wrap main-content">
-    <h2>About Velvet Charms</h2>
-    <p>Handmade candles, soaps, epoxy creations, knitted wear and paintings — made with love and seasonal details. Cozy, festive and ready for gift-giving.</p>
-    <p>If you'd like custom commissions (portraits, clay pieces, matching sets), use the product page customization box and include details. If you need file uploads to be delivered to us, we can add a small backend endpoint later to accept attachments.</p>
+  <main class="container">
+    <article style="background:var(--card-bg); color:var(--text); padding:24px; border-radius:12px; box-shadow:0 8px 22px rgba(0,0,0,0.35);">
+      <h2 style="color:var(--accent-2); margin-top:0;">Welcome to Velvet Charms — handmade with care</h2>
+      <p>At Velvet Charms we make cozy, heart-warming handmade treasures — candles, soaps, knitted winterwear, paintings, epoxy home pieces and small baubles designed to become little keepsakes in your life.</p>
+
+      <h3>Our approach</h3>
+      <p>Everything you see is made with attention to detail and a love for texture: slow-crafted candles with sculptural reliefs, soaps hand-cut and fragranced with essential oils, knitted winter sets brushed for ultimate softness, and mixed-media artworks that combine paint and clay for depth and personality. We source gentle materials and prioritize safe, skin-friendly formulations for our creams and soaps.</p>
+
+      <h3>Personalized commissions</h3>
+      <p>We love commissions — portraits, a special mug, or a bespoke set for a gift. When you order a custom piece you can:</p>
+      <ul>
+        <li>Choose materials and scents</li>
+        <li>Send reference photos or sketches</li>
+        <li>Request specific colors, initials, or messages</li>
+      </ul>
+      <p>Use the product customization box on the product page to add notes and upload one supporting file (image or PDF). If you need to upload more files, message us on Instagram or use the contact form and we’ll provide an upload link. For professional commissions we always confirm details before starting (design > mockup > final), ensuring you love the result.</p>
+
+      <h3>Shipping & lead times</h3>
+      <p>Most ready-made items ship within 3–7 business days. Custom orders depend on complexity — small commissions usually take 1–2 weeks, larger or sculptural pieces up to 3–4 weeks. If you need a guaranteed delivery date, message us before ordering and we’ll confirm feasibility.</p>
+
+      <h3>A warm invitation</h3>
+      <p>Velvet Charms is a small studio. Every order supports our craft — thank you for considering handmade. If you want help choosing a scent, color, or gift pairing, we’re happy to advise. Cozy wishes, <br><strong style="color:var(--gold)">— the Velvet Charms studio</strong></p>
+    </article>
   </main>
 
-  <footer class="site-footer">
-    <div class="wrap"><p>© Velvet Charms</p></div>
-  </footer>
-
-  <script src="script.js"></script>
+  <footer style="padding:16px; text-align:center; color:var(--panel)">© Velvet Charms</footer>
+  <div class="snowfall" id="snowfall"></div>
+  <script>
+    // same snow generator as above
+    const wrap = document.getElementById('snowfall');
+    const count = 14;
+    for (let i=0;i<count;i++){
+      const s = document.createElement('div');
+      s.className = 'snowflake';
+      s.style.left = (Math.random()*100)+'%';
+      s.style.fontSize = (10 + Math.random()*16) + 'px';
+      s.style.animationDuration = (6 + Math.random()*7) + 's';
+      s.style.opacity = (0.6 + Math.random()*0.4);
+      s.innerHTML = '❄';
+      wrap.appendChild(s);
+    }
+  </script>
 </body>
 </html>
