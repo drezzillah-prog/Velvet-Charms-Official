@@ -2,29 +2,109 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Contact — Velvet Charms</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="site-header">
-    <div class="wrap header-inner">
-      <h1 class="logo">Velvet Charms</h1>
-      <nav id="main-nav"></nav>
-    </div>
+  <header class="header">
+    <h1>Velvet Charms</h1>
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="catalogue.html">Catalogue</a>
+      <a href="about.html">About</a>
+    </nav>
   </header>
 
-  <main class="wrap main-content">
-    <h2>Contact</h2>
-    <p>Email: <a href="mailto:hello@velvetcharms.example">hello@velvetcharms.example</a></p>
-    <p>Instagram / messages: @velvetcharms</p>
-    <p>If you want custom commissions, mention your preferred product and include images via the product page customization box. If you need me to add server-side uploads so you can receive attachments, say so and I’ll add a small upload endpoint.</p>
+  <main class="container">
+    <section style="background:var(--card-bg); color:var(--text); padding:24px; border-radius:12px;">
+      <h2 style="color:var(--accent-2); margin-top:0;">Contact</h2>
+      <p>Email us: <strong>hello@velvetcharms.example</strong></p>
+      <p>Instagram / messages: <strong>@velvetcharms</strong></p>
+
+      <h3>Send a message or commission request</h3>
+      <form id="contactForm">
+        <label>Name (optional)</label>
+        <input type="text" id="c-name" placeholder="Your name" style="width:100%; padding:8px; margin-bottom:8px;">
+
+        <label>Email (optional)</label>
+        <input type="email" id="c-email" placeholder="your@email.com" style="width:100%; padding:8px; margin-bottom:8px;">
+
+        <label>Message</label>
+        <textarea id="c-message" placeholder="Tell us about your commission or question..." style="width:100%;min-height:120px;padding:8px;"></textarea>
+
+        <label>Attach one file (optional)</label>
+        <input type="file" id="c-file" accept="image/*,.pdf">
+
+        <div style="margin-top:10px;">
+          <button type="button" id="c-upload" class="primary">Upload & Send</button>
+          <span id="c-status" style="margin-left:10px;color:var(--muted)"></span>
+        </div>
+      </form>
+
+      <p style="margin-top:14px; color:var(--muted)">If you want server-side uploads (more than one file per order or larger files), we already added the upload endpoint — just let us know and we'll connect cloud storage or email forwarding.</p>
+    </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="wrap"><p>© Velvet Charms</p></div>
-  </footer>
+  <footer style="padding:16px; text-align:center; color:var(--panel)">© Velvet Charms</footer>
 
-  <script src="script.js"></script>
+  <script>
+    const uploadUrl = '/api/upload';
+    const contactUrl = '/api/contact';
+    document.getElementById('c-upload').addEventListener('click', async () => {
+      const name = document.getElementById('c-name').value;
+      const email = document.getElementById('c-email').value;
+      const message = document.getElementById('c-message').value;
+      const file = document.getElementById('c-file').files[0];
+      const statusEl = document.getElementById('c-status');
+      statusEl.innerText = 'Sending...';
+
+      let attachment = null;
+      try {
+        if (file) {
+          const fd = new FormData();
+          fd.append('file', file);
+          fd.append('note', message || '');
+          const up = await fetch(uploadUrl, { method:'POST', body: fd });
+          const ju = await up.json();
+          if (!ju.ok) throw new Error('Upload failed');
+          attachment = ju.file ? (ju.file.path || ju.file.name) : null;
+        }
+
+        const payload = { name, email, message, attachment };
+        const r = await fetch(contactUrl, {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify(payload)
+        });
+        const j = await r.json();
+        if (j.ok) {
+          statusEl.innerText = 'Message sent — we will reply soon. Thank you!';
+          document.getElementById('contactForm').reset();
+        } else {
+          statusEl.innerText = 'Send failed: ' + (j.error || 'unknown');
+        }
+      } catch (err) {
+        console.error(err);
+        statusEl.innerText = 'Error sending. Try again.';
+      }
+    });
+  </script>
+
+  <div class="snowfall" id="snowfall"></div>
+  <script>
+    const wrap = document.getElementById('snowfall');
+    const count = 12;
+    for (let i=0;i<count;i++){
+      const s = document.createElement('div');
+      s.className = 'snowflake';
+      s.style.left = (Math.random()*100)+'%';
+      s.style.fontSize = (10 + Math.random()*16) + 'px';
+      s.style.animationDuration = (6 + Math.random()*7) + 's';
+      s.style.opacity = (0.6 + Math.random()*0.4);
+      s.innerHTML = '❄';
+      wrap.appendChild(s);
+    }
+  </script>
 </body>
 </html>
