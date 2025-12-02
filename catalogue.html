@@ -4,62 +4,32 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Catalogue — Velvet Charms</title>
-  <link rel="stylesheet" href="./style.css">
-  <script defer src="./translations.js"></script>
-  <script defer src="./script.js"></script>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body class="soft-christmas catalogue-page">
-  <header class="site-header small">
-    <div class="brand"><h1><a href="index.html">Velvet Charms</a></h1></div>
-    <nav class="main-nav">
-      <a href="index.html">Home</a>
-      <a href="catalogue.html" class="active">Catalogue</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-    </nav>
-    <div class="header-actions">
-      <button id="favoritesBtn" class="icon-btn">♡ <span id="favCount">0</span></button>
-      <button id="cartBtn" class="icon-btn">🛒 <span id="cartCount">0</span></button>
+<body>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <h1 class="logo">Velvet Charms</h1>
+      <nav id="main-nav"></nav>
     </div>
   </header>
 
-  <main>
-    <section class="catalogue-controls">
-      <div class="search-row">
-        <input id="catalogueSearch" placeholder="Search products..." />
-        <button id="catalogueSearchBtn" class="btn">Search</button>
-      </div>
-      <div class="filters-row">
-        <select id="priceFilter">
-          <option value="all">Any price</option>
-          <option value="0-30">Under USD 30</option>
-          <option value="30-80">USD 30 — 80</option>
-          <option value="80-9999">Over USD 80</option>
-        </select>
-        <select id="optionFilter"><option value="all">Any</option></select>
-        <select id="sortSelect">
-          <option value="default">Sort</option>
-          <option value="price_asc">Price ↑</option>
-          <option value="price_desc">Price ↓</option>
-          <option value="name_asc">Name A–Z</option>
-        </select>
-        <button id="resetFilters" class="btn outline">Reset</button>
-      </div>
-    </section>
+  <main class="wrap main-content">
+    <aside class="sidebar">
+      <h3>Categories</h3>
+      <ul id="category-list"></ul>
+    </aside>
 
-    <section class="catalogue-grid-wrap">
-      <aside class="left-col">
-        <h4>Categories</h4>
-        <div id="categoryTree"></div>
-      </aside>
-
-      <section class="main-col">
-        <div id="catalogueResults" class="catalogue-grid"></div>
-        <div id="noResults" class="muted hidden">No products found.</div>
-      </section>
+    <section class="content-area">
+      <div id="subcat-title"></div>
+      <div id="product-list" class="grid"></div>
     </section>
   </main>
 
-  <footer class="site-footer"><div>Velvet Charms © <span id="year2"></span></div></footer>
+  <footer class="site-footer">
+    <div class="wrap"><p>© Velvet Charms</p></div>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
